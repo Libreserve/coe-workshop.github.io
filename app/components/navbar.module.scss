@@ -1,0 +1,48 @@
+.navbar {
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar_inner {
+  display: flex;
+  gap: 80px;
+  align-items: end;
+}
+
+.logo {
+  font-size: 1.3rem;
+  display: flex;
+
+  .logo_mark {
+    color: black;
+  }
+  p {
+    font-weight: bold;
+    color: gray;
+  }
+}
+
+.link {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 15px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.action_button {
+  font-size: 0.9rem;
+  color: white;
+  background-color: black;
+  padding: 10px 20px;
+  border-radius: 24px;
+}
