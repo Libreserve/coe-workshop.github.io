@@ -5,6 +5,7 @@ import WelcomeText from "./components/landing/welcome_text";
 import Category from "./components/landing/category";
 import { CategoryProps } from "./components/landing/category";
 import Guide from "./components/landing/guide";
+import Information, {Questions} from "@/app/components/landing/information";
 
 function page() {
   const Category_List: CategoryProps[] = [
@@ -24,6 +25,20 @@ function page() {
       Description: "Lorem ipsum dolor sit amet consectetu",
     },
   ];
+  const Information_List: Questions[] = [
+    {
+      Title: "What types of tasks is EN.W suitable for?",
+    },
+    {
+      Title: "What types of tasks is EN.W suitable for?",
+    },
+    {
+      Title: "Does the website provide support?",
+    },
+    {
+      Title: "About Developers",
+    },
+  ]
 
   return (
     <div className={styles.landing}>
@@ -40,6 +55,19 @@ function page() {
               Description={item.Description}
             ></Category>
           ))}
+        </div>
+      </section>
+      <section className={styles.information}>
+        <div className={styles.infor_layout}>
+          <h2 className={styles.information_title}>Exercitaion <br/>ullamco laboris</h2>
+          <div className={styles.infor_blog}>
+            {Information_List.map((item, index) => (
+              <Information
+                  key={index}
+                  Title={item.Title}>
+              </Information>
+            ))}
+          </div>
         </div>
       </section>
       <Guide></Guide>

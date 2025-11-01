@@ -10,3 +10,21 @@
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
 }
+.information {
+  margin: 20px 0;
+}
+.infor_layout {
+  display: flex;
+  justify-content: space-between;
+}
+.information_title {
+  font-size: 3.3rem;
+  font-weight: 500;
+  padding-left: 10px;
+}
+.infor_blog{
+  display:grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.2rem;
+  padding-top: 2rem;
+}
