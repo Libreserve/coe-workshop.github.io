@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./navbar.module.scss";
+import styles from "./Navbar.module.scss";
 import Image from "next/image";
 
 function Navbar() {

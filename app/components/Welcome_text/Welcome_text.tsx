@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./welcome_text.module.scss";
+import styles from "./Welcome_text.module.scss";
 
 function WelcomeText() {
   return (
