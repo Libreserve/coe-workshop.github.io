@@ -1,5 +1,4 @@
 import styles from "./Accordion.module.scss";
-import { AccordionProps } from "./types";
 
 function AccordionAction({ Title }: AccordionProps) {
   return (
