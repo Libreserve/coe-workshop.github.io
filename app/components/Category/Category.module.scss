@@ -20,3 +20,14 @@
 .title {
   margin: 10px 0;
 }
+
+.category_title {
+  font-size: 1.4rem;
+}
+
+.blog {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+}
