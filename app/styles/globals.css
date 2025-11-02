@@ -1,3 +1,4 @@
+@use "./variables.scss" as *;
 :root {
   --background: #ffffff;
   --foreground: #171717;
