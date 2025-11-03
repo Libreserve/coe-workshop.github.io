@@ -1,37 +1,101 @@
 .box {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+
 }
 .title {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 550;
   padding-right: 1rem;
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
 }
 .mark {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: 300;
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 }
 .line {
   border: 1px solid #dfdfdf;
+  margin-top:  1rem;
 }
 
 .information {
-  margin: 20px 0;
+  margin: 60px 0 90px 0;
+  @media (max-width: 768px) {
+    margin: 40px 0 60px 0;
+  }
+
+  @media (max-width: 480px) {
+    margin: 30px 0 40px 0;
+  }
 }
 .infor_layout {
   display: flex;
   justify-content: space-between;
+  @media (max-width: 1024px) {
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
-.information_title {
-  font-size: 3.3rem;
+.Accordion_title {
+  font-size: 4.2rem;
   font-weight: 500;
-  padding-left: 10px;
+  padding-left: 30px;
+  @media (max-width: 1024px) {
+    font-size: 3.5rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    padding-left: 0;
+
+    br {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2.4rem;
+  }
 }
 
 //just normal comment
 .infor_blog {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 1.2rem;
-  padding-top: 2rem;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-top: 0;
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
 }

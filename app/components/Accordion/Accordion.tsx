@@ -28,7 +28,7 @@ function Accordion() {
     },
   ];
   return (
-    <div>
+    <div className={styles.information}>
       <div className={styles.infor_layout}>
         <h2 className={styles.Accordion_title}>
           Exercitaion <br />
