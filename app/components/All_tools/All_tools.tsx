@@ -16,10 +16,7 @@ function AllToolsAction({ Url,Title,Description,Available, Quatity}:AllToolsMatc
                     className={styles.img}
                 />
                 <div className={styles.details}>
-                    <div className={styles.details_layout}>
-                        <h2>{Title}</h2>
-                        <AiOutlineHeart className={styles.imogi} />
-                    </div>
+                    <h2>{Title}</h2>
                     <p>{Description}</p>
                 </div>
             </div>

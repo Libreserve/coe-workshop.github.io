@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from "@/app/page.module.scss";
 import All_tools from "@/app/components/All_tools/All_tools";
+import Navbar from "@/app/components/Navbar/Navbar";
 function tools(){
     return (
         <div className={styles.landing}>
+            <Navbar></Navbar>
             <All_tools></All_tools>
         </div>
     );
