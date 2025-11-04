@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Navbar.module.scss";
 import Image from "next/image";
+import Link from "next/link";
 
 function Navbar() {
   return (
@@ -11,7 +12,9 @@ function Navbar() {
           <p className={styles.logo_dot}>.W</p>
         </div>
         <div className={styles.link}>
-          <p>Tools</p>
+            <Link href="/tools">
+                 <p>Tools</p>
+            </Link>
           <p>About</p>
           <p>Report</p>
         </div>
