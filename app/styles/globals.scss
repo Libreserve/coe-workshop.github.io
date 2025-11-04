@@ -1,7 +1,11 @@
 @use "./variables.scss" as *;
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --green-400: #{$Green400};
+  --red-400: #{$Red400};
+  --gray-300: #{$Gray300};
 }
 
 @media (prefers-color-scheme: dark) {
