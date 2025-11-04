@@ -1,3 +1,4 @@
+@use "../../styles/variables" as *;
 .box {
   display: flex;
   align-items: center;
@@ -62,7 +63,7 @@
 }
 
 .line {
-  border: 1px solid #dfdfdf;
+  border: 1px solid $Grey300;
   margin-top:  1rem;
 }
 
