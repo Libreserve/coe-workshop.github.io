@@ -28,3 +28,49 @@
 .pagination-wrapper .mantine-Pagination-dots {
     align-self: flex-end;
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+    .pagination-wrapper {
+        margin: 20px 0;
+        padding: 15px;
+    }
+
+    .pagination-wrapper .mantine-Pagination-control {
+        font-size: 16px;
+        min-width: 38px;
+        height: 38px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .pagination-wrapper {
+        margin: 15px 0;
+        padding: 10px;
+    }
+
+    .pagination-wrapper .mantine-Pagination-control {
+        font-size: 14px;
+        min-width: 34px;
+        height: 34px;
+        border-width: 1.5px;
+    }
+
+    .pagination-wrapper .mantine-Pagination-dots {
+        font-size: 14px;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+    .pagination-wrapper {
+        padding: 5px;
+    }
+
+    .pagination-wrapper .mantine-Pagination-control {
+        font-size: 12px;
+        min-width: 30px;
+        height: 30px;
+    }
+}

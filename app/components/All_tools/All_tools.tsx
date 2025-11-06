@@ -49,9 +49,34 @@ function All_tools(){
     }, [])
     return(
         <div>
-            <div className={styles.title_layout}>
-                <h1>All Tools</h1>
-                <p>(Match with {tools.length})</p>
+            <div className={styles.title_banner}>
+                <div className={styles.title_layout}>
+                    <h1>All Tools</h1>
+                    <p>(Match with {tools.length})</p>
+                </div>
+                <div className={styles.icon}>
+                    <Image
+                        width={22}
+                        height={22}
+                        alt="search_icon"
+                        src={"/tools/heart.png"}
+                        className={styles.icon_size}
+                    ></Image>
+                    <Image
+                        width={22}
+                        height={22}
+                        alt="search_icon"
+                        src={"/tools/search.png"}
+                        className={styles.icon_size}
+                    ></Image>
+                    <Image
+                        width={22}
+                        height={22}
+                        alt="search_icon"
+                        src={"/tools/bag.png"}
+                        className={styles.icon_size}
+                    ></Image>
+                </div>
             </div>
             <div className={styles.box}>
             {currentItems.map((item, id)  => (
