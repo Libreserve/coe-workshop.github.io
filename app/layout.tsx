@@ -1,7 +1,7 @@
 import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
+import "./styles/globals.scss";
 const geistInter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
