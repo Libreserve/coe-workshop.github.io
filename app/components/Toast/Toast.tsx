@@ -2,7 +2,6 @@ import React from "react";
 import { ToastProps, VariantStyle } from "./types";
 import Image from "next/image";
 import styles from "./Toast.module.scss";
-import { CssVariable } from "next/dist/compiled/@next/font";
 
 function Toast({ Title, Description, Variant }: ToastProps) {
   return (
