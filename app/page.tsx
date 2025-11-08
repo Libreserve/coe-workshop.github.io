@@ -5,6 +5,7 @@ import Category from "./components/Category/Category";
 import Guide from "./components/Guide/guide";
 import Accordion from "@/app/components/Accordion/Accordion";
 import WelcomeText from "./components/Welcome_text/Welcome_text";
+import Toast from "./components/Toast/Toast";
 function page() {
   return (
     <div className={styles.landing}>
@@ -13,6 +14,11 @@ function page() {
       <Category></Category>
       <Guide></Guide>
       <Accordion></Accordion>
+      <Toast
+        Variant="success"
+        Title="Success to update"
+        Description=" ReferenceError: Toast is not defined"
+      ></Toast>
     </div>
   );
 }
