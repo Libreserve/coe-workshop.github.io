@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import styles from "./All_tools.module.scss";
+import styles from "./AllTools.module.scss";
 import { Pagination } from "@mantine/core";
 import "./pagination.css";
 import CategoryFilter from "@/app/components/AllTools/CategoryFilter/CategoryFilter";

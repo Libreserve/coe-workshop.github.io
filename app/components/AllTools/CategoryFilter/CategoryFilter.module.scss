@@ -1,14 +1,15 @@
 @use "../../../styles/variables" as *;
 
-.container{
+.container {
   display: inline-flex;
   gap: 40px;
   margin-top: 40px;
-  border-bottom: solid 1px $Grey300;
+
+  //แก้ด้วยนะ ตัวแปร
+  border-bottom: solid 1px $Gray300;
   padding: 20px;
   font-weight: 540;
   position: relative;
-
 
   @media (max-width: 768px) {
     gap: 24px;
@@ -42,7 +43,7 @@
 
 .none_active {
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -20px;
     left: -7px;
@@ -70,7 +71,7 @@
 
 .active {
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -20px;
     left: -7px;
@@ -90,7 +91,6 @@
 }
 
 .icon-size {
-
   @media (max-width: 768px) {
     width: 16px;
     height: 16px;
