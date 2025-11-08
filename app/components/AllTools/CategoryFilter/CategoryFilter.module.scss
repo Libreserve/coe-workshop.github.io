@@ -4,8 +4,6 @@
   display: inline-flex;
   gap: 40px;
   margin-top: 40px;
-
-  //แก้ด้วยนะ ตัวแปร
   border-bottom: solid 1px $Gray300;
   padding: 20px;
   font-weight: 540;
@@ -90,7 +88,8 @@
   }
 }
 
-.icon-size {
+.icon_size {
+  object-fit: contain;
   @media (max-width: 768px) {
     width: 16px;
     height: 16px;
