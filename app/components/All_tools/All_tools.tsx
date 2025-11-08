@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./All_tools.module.scss";
 import {Pagination} from "@mantine/core";
 import "./pagination.css";
+import CategoryFilter from "@/app/components/All_tools/CategoryFilter/CategoryFilter";
 function AllToolsAction({ Url,Title,Description,Available, Quatity}:AllToolsMatches){
     return (
         <div className={styles.column_layout}>
@@ -31,15 +32,22 @@ function AllToolsAction({ Url,Title,Description,Available, Quatity}:AllToolsMatc
 function All_tools(){
     const [tools, setTools] = useState<AllToolsMatches[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const itemPerPage = 15;
+    const filterTools = selectedCategory ? tools.filter(tool => tool.category == selectedCategory):tools;
     const indexOfLastItem = currentPage * itemPerPage;
     const indexOfFirstItem = indexOfLastItem - itemPerPage;
-    const currentItems = tools.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(tools.length / itemPerPage);
+    const currentItems = filterTools.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filterTools.length / itemPerPage);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleCategoryChange = (category: string | null) => {
+      setSelectedCategory(category);
+      setCurrentPage(1)
     };
 
     useEffect(() => {
@@ -49,10 +57,11 @@ function All_tools(){
     }, [])
     return(
         <div>
+            <CategoryFilter onCategoryChange={handleCategoryChange}/>
             <div className={styles.title_banner}>
                 <div className={styles.title_layout}>
                     <h1>All Tools</h1>
-                    <p>(Match with {tools.length})</p>
+                    <p>(Match with {filterTools.length})</p>
                 </div>
                 <div className={styles.icon}>
                     <Image
@@ -90,16 +99,18 @@ function All_tools(){
                 ></AllToolsAction>
             ))}
             </div>
-            <div className="pagination-wrapper">
-                <Pagination
-                    total={totalPages}
-                    value={currentPage}
-                    onChange={handlePageChange}
-                    withControls={false}
-                    siblings={1}
-                    boundaries={1}
-                />
-            </div>
+            {totalPages > 1 && (
+                <div className="pagination-wrapper">
+                    <Pagination
+                        total={totalPages}
+                        value={currentPage}
+                        onChange={handlePageChange}
+                        withControls={false}
+                        siblings={1}
+                        boundaries={1}
+                    />
+                </div>
+            )}
         </div>
     );
 }
