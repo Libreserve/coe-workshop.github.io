@@ -8,6 +8,7 @@ import WelcomeText from "./components/Welcome_text/Welcome_text";
 import Toast from "./components/Toast/Toast";
 import Discover from "@/app/components/Discover/discover";
 import Popular from "@/app/components/Popular/popular";
+import Interpreting from "@/app/components/Interpreting/interpreting";
 function page() {
   return (
     <div className={styles.landing}>
@@ -17,6 +18,7 @@ function page() {
         <Guide></Guide>
         <Discover></Discover>
         <Popular></Popular>
+        <Interpreting></Interpreting>
         <Accordion></Accordion>
         <Toast
           Variant="success"
