@@ -19,8 +19,10 @@ function Blog({ Cover, Title, Url }: BlogProps) {
                   <Link
                       href={Url}
                       className={styles.link}
-                  >Discover</Link>
-                  <span> ⟶ </span>
+                  >
+                      <span className={styles.marquee}></span>
+                  </Link>
+                  <span className={styles.icon}> ⟶ </span>
               </div>
           </div>
       </div>

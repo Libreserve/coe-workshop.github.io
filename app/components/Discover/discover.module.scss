@@ -37,13 +37,42 @@
           .link{
             color: gray;
             letter-spacing: 2px;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            width: 90px;
+
+            .marquee {
+              display: flex;
+              width: fit-content;
+
+              &::before,
+              &::after {
+                content: 'Discover\00a0 ';
+                white-space: nowrap;
+              }
+            }
           }
-          span{
+
+          .icon{
             font-size: 1.5rem;
+            cursor: pointer;
+          }
+          &:hover .link .marquee {
+            animation: marqueeScroll 3s linear infinite;
           }
         }
       }
     }
 
+  }
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform:  translateX(-50%);
   }
 }
