@@ -7,6 +7,7 @@ import Accordion from "@/app/components/Accordion/Accordion";
 import WelcomeText from "./components/Welcome_text/Welcome_text";
 import Toast from "./components/Toast/Toast";
 import Discover from "@/app/components/Discover/discover";
+import Popular from "@/app/components/Popular/popular";
 function page() {
   return (
     <div className={styles.landing}>
@@ -15,6 +16,7 @@ function page() {
         <Category></Category>
         <Guide></Guide>
         <Discover></Discover>
+        <Popular></Popular>
         <Accordion></Accordion>
         <Toast
           Variant="success"

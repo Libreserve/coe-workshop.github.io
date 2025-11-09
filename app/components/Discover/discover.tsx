@@ -11,7 +11,7 @@ function Blog({ Cover, Title, Url }: BlogProps) {
               src={Cover}
               width={310}
               height={300}
-              alt={Cover}
+              alt={Title}
           ></Image>
           <div className={styles.text}>
               <h4>{Title}</h4>
