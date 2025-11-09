@@ -1,0 +1,49 @@
+.container{
+  margin: 50px 0;
+  h3{
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+  }
+  .box{
+    display: grid;
+    grid-template-columns: repeat(
+    auto-fit, minmax(300px, 1fr)
+    );
+    .detail{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .blog_image{
+        width: 320px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 7.35px;
+      }
+      .text{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+        h4{
+          font-size: 1.6rem;
+          font-weight: 400;
+        }
+        .link_container{
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          font-size: 1.1rem;
+          .link{
+            color: gray;
+            letter-spacing: 2px;
+          }
+          span{
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+
+  }
+}
