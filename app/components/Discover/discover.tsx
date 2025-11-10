@@ -16,11 +16,9 @@ function Blog({ Cover, Title, Url }: BlogProps) {
           <div className={styles.text}>
               <h4>{Title}</h4>
               <div className={styles.link_container}>
-                  <Link
-                      href={Url}
-                      className={styles.link}
-                  >
-                      <span className={styles.marquee}></span>
+                  <Link href={Url} className={styles.link}>
+                      <span className={styles.text_default}>Discover</span>
+                      <span className={styles.text_hover}>Discover</span>
                   </Link>
                   <span className={styles.icon}> ⟶ </span>
               </div>
