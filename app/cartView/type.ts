@@ -1,12 +1,14 @@
+interface item {
+        Url: string;
+        ImageUrl: string;
+        Title: string;
+        Description: string;
+        Quantity: number;
+        Available: number;
+}
+
 interface UserCart {
-  items: {
-    Url: string;
-    ImageUrl: string;
-    Title: string;
-    Description: string;
-    Quantity: number;
-    Available: number;
-  }[];
+  items: item[];
   checkoutData: {
     paymentMethod: string;
     shippingAddress: string;
@@ -14,15 +16,9 @@ interface UserCart {
   };
 }
 
+
 interface CartItemsMatches {
-    item: {
-        Url: string;
-        ImageUrl: string;
-        Title: string;
-        Description: string;
-        Quantity: number;
-        Available: number;
-    };
+    item: item;
     onIncrease: () => void;
     onDecrease: () => void;
     onRemove: () => void;
