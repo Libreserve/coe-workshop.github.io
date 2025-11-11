@@ -7,11 +7,13 @@ import Link from "next/link";
 function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches){
     return (
         <div className={styles.item_card}>
+            {/* <img src={item.ImageUrl} alt="tools image" className={styles.item_card_img}/> */}
             <Image
-                src={item.ImageUrl}
+                    src={item.ImageUrl}
                     alt={item.Title}
-                    width={201}
-                    height={177}
+                    width={100}
+                    height={100}
+                    className={styles.item_card_img}
                 />
             <div className={styles.item_card_details}>
                 <Link href={item.Url} className={styles.item_card_details_title}>{item.Title}</Link>
@@ -30,15 +32,14 @@ function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
                         +
                     </div>
                 </div>
-                <div className={styles.item_card_buttons_group_right}>
                     <Image
                     onClick={onRemove}
                     src={"/bin-icon.svg"}
                     alt={"remove"}
                     width={28.91}
                     height={29.22}
+                    className={styles.item_card_buttons_group_remove}
                     />
-                </div>
             </div>
         </div>
     )
