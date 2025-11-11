@@ -10,9 +10,6 @@ interface item {
 interface UserCart {
   items: item[];
   checkoutData: {
-    paymentMethod: string;
-    shippingAddress: string;
-    deliveryOption: string;
   };
 }
 

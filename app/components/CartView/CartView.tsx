@@ -1,17 +1,7 @@
-// state to load data from db 
-// state update quantity 
-// state to remove item from cart 
-// state to redirect to checkout page -> to ensure if user is logged in or not 
-
-// question to ask backend team 
-// -> is this cart data initially stored in session  or in db ?
-
-// ignore tsx first 
 'use client';
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import styles from "./CartView.module.scss";
-import Navbar from "../components/Navbar/Navbar";
 import Link from "next/link";
 
 function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches){
@@ -53,8 +43,6 @@ function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
         </div>
     )
 }
-
-
 
 // for mock data
 const mockCartData: UserCart = {
@@ -130,9 +118,6 @@ const mockCartData: UserCart = {
     
   ],
   checkoutData: {
-    paymentMethod: "Credit Card",
-    shippingAddress: "99 Main Street, Bangkok, Thailand",
-    deliveryOption: "Standard Delivery (3–5 days)",
   },
 };
 localStorage.setItem("cart-data", JSON.stringify(mockCartData));
@@ -146,14 +131,12 @@ function cartView(){
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     }
-    
     const decreaseQuantity = (index: number) => {
         const updateCart = { ...userCart!};
         if (updateCart.items[index].Quantity > 1) updateCart.items[index].Quantity --;
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     } 
-
     const removeItem = (index: number) => {
         const updateCart = { ...userCart!};
         updateCart.items.splice(index, 1);
@@ -165,66 +148,60 @@ function cartView(){
             setUserCart(localStorage.getItem("cart-data") ? JSON.parse(localStorage.getItem("cart-data")!) : []);
         }, [])
     return (
-        <>
-            <div style={{ width:'screen', padding:'44px 0px 0px 44px'}}>
-                <Navbar ></Navbar>
+        <div className={styles.cart_view}>
+            <div className={styles.cart_view_left}> 
+                <h1 className={styles.cart_view_left_header}>TOOL BOX</h1>
+                {
+                    userCart?.items && userCart.items.length > 0 ? (
+                        userCart.items.map((item, id) => (
+                            <CartItemsAction 
+                                key={id}
+                                item={item}
+                                onIncrease={() => {increaseQuantity(id)}}
+                                onDecrease={() => {decreaseQuantity(id)}}
+                                onRemove={() => {removeItem(id)}}
+                            />
+                        ))
+                    ) : (
+                        <div>No items in cart</div>
+                    )
+                }
             </div>
-            <div className={styles.cart_view}>
-                <div className={styles.cart_view_left}> 
-                    <div className={styles.cart_view_left_header}>TOOL BOX</div>
-                    {
-                        userCart?.items && userCart.items.length > 0 ? (
+            <div className={styles.summary_cart}> 
+                <div className={styles.summary_cart_table}>
+                    <div className={styles.summary_cart_table_header }>
+                        Product summary
+                    </div>
+                    <hr className={styles.summary__cart_table_header_boarder_line}></hr>
+                    <div className={styles.summary_cart_table_body}>
+                        {
+                            userCart?.items && userCart.items.length > 0 ? (
                             userCart.items.map((item, id) => (
-                                <CartItemsAction 
-                                    key={id}
-                                    item={item}
-                                    onIncrease={() => {increaseQuantity(id)}}
-                                    onDecrease={() => {decreaseQuantity(id)}}
-                                    onRemove={() => {removeItem(id)}}
-                                />
+                                <div className={styles.summary_cart_table_item} key={id}>
+                                    <div>
+                                        {item.Title}
+                                    </div>
+                                    <div>
+                                        *{item.Quantity}
+                                    </div>
+                                </div>
                             ))
                         ) : (
-                            <div>No items in cart</div>
+                            <div>No TOOL in cart</div>
                         )
-                    }
+                        }
+                    </div>
                 </div>
-                <div className={styles.summary_cart}> 
-                    <div className={styles.summary_cart_table}>
-                        <div className={styles.summary_cart_table_header }>
-                            Product summary
-                        </div>
-                        <hr className={styles.summary__cart_table_header_boarder_line}></hr>
-                        <div className={styles.summary_cart_table_body}>
-                            {
-                                userCart?.items && userCart.items.length > 0 ? (
-                                userCart.items.map((item, id) => (
-                                    <div className={styles.summary_cart_table_item} key={id}>
-                                        <div>
-                                            {item.Title}
-                                        </div>
-                                        <div>
-                                            *{item.Quantity}
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <div>No items in cart</div>
-                            )
-                            }
-                        </div>
-                    </div>
 
-                    <button className={styles.summary_cart_reserve_button}>
-                            Reserve
-                    </button>
-                    
-                    <div className={styles.summary_cart_reserve_button_about}>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
-                    </div>
+                <button className={styles.summary_cart_reserve_button}>
+                        Reserve
+                </button>
+                
+                <div className={styles.summary_cart_reserve_button_about}>
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
                 </div>
             </div>
-        </>
-        
+        </div>
     );
 }
 export default cartView;
