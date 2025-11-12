@@ -45,6 +45,15 @@
     }
     @media (max-width: 830px) {
         grid-template-columns: 135px auto;
+        // grid-template-rows: 100px auto
+    }
+    @media (max-width: 730px) {
+        grid-template-columns: 135px auto;
+        grid-template-rows: 100px auto
+    }
+    @media (max-width: 480px) {
+        grid-template-columns: 135px auto;
+        grid-template-rows: 100px auto
     }
 }
 
@@ -157,6 +166,14 @@
         border: #000000 0.8px solid;
         border-radius: 30px;
     }
+
+     @media (max-width: 480px) {
+        width: 72.87px;
+        height: 20.59px;
+        font-size: 8.72px;
+        border: #000000 0.8px solid;
+        border-radius: 30px;
+    }
 }
 
 .item_card_buttons_group_remove {
@@ -178,6 +195,11 @@
     @media (max-width: 730px) {
         width: 28.91px;
         height: 29.22px;
+        margin-left: 22px;
+    }
+    @media (max-width: 480px) {
+        width: 15.26px;
+        height: 15.43px;
         margin-left: 22px;
     }
 }
