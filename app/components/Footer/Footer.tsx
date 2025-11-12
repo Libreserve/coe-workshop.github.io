@@ -79,11 +79,11 @@ function Footer() {
             {
                 About_List.map((item, index) => (
                     <div key={index} className={styles.right_blog}>
-                        <div className={styles.right_heading}>{item.Header}</div>
-                        <div key={`content-${index}`} className={styles.right_content}>
+                        <div key={`header-${index}`} className={styles.right_heading}>{item.Header}</div>
+                        <div className={styles.right_content}>
                             {
                             item.Content && item.Content.map((contentItem, contentIndex) => (
-                                    <Link href={contentItem.link}>{contentItem.title}</Link>
+                                    <Link href={contentItem.link} key={contentIndex}>{contentItem.title}</Link>
                                 ))
                             }
                         </div>
