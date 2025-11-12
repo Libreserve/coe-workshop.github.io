@@ -26,6 +26,16 @@ function Navbar() {
           alt="search_icon"
           src={"/search.svg"}
         ></Image>
+        <Link href={"/cart"}>
+          <Image
+            width={100}
+            height={100}
+            alt="search_icon"
+            src={"/cart_icon.svg"}
+            className={styles.cart_icon}
+          >
+          </Image>
+        </Link>
         <div className={styles.action_button}>let's start</div>
       </div>
     </div>
