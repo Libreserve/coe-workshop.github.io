@@ -1,8 +1,7 @@
+import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./styles/globals.css";
-import { Providers } from "./providers";
-
+import "./styles/globals.scss";
 const geistInter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
@@ -21,9 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistInter.variable} `}>
-      <Providers>
-        {children}
-      </Providers>
+        <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
   );

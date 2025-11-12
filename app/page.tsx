@@ -5,20 +5,27 @@ import Category from "./components/Category/Category";
 import Guide from "./components/Guide/guide";
 import Accordion from "@/app/components/Accordion/Accordion";
 import WelcomeText from "./components/Welcome_text/Welcome_text";
-import Footer from "./components/Footer/Footer";
+import Toast from "./components/Toast/Toast";
+import Discover from "@/app/components/Discover/discover";
+import Popular from "@/app/components/Popular/popular";
+import Interpreting from "@/app/components/Interpreting/interpreting";
 function page() {
   return (
-    <div>
-      <div className={styles.landing}>
+    <div className={styles.landing}>
         <Navbar></Navbar>
         <WelcomeText></WelcomeText>
         <Category></Category>
         <Guide></Guide>
+        <Discover></Discover>
+        <Popular></Popular>
+        <Interpreting></Interpreting>
         <Accordion></Accordion>
-      </div>
-        <Footer></Footer>
+        <Toast
+          Variant="success"
+          Title="Success to update"
+          Description=" ReferenceError: Toast is not defined"
+        ></Toast>
     </div>
-    
   );
 }
 
