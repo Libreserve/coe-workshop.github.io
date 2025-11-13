@@ -1,17 +1,36 @@
 .toast {
-  position: fixed;
-  width: clamp(200px, 70%, 400px);
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 20px;
   overflow: hidden;
+  background-color: white;
+  z-index: 1000;
+  transition: all 0.5s ease;
+}
+
+.toast_slide {
+  @keyframes slideDown {
+    from {
+      transform: translateY(-30px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+}
+
+.toast_background {
+  width: clamp(200px, 70%, 350px);
+  height: fit-content;
+  position: fixed;
   top: var(--top, auto);
   bottom: var(--bottom, auto);
   right: var(--right, auto);
   left: var(--left, auto);
-  background-color: white;
-  z-index: 1000;
   margin: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
 }
 .toast_inner {
   display: flex;
@@ -33,9 +52,18 @@
   font-weight: 400;
 }
 .progress {
-  width: 100%;
   height: 5px;
   background: var(--green-400);
+  transition: all 1s ease;
+  animation: onLoad 3s ease-in;
+  @keyframes onLoad {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0%;
+    }
+  }
 }
 // .toast_background {
 //   top: 50%;

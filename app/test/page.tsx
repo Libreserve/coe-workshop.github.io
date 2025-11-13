@@ -1,27 +1,23 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useToast } from "../Context/Toast/ToastProvider";
+import Toast from "../components/Toast/Toast";
 
 function Page() {
-  const Count = useRef(0);
-  const [Toast, setToast] = useState<{ Id: number; Content: string }[]>([]);
-
-  const addToastStack = () => {
-    const Id = Count.current++;
-    setToast((prev) => [...prev, { Id: Id, Content: "Hello Toast" + Id }]);
-
-    setTimeout(() => {
-      setToast((prev) => prev.filter((item) => item.Id !== Id));
-    }, 2000);
+  const [count, setCount] = useState(0);
+  const { toastStack, addToastStack } = useToast();
+  const onToastClick = () => {
+    // console.log(toastStack);
+    addToastStack("สวัสดีToast" + count, "คำอธิบาย", "success");
   };
-
   return (
     <div>
-      {Toast.map((item, index) => (
+      {/* {Toast.map((item, index) => (
         <h1 key={index}>{item.Content}</h1>
-      ))}
-
-      <button type="button" onClick={() => addToastStack()}>
+      ))} */}
+      <Toast Position="top-right"></Toast>
+      <button type="button" onClick={() => onToastClick()}>
         ADD
       </button>
     </div>

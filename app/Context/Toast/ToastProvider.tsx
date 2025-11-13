@@ -1,11 +1,19 @@
 "use client";
 
-import { useCallback, useContext, useMemo, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ToastContext } from "./ToastContext";
 import { Variant } from "./types";
 import { ToastContextTypeProps } from "./types";
 
-const ToastProvider = () => {
+const ToastProvider = ({ children }: { children: ReactNode }) => {
   const toastID = useRef(0);
   const [toastStack, setToastStack] = useState<
     { id: number; title: string; description: string; variant: Variant }[]
@@ -14,6 +22,7 @@ const ToastProvider = () => {
   const addToastStack = useCallback(
     (title: string, description: string, variant: Variant) => {
       const id = toastID.current++;
+      console.log("ontoast");
       setToastStack((prev) => [
         ...prev,
         {
@@ -23,6 +32,7 @@ const ToastProvider = () => {
           variant: variant,
         },
       ]);
+
       setTimeout(() => {
         setToastStack((prev) => prev.filter((item) => item.id !== id));
       }, 3000);
@@ -30,15 +40,21 @@ const ToastProvider = () => {
     []
   );
 
+  useEffect(() => {
+    console.log("Current toastStack:", toastStack);
+  }, [toastStack]);
+
   const value = useMemo<ToastContextTypeProps>(
     () => ({
       addToastStack,
       toastStack,
     }),
-    [addToastStack]
+    [addToastStack, toastStack]
   );
 
-  return <ToastContext.Provider value={value}></ToastContext.Provider>;
+  return (
+    <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
+  );
 };
 
 export const useToast = () => {

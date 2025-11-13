@@ -15,9 +15,6 @@ type Position =
 
 type CssVarStyle = React.CSSProperties & Record<string, string>;
 export interface ToastProps {
-  Title: string;
-  Description: string;
-  Variant: Variant;
   Position: Position;
 }
 

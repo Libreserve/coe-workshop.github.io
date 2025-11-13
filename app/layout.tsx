@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./styles/globals.scss";
 import Toast from "./components/Toast/Toast";
+import ToastProvider from "./Context/Toast/ToastProvider";
 const geistInter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
@@ -21,13 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistInter.variable} `}>
-        <Toast
-          Position="bottom-right"
-          Variant="success"
-          Title="Success to update"
-          Description=" ReferenceError: Toast is not defined"
-        ></Toast>
-        <MantineProvider>{children}</MantineProvider>
+        <ToastProvider>
+          <Toast Position="top-right"></Toast>
+          <MantineProvider>{children}</MantineProvider>
+        </ToastProvider>
       </body>
     </html>
   );
