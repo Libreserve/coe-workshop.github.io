@@ -33,16 +33,56 @@ const days = [
   { name: "Saturday", abbr: "Sat" }
 ];
 
-function genButton({disabled, id, OnClick, text}:CalendarButton) {
-    return(
-        <button disabled={disabled} key={`${id}-${text}`} onClick={OnClick}>{text}</button>
+function DateTable({year, month, day, OnClick}:DateTable) {
+    const prevMonth = new Date(year, month, 0);
+    const lastDateOfPrevMonth = prevMonth.getDate();
+    const lastDayOfprevMonth = prevMonth.getDay();
+    const curMonth = new Date(year, month + 1, 0)
+    const nextMonth = new Date(year, month+ 1, 1);
+    const firstDayOfNextMonth = nextMonth.getDay();
+    const firstDateOfNextMonth = nextMonth.getDate();
+    return (
+        <>
+            {(() => {
+                const dates = []
+                for (let i = lastDateOfPrevMonth - lastDayOfprevMonth; i <= lastDateOfPrevMonth; i++ ) {                    
+                        dates.push(
+                            <button key={`${prevMonth.getMonth()}-${i}`} disabled={true} className={``} onClick={() => OnClick(i)}>{i}</button>
+                        )
+                    }
+                for (let i = 1; i <= curMonth.getDate(); i++) {
+                        // const isToday = month === currentDay.getMonth() && year === currentDay.getFullYear() && currentDay.getDate() === i;
+                        dates.push(
+                            // dateButton(i, false, `${curMonth.getMonth()}-${i}`)
+                            <button key={`${curMonth.getMonth()}-${i}`} disabled={false} className={``} onClick={() => OnClick(i)}>{i}</button>
+                        )
+                    }
+                for (let i = nextMonth.getDay(); i < 7; i++) {
+                        <button key={`${nextMonth.getMonth()}-${i}`} disabled={true} className={``} onClick={() => OnClick(i - firstDayOfNextMonth + firstDateOfNextMonth)}>{i - firstDayOfNextMonth + firstDateOfNextMonth}</button>
+                    }
+                return dates;
+            })()}
+        </>
     );
-} 
+};
+
+function MonthTable({months, OnClick}:MonthTable) {
+    return(
+        <>
+            {
+                months.map(((m, index) => {
+                    return (
+                        <button key={`${index}${m.name}`} className={``} onClick={() => OnClick(index)} >{m.abbr} </button>
+                    );
+                }))
+            }
+        </>
+    );
+};
 
 function DatePicker() {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    // console.log('what')
     const currentDay = new Date();
     const [year, setYear] = useState(currentDay.getFullYear()); 
     const [month, setMonth] = useState(currentDay.getMonth());
@@ -57,47 +97,6 @@ function DatePicker() {
         setMonth((month - 1 + 12) % 12)
     }
 
-    function dateButton(text, isDisabled, isToday, key ){
-    return (
-        <button key={key} disabled={isDisabled} className={`${isToday ?  styles.today : ''}`} onClick={() => {setSelectedDate(new Date(year, month, parseInt(text))); setShowPicker(!showPicker)}}>{text}</button>
-        );
-    }
-
-    function displayDates(year, month, date){
-        const prevMonth = new Date(year, month, 0);
-        const lastDateOfPrevMonth = prevMonth.getDate();
-        const lastDayOfprevMonth = prevMonth.getDay();
-        const curMonth = new Date(year, month + 1, 0)
-        const nextMonth = new Date(year, month+ 1, 1);
-        const firstDayOfNextMonth = nextMonth.getDay();
-        const firstDateOfNextMonth = nextMonth.getDate();
-        
-        return (
-            <> 
-                {(() => {
-                    const dates = []
-                    // from sutday (index 0) to index of last day of prev month 
-                    for (let i = lastDateOfPrevMonth - lastDayOfprevMonth; i <= lastDateOfPrevMonth; i++ ) {                    
-                        dates.push(dateButton(i, true, false, `${prevMonth.getMonth()}-${i}`))
-                    }
-                    // current month
-                    for (let i = 1; i <= curMonth.getDate(); i++) {
-                        const isToday = month === currentDay.getMonth() && year === currentDay.getFullYear() && currentDay.getDate() === i;
-                        dates.push(dateButton(i, false, isToday, `${curMonth.getMonth()}-${i}`))
-                    }
-                    // next Month 
-                    for (let i = nextMonth.getDay(); i < 7; i++) {
-                        dates.push(dateButton(i - firstDayOfNextMonth + firstDateOfNextMonth, true, false, `${nextMonth.getMonth()}-${i}`))
-                    }
-                    return (
-                        dates
-                    );
-                })()}    
-            </>
-        );
-
-
-}
     return (
         <>
         <div className={styles.datepicker_container}>
@@ -117,8 +116,6 @@ function DatePicker() {
                             }
                         </select>
                         <input type="number" className={styles.year_input} value={year} onChange={e => {setYear(parseInt(e.target.value));}}/>
-                        {/* <div>{year}</div> */}
-                        {/* <div>{month}</div> */}
                     </div>
                     <button className={styles.next} onClick={() => increaseMonth()}>next</button>
                 </div>
@@ -132,7 +129,7 @@ function DatePicker() {
                     }
                 </div>
                 <div className={styles.dates}>
-                    {displayDates(year, month, date)}
+                    <DateTable year={year} month={month} day={date} OnClick={(day:number) => {setSelectedDate(new Date(year, month, day)); setShowPicker(!showPicker)}}></DateTable>
                 </div>
             </div>
         </div>
@@ -145,11 +142,6 @@ function DatePicker() {
         ) : (
             <></>
         ) }
-
-            {/* <span className={styles.datepicker_toggle}>
-                <span className={styles.datepicker_toggle_button}></span>
-                <input type="date" className={styles.datepicker_input}></input>
-            </span> */}
         </>
     );
 }

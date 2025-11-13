@@ -5,9 +5,26 @@ interface DisplayDates {
 }
 
 interface CalendarButton{
-    disable: boolean
-    id: number
+    disabled: boolean
+    idx: number
     text: string
-    OnClick: () => void;
-    
+    cssclass: string
+    OnClick: () => void
+}
+
+interface DateTable {
+    year: number
+    month: number
+    day: number
+    OnClick: (date:number) => void  
+}
+
+interface MonthTable {
+    months: [
+        {
+            name: string
+            abbr: string
+        }
+    ]
+    OnClick: (month:number) => void
 }
