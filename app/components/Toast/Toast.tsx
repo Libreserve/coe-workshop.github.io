@@ -5,6 +5,7 @@ import styles from "./Toast.module.scss";
 
 function Toast({ Title, Description, Variant }: ToastProps) {
   return (
+    // <div className={styles.toast_background}>
     <div className={styles.toast}>
       <div className={styles.toast_inner}>
         <div className={styles.content}>
@@ -20,8 +21,8 @@ function Toast({ Title, Description, Variant }: ToastProps) {
           </div>
         </div>
         <Image
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           src={"./Toast/close.svg"}
           alt="close"
         ></Image>
@@ -35,6 +36,7 @@ function Toast({ Title, Description, Variant }: ToastProps) {
         }
       ></div>
     </div>
+    // </div>
   );
 }
 

@@ -2,6 +2,7 @@ import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./styles/globals.scss";
+import Toast from "./components/Toast/Toast";
 const geistInter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
@@ -20,6 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistInter.variable} `}>
+        <Toast
+          Variant="success"
+          Title="Success to update"
+          Description=" ReferenceError: Toast is not defined"
+        ></Toast>
         <MantineProvider>{children}</MantineProvider>
       </body>
     </html>

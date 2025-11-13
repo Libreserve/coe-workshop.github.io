@@ -14,11 +14,7 @@ function page() {
       <Category></Category>
       <Guide></Guide>
       <Accordion></Accordion>
-      <Toast
-        Variant="success"
-        Title="Success to update"
-        Description=" ReferenceError: Toast is not defined"
-      ></Toast>
+      
     </div>
   );
 }
