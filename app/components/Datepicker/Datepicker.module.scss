@@ -1,0 +1,171 @@
+:global(*) {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    // font-family: Inter;
+    // color: rgb(0, 0, 0);
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+}
+
+.datepicker_container {
+    // position: relative;
+    position: fixed;
+    z-index: 997;
+    background-color: #E1E1E1;
+    padding: 10px;
+}
+
+.datepicker button {
+    cursor: pointer;
+    border: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.datepicker {
+    // position: absolute;
+    background-color: black;
+    top: 100%;
+    margin-top: 2px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.datepicker .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    // background-color: black;
+    padding-bottom:10px ;
+}
+
+.datepicker .month_input {
+    
+}
+
+.undo_datepicker_overlay {
+    // background-color: aqua;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    // z-index: 100;
+}
+
+.date_input {
+    width: 144;
+    height: 42;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 15px;
+    border-width: 1px;
+    display: flex;
+    border: 1px solid  #E1E1E1 ;
+    text-align: center;
+
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14.56px;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+.days span {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.dates button.today {
+    background-color: aquamarine;
+}
+
+.today {
+    background-color: aquamarine;
+}
+
+.days, .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 32px);
+    gap: 10px;
+}
+
+.dates button.selected {
+    background-color: red;
+}
+
+.dates button {
+    color: black; 
+    background-color: white;
+}
+
+.dates button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+
+}
+
+.dates button:hover {
+    background-color: aqua;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .datepicker_toggle {
+//   display: inline-block;
+//   position: relative;
+//   width: 18px;
+//   height: 19px;
+// }
+// .datepicker_toggle_button {
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   width: 100%;
+//   height: 100%;
+// //   background-image: url('/public/cross.svg');
+//     background-color: black;
+// }
+
+// .datepicker_input {
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   width: 100%;
+//   height: 100%;
+//   opacity: 0;
+//   cursor: pointer;
+//   box-sizing: border-box;
+// }
+// .datepicker_input::-webkit-calendar-picker-indicator {
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   width: 100%;
+//   height: 100%;
+//   margin: 0;
+//   padding: 0;
+//   cursor: pointer;
+// }
