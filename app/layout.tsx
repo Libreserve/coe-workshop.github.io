@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistInter.variable} `}>
         <Toast
+          Position="bottom-right"
           Variant="success"
           Title="Success to update"
           Description=" ReferenceError: Toast is not defined"

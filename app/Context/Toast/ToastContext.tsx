@@ -1,8 +1,6 @@
 import { createContext } from "react";
+import { ToastContextTypeProps } from "./types";
 
-interface ToastContextTypeProps {
-  addToastStack: () => void;
-}
 
 export const ToastContext = createContext<ToastContextTypeProps | undefined>(
   undefined
