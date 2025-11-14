@@ -12,10 +12,21 @@ function Toast({ Position }: ToastProps) {
   useEffect(() => {
     console.log("Current toastStack:", toastStack);
   }, [toastStack]);
+
+  const isLastIndex = (toastId: number): boolean => {
+    return toastStack[toastStack.length].id == toastId;
+  };
+
   return (
     <div className={styles.toast_background} style={positionStyle[Position]}>
       {toastStack.map((t) => (
-        <div key={t.id} className={styles.toast}>
+        <div
+          key={t.id}
+          className={`${styles.toast}  ${
+            !(t.id == toastStack[toastStack.length - 1].id) &&
+            styles.toast_slide
+          }  `}
+        >
           <div className={styles.toast_inner}>
             <div className={styles.content}>
               <Image

@@ -8,8 +8,13 @@ function Page() {
   const [count, setCount] = useState(0);
   const { toastStack, addToastStack } = useToast();
   const onToastClick = () => {
-    // console.log(toastStack);
-    addToastStack("สวัสดีToast" + count, "คำอธิบาย", "success");
+    addToastStack(
+      "Hello Toast" + count,
+      "psum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+      "success"
+    );
+
+    setCount((prev) => prev + 1);
   };
   return (
     <div>
