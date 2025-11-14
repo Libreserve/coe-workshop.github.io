@@ -18,6 +18,7 @@ body {
     z-index: 997;
     background-color: #E1E1E1;
     padding: 10px;
+    // width: fit-content;
 }
 
 .datepicker button {
@@ -37,6 +38,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     z-index: 999;
+    transition: 0.3s;
 }
 
 .datepicker .header {
@@ -65,7 +67,6 @@ body {
 .date_input {
     width: 144;
     height: 42;
-    angle: 0 deg;
     opacity: 1;
     border-radius: 15px;
     border-width: 1px;
@@ -87,7 +88,7 @@ body {
 }
 
 .dates button.today {
-    background-color: aquamarine;
+    background-color: aquamarine;   
 }
 
 .today {
@@ -97,6 +98,12 @@ body {
 .days, .dates {
     display: grid;
     grid-template-columns: repeat(7, 32px);
+    gap: 10px;
+}
+
+.month_input {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     gap: 10px;
 }
 

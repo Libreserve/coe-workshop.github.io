@@ -16,15 +16,23 @@ interface DateTable {
     year: number
     month: number
     day: number
+    selectedDate: Date
     OnClick: (date:number) => void  
 }
 
 interface MonthTable {
-    months: [
+    months: 
         {
             name: string
             abbr: string
-        }
-    ]
+        }[]
+    year: number
+    selectedDate: Date
     OnClick: (month:number) => void
+}
+
+interface YearTable {
+    startYear: number
+    selectedDate: Date
+    OnClick:(year:number) => void
 }
