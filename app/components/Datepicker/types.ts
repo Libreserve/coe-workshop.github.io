@@ -1,7 +1,6 @@
-interface DisplayDates {
-    year: string
-    month: string
-    day: string
+interface DatePicker {
+    onChange: (value:Date) => void 
+    value: Date 
 }
 
 interface CalendarButton{
@@ -9,15 +8,14 @@ interface CalendarButton{
     idx: number
     text: string
     cssclass: string
-    OnClick: () => void
+    onSelect: () => void
 }
 
 interface DateTable {
     year: number
     month: number
-    day: number
     selectedDate: Date
-    OnClick: (date:number) => void  
+    onSelect: (date:number) => void  
 }
 
 interface MonthTable {
@@ -28,11 +26,11 @@ interface MonthTable {
         }[]
     year: number
     selectedDate: Date
-    OnClick: (month:number) => void
+    onSelect: (month:number) => void
 }
 
 interface YearTable {
     startYear: number
     selectedDate: Date
-    OnClick:(year:number) => void
+    onSelect:(year:number) => void
 }

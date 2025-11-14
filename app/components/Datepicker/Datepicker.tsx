@@ -1,5 +1,5 @@
 'use client'
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import styles from "./Datepicker.module.scss"
 
 const months = [
@@ -27,7 +27,7 @@ const days = [
 ];
 
 // hard code a h
-function DateTable({year, month, day, selectedDate, OnClick}:DateTable) {
+function DateTable({year, month, selectedDate, onSelect}:DateTable) {
     const prevMonth = new Date(year, month, 0);
     const lastDateOfPrevMonth = prevMonth.getDate();
     const lastDayOfprevMonth = prevMonth.getDay();
@@ -42,23 +42,22 @@ function DateTable({year, month, day, selectedDate, OnClick}:DateTable) {
         <>
             {(() => {
                 const dates = []
-                for (let i = lastDateOfPrevMonth - lastDayOfprevMonth; i <= lastDateOfPrevMonth; i++ ) {   
+                for (let day = lastDateOfPrevMonth - lastDayOfprevMonth; day <= lastDateOfPrevMonth; day++ ) {   
                         dates.push(
-                            <button key={`${prevMonth.getMonth()}-${i}`} disabled={true} className={``} onClick={() => OnClick(i)}>{i}</button>
+                            <button key={`prev-${day}`} disabled={true} className={``} onClick={() => onSelect(day)}>{day}</button>
                         )
                     }
-                for (let i = 1; i <= curMonth.getDate(); i++) {
+                for (let day = 1; day <= curMonth.getDate(); day++) {
                         const isSelected = selectedYear === curMonth.getFullYear() &&
                             selectedMonth === curMonth.getMonth() &&
-                            selectedDay === i;
-                        console.log(isSelected)
+                            selectedDay === day;
                         dates.push(
-                            <button key={`${curMonth.getMonth()}-${i}`} disabled={false} className={`${isSelected ?  styles.today : ''}`} onClick={() => OnClick(i)}>{i}</button>
+                            <button key={`cur-${day}`} disabled={false} className={`${isSelected ?  styles.today : ''}`} onClick={() => onSelect(day)}>{day}</button>
                         )
                     }
-                for (let i = nextMonth.getDay(); i < 7; i++) {
+                for (let day = nextMonth.getDay(); day < 7; day++) {
                         dates.push(
-                            <button key={`${nextMonth.getMonth()}-${i}`} disabled={true} className={``} onClick={() => OnClick(i - firstDayOfNextMonth + firstDateOfNextMonth)}>{i - firstDayOfNextMonth + firstDateOfNextMonth}</button>
+                            <button key={`next-${day}`} disabled={true} className={``} onClick={() => onSelect(day - firstDayOfNextMonth + firstDateOfNextMonth)}>{day - firstDayOfNextMonth + firstDateOfNextMonth}</button>
                         )    
                     }
                 return dates;
@@ -67,7 +66,7 @@ function DateTable({year, month, day, selectedDate, OnClick}:DateTable) {
     );
 };
 
-function MonthTable({months, year,  selectedDate,  OnClick}:MonthTable) {
+function MonthTable({months, year,  selectedDate,  onSelect}:MonthTable) {
     return(
         <>
             {
@@ -77,7 +76,7 @@ function MonthTable({months, year,  selectedDate,  OnClick}:MonthTable) {
                     return (
                         <button key={`${index}${m.name}`} 
                             className={`${isSelected ?  styles.today : ''}`} 
-                            onClick={() => OnClick(index)} >{m.abbr} 
+                            onClick={() => onSelect(index)} >{m.abbr} 
                         </button>
                     );
                 }))
@@ -86,19 +85,19 @@ function MonthTable({months, year,  selectedDate,  OnClick}:MonthTable) {
     );
 };
 
-function YearTable({startYear, selectedDate, OnClick}:YearTable ) {
+function YearTable({startYear, selectedDate, onSelect}:YearTable ) {
     return (
         <>
             {(() => {
                 const years = []
-                for (let i = startYear - 6; i <= startYear + 5; i++ ) {                    
-                    const isSelected = selectedDate.getFullYear() === i;
+                for (let year = startYear - 6; year <= startYear + 5; year++ ) {                    
+                    const isSelected = selectedDate.getFullYear() === year;
                     years.push(
                         <button 
-                            key={`year-${i}`} 
+                            key={`year-${year}`} 
                             disabled={false} 
                             className={`${isSelected ?  styles.today : ''}`} 
-                            onClick={() => OnClick(i)}>{i}</button>
+                            onClick={() => onSelect(year)}>{year}</button>
                     )
                 }
                 return years;
@@ -107,17 +106,13 @@ function YearTable({startYear, selectedDate, OnClick}:YearTable ) {
     );
 }
 
-function DatePicker() {
-    const [showPicker, setShowPicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const currentDay = new Date();
-    const [year, setYear] = useState(currentDay.getFullYear()); 
-    const [month, setMonth] = useState(currentDay.getMonth());
-    const [date, setDate] = useState(currentDay.getDate());
-    const [century, setCentury] = useState(currentDay.getFullYear())
-    const [showMonth, setShowMonth] = useState(false);
-    const [showYear, setShowYear] = useState(false);
-    // const [view, setView] = useState<"date" | "month" | "year" | "closed">("closed");
+function DatePicker({value, onChange}:DatePicker) {
+    const [year, setYear] = useState(value.getFullYear()); 
+    const [month, setMonth] = useState(value.getMonth());
+    const [date, setDate] = useState(value.getDate());
+    const [century, setCentury] = useState(value.getFullYear())
+    const [view, setView] = useState<"date" | "month" | "year" | "closed">("closed");
+    const [active, setActive] = useState(false);
     
     function increaseMonth() {
         if (month === 11) setYear(year + 1);
@@ -136,129 +131,117 @@ function DatePicker() {
 
     return (
         <>
+        {view === "closed" && !active ? (
+            <div className={styles.datepicker_container}>
+                <div onClick={() => {setView("date")}}>calender</div>
+            </div>
+            ) : (
+                
         <div className={styles.datepicker_container}>
-            {
-                !showPicker && !showMonth && !showYear ? (
-                    <input type="text" className={styles.date_input} 
-                    readOnly={true}
-                    placeholder="select date" 
-                    value={selectedDate.toLocaleDateString("en-GB", {year:"numeric", month:"2-digit", day:"2-digit"}) } 
-                    onClick={() => {setShowPicker(!showPicker)}} 
-                    />
-                ) : (
-                    <></>
-                )
-            }
+            <input type="text" className={`${styles.date_input}${view === "closed" ? "" : "_closed"}`} 
+                readOnly={true}
+                placeholder="select date" 
+                value={value.toLocaleDateString("en-GB", {year:"numeric", month:"2-digit", day:"2-digit"}) }
+                onClick={() => {setView("date");}} 
+            />
             {/* picker */}
             
             {/* date table */}
-            {
-                showPicker ? (
-                    <div className={styles.datepicker} >
-                        <div className={styles.header} >
-                            <button className={styles.prev} onClick={() => decreaseMonth()} >prev</button>
-                                <div onClick={() => {setShowMonth(!showMonth); setShowPicker(!showPicker)}}>
-                                    <div className={styles.today}>{months[month].name}</div>
-                                    <div>{year}</div>
-                                </div>
-                            <button className={styles.next} onClick={() => increaseMonth()}>next</button>
+            <div>
+
+            </div>
+            <div className={`${styles.datepicker}${view === "date" ? "" : "_closed"}`} >
+                <div className={styles.header} >
+                    <button className={styles.prev} onClick={() => decreaseMonth()} >prev</button>
+                        <div onClick={() => {setView("month")}}>
+                            <div className={styles.today}>{months[month].name}</div>
+                            <div>{year}</div>
                         </div>
-                        <div className={styles.days}>
-                            {
-                                days.map(((d, index) => {
-                                    return (
-                                        <span key={`${index}${d.name}`}>{d.abbr}</span>
-                                    );
-                                }))
-                            }
-                        </div>
-                        <div className={styles.dates}>
-                            <DateTable 
-                                year={year} 
-                                month={month} 
-                                day={date} 
-                                selectedDate={selectedDate}
-                                OnClick={(day:number) => {setSelectedDate(new Date(year, month, day)); setShowPicker(!showPicker)}}>
-                            </DateTable>
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                    </>
-                )
-            }
+                    <button className={styles.next} onClick={() => increaseMonth()}>next</button>
+                </div>
+                <div className={styles.days}>
+                    {
+                        days.map(((d, index) => {
+                            return (
+                                <span key={`${index}${d.name}`}>{d.abbr}</span>
+                            );
+                        }))
+                    }
+                </div>
+                <div className={styles.dates}>
+                    <DateTable 
+                        year={year} 
+                        month={month} 
+                        selectedDate={value}
+                        onSelect={(day:number) => {
+                            onChange(new Date(year, month, day));
+                            setView("closed");
+                            setActive(true);
+                        }}>
+                    </DateTable>
+                </div>
+            </div>
+            
             
             {/* month table */}
-            {
-                showMonth ? (
-                    <>
-                    <div className={styles.datepicker} style={{display:`${showPicker ? "block" : "block"}`} }>
-                    <div className={styles.header}>
-                        <button className={styles.prev} onClick={() => updateYear(-1)} >prev</button>
-                            <div onClick={() => {setShowMonth(!showMonth); setShowYear(!showYear)}}>{year}</div>
-                        <button className={styles.next} onClick={() => updateYear(1)}>next</button>
-                    </div>
-                    <div className={styles.month_input}>
-                        <MonthTable
-                            months={months}
-                            year={year}
-                            selectedDate={selectedDate}
-                            OnClick={(month:number) => {
-                                setSelectedDate(new Date(year, month, date)); 
-                                setShowMonth(!showMonth); 
-                                setShowPicker(!showPicker);
-                                setMonth(month)
-                            }}
-                        >
-                        </MonthTable>
-                    </div>
+            
+            <div className={`${styles.datepicker_month}${view === "month" ? "" : "_closed"}`} >
+                <div className={styles.header}>
+                    <button className={styles.prev} onClick={() => updateYear(-1)} >prev</button>
+                        <div onClick={() => {setView("year")}}>{year}</div>
+                    <button className={styles.next} onClick={() => updateYear(1)}>next</button>
+                </div>
+                <div className={styles.month_input}>
+                    <MonthTable
+                        months={months}
+                        year={year}
+                        selectedDate={value}
+                        onSelect={(month:number) => {
+                            onChange(new Date(year, month, date)); 
+                            setMonth(month)
+                            setView("date")
+                            setActive(true);
+                        }}
+                    >
+                    </MonthTable>
+                </div>
             </div>
-                </>
-                ) : (
-                    <></>
-                )
-            }
+            
 
             {/* year table */}
-                {
-                    showYear ? (
-                        <div className={styles.datepicker} style={{display:`${showPicker ? "block" : "block"}`} }>
-                        <>
-                    <div className={styles.header}>
-                        <button className={styles.prev} onClick={() => updateCentury(-12)} >prev</button>
-                            <div>{`${century - 6} - ${century + 5}`}</div>
-                        <button className={styles.next} onClick={() => updateCentury(12)}>next</button>
-                    </div>
-                    <div className={styles.month_input}>
-                        <YearTable
-                            startYear={century}
-                            selectedDate={selectedDate}
-                            OnClick={(year:number) => {
-                                setSelectedDate(new Date(year, month, date)); 
-                                setShowYear(!showYear); 
-                                setShowMonth(!showMonth); 
-                                setYear(year);
-                            }}       
-                        >
-                        </YearTable>
-                    </div>
-                    </>
+            <div className={`${styles.datepicker_year}${view === "year" ? "" : "_closed"}`} >
+                <div className={styles.header}>
+                    <button className={styles.prev} onClick={() => updateCentury(-12)} >prev</button>
+                        <div>{`${century - 6} - ${century + 5}`}</div>
+                    <button className={styles.next} onClick={() => updateCentury(12)}>next</button>
                 </div>
-                    ) : (
-                        <></>
-                    )
-                }
-                
+                <div className={styles.month_input}>
+                    <YearTable
+                        startYear={century}
+                        selectedDate={value}
+                        onSelect={(year:number) => {
+                            onChange(new Date(year, month, date)); 
+                            setYear(year);
+                            setView("month")
+                            setActive(true);
+                        }}       
+                    >
+                    </YearTable>
+                </div>
+            </div>
         </div>
+            )}
 
         {/* picker undo overlay */}
-        { showPicker || showMonth || showYear ? (
+        { 
+            !(view === "closed") && (
             <div className={styles.undo_datepicker_overlay}
-            onClick={()=>{setShowPicker(false); setShowMonth(false); setShowYear(false) }}>
+                onClick={()=>{
+                setView("closed");
+                }}>
             </div>
-        ) : (
-            <></>
-        ) }
+        ) 
+        }
         </>
     );
 }

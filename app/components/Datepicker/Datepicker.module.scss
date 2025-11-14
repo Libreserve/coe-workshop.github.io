@@ -14,11 +14,15 @@ body {
 
 .datepicker_container {
     // position: relative;
-    position: fixed;
-    z-index: 997;
+    // position: fixed;
+    position: absolute;
+    z-index: 996;
     background-color: #E1E1E1;
     padding: 10px;
-    // width: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .datepicker button {
@@ -30,16 +34,35 @@ body {
 }
 
 .datepicker {
-    // position: absolute;
+    position: absolute;
+    // position: fixed;
     background-color: black;
     top: 100%;
     margin-top: 2px;
-    background-color: white;
+    background-color: rgb(157, 26, 26);
     padding: 10px;
     border-radius: 5px;
-    z-index: 999;
+    z-index: 997;
     transition: 0.3s;
+    opacity: 1;
+    // width: auto;
+    // height: auto;
 }
+
+.datepicker_closed {
+    background-color: black;
+    opacity: 1;
+    pointer-events: none;
+    top: 100%;
+    left:0;
+    transform-origin: top;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    position: fixed;
+    right: 0;
+    top: 100%;
+}
+
 
 .datepicker .header {
     display: flex;
@@ -55,13 +78,13 @@ body {
 }
 
 .undo_datepicker_overlay {
-    // background-color: aqua;
+    background-color: rgba(0, 255, 255, 0.131);
     height: 100%;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    // z-index: 100;
+    // z-index: ;
 }
 
 .date_input {
@@ -80,6 +103,15 @@ body {
     font-size: 14.56px;
     line-height: 100%;
     letter-spacing: 0%;
+
+    // position: absolute;
+    background-color: blue;
+}
+
+.date_input_closed {
+    pointer-events: none;
+    position: relative;
+    opacity: 0;
 }
 
 .days span {
@@ -128,51 +160,48 @@ body {
 }
 
 
+.datepicker_month {
+    // position: absolute;
+    position: absolute;
+    background-color: black;
+    top: 100%;
+    margin-top: 2px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 998;
+    transition: 0.3s;
+    opacity: 1;
+    top: 0;
+    right: 50;
+}
 
+.datepicker_month_closed {
+    background-color: black;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
 
+.datepicker_year {
+    position: absolute;
+    background-color: black;
+    top: 100%;
+    margin-top: 2px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 998;
+    transition: 0.3s;
+    opacity: 1;
+    top: 0;
+    right: 50;
+}
 
+.datepicker_year_closed {
+    background-color: black;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
 
-
-
-
-
-
-
-
-
-// .datepicker_toggle {
-//   display: inline-block;
-//   position: relative;
-//   width: 18px;
-//   height: 19px;
-// }
-// .datepicker_toggle_button {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   width: 100%;
-//   height: 100%;
-// //   background-image: url('/public/cross.svg');
-//     background-color: black;
-// }
-
-// .datepicker_input {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   width: 100%;
-//   height: 100%;
-//   opacity: 0;
-//   cursor: pointer;
-//   box-sizing: border-box;
-// }
-// .datepicker_input::-webkit-calendar-picker-indicator {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   width: 100%;
-//   height: 100%;
-//   margin: 0;
-//   padding: 0;
-//   cursor: pointer;
-// }
