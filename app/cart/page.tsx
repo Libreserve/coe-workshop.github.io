@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from "@/app/page.module.scss";
 import All_tools from "@/app/components/CartView/CartView";
 import Navbar from "@/app/components/Navbar/Navbar";

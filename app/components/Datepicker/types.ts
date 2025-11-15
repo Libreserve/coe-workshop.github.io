@@ -1,6 +1,6 @@
 interface DatePicker {
-    onChange: (value:Date) => void 
-    value: Date 
+    onChange?: (value?:Date | string) => void
+    value?: Date | string 
 }
 
 interface CalendarButton{
