@@ -241,6 +241,10 @@
 .summary_cart_table {
     font-family: Inter;
     margin-bottom: 42px;
+    
+    @media (max-width: 480px) {
+        margin-bottom: 10px;
+    }
 }
 
 .summary_cart_table_header {   
