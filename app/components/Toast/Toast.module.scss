@@ -1,7 +1,9 @@
-@keyframes slideLeft {
+@use "../../styles/variables" as *;
+
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(100px);
+    transform: var(--in);
   }
   to {
     opacity: 1;
@@ -9,9 +11,9 @@
   }
 }
 
-@keyframes slideDown {
+@keyframes slide {
   from {
-    transform: translateY(-70px);
+    transform: translateY(var(--slide));
   }
   to {
     transform: translateY(0px);
@@ -25,21 +27,22 @@
   }
   to {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateX(var(--fade));
   }
 }
+
 .toast {
+  font-family: var(--font-Inter), sans-serif;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 12px;
   overflow: hidden;
   background: white;
   z-index: 1000;
-  animation: slideLeft 0.8s ease, fadeOut 0.8s ease forwards 2.4s;
-  transition: all 0.5s ease;
+  animation: fadeIn 0.8s ease, fadeOut 0.8s ease forwards 3.6s;
 }
 .toast_slide {
-  animation: slideDown 0.8s ease forwards;
+  animation: slide 0.8s ease forwards, fadeOut 0.8s ease forwards 3.6s;
 }
 .toast_background {
   width: clamp(200px, 70%, 350px);
@@ -51,7 +54,7 @@
   left: var(--left, auto);
   margin: 20px;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: var(--direction);
   gap: 10px;
 }
 .toast_inner {
@@ -66,18 +69,19 @@
 }
 
 .title {
-  font-size: 16px;
+  font-size: 0.8rem;
 }
 .description {
-  font-size: 12px;
+  font-size: 0.6rem;
   padding: 5px 0;
   font-weight: 400;
+  color: $Gray300;
 }
 .progress {
   height: 5px;
   background: var(--green-400);
-  transition: all 1s ease;
-  animation: onLoad 3s ease-in;
+  animation: onLoad 4s ease-in;
+  border-radius: 20px;
   @keyframes onLoad {
     from {
       width: 100%;

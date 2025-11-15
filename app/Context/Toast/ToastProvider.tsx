@@ -35,7 +35,7 @@ const ToastProvider = ({ children }: { children: ReactNode }) => {
 
       setTimeout(() => {
         setToastStack((prev) => prev.filter((item) => item.id !== id));
-      }, 3000);
+      }, 4000);
     },
     []
   );

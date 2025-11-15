@@ -6,6 +6,7 @@
   --green-400: #22c55e;
   --red-400: #ef4444;
   --gray-300: #c0c0c0;
+  font-family: var(--font-Inter), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,7 +25,8 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Inter", sans-serif;
+  // font-family: "Inter", sans-serif;
+  font-family: var(--font-Inter), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

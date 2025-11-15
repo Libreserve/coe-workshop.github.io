@@ -23,8 +23,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistInter.variable} `}>
         <ToastProvider>
-          <Toast Position="top-right"></Toast>
           <MantineProvider>{children}</MantineProvider>
+          <Toast Position="bottom-right"></Toast>
         </ToastProvider>
       </body>
     </html>
