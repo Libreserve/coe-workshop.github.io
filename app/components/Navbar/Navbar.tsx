@@ -12,19 +12,27 @@ function Navbar() {
           <p className={styles.logo_dot}>.W</p>
         </div>
         <div className={styles.link}>
-            <Link href="/tools">
-                 <p>Tools</p>
-            </Link>
+          <Link href="/tools">
+            <p>Tools</p>
+          </Link>
           <p>About</p>
           <p>Report</p>
         </div>
       </div>
       <div className={styles.action}>
         <Image
+          className={styles.action_search}
           width={100}
           height={100}
           alt="search_icon"
           src={"/search.svg"}
+        ></Image>
+        <Image
+          className={styles.action_basket}
+          width={120}
+          height={120}
+          alt="basket_icon"
+          src={"./basket.svg"}
         ></Image>
         <div className={styles.action_button}>let's start</div>
       </div>
