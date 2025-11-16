@@ -21,7 +21,7 @@ function AvataGroup({max, imageList}:AvatarGroup) {
                     else if (index === max) return (
                     <div className={styles.avatar} key={`avatar-${index}`}>
                         <div className={styles.avatar_rest}>
-                                +   {max - index + 1}
+                                +{imageList.length - max + 1}
                         </div>
                     </div>
                     )

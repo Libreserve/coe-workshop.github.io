@@ -1,10 +1,12 @@
 import styles from "@/app/components/TruncateTools/TruncateTools.module.scss";
 
+interface Item {
+    title:string,
+    quantity: number
+}
+// type Items = Item[];
 interface Items {
-    items: {
-        title:string,
-        quantity: number
-    }[]
+    items: Item[]
 }
 
 function truncateString(str: string, max: number ) {
@@ -13,7 +15,7 @@ function truncateString(str: string, max: number ) {
 }
 
 function TruncateTools({items}:Items) {
-    const itemString = items.map((item) => `${item.title}*${item.quantity}`).join(", ");
+    const itemString = items.map((item:Item) => `${item.title}*${item.quantity}`).join(", ");
   return(
     <>
         <div className={styles.tooltip}>
