@@ -1,19 +1,21 @@
-.title_banner {
-  margin-top: 40px;
-
+@use "./../../styles/_breakpoints" as *;
+.title_banner{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  @media (max-width: 768px) {
+  @include respond-to-max(md) {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 50px;
   }
 }
-.title_layout {
-  display: flex;
-  align-items: baseline;
+.title_layout{
+  display:  flex;
+  align-items:  baseline;
+  margin: 40px 0 40px 0;
+  gap:20px;
+
+  @include respond-to-max(xs) {
   margin: 20px 0;
   gap: 20px;
 
@@ -21,55 +23,56 @@
     margin: 20px 0;
     gap: 10px;
   }
-  h1 {
-    font-size: 4.3rem;
-    font-weight: 500;
-    @media (max-width: 768px) {
-      font-size: 2.5rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 2rem;
-    }
+    ;h1{
+  font-size: 4.3rem;
+  font-weight: 500;
+  @include respond-to-max(md) {
+    font-size: 2.5rem;
   }
-  p {
-    font-size: 1.1rem;
-    @media (max-width: 768px) {
-      font-size: 1rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-    }
-  }
-}
-.icon {
-  display: flex;
-  gap: 30px;
-  margin: 10px 40px 0 0;
-  @media (max-width: 768px) {
-    gap: 20px;
-    margin: 0;
-  }
-
-  @media (max-width: 480px) {
-    gap: 15px;
+  @include respond-to-max(xs) {
+    font-size: 2rem;
   }
   .icon_size {
     object-fit: contain;
   }
+    ;p{
+  font-size: 1.1rem;
+       @include respond-to-max(md) {
+         font-size: 1rem;
+       }
 
-  @media (max-width: 768px) {
-    width: 20px;
-    height: 20px;
+       @include respond-to-max(xs) {
+         font-size: 0.9rem;
+       }
+     }
+}}}
+.icon{
+  display:  flex;
+  gap:  30px;
+  margin: 10px 40px 0 0;
+    @include respond-to-max(md) {
+      gap: 20px;
+      margin: 0;
+    }
+
+    @include respond-to-max(xs) {
+      gap: 15px;
+    }
+  .icon_size{
+    object-fit:contain;
   }
 
-  @media (max-width: 480px) {
-    width: 18px;
-    height: 18px;
-  }
+    @include respond-to-max(md) {
+      width: 20px;
+      height: 20px;
+    }
+
+    @include respond-to-max(xs) {
+      width: 18px;
+      height: 18px;
+    }
 }
-.box {
+.box{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
@@ -80,12 +83,12 @@
   padding: 20px;
   margin-bottom: 40px;
 
-  @media (max-width: 768px) {
+  @include respond-to-max(md) {
     padding: 15px;
     margin-bottom: 30px;
   }
 
-  @media (max-width: 480px) {
+  @include respond-to-max(xs) {
     padding: 10px;
     margin-bottom: 20px;
   }
@@ -95,7 +98,7 @@
   flex-direction: column;
   gap: 20px;
   max-width: 300px;
-  @media (max-width: 480px) {
+  @include respond-to-max(xs) {
     gap: 15px;
   }
 }
@@ -106,12 +109,12 @@
   object-fit: contain;
   transition: all 0.4s ease;
 
-  @media (max-width: 768px) {
+  @include respond-to-max(md) {
     width: 150px;
     height: 120px;
   }
 
-  @media (max-width: 480px) {
+  @include respond-to-max(xs) {
     width: 120px;
     height: 100px;
   }
@@ -119,7 +122,7 @@
 .img:hover {
   transform: scale(1.1);
 
-  @media (max-width: 768px) {
+  @include respond-to-max(md) {
     transform: scale(1.05);
   }
 }
@@ -129,7 +132,7 @@
   align-items: center;
   padding-right: 20px;
 
-  @media (max-width: 480px) {
+  @include respond-to-max(xs) {
     padding-right: 10px;
   }
 }
@@ -142,13 +145,8 @@
     font-weight: 600;
     margin-bottom: 5px;
 
-    @media (max-width: 768px) {
-      font-size: 1.1rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 1rem;
-    }
+  @include respond-to-max(md) {
+    font-size: 1.1rem;
   }
   p {
     font-size: 0.9rem;
@@ -159,15 +157,28 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    @media (max-width: 768px) {
-      font-size: 0.85rem;
-      -webkit-line-clamp: 2;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 0.8rem;
-    }
+  @include respond-to-max(xs) {
+    font-size: 1rem;
   }
+  }
+  ;p{
+     font-size:  0.9rem;
+     color: #535353;
+     display: -webkit-box;
+     -webkit-line-clamp: 1;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
+     text-overflow: ellipsis;
+
+     @include respond-to-max(md) {
+       font-size: 0.85rem;
+       -webkit-line-clamp: 2;
+     }
+
+     @include respond-to-max(xs) {
+       font-size: 0.8rem;
+     }
+   }
 }
 .stoke {
   display: flex;
@@ -176,20 +187,24 @@
   h3 {
     font-size: 2rem;
     font-weight: 400;
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
-    }
+  @include respond-to-max(md) {
+    font-size: 1.5rem;
+  }
 
-    @media (max-width: 480px) {
-      font-size: 1.3rem;
-    }
+  @include respond-to-max(xs) {
+    font-size: 1.3rem;
   }
   h4 {
     font-size: 1.1rem;
     font-weight: 350;
-    @media (max-width: 768px) {
-      font-size: 1rem;
-    }
+     @include respond-to-max(md) {
+       font-size: 1rem;
+     }
+
+     @include respond-to-max(xs) {
+       font-size: 0.9rem;
+     }
+   }
 
     @media (max-width: 480px) {
       font-size: 0.9rem;
