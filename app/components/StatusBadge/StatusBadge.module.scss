@@ -1,0 +1,101 @@
+.pending {
+    display: flex;
+    background-color: #FFFEE0;
+    width: 144px;
+    height: 46px;
+    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18.39px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #D6D157;
+    @media (max-width:480px) {
+        width: 72;
+        height: 23.08133888244629;
+        border-radius: 12.49px;
+        font-size: 9.19px;
+    }
+}
+
+
+.doing {
+    display: flex;
+    background-color: #57BCD626;
+    max-width: 144px;
+    max-height: 46px;
+    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18.39px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #57BCD6;
+    @media (max-width:480px) {
+        width: 72;
+        height: 23.08133888244629;
+        border-radius: 12.49px;
+        font-size: 9.19px;
+    }
+}
+
+.rejected {
+    display: flex;
+    background-color: #D6575726;
+    max-width: 144px;
+    max-height: 46px;
+    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18.39px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #D65757;
+    @media (max-width:480px) {
+        width: 72;
+        height: 23.08133888244629;
+        border-radius: 12.49px;
+        font-size: 9.19px;
+    }
+}
+
+.returned {
+    display: flex;
+    background-color: #57D67126;
+    max-width: 144px;
+    max-height: 46px;
+    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18.39px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #57D671;
+    @media (max-width:480px) {
+        width: 72;
+        height: 23.08133888244629;
+        border-radius: 12.49px;
+        font-size: 9.19px;
+    }
+}
+
