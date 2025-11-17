@@ -24,8 +24,7 @@ function truncateToolName(tool:Item[], max:number): string {
     return result;
 }
 
-function TruncateTools({items}:Item[]) {
-    console.log(items)
+function TruncateTools({items}:Items) {
     const max:number = 20;
   return(
     <>
