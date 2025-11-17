@@ -1,10 +1,13 @@
+'use client'
 import StatusBadge from "../StatusBadge/StatusBadge";
 import AvataGroup from "../AvataGroup/AvatarGroup";
 import TruncateTools from "../TruncateTools/TruncateTools";
 import Image from "next/image";
 import styles from "../HistoryCard/HistoryCard.module.scss";
+import { useState } from "react";
 
-function HistoryCard({ showHiddenTimestamp, setShowHiddenTimestamp, transaction, email }: HistoryCard) {
+function HistoryCard({ transaction, email }: HistoryCard) {
+    const [open, setOpen] = useState(false);
     const date = new Date(transaction.startDay);
     const day = date.toLocaleDateString("en-US", { weekday: "short" });
     const date_no = date.getDate();
@@ -19,58 +22,61 @@ function HistoryCard({ showHiddenTimestamp, setShowHiddenTimestamp, transaction,
     return (
         <>    
             <div className={styles.container}>
-                <div className={styles.timestamp}>
-                    <div className={styles.timestamp_left}>
-                        <span className={styles.day}>
-                            {day}
-                        </span>
-                        <span className={styles.date}>
-                            {date_no}
-                        </span>
-                    </div>
-                    <div className={styles.timestamp_right}>
-                        <div className={styles.time}>
-                            <Image src={"clock.svg"} alt={"clock"} width={16} height={16}></Image>            
-                            <span>
-                                {time}
+                <div className={styles.detail}>
+                    <div className={styles.timestamp}>
+                        <div className={styles.timestamp_left}>
+                            <span className={styles.day}>
+                                {day}
+                            </span>
+                            <span className={styles.date}>
+                                {date_no}
                             </span>
                         </div>
-                        <div className={styles.gmail}>
-                            <Image src={"avatar.svg"} alt={"clock"} width={16} height={16}></Image>            
+                        <div className={styles.timestamp_right}>
+                            <div className={styles.time}>
+                                <Image src={"clock.svg"} alt={"clock"} width={16} height={16}></Image>            
+                                <span>
+                                    {time}
+                                </span>
+                            </div>
+                            <div className={styles.gmail}>
+                                <Image src={"avatar.svg"} alt={"clock"} width={16} height={16}></Image>            
+                                <span>
+                                    {email}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.thumnail}>
+                        <div className={styles.what}>
+                            <TruncateTools items={items}></TruncateTools>
+                        </div>
+                            <AvataGroup imageList={imageList} max={5}></AvataGroup>
+                    </div>
+                    </div>
+                <div className={styles.status} >
+                    <StatusBadge status={transaction.status}></StatusBadge>
+                    <div className={styles.timestamp_right_toggle}>
+                        <Image src={"info.svg"} 
+                            alt={"info.svg"} 
+                            width={30} height={30} 
+                            className={styles.timestamp_right_toggle_image}
+                            key={`${time}`}
+                            onClick={() => {setOpen(!open); }}>
+                        </Image>            
+                        <div className={`${styles.timestamp_right_hidden}${open ? "_active" : ""}`}>
+                            <span>
+                                {time}           
+                            </span>
                             <span>
                                 {email}
                             </span>
                         </div>
-                    </div>
+                    </div>            
                 </div>
-                <div className={styles.thumnail}>
-                    <div className={styles.what}>
-                        <TruncateTools items={items}></TruncateTools>
-                    </div>
-                        <AvataGroup imageList={imageList} max={5}></AvataGroup>
-                </div>
-                <div className={styles.status} >
-                <StatusBadge status={transaction.status}></StatusBadge>
-                </div>
-                <div className={styles.timestamp_right_toggle}>
-                    <Image src={"info.svg"} 
-                        alt={"info.svg"} 
-                        width={30} height={30} 
-                        className={styles.timestamp_right_toggle_image}
-                        onClick={() => {setShowHiddenTimestamp(!showHiddenTimestamp); }}>
-                    </Image>            
-                    <div className={`${styles.timestamp_right_hidden}${showHiddenTimestamp ? "_active" : ""}`}>
-                        <span>
-                            {time}           
-                        </span>
-                        <span>
-                            {email}
-                        </span>
-                    </div>
-                </div>            
             </div>
-            {showHiddenTimestamp && (
-            <div className={styles.unfocus_overlay} onClick={() => setShowHiddenTimestamp(!showHiddenTimestamp)}></div>)}
+            {open && (
+            <div className={styles.unfocus_overlay} onClick={() => setOpen(!open)}></div>)}
         </>
     );
 };

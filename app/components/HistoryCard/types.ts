@@ -12,8 +12,6 @@ interface Transaction {
 }
 
 interface HistoryCard {
-    showHiddenTimestamp: boolean;
-    setShowHiddenTimestamp: (value: boolean) => void;
     transaction: Transaction;
     email:string
 }
