@@ -9,17 +9,28 @@ interface Items {
     items: Item[]
 }
 
-function truncateString(str: string, max: number ) {
-    if (str.length <= max) return str;
-    return str.slice(0, max) + "...";
+
+function truncateToolName(tool:Item[], max:number): string {
+    let result = "";
+    for (let i = 0; i < tool.length; i++) {
+        const itemString = `${tool[i].title}*${tool[i].quantity}`;
+        const separator = result.length === 0 ? "" : ", ";
+        if (result.length + separator.length + itemString.length > max) {
+            return result + "...";
+        }
+        result += separator + itemString;
+    }
+
+    return result;
 }
 
-function TruncateTools({items}:Items) {
-    const itemString = items.map((item:Item) => `${item.title}*${item.quantity}`).join(", ");
+function TruncateTools({items}:Item[]) {
+    console.log(items)
+    const max:number = 20;
   return(
     <>
         <div className={styles.tooltip}>
-            {truncateString(itemString, 20)}
+            {truncateToolName(items, max)}
             <div className={styles.tooltip_text} >
                 {   
                     items.map((item, index) => 
