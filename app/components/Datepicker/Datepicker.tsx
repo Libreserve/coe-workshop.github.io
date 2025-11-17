@@ -235,7 +235,6 @@ function DatePicker({value, onChange}:DatePicker) {
                                 month={month} 
                                 selectedDate={selectedDate}
                                 onSelect={(day:number) => {
-                                    console.log('same day');
                                     setSelectedDate(new Date(year, month, day));
                                     setView("closed");
                                     setActive(true);
