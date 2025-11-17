@@ -1,3 +1,4 @@
+@use "./../../styles/_breakpoints" as *;
 :global(*) {
     padding: 0;
     margin: 0;
@@ -114,6 +115,30 @@
     font-size: 14.56px;
     opacity: 1;
     background-color: white;
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+        width: 120px;
+        height: 40px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+        width: 120px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+        width: 120px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+        width: 100px;
+        height: 30px;
+        border-radius: 15px;
+    } 
 }
 
 
@@ -205,9 +230,49 @@
 
 
 .placeholder_closed {
+    width: 160;
     opacity: 1;
     pointer-events: none;
     position: static;
+    height: 42;
+    border-radius: 15px;
+    border-width: 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 9px;
+    border: 1px solid  #E1E1E1 ;
+    text-align: center;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14.56px;
+    background-color: white;
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+        width: 120px;
+        height: 40px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+        width: 120px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+        width: 120px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+        width: 100px;
+        height: 30px;
+        border-radius: 15px;
+    }  
 }
 
 .prev_button, .next_button {
