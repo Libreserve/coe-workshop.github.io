@@ -2,6 +2,7 @@ import styles from "@/app/components/AvataGroup/AvatarGroup.module.scss"
 import Image from "next/image"
 
 function AvataGroup({max, imageList}:AvatarGroup) {
+    const rest:number = imageList.length + 1 - max;
     return (
         <>
             <div className={styles.avatar_group}>
@@ -18,15 +19,17 @@ function AvataGroup({max, imageList}:AvatarGroup) {
                         </Image>            
                     </div>
                     )
-                    else if (index === max) return (
-                    <div className={styles.avatar} key={`avatar-${index}`}>
+                    return null;
+                })}
+                {
+                    rest > 0 && (
+                    <div className={styles.avatar} key={`avatar-shrink`}>
                         <div className={styles.avatar_rest}>
-                                +{imageList.length - max + 1}
+                                +{rest}
                         </div>
                     </div>
                     )
-                    return null;
-                })}
+                }
             </div>
         </>
     );
