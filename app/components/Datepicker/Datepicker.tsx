@@ -153,7 +153,6 @@ function DatePicker({value, onChange}:DatePicker) {
 
     //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component  
     return (
-        <div className={styles.wrapper}>
             <div className={styles.datepicker_container}>
                 <div className={`${styles.placeholder}${view === "closed" ? "" : "_closed"}`} 
                     onClick={() => {setView("date")}}>
@@ -282,7 +281,6 @@ function DatePicker({value, onChange}:DatePicker) {
                         </div>
                     </div>
                 </div>
-            </div>
 
         {/* picker undo overlay */}
         { 

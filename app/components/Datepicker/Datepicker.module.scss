@@ -11,7 +11,7 @@
 }
 
 .datepicker_container {
-    position: absolute;
+    position: relative;
     z-index: 996;
     background-color: #E1E1E1;
     display: flex;
@@ -98,7 +98,7 @@
 .placeholder {
     width: 160;
     height: 42;
-    position: absolute;
+    position: static;
     border-radius: 15px;
     border-width: 1px;
     display: flex;
@@ -206,9 +206,9 @@
 
 
 .placeholder_closed {
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
-    position: absolute;
+    position: static;
 }
 
 .prev_button, .next_button {
