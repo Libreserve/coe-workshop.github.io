@@ -156,13 +156,13 @@ function DatePicker({value, onChange}:DatePicker) {
             <div className={styles.datepicker_container}>
                 <div className={`${styles.placeholder}${view === "closed" ? "" : "_closed"}`} 
                     onClick={() => {setView("date")}}>
-                        {/* <Image
+                        <Image
                         src={"calendar.svg"}
                         alt={"calendar"}
                         width={18}
                         height={18}
                         className={styles.placeholder_img}
-                    /> */}
+                    />
                         {
                             !active ? (
                                 <div>
