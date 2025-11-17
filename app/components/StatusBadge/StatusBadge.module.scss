@@ -1,3 +1,4 @@
+@use "./../../styles/_breakpoints" as *;
 .pending {
     display: flex;
     background-color: #FFFEE0;
@@ -15,7 +16,25 @@
     line-height: 100%;
     letter-spacing: 0%;
     color: #D6D157;
-    @media (max-width:480px) {
+    @include respond-to-max(lg) {
+        max-width: 128px;
+        height: 43px;
+        border-radius: 23px;
+        font-size: 17px;
+    }
+    @include respond-to-max(md) {
+        max-width: 110px;
+        height: 38px;
+        border-radius: 20px;
+        font-size: 15px;
+    }
+    @include respond-to-max(sm) {
+        max-width: 90px;
+        height: 30px;
+        border-radius: 16px;
+        font-size: 12px;
+    }
+    @include respond-to-max(xs) {
         width: 72;
         height: 23.08133888244629;
         border-radius: 12.49px;
@@ -27,8 +46,8 @@
 .doing {
     display: flex;
     background-color: #57BCD626;
-    max-width: 144px;
-    max-height: 46px;
+    width: 144px;
+    height: 46px;
     padding: 10px 10px;
     justify-content: center;
     align-items: center;
@@ -41,7 +60,25 @@
     line-height: 100%;
     letter-spacing: 0%;
     color: #57BCD6;
-    @media (max-width:480px) {
+    @include respond-to-max(lg) {
+        max-width: 128px;
+        height: 43px;
+        border-radius: 23px;
+        font-size: 17px;
+    }
+    @include respond-to-max(md) {
+        max-width: 110px;
+        height: 38px;
+        border-radius: 20px;
+        font-size: 15px;
+    }
+    @include respond-to-max(sm) {
+        max-width: 90px;
+        height: 30px;
+        border-radius: 16px;
+        font-size: 12px;
+    }
+    @include respond-to-max(xs) {
         width: 72;
         height: 23.08133888244629;
         border-radius: 12.49px;
@@ -52,8 +89,8 @@
 .rejected {
     display: flex;
     background-color: #D6575726;
-    max-width: 144px;
-    max-height: 46px;
+    width: 144px;
+    height: 46px;
     padding: 10px 10px;
     justify-content: center;
     align-items: center;
@@ -66,7 +103,25 @@
     line-height: 100%;
     letter-spacing: 0%;
     color: #D65757;
-    @media (max-width:480px) {
+    @include respond-to-max(lg) {
+        max-width: 128px;
+        height: 43px;
+        border-radius: 23px;
+        font-size: 17px;
+    }
+    @include respond-to-max(md) {
+        max-width: 110px;
+        height: 38px;
+        border-radius: 20px;
+        font-size: 15px;
+    }
+    @include respond-to-max(sm) {
+        max-width: 90px;
+        height: 30px;
+        border-radius: 16px;
+        font-size: 12px;
+    }
+    @include respond-to-max(xs) {
         width: 72;
         height: 23.08133888244629;
         border-radius: 12.49px;
@@ -77,8 +132,8 @@
 .returned {
     display: flex;
     background-color: #57D67126;
-    max-width: 144px;
-    max-height: 46px;
+    width: 144px;
+    height: 46px;
     padding: 10px 10px;
     justify-content: center;
     align-items: center;
@@ -91,11 +146,28 @@
     line-height: 100%;
     letter-spacing: 0%;
     color: #57D671;
-    @media (max-width:480px) {
+    @include respond-to-max(lg) {
+        max-width: 128px;
+        height: 43px;
+        border-radius: 23px;
+        font-size: 17px;
+    }
+    @include respond-to-max(md) {
+        max-width: 110px;
+        height: 38px;
+        border-radius: 20px;
+        font-size: 15px;
+    }
+    @include respond-to-max(sm) {
+        max-width: 90px;
+        height: 30px;
+        border-radius: 16px;
+        font-size: 12px;
+    }
+    @include respond-to-max(xs) {
         width: 72;
         height: 23.08133888244629;
         border-radius: 12.49px;
         font-size: 9.19px;
     }
 }
-
