@@ -22,7 +22,7 @@ function DropDown({ value, onChange }: DropDown) {
           }}
         >
           <div>{ getStateInThai[selected as Status] || "Pick Value"}</div>
-          <Image src={"arrow2.svg"} alt={""} width={20} height={20}></Image>
+          <Image src={"arrow2.svg"} alt={""} width={20} height={20} className={styles.link_image}></Image>
         </button>
         <div className={`${styles.dropdown_menu}${active ? "_active" : ""}`}>
           {states.map((state, index) => {
@@ -42,6 +42,13 @@ function DropDown({ value, onChange }: DropDown) {
           })}
         </div>
       </div>
+      {
+        active && (
+          <div className={styles.undo_overlay} onClick={() => setActive(false)}>
+
+          </div>
+        )
+      }
     </>
   );
 }

@@ -1,13 +1,29 @@
 
+@use "./../../styles/_breakpoints" as *;
 .dropdown {
     position: relative;
     border-radius: 15px;
     border: 1px solid  #E1E1E1;
-    // width: fit-content;
-    max-width: 215px;
+    width: 215px;
     height: 42px;
     display: flex;
     flex-direction: row;
+    @include respond-to-max(lg) {
+        width: 130px;
+        height: 33px;
+    }
+    @include respond-to-max(md) {
+        width: 110px;
+        height: 26px;
+    }
+    @include respond-to-max(sm) {
+        width: 90px;
+        height: 21px;
+    }
+    @include respond-to-max(xs) {
+        width: 70px;
+        height: 21px;
+    } 
 }
 
 .link {
@@ -33,9 +49,42 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+        width: 130px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+        width: 110px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+        width: 90px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+        width: 70px;
+    } 
 }
 
+.link_image {
+    @include respond-to-max(lg) {
+        width: 18px;
+        height: 18px;
+    }
+    @include respond-to-max(md) {
+        width: 16px;
+        height: 16px;
+    }
+    @include respond-to-max(sm) {
+        width: 13px;
+        height: 13px;
+    }
+    @include respond-to-max(xs) {
+        width: 10px;
+        height: 10px;
+    }
+}
 .link:hover {
     color: black;
 }   
@@ -56,6 +105,20 @@
     transition: opacity 150ms ease-in-out, transform .15s ease-in-out;
     transform: translateY(-10px);
     pointer-events: none;
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+        width: 50px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+        
+    } 
 }
 
 .dropdown_menu_active {
@@ -72,6 +135,19 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 999;
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+    } 
 }
 
 .item {
@@ -81,6 +157,23 @@
     padding: 2px;
     width: 190px;
     height: 42px;
+    @include respond-to-max(lg) {
+        font-size: 13.5px;
+        width: 120px;
+    }
+    @include respond-to-max(md) {
+        font-size: 12px;
+        width: 100px;
+    }
+    @include respond-to-max(sm) {
+        font-size: 10.5px;
+        width: 70px;
+    }
+    @include respond-to-max(xs) {
+        font-size: 9px;
+        width: 50px;
+
+    } 
 }
 
 .item_selected {
@@ -93,4 +186,13 @@
 
 .item:hover {
     background-color: #D9D9D9B2;
+}
+
+.undo_overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    right: 0;
+    top: 0;
 }
