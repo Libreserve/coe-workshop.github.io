@@ -7,7 +7,6 @@ import Link from "next/link";
 function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches){
     return (
         <div className={styles.item_card}>
-            {/* <img src={item.ImageUrl} alt="tools image" className={styles.item_card_img}/> */}
             <Image
                     src={item.ImageUrl}
                     alt={item.Title}
@@ -25,9 +24,9 @@ function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
                     <div onClick={onDecrease}>
                         -
                     </div>
-                    <div>
+                    <p>
                     {item.Quantity}
-                    </div>
+                    </p>
                     <div onClick={onIncrease}>
                         +
                     </div>
@@ -44,8 +43,11 @@ function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
         </div>
     )
 }
-
+function getDbDateTime(date: Date):string {
+  return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
+}
 // for mock data
+// ก่อนหน้านี้ตอนกดaddลงcartจะประกอบjasonแบบmockdataนี้แล้วเก็บsetItem ลงlocal storage ตัวแปรcart-data
 const mockCartData: UserCart = {
   items: [
     {
@@ -121,10 +123,14 @@ const mockCartData: UserCart = {
   checkoutData: {
   },
 };
+
 localStorage.setItem("cart-data", JSON.stringify(mockCartData));
 
 function cartView(){
     const [userCart, setUserCart] = useState<UserCart>();
+    const [onLoad, setOnLoad] = useState(false);
+    // ใน nextมีcomponentอะไรนะ
+    const [loadingMessage, setLoadingMessage] = useState("LOADING...");
 
     const increaseQuantity = (index: number) => {
         const updateCart = { ...userCart!};
@@ -144,11 +150,62 @@ function cartView(){
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     }
+    // todo ประกอบdata ส่งไป transaction รอรับ response , ดูว่าเราจะเอาgmail user มาไง
+    const getReserveData = () => {
+        const today = new Date();
+        let reservationData:Transaction = {
+            email: "scoopy",
+            status: "pending",
+            startDay: getDbDateTime(today),
+            toolList: userCart?.items?.map((tool) => ({name:tool.Title || "", image: tool.ImageUrl || "", quantity:tool.Quantity || 0})) || [],
+        }
+        return reservationData;
+    }
+
+    async function reserve() {
+        const reservationData = getReserveData();
+        if (reservationData.toolList.length === 0) return;
+        setOnLoad(true);
+        setLoadingMessage("reserving");
+        try {
+            console.log("ยิงapiปิ๋วๆ");
+            // throw new Error("wait");
+            // todo if transaction was success then pop cart-data
+            setUserCart({});
+            const cartData = {checkoutData:{}, items:[]};
+            localStorage.setItem("cart-data", JSON.stringify(cartData));
+        }
+        catch(error) {
+            console.log(error);
+            console.error("ไม่ให้จอง");
+        }
+        setOnLoad(false);
+        setLoadingMessage("Loding");
+    }
+
+    async function fetchData() {
+        setOnLoad(true);
+        try {
+            const cartData = localStorage.getItem("cart-data") || "";
+            if (cartData) setUserCart(JSON.parse(cartData));
+        }
+        catch(error) {
+            console.error("error while fetching cart data ");
+            console.log(error);
+        }
+        setOnLoad(false);
+    }
 
     useEffect(() => {
-            setUserCart(localStorage.getItem("cart-data") ? JSON.parse(localStorage.getItem("cart-data")!) : []);
+            fetchData(); 
         }, [])
     return (
+        <>
+        { onLoad && (
+            <div className={styles.onLoad}>
+                {loadingMessage}
+            </div>
+        ) }
         <div className={styles.cart_view}>
             <div className={styles.cart_view_left}> 
                 <h1 className={styles.cart_view_left_header}>TOOL BOX</h1>
@@ -164,7 +221,7 @@ function cartView(){
                             />
                         ))
                     ) : (
-                        <div>No items in cart</div>
+                        <div className={styles.fackball}>no item in cart...🧐</div>
                     )
                 }
             </div>
@@ -188,13 +245,13 @@ function cartView(){
                                 </div>
                             ))
                         ) : (
-                            <div>No TOOL in cart</div>
+                            <div className={styles.fackball}>what are you waiting🤔 go grab some tool. It's &#8721;ng student's soulmate👊 </div>
                         )
                         }
                     </div>
                 </div>
 
-                <button className={styles.summary_cart_reserve_button}>
+                <button className={styles.summary_cart_reserve_button} onClick={() => reserve()}>
                         Reserve
                 </button>
                 
@@ -203,6 +260,7 @@ function cartView(){
                 </div>
             </div>
         </div>
+        </>
     );
 }
 export default cartView;
