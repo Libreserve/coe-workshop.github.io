@@ -1,9 +1,22 @@
-import React from "react";
-import styles from "./Navbar.module.scss";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./Navbar.module.scss";
+import useDisclosure from "@/app/hook/useDisclosure";
+import ModalContainer from "../Modal/modal";
+import { useEffect } from "react";
 
 function Navbar() {
+  const { opened, handle } = useDisclosure();
+  const clickHere = () => {
+    handle.open;
+    console.log("first");
+  };
+  useEffect(() => {
+    console.log("opened", opened);
+  }, [opened, clickHere]);
+
   return (
     <div className={styles.navbar}>
       <div className={styles.navbar_inner}>
@@ -34,8 +47,19 @@ function Navbar() {
           alt="basket_icon"
           src={"./basket.svg"}
         ></Image>
+        <Image
+          onClick={() => handle.open()}
+          className={styles.action_hamberger}
+          width={120}
+          height={120}
+          alt="hamberger_icon"
+          src={"hamberger.svg"}
+        ></Image>
         <div className={styles.action_button}>let's start</div>
       </div>
+      <ModalContainer opened={opened} onClose={handle.close}>
+        <div></div>
+      </ModalContainer>
     </div>
   );
 }

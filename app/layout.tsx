@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "./styles/globals.scss";
 import Toast from "./components/Toast/Toast";
 import ToastProvider from "./Context/Toast/ToastProvider";
+import Navbar from "./components/Navbar/Navbar";
+
 const geistInter = Inter({
   variable: "--font-Inter",
   subsets: ["latin"],
@@ -22,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistInter.variable} `}>
+        <Navbar></Navbar>
         <ToastProvider>
           <MantineProvider>{children}</MantineProvider>
           <Toast Position="bottom-right"></Toast>
