@@ -1,9 +1,23 @@
+'use client';
 import React from "react";
 import styles from "./Navbar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import {useAuth} from "@/app/Context/AuthContext/AuthContext";
+import {getLoginUrl} from "@/app/lib/api";
 
 function Navbar() {
+    const { user, authenticated, loading, logout } = useAuth();
+
+    const handleLoginClick = () => {
+        window.location.href = getLoginUrl();
+    };
+
+    const handleLogoutClick = async () => {
+        await logout();
+        window.location.reload();
+    };
+
   return (
     <div className={styles.navbar}>
       <div className={styles.navbar_inner}>
@@ -26,10 +40,29 @@ function Navbar() {
           alt="search_icon"
           src={"/search.svg"}
         ></Image>
-        <div className={styles.action_button}>let's start</div>
+          { authenticated && user ? (
+              <div className={styles.user_section}>
+                  <Image
+                      width={32}
+                      height={32}
+                      alt="profile"
+                      src={user.picture}
+                      style={{ borderRadius: '50%' }}
+                  />
+                  <span>{user.name}</span>
+                  <div className={styles.action_button} onClick={handleLogoutClick}>
+                      Logout
+                  </div>
+              </div>
+          ) : (
+              <div className={styles.action_button} onClick={handleLoginClick}>
+                  let's start
+              </div>
+          )}
       </div>
     </div>
   );
 }
+
 
 export default Navbar;
