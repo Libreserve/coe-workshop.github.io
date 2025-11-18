@@ -77,3 +77,20 @@
     gap: 0.5px;
   }
 }
+
+.fall_back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  p {
+    font-size: 14.48px;
+    @include respond-to-max(md) {
+      font-size: 10px;
+    }
+    @include respond-to-max(xs) {
+      font-size: 8.32px;
+    }
+  }
+  height: 70vh;
+}

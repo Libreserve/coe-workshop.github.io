@@ -2,13 +2,15 @@
 import HistoryCard from "../HistoryCard/HistoryCard";
 import DropDown from "../DropDown/DropDown";
 import DatePicker from "../Datepicker/Datepicker";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../AllHistory/AllHistory.module.scss";
-
-const mock_from_api = {
-  email: "kritsada.ba@kkumail.com",
+// pagination and filter รอฝั่งเขียน api 
+// เราต้องเขียนแบบserver and user component ไหมน้า < ไม่หรอกปวดหัว
+const BASE_URL = "http://localhost:8000";
+const mock = {
   transactions: [
     {
+      email: "kritsada.ba@kkumail.com",
       toolList: [
         {
           name: "Arduino",
@@ -27,52 +29,86 @@ const mock_from_api = {
       startDay: "2025-11-17T10:00:00.000Z",
     },
     {
-      toolList: [{ name: "Saw", image: "/saw.png", quantity: 2 }],
+      email: "kritsada.ba@kkumail.com",
+      toolList: [{ name: "Saw", image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png", quantity: 2 }],
       status: "returned",
       startDay: "2025-11-15T14:30:00.000Z",
     },
     {
+      email: "kritsada.ba@kkumail.com",
       toolList: [
-      {
-        name: "Arduino",
-        image:
-          "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-        quantity: 5,
-      },
-      {
-        name: "Hammer",
-        image:
-          "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-        quantity: 1,
-      },
-      {
-        name: "Hammer",
-        image:
-          "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-        quantity: 1,
-      },
-      {
-        name: "Hammer",
-        image:
-          "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-        quantity: 1,
-      },
-      {
-        name: "Hammer",
-        image:
-          "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-        quantity: 1,
-      },
-    ],
-    status: "returned",
-    startDay: "2025-11-16T10:00:00.000Z",
-    }
-  ],
-};
+        {
+          name: "Arduino",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 5,
+        },
+        {
+          name: "Hammer",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 1,
+        },
+        {
+          name: "Hammer",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 1,
+        },
+        {
+          name: "Hammer",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 1,
+        },
+        {
+          name: "Hammer",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 1,
+        },
+      ],
+      status: "returned",
+      startDay: "2025-11-16T10:00:00.000Z",
+    },
+  ]
+}
+// YYYY-MM-DD HH:MM:SS
+function getDbDateTime(date: Date):string {
+  return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
+} 
 
 function AllHistory() {
   const [status, setStatus] = useState<Status | string>("");
-  const email = mock_from_api.email;
+  const [data, setData] = useState<History>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined | string>();
+  // const [page, setPage] = useState<Number>(1);
+  // const [hasMore, setHasMore] = useState(true);
+
+  async function loadData() {
+    const params = new URLSearchParams();
+    // params.append("page", String(page));
+    params.append("limit", String(10));
+    if(selectedDate) params.append("startDay", getDbDateTime(selectedDate));
+    if(status) params.append("status", status);
+    try {
+      const res = await fetch(`${BASE_URL}/history?${params.toString()}`); 
+      const data = await res.json()
+      // if (data.length === 0) setHasMore(false);
+      // connect to prev load 
+      // unfinished
+      setData(data);
+    }
+    catch(error) {
+      setData(mock);
+      console.log(error);
+      console.error("Iter เขีนนapiดีๆ")
+    }
+  };
+  // const email = data?.email || "";
+  
+  useEffect(() => {
+    // setPage(1);
+    // setHasMore(true);
+    // setData({});
+    loadData(); 
+    console.log('change ja changge');
+  }, [status, selectedDate])
   return (
     <div className={styles.container}>
       <div className={styles.table_hearder}>
@@ -86,20 +122,31 @@ function AllHistory() {
         </div>
         <div className={styles.filter}>
           <div className={styles.datepicker}>
-            <DatePicker></DatePicker>
+            <DatePicker
+            value={selectedDate}
+            onChange={(value) => {setSelectedDate(value);}}
+            ></DatePicker>
           </div>
           <div className={styles.status_filter}>
-            <DropDown></DropDown>
+            <DropDown value={status} 
+            onChange={(value) => {
+              setStatus(value as Status); 
+              }}
+            ></DropDown>
           </div>  
         </div>
       </div>
       <div className={styles.table_body}>
         {
-          mock_from_api.transactions.map((transaction, index)=> {
+          data ? (data?.transactions?.map((transaction, index)=> {
             return (
-              <HistoryCard  transaction={transaction as Transaction}  email={email} key={`${index}`}></HistoryCard>
+              <HistoryCard  transaction={transaction as Transaction}  email={transaction.email} key={`${index}`}></HistoryCard>
             )
-          })
+          })) : (
+            <p className={styles.fall_back}>
+              no history available...🗿
+            </p>
+          )
         }
       </div>
     </div>
