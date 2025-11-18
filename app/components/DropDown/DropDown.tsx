@@ -12,6 +12,13 @@ function DropDown({ value, onChange }: DropDown) {
         rejected: "ปฎิเสธ",
         returned: "คืนแล้ว",
     }
+  function handleOnClick(state) {
+    if (state === selected) state = "";
+    setSelected(state);
+    onChange?.(state);
+    setActive(!active);
+  }
+
   return (
     <>
       <div className={styles.dropdown}>
@@ -31,9 +38,7 @@ function DropDown({ value, onChange }: DropDown) {
                 key={`${index}-item`}
                 className={`${styles.item}${state === value ? "_selected" : ""}`}
                 onClick={() => {
-                  setSelected(state);
-                  onChange?.(state);
-                  setActive(!active);
+                  handleOnClick(state);
                 }}
               >
                 {getStateInThai[state as Status]}
