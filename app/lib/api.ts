@@ -1,4 +1,4 @@
-import {AuthResponse} from "@/app/lib/types";
+import {AuthResponse, RegisterData, RegisterResponse} from "@/app/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
@@ -30,6 +30,27 @@ export async function logout(): Promise<void> {
         });
     } catch (error) {
         console.error('Error logging out:', error);
+    }
+}
+
+export async function registerUser(data: RegisterData): Promise<RegisterResponse> {
+    try {
+        const res = await fetch(`${API_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(data),
+        });
+
+        return await res.json();
+    } catch (error) {
+        console.error('Error registering user:', error);
+        return {
+            success: false,
+            error: 'Network error occurred',
+        };
     }
 }
 

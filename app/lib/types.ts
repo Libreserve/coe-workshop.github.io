@@ -1,12 +1,26 @@
 export interface User {
-    googleId: string;
     email: string;
-    name: string;
-    picture: string;
+    isRegistered: boolean;
 }
 
 export interface AuthResponse {
     success: boolean;
     authenticated: boolean;
     user: User | null;
+}
+
+export interface RegisterData {
+    firstName: string;
+    lastName: string;
+}
+
+export interface RegisterResponse {
+    success: boolean;
+    message?: string;
+    error?: string;
+    user?: {
+        email: string;
+        firstName: string;
+        lastName: string;
+    };
 }

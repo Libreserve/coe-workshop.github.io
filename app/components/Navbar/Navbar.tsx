@@ -7,7 +7,7 @@ import {useAuth} from "@/app/Context/AuthContext/AuthContext";
 import {getLoginUrl} from "@/app/lib/api";
 
 function Navbar() {
-    const { user, authenticated, loading, logout } = useAuth();
+    const { user, authenticated,  logout } = useAuth();
 
     const handleLoginClick = () => {
         window.location.href = getLoginUrl();
@@ -41,19 +41,9 @@ function Navbar() {
           src={"/search.svg"}
         ></Image>
           { authenticated && user ? (
-              <div className={styles.user_section}>
-                  <Image
-                      width={32}
-                      height={32}
-                      alt="profile"
-                      src={user.picture}
-                      style={{ borderRadius: '50%' }}
-                  />
-                  <span>{user.name}</span>
                   <div className={styles.action_button} onClick={handleLogoutClick}>
                       Logout
                   </div>
-              </div>
           ) : (
               <div className={styles.action_button} onClick={handleLoginClick}>
                   let's start
