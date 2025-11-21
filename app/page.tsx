@@ -12,19 +12,13 @@ import Interpreting from "@/app/components/Interpreting/interpreting";
 function page() {
   return (
     <div className={styles.landing}>
-        <Navbar></Navbar>
-        <WelcomeText></WelcomeText>
-        <Category></Category>
-        <Guide></Guide>
-        <Discover></Discover>
-        <Popular></Popular>
-        <Interpreting></Interpreting>
-        <Accordion></Accordion>
-        <Toast
-          Variant="success"
-          Title="Success to update"
-          Description=" ReferenceError: Toast is not defined"
-        ></Toast>
+      <WelcomeText></WelcomeText>
+      <Category></Category>
+      <Guide></Guide>
+      <Discover></Discover>
+      <Popular></Popular>
+      <Interpreting></Interpreting>
+      <Accordion></Accordion>
     </div>
   );
 }

@@ -1,41 +1,62 @@
-import React from "react";
-import { ToastProps, VariantStyle } from "./types";
-import Image from "next/image";
-import styles from "./Toast.module.scss";
+"use client";
 
-function Toast({ Title, Description, Variant }: ToastProps) {
+import { useToast } from "@/app/Context/Toast/ToastProvider";
+import { Variant } from "@/app/Context/Toast/types";
+import Image from "next/image";
+import React from "react";
+import styles from "./Toast.module.scss";
+import { positionStyle, ToastProps, VariantStyle, ToastItem } from "./types";
+function Toast({ Position }: ToastProps) {
+  const { toastStack } = useToast();
+
   return (
-    <div className={styles.toast}>
+    <div className={styles.toast_background} style={positionStyle[Position]}>
+      {toastStack.map((t) => (
+        <ToastContent
+          key={t.id}
+          id={t.id}
+          title={t.title}
+          description={t.description}
+          variant={t.variant}
+        ></ToastContent>
+      ))}
+    </div>
+  );
+}
+
+const ToastContent = ({ id, title, description, variant }: ToastItem) => {
+  const { toastStack } = useToast();
+
+  return (
+    <div
+      className={`${styles.toast}  ${
+        !(id == toastStack[toastStack.length - 1].id) && styles.toast_slide
+      }  `}
+    >
       <div className={styles.toast_inner}>
         <div className={styles.content}>
           <Image
             width={50}
             height={50}
-            src={VariantStyle[Variant].icon}
+            src={VariantStyle[variant].icon}
             alt="status"
           ></Image>
           <div className={styles.text}>
-            <h1 className={styles.title}>{Title}</h1>
-            <h2 className={styles.description}>{Description}</h2>
+            <h1 className={styles.title}>{title}</h1>
+            <h2 className={styles.description}>{description}</h2>
           </div>
         </div>
-        <Image
-          width={40}
-          height={40}
-          src={"./Toast/close.svg"}
-          alt="close"
-        ></Image>
       </div>
       <div
         className={styles.progress}
         style={
           {
-            "--primary-color": VariantStyle[Variant].color,
+            "--primary-color": VariantStyle[variant].color,
           } as React.CSSProperties
         }
       ></div>
     </div>
   );
-}
+};
 
 export default Toast;

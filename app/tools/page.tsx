@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "@/app/page.module.scss";
+"use client";
+
 import All_tools from "@/app/components/AllTools/AllTools";
 import Navbar from "@/app/components/Navbar/Navbar";
+import styles from "@/app/page.module.scss";
 function tools() {
   return (
     <div className={styles.landing}>
-      <Navbar></Navbar>
       <All_tools></All_tools>
     </div>
   );

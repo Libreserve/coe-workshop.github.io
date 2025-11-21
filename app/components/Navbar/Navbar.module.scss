@@ -1,8 +1,11 @@
+@use "./../../styles/_breakpoints" as *;
+@use "../../styles/variables" as *;
+
 .navbar {
-  padding-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 15px min(4rem, 5%);
 }
 .navbar_inner {
   display: flex;
@@ -24,18 +27,38 @@
 }
 
 .link {
-  font-size: 0.9rem;
   display: flex;
+  font-size: 0.9rem;
   gap: 15px;
+
+  @include respond-to-max(md) {
+    display: none;
+  }
 }
 
 .action {
   display: flex;
   align-items: center;
   gap: 20px;
-  img {
-    width: 20px;
-    height: 20px;
+  .action_search {
+    width: 22px;
+    height: auto;
+  }
+  .action_basket {
+    width: 27px;
+    height: auto;
+  }
+  .action_hamberger {
+    display: none;
+    width: 27px;
+    height: auto;
+    padding: 2px;
+    border-radius: 4px;
+    height: fit-content;
+    background-color: black;
+    @include respond-to-max(md) {
+      display: block;
+    }
   }
 }
 
@@ -45,4 +68,8 @@
   background-color: black;
   padding: 10px 20px;
   border-radius: 24px;
+
+  @include respond-to-max(md) {
+    display: none;
+  }
 }

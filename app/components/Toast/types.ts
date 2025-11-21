@@ -1,13 +1,80 @@
-type Variant = "success" | "warning" | "error";
+import React from "react";
 
+type Variant = "success" | "warning" | "error";
+type Position =
+  | "top-right"
+  | "top-left"
+  | "top-center"
+  | "center-center"
+  | "bottom-right"
+  | "bottom-left"
+  | "bottom-center";
+
+type CssVarStyle = React.CSSProperties & Record<string, string>;
 export interface ToastProps {
-  Title: string;
-  Description: string;
-  Variant: Variant;
+  Position: Position;
 }
 
-export const VariantStyle = {
+export interface ToastItem {
+  id: number | string;
+  title: string;
+  description: string;
+  variant: Variant;
+}
+
+export const VariantStyle: Record<string, { color: string; icon: string }> = {
   success: { color: "var(--green-400)", icon: "/Toast/success.svg" },
   warning: { color: "var(--green-400)", icon: "/Toast/warning.svg" },
   error: { color: "var(--red-400)", icon: "/Toast/error.svg" },
 } as const;
+
+export const positionStyle: Record<string, CssVarStyle> = {
+  "top-right": {
+    "--top": "0",
+    "--right": "0",
+    "--direction": "column-reverse",
+    "--slide": "-70px",
+    "--fade": "30px",
+    "--in": "translateX(100px)",
+  },
+  "top-left": {
+    "--top": "0",
+    "--left": "0",
+    "--direction": "column-reverse",
+    "--slide": "-70px",
+    "--fade": "-30px",
+    "--in": "translateX(-100px)",
+  },
+  "top-center": {
+    "--top": "0",
+    "--left": "50%",
+    "--direction": "column-reverse",
+    "--slide": "-70px",
+    "--fade": "30px",
+    "--in": "translateY(-100px)",
+    transform: "translateX(-50%)",
+  },
+  "bottom-right": {
+    "--bottom": "0",
+    "--right": "0",
+    "--direction": "column",
+    "--slide": "70px",
+    "--fade": "-30px",
+    "--in": "translateX(100px)",
+  },
+  "bottom-left": {
+    "--bottom": "0",
+    "--left": "0",
+    "--direction": "column",
+    "--out": "70px",
+    "--in": "translateX(-100px)",
+  },
+  "bottom-center": {
+    "--bottom": "0",
+    "--left": "50%",
+    "--direction": "column",
+    "--out": "70px",
+    "--in": "translateY(40px)",
+    transform: "translateX(-50%)",
+  },
+};

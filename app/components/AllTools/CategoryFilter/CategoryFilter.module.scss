@@ -2,17 +2,17 @@
 @use "../../../styles/_breakpoints" as *;
 
 .container {
+  margin: 25px 0;
   display: inline-flex;
   gap: 40px;
-  margin-top: 40px;
-  border-bottom: solid 1px $Gray300;
-  padding: 20px;
+  border-bottom: solid 2px $Gray300;
+  padding: 18px;
   font-weight: 540;
   position: relative;
 
   @include respond-to-max(md) {
     gap: 24px;
-    padding: 16px;
+    padding: 18px;
     margin-top: 24px;
   }
 
