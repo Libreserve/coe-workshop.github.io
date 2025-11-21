@@ -13,6 +13,7 @@ import Footer from "./components/Footer/Footer";
 function page() {
   return (
     <div className={styles.landing}>
+<<<<<<< HEAD
         <Navbar></Navbar>
         <WelcomeText></WelcomeText>
         <Category></Category>
@@ -27,6 +28,15 @@ function page() {
           Description=" ReferenceError: Toast is not defined"
         ></Toast>
         <Footer></Footer>
+=======
+      <WelcomeText></WelcomeText>
+      <Category></Category>
+      <Guide></Guide>
+      <Discover></Discover>
+      <Popular></Popular>
+      <Interpreting></Interpreting>
+      <Accordion></Accordion>
+>>>>>>> origin/main
     </div>
   );
 }
