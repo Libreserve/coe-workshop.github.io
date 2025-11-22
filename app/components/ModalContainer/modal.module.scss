@@ -1,0 +1,23 @@
+@import "../../styles/animations";
+
+.modalContainer {
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+.content {
+  z-index: 4;
+}
+.background {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+  animation: fadeOut 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  z-index: 3;
+}

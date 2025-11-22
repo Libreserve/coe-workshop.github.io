@@ -1,21 +1,19 @@
 "use client";
 
+import useDisclosure from "@/app/hook/useDisclosure";
 import Image from "next/image";
 import Link from "next/link";
+import ModalContainer from "../ModalContainer/modalContainer";
 import styles from "./Navbar.module.scss";
-import useDisclosure from "@/app/hook/useDisclosure";
-import ModalContainer from "../Modal/modal";
-import { useEffect } from "react";
-
+import { MenuMapProps } from "./type";
+import NavSlide from "./navslide";
 function Navbar() {
   const { opened, handle } = useDisclosure();
-  const clickHere = () => {
-    handle.open;
-    console.log("first");
-  };
-  useEffect(() => {
-    console.log("opened", opened);
-  }, [opened, clickHere]);
+  const menuMapProps: MenuMapProps[] = [
+    { title: "Tools", path: "/tools" },
+    { title: "About", path: "/about" },
+    { title: "Report", path: "/path" },
+  ];
 
   return (
     <div className={styles.navbar}>
@@ -25,11 +23,11 @@ function Navbar() {
           <p className={styles.logo_dot}>.W</p>
         </div>
         <div className={styles.link}>
-          <Link href="/tools">
-            <p>Tools</p>
-          </Link>
-          <p>About</p>
-          <p>Report</p>
+          {menuMapProps.map((item, index) => (
+            <Link key={index} href={item.path}>
+              <p>{item.title}</p>
+            </Link>
+          ))}
         </div>
       </div>
       <div className={styles.action}>
@@ -58,7 +56,10 @@ function Navbar() {
         <div className={styles.action_button}>let's start</div>
       </div>
       <ModalContainer opened={opened} onClose={handle.close}>
-        <div></div>
+        <NavSlide
+          menuMapPropsList={menuMapProps}
+          onClose={handle.close}
+        ></NavSlide>
       </ModalContainer>
     </div>
   );
