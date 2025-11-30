@@ -45,7 +45,7 @@ function CategoryBlog({ Cover, Title, Description }: CategoryProps) {
       <div className={styles.category_image_container}>
         <Image
           className={styles.category_image}
-          src={`/category/${Cover}.png`}
+          src={`./category/${Cover}.png`}
           width={500}
           height={500}
           alt={`${Cover}`}
