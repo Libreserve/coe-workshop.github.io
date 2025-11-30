@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
     ],
   },
   output: "export",
-  basePath: "/borrower",
 };
 
 export default nextConfig;
