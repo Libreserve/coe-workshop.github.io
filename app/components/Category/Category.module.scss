@@ -1,17 +1,21 @@
+@use "../../styles/breakpoints" as *;
 .category {
   margin: 20px 0;
 }
 
-.category_image_container {
-  max-width: 450px;
+.category_imageContainer {
+  max-width: 440px;
   height: 220px;
   overflow: hidden;
   margin: 10px 0;
 }
 
 .category_image {
-  width: 100%;
   height: auto;
+  @include respond-to(md) {
+    max-width: 440px;
+    width: auto;
+  }
 }
 //text warper
 .article {
@@ -26,8 +30,12 @@
 }
 
 .blog {
-  display: grid;
+  display: flex;
+  overflow-x: auto;
   gap: 10px;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  @include respond-to(lg) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
