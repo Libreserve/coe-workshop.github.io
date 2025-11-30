@@ -24,11 +24,6 @@ jobs:
       - name: Setup Bun.js - Cache dependencies - Install dependencies
         uses: ./.github/workflows/setup-bun
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
-
       # - name: Run linting
       #   run: bun run lint
 
