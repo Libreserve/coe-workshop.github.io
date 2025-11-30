@@ -29,6 +29,12 @@ jobs:
         with:
           static_site_generator: next
 
+      # - name: Run linting
+      #   run: bun run lint
+
+      # - name: Run type checking
+      #   run: bun run type-check
+
       - name: Build with Next.js
         run: npx next build
 

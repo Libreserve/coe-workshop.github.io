@@ -53,7 +53,7 @@ function Navbar() {
           alt="hamberger_icon"
           src={"hamberger.svg"}
         ></Image>
-        <div className={styles.action_button}>let's start</div>
+        <div className={styles.action_button}>let&apos;s start</div>
       </div>
       <ModalContainer opened={opened} onClose={handle.close}>
         <NavSlide
