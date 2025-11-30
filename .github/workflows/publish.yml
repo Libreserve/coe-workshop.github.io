@@ -38,6 +38,12 @@ jobs:
       - name: Build with Next.js
         run: npx next build
 
+      - name: Debug - List files
+        run: |
+          pwd
+          ls -la
+          ls -la out/ || echo "No out folder found"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
