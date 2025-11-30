@@ -1,14 +1,21 @@
 @use "../../styles/variables" as *;
+@use "../../styles/breakpoints" as *;
+
 .guide {
+  padding: 50px 0;
   display: flex;
+  flex-direction: column;
   gap: 50px;
-  padding: 60px 0;
+  @include respond-to(md) {
+    flex-direction: row;
+    padding: 30px 0;
+  }
 }
 
 .text_title {
   font-weight: 500;
   font-size: 2.2rem;
-  padding: 30px 0 10px 0;
+  padding: 30px 0 20px 0;
 }
 
 .text_description {
@@ -19,25 +26,41 @@
 
 .guide_action {
   display: flex;
-  gap: 40px;
-  flex-grow: 4;
+  overflow-x: auto;
+  @include respond-to(md) {
+    overflow: visible;
+  }
 }
 
 .blog {
-  padding: 0 25px;
-  border-left: 2px solid $sub-300;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  padding-right: 15px;
+  @include respond-to(lg) {
+    flex-direction: column;
+    border-left: 2px solid $sub-300;
+    padding-left: 15px;
+    padding-right: 35px;
+  }
 }
 
 .blog_content {
-  padding: 0 15px;
+  display: flex;
+  gap: 20px;
+  padding-top: 30px;
+
+  @include respond-to(md) {
+    display: flex;
+    justify-content: start;
+  }
 }
 .blog_index {
   font-size: 3rem;
-  padding: 20px 0;
 }
 .blog_title {
+  width: fit-content;
   height: 100px;
-  padding: 15px 0;
 }
 
 .blog_description {

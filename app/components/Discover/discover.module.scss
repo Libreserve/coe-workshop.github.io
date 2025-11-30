@@ -1,8 +1,10 @@
 @use "../../styles/_breakpoints" as *;
 
 .container {
-  margin: 50px 0;
-
+  padding: 20px 0;
+  @include respond-to(md) {
+    padding: 70px 0;
+  }
   h3 {
     font-size: 2rem;
     font-weight: 500;
@@ -20,14 +22,13 @@
   }
 
   .box {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-    @include respond-to-max(xs) {
-      grid-template-columns: 1fr;
-      gap: 15px;
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    @include respond-to(md) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
-
     .detail {
       display: flex;
       flex-direction: column;
@@ -136,4 +137,3 @@
     }
   }
 }
-
