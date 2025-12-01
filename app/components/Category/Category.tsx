@@ -23,7 +23,7 @@ function Category() {
   ];
 
   return (
-    <div className={styles.category}>
+    <div>
       <h4 className={styles.category_title}>Category Tools</h4>
       <div className={styles.blog}>
         {Category_List.map((item, index) => (
@@ -42,7 +42,7 @@ function Category() {
 function CategoryBlog({ Cover, Title, Description }: CategoryProps) {
   return (
     <div className={styles.category}>
-      <div className={styles.category_image_container}>
+      <div className={styles.category_imageContainer}>
         <Image
           className={styles.category_image}
           src={`/category/${Cover}.png`}

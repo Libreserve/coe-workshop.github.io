@@ -17,8 +17,8 @@ function page() {
       <Category></Category>
       <Guide></Guide>
       <Discover></Discover>
-      <Popular></Popular>
-      <Interpreting></Interpreting>
+      {/* <Popular></Popular>
+      <Interpreting></Interpreting> */}
       <Accordion></Accordion>
     </div>
   );

@@ -6,8 +6,9 @@ function StepBlog({ Index, Cover, Title, Description }: StepBlogProps) {
     <div className={styles.blog}>
       <div className={styles.blog_content}>
         <h1 className={styles.blog_index}>{Index}</h1>
-        <h2 className={styles.blog_title}>{Title}</h2>
-        <p className={styles.blog_description}>{Description}</p>
+        <div>
+          <h2 className={styles.blog_title}>{Title}</h2>
+        </div>
       </div>
       <div className={styles.blog_warper}>
         <Image
@@ -54,7 +55,7 @@ function Guide() {
         {stepBlog.map((item, index) => (
           <StepBlog
             key={index}
-            Index={index}
+            Index={index + 1}
             Cover={item.Cover}
             Title={item.Title}
             Description={item.Description}

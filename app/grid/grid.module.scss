@@ -1,0 +1,11 @@
+.blog {
+  background-color: red;
+  padding: 2rem;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  max-width: 1000px; /* หรือเท่ากับจำนวน column * min-width */
+  margin: 0 auto; /* จัดกึ่งกลาง */
+}
