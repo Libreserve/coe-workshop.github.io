@@ -9,7 +9,6 @@ import Toast from "./components/Toast/Toast";
 import Discover from "@/app/components/Discover/discover";
 import Popular from "@/app/components/Popular/popular";
 import Interpreting from "@/app/components/Interpreting/interpreting";
-import Footer from "./components/Footer/Footer";
 function page() {
   return (
     <div className={styles.landing}>
