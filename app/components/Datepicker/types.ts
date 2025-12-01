@@ -1,9 +1,9 @@
-interface DatePicker {
+export interface DatePicker {
     onChange?: (value?:Date | string) => void
     value?: Date | string 
 }
 
-interface CalendarButton{
+export interface CalendarButton{
     disabled: boolean
     idx: number
     text: string
@@ -11,14 +11,14 @@ interface CalendarButton{
     onSelect: () => void
 }
 
-interface DateTable {
+export interface DateTable {
     year: number
     month: number
     selectedDate: Date
     onSelect: (date:number) => void  
 }
 
-interface MonthTable {
+export interface MonthTable {
     months: 
         {
             name: string
@@ -29,7 +29,7 @@ interface MonthTable {
     onSelect: (month:number) => void
 }
 
-interface YearTable {
+export  interface YearTable {
     startYear: number
     selectedDate: Date
     onSelect:(year:number) => void

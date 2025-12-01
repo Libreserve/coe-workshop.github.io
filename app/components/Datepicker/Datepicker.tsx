@@ -1,7 +1,8 @@
 'use client'
-import {use, useEffect, useState} from "react";
+import {useState} from "react";
 import styles from "./Datepicker.module.scss"
 import Image from "next/image";
+import type { DatePicker, DateTable, MonthTable, YearTable } from "./types"
 
 const months = [
   { name: "January", abbr: "Jan" },
@@ -106,11 +107,11 @@ function YearTable({startYear, selectedDate, onSelect}:YearTable ) {
     );
 }
 
-function DatePicker({value, onChange}:DatePicker) {
+function DatePicker({onChange}:DatePicker) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [year, setYear] = useState(selectedDate.getFullYear()); 
     const [month, setMonth] = useState(selectedDate.getMonth());
-    const [date, setDate] = useState(selectedDate.getDate());
+    const date = selectedDate.getDate();
     const [century, setCentury] = useState(selectedDate.getFullYear())
     const [view, setView] = useState<"date" | "month" | "year" | "closed">("closed");
     const [active, setActive] = useState(false);

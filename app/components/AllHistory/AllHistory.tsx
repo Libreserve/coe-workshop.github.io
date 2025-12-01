@@ -4,6 +4,7 @@ import DropDown from "../DropDown/DropDown";
 import DatePicker from "../Datepicker/Datepicker";
 import { useState, useEffect } from "react";
 import styles from "../AllHistory/AllHistory.module.scss";
+import type { Transaction, Status, History } from "./types"
 // pagination and filter รอฝั่งเขียน api 
 // เราต้องเขียนแบบserver and user component ไหมน้า < ไม่หรอกปวดหัว
 const BASE_URL = "http://localhost:8000";
@@ -76,7 +77,7 @@ function getDbDateTime(date: Date):string {
 function AllHistory() {
   const [status, setStatus] = useState<Status | string>("");
   const [data, setData] = useState<History>();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined | string>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   // const [page, setPage] = useState<Number>(1);
   // const [hasMore, setHasMore] = useState(true);
 
@@ -95,12 +96,11 @@ function AllHistory() {
       setData(data);
     }
     catch(error) {
-      setData(mock);
+      setData(mock as History);
       console.log(error);
       console.error("Iter เขีนนapiดีๆ")
     }
   };
-  // const email = data?.email || "";
   
   useEffect(() => {
     // setPage(1);
@@ -124,7 +124,7 @@ function AllHistory() {
           <div className={styles.datepicker}>
             <DatePicker
             value={selectedDate}
-            onChange={(value) => {setSelectedDate(value);}}
+            onChange={(value) => {setSelectedDate(value as Date);}}
             ></DatePicker>
           </div>
           <div className={styles.status_filter}>

@@ -1,23 +1,26 @@
 
-interface Tool {
+export interface Tool {
     name: string;
     image: string;
     quantity: number;
 }
 
-interface Transaction {
+export type Status = "pending" | "doing" | "rejected" | "returned";
+
+export interface Transaction {
     toolList: Tool[];
     status: Status;
     startDay: string;
 }
 
-interface HistoryCard {
+export interface HistoryCard {
     transaction: Transaction;
     email:string
 }
 
-interface Item {
+export interface Item {
     title:string,
     quantity: number
 }
-type Items = Item[];
+
+export type Items = Item[];

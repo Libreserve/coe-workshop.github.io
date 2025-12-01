@@ -1,18 +1,20 @@
-interface Transaction {
+export type Status = "pending" | "doing" | "rejected" | "returned";
+
+export interface Transaction {
   status: Status
   startDay: string 
   email: string
   toolList: ToolList
 }
 
-interface Tool {
+export interface Tool {
   name: string 
   image: string 
   quantity: number
 }
 
-type ToolList = Tool[]
+export type ToolList = Tool[]
 
-interface History{
+export interface History{
   transactions: Transaction[]
 }

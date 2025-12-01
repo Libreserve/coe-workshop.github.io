@@ -5,6 +5,7 @@ import TruncateTools from "../TruncateTools/TruncateTools";
 import Image from "next/image";
 import styles from "../HistoryCard/HistoryCard.module.scss";
 import { useState } from "react";
+import type { HistoryCard, Items } from "./types";
 
 function HistoryCard({ transaction, email }: HistoryCard) {
     const [open, setOpen] = useState(false);

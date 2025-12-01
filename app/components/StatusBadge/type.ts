@@ -1,5 +1,5 @@
-type Status = "pending" | "doing" | "rejected" | "returned";
+export type Status = "pending" | "doing" | "rejected" | "returned";
 
-interface StatusBadges {
+export interface StatusBadges {
     status: Status
 }

@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import Image from "next/image";
 import styles from "./CartView.module.scss";
 import Link from "next/link";
+import type { CartItemsMatches, UserCart, Transaction  } from "./type";
 
 function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches){
     return (
@@ -48,86 +49,84 @@ function getDbDateTime(date: Date):string {
 }
 // for mock data
 // ก่อนหน้านี้ตอนกดaddลงcartจะประกอบjasonแบบmockdataนี้แล้วเก็บsetItem ลงlocal storage ตัวแปรcart-data
-const mockCartData: UserCart = {
-  items: [
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
+// const mockCartData: UserCart = {
+//   items: [
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
 
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
 
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
 
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
 
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
-    {
-      Url: "/",
-      ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-      Title: "Wireless Headphones",
-      Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-      Quantity: 1,
-      Available: 35,
-    },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
+//     {
+//       Url: "/",
+//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+//       Title: "Wireless Headphones",
+//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
+//       Quantity: 1,
+//       Available: 35,
+//     },
     
-  ],
-  checkoutData: {
-  },
-};
+//   ],
+// };
 
-localStorage.setItem("cart-data", JSON.stringify(mockCartData));
+// localStorage.setItem("cart-data", JSON.stringify(mockCartData));
 
 function cartView(){
-    const [userCart, setUserCart] = useState<UserCart>();
+    const [userCart, setUserCart] = useState<UserCart | void>();
     const [onLoad, setOnLoad] = useState(false);
     // ใน nextมีcomponentอะไรนะ
     const [loadingMessage, setLoadingMessage] = useState("LOADING...");
@@ -153,7 +152,7 @@ function cartView(){
     // todo ประกอบdata ส่งไป transaction รอรับ response , ดูว่าเราจะเอาgmail user มาไง
     const getReserveData = () => {
         const today = new Date();
-        let reservationData:Transaction = {
+        const reservationData:Transaction = {
             email: "scoopy",
             status: "pending",
             startDay: getDbDateTime(today),
@@ -171,7 +170,7 @@ function cartView(){
             console.log("ยิงapiปิ๋วๆ");
             // throw new Error("wait");
             // todo if transaction was success then pop cart-data
-            setUserCart({});
+            // setUserCart({});
             const cartData = {checkoutData:{}, items:[]};
             localStorage.setItem("cart-data", JSON.stringify(cartData));
         }

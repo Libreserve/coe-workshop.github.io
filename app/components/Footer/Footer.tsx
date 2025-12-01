@@ -46,20 +46,20 @@ function Footer() {
     ]
 
 // link via logo, unfinished logo issue
-    const left_contact = {
-        github: {
-            image: "GitHub",
-            url: "https://github.com/yourusername"
-        },
-        facebook: {
-            image : "Facebook",
-            url: "https://facebook.com/yourpage"
-        },
-        gmail: {
-            image: "Email Us",
-            url: "mailto:youremail@gmail.com"
-        }
-    };
+    // const left_contact = {
+    //     github: {
+    //         image: "GitHub",
+    //         url: "https://github.com/yourusername"
+    //     },
+    //     facebook: {
+    //         image : "Facebook",
+    //         url: "https://facebook.com/yourpage"
+    //     },
+    //     gmail: {
+    //         image: "Email Us",
+    //         url: "mailto:youremail@gmail.com"
+    //     }
+    // };
 
   return (
     <div className={styles.blog}>
