@@ -22,7 +22,7 @@ const NavSlide = ({ menuMapPropsList, onClose }: navSlideProps) => {
         ))}
       </div>
       <div>
-        <p className={styles.navSlide_auth}>Let's Start</p>
+        <p className={styles.navSlide_auth}>Let&apos;s Start</p>
       </div>
     </div>
   );
