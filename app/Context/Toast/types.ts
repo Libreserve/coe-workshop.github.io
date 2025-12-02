@@ -2,18 +2,6 @@ import React from "react";
 
 export type Variant = "success" | "warning" | "error";
 
-type Position =
-  | "top-right"
-  | "top-left"
-  | "top-center"
-  | "center-right"
-  | "center-right"
-  | "center-left"
-  | "center-center"
-  | "bottom-right"
-  | "bottom-left"
-  | "bottom-center";
-
 type CssVarStyle = React.CSSProperties & Record<string, string>;
 
 export const VariantStyle: Record<string, { color: string; icon: string }> = {

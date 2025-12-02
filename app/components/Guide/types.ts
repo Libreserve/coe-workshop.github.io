@@ -1,4 +1,4 @@
-interface StepBlogProps {
+export interface StepBlogProps {
   Index?: number;
   Cover: string;
   Title: string;
