@@ -1,7 +1,6 @@
-import React from "react";
-import styles from "./Category.module.scss";
 import Image from "next/image";
-import { title } from "process";
+import styles from "./Category.module.scss";
+import { CategoryProps } from "./types";
 
 function Category() {
   const Category_List: CategoryProps[] = [
