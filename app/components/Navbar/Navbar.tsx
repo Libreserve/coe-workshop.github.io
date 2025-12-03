@@ -67,7 +67,6 @@ function Navbar() {
           alt="hamberger_icon"
           src={"hamberger.svg"}
         ></Image>
-        <div className={styles.action_button}>let&apos;s start</div>
         {authenticated && user ? (
           <div className={styles.action_button} onClick={handleLogoutClick}>
             Logout
