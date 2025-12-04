@@ -99,7 +99,7 @@ const AllHistory = () => {
     }
     catch(error) {
       setData(mock as HistoryProps);
-      // console.log(error);
+      console.log(error);
       // console.error("Iter เขีนนapiดีๆ")
     }
   };
