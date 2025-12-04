@@ -7,43 +7,43 @@ import Link from "next/link";
 const Footer = () => {
 
 // adding each link is needed
-    const aboutList = [
-        { 
-            Header: "Pages",
-            Content: [
-                { title: "Home", link: "/" },
-                { title: "Tools", link: "/" },
-                { title: "Basket", link: "/" },
-                { title: "Transaction", link: "/" },
-          ]
-         },
-         {
-            Header: "About",
-            Content: [
-                { title: "Website", link: "/" },
-                { title: "Instructor", link: "/" },
-                { title: "Developer", link: "/" },
-            ]
-         },
-         {
-            Header: "Resources",
-            Content: [
-                { title: "EN KKU", link: "/" },
-                { title: "Blog", link: "/" },
-                { title: "Event", link: "/" },
-                { title: "News", link: "/" },
-            ]
-         },
-         {
-            Header: "Help",
-            Content: [
-                { title: "FAQs", link: "/" },
-                { title: "Reviews", link: "/" },
-                { title: "How it works ", link: "/" },
-                { title: "Report", link: "/" },
-            ]
-         }
-    ]
+    // const aboutList = [
+    //     { 
+    //         Header: "Pages",
+    //         Content: [
+    //             { title: "Home", link: "/" },
+    //             { title: "Tools", link: "/" },
+    //             { title: "Basket", link: "/" },
+    //             { title: "Transaction", link: "/" },
+    //       ]
+    //      },
+    //      {
+    //         Header: "About",
+    //         Content: [
+    //             { title: "Website", link: "/" },
+    //             { title: "Instructor", link: "/" },
+    //             { title: "Developer", link: "/" },
+    //         ]
+    //      },
+    //      {
+    //         Header: "Resources",
+    //         Content: [
+    //             { title: "EN KKU", link: "/" },
+    //             { title: "Blog", link: "/" },
+    //             { title: "Event", link: "/" },
+    //             { title: "News", link: "/" },
+    //         ]
+    //      },
+    //      {
+    //         Header: "Help",
+    //         Content: [
+    //             { title: "FAQs", link: "/" },
+    //             { title: "Reviews", link: "/" },
+    //             { title: "How it works ", link: "/" },
+    //             { title: "Report", link: "/" },
+    //         ]
+    //      }
+    // ]
 
     const aboutListTh = [
         { 

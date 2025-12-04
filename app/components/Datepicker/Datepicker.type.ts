@@ -1,6 +1,6 @@
 export interface DatePickerProps {
-    onChange?: (value?:Date | string) => void
-    value?: Date | string 
+    onChange?: (value?:Date | undefined) => void
+    value?: Date | undefined 
 }
 
 export interface CalendarButtonProps {
@@ -32,4 +32,10 @@ export  interface YearTableProps {
     startYear: number
     selectedDate: Date
     onSelect:(year:number) => void
+}
+export enum ViewMode {
+    DATE = "date",
+    MONTH = "month",
+    YEAR = "year",
+    CLOSED = "closed"
 }

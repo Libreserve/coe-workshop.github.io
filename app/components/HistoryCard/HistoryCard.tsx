@@ -7,7 +7,7 @@ import styles from "../HistoryCard/HistoryCard.module.scss";
 import { useState } from "react";
 import type { HistoryCardProps, ItemsProps } from "./HistoryCard.type";
 
-const HistoryCardProps = ({ transaction, email }: HistoryCardProps) => {
+const HistoryCard = ({ transaction, email }: HistoryCardProps) => {
     const [open, setOpen] = useState(false);
     const date = new Date(transaction.startDay);
     const day = date.toLocaleDateString("en-US", { weekday: "short" });
@@ -82,4 +82,4 @@ const HistoryCardProps = ({ transaction, email }: HistoryCardProps) => {
     );
 };
 
-export default HistoryCardProps;
+export default HistoryCard;

@@ -20,7 +20,6 @@ const DropDown = ({ value, onChange }: DropDownProps) => {
     setSelected(status);
     onChange?.(status);
     setActive(!active);
-    console.log(status)
   }
 
   return (

@@ -1,10 +1,10 @@
 "use client";
-import HistoryCardProps from "../HistoryCard/HistoryCard";
-import DropDownProps from "../DropDown/DropDown";
-import DatePickerProps from "../Datepicker/Datepicker";
+import HistoryCard from "../HistoryCard/HistoryCard";
+import DropDown from "../DropDown/DropDown";
+import DatePicker from "../Datepicker/Datepicker";
 import { useState, useEffect } from "react";
 import styles from "../AllHistory/AllHistory.module.scss";
-import type { TransactionProps, HistoryProps } from "./AllHistory.type"
+import type { HistoryProps } from "./AllHistory.type"
 import { TransactionStatus } from "./AllHistory.type"
 
 // pagination and filter รอฝั่งเขียน api 
@@ -77,8 +77,8 @@ const getDbDateTime = (date: Date):string => {
 } 
 
 const AllHistory = () => {
-  const [status, setStatus] = useState<TransactionStatus | string>("");
-  const [data, setData] = useState<HistoryProps>();
+  const [status, setStatus] = useState<TransactionStatus | undefined>();
+  const [data, setData] = useState<HistoryProps | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   // const [page, setPage] = useState<Number>(1);
   // const [hasMore, setHasMore] = useState(true);
@@ -86,7 +86,7 @@ const AllHistory = () => {
   const loadData = async () => {
     const params = new URLSearchParams();
     // params.append("page", String(page));
-    params.append("limit", String(10));
+    params.append("limit", String(10)); 
     if(selectedDate) params.append("startDay", getDbDateTime(selectedDate));
     if(status) params.append("status", status);
     try {
@@ -95,12 +95,12 @@ const AllHistory = () => {
       // if (data.length === 0) setHasMore(false);
       // connect to prev load 
       // unfinished
-      setData(data);
+      if (data) setData(data);
     }
     catch(error) {
       setData(mock as HistoryProps);
-      console.log(error);
-      console.error("Iter เขีนนapiดีๆ")
+      // console.log(error);
+      // console.error("Iter เขีนนapiดีๆ")
     }
   };
   
@@ -109,7 +109,6 @@ const AllHistory = () => {
     // setHasMore(true);
     // setData({});
     loadData(); 
-    console.log('change ja changge');
   }, [status, selectedDate])
   return (
     <div className={styles.container}>
@@ -124,17 +123,17 @@ const AllHistory = () => {
         </div>
         <div className={styles.filter}>
           <div className={styles.datepicker}>
-            <DatePickerProps
+            <DatePicker
             value={selectedDate}
-            onChange={(value) => {setSelectedDate(value as Date);}}
-            ></DatePickerProps>
+            onChange={(value) => {setSelectedDate(value);}}
+            ></DatePicker>
           </div>
           <div className={styles.status_filter}>
-            <DropDownProps value={status} 
+            <DropDown value={status} 
             onChange={(value) => {
-              setStatus(value as TransactionStatus); 
+              setStatus(value); 
               }}
-            ></DropDownProps>
+            ></DropDown>
           </div>  
         </div>
       </div>
@@ -142,7 +141,7 @@ const AllHistory = () => {
         {
           data ? (data?.transactions?.map((transaction, index)=> {
             return (
-              <HistoryCardProps  transaction={transaction as TransactionProps}  email={transaction.email} key={`${index}`}></HistoryCardProps>
+              <HistoryCard  transaction={transaction}  email={transaction.email} key={`${index}`}></HistoryCard>
             )
           })) : (
             <p className={styles.fall_back}>

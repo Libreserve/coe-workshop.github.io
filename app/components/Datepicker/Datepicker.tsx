@@ -2,7 +2,8 @@
 import {useState} from "react";
 import styles from "./Datepicker.module.scss"
 import Image from "next/image";
-import type { DatePickerProps, DateTableProps, MonthTableProps, YearTableProps } from "./Datepicker.type"
+import type { DatePickerProps, DateTableProps , MonthTableProps , YearTableProps } from "./Datepicker.type"
+import  { ViewMode } from "./Datepicker.type"
 
 const months = [
   { name: "January", abbr: "Jan" },
@@ -28,7 +29,7 @@ const days = [
   { name: "Saturday", abbr: "Sat",ToomAbbr: "S" }
 ];
 
-const DateTableProps = ({year, month, selectedDate, onSelect}:DateTableProps) => {
+const DateTable = ({year, month, selectedDate, onSelect}:DateTableProps) => {
     const prevMonth = new Date(year, month, 0);
     const lastDateOfPrevMonth = prevMonth.getDate();
     const lastDayOfprevMonth = prevMonth.getDay();
@@ -67,7 +68,7 @@ const DateTableProps = ({year, month, selectedDate, onSelect}:DateTableProps) =>
     );
 };
 
-const MonthTableProps = ({months, year,  selectedDate,  onSelect}:MonthTableProps) => {
+const MonthTable = ({months, year,  selectedDate,  onSelect}:MonthTableProps) => {
     return(
         <>
             {
@@ -86,7 +87,7 @@ const MonthTableProps = ({months, year,  selectedDate,  onSelect}:MonthTableProp
     );
 };
 
-const YearTableProps = ({startYear, selectedDate, onSelect}:YearTableProps ) => {
+const YearTable = ({startYear, selectedDate, onSelect}:YearTableProps ) => {
     return (
         <>
             {(() => {
@@ -107,25 +108,25 @@ const YearTableProps = ({startYear, selectedDate, onSelect}:YearTableProps ) => 
     );
 }
 
-const DatePickerProps = ({onChange}:DatePickerProps) => {
+const DatePicker = ({onChange}:DatePickerProps) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [year, setYear] = useState(selectedDate.getFullYear()); 
     const [month, setMonth] = useState(selectedDate.getMonth());
     const date = selectedDate.getDate();
     const [century, setCentury] = useState(selectedDate.getFullYear())
-    const [view, setView] = useState<"date" | "month" | "year" | "closed">("closed");
+    const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
     const [active, setActive] = useState(false);
 
-    const next = (viewMode: string) => {
+    const next = (viewMode: ViewMode) => {
         switch (viewMode) {
-            case "date":
+            case ViewMode.DATE:
                 if (month === 11) setYear(year + 1);
                     setMonth((month + 1) % 12);
                 break;
-            case "month":
+            case ViewMode.MONTH:
                     setYear( year + 1);
                 break;
-            case "year":
+            case ViewMode.YEAR:
                 setCentury(century + 12);
                 break;
             default:
@@ -133,16 +134,16 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
         }
     }
 
-    const prev = (viewMode: string) =>  {
+    const prev = (viewMode: ViewMode) =>  {
         switch (viewMode) {
-            case "date":
+            case ViewMode.DATE:
                 if (month === 0 ) setYear(year - 1) ;
                     setMonth((month - 1 + 12) % 12);
                 break;
-            case "month":
+            case ViewMode.MONTH:
                     setYear( year - 1);
                 break;
-            case "year":
+            case ViewMode.YEAR:
                 setCentury(century - 12);
                 break;
             default:
@@ -153,8 +154,8 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
     //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component  
     return (
             <div className={styles.datepicker_container}>
-                <div className={`${styles.placeholder}${view === "closed" ? "" : "_closed"}`} 
-                    onClick={() => {setView("date")}}>
+                <div className={`${styles.placeholder}${view === ViewMode.CLOSED ? "" : "_closed"}`} 
+                    onClick={() => {setView(ViewMode.DATE)}}>
                         <Image
                         src={"calendar.svg"}
                         alt={"calendar"}
@@ -175,7 +176,7 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
                         }
                 </div>
                 {/* picker */}
-                <div className={`${styles.datepicker}${view !== "closed" ? "" : "_closed"}`} >
+                <div className={`${styles.datepicker}${view !== ViewMode.CLOSED ? "" : "_closed"}`} >
                     <div className={styles.header} >
                         <button className={styles.prev_button} onClick={() => prev(view)} >
                             <Image
@@ -187,18 +188,18 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
                             />
                         </button>
                         <div className={styles.change_table}>  
-                            {view === "date" && (
-                            <div onClick={() => {setView("month")}} >
+                            {view === ViewMode.DATE && (
+                            <div onClick={() => {setView(ViewMode.MONTH)}} >
                                 <div >{months[month].name}</div>
                                 <div>{year}</div>
                             </div>
                             )}
 
-                            {view === "month" && (
-                                <div onClick={() => {setView("year")}}>{year}</div>
+                            {view === ViewMode.MONTH && (
+                                <div onClick={() => {setView(ViewMode.YEAR)}}>{year}</div>
                             )}
 
-                            {view === "year" && (
+                            {view === ViewMode.YEAR && (
                                 <div>{`${century - 6} - ${century + 5}`}</div>
                             )}
                         </div>
@@ -212,13 +213,13 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
                             />
                         </button>
                         <div className={styles.clear} onClick={() => {
-                            onChange?.("");
-                            setView("closed");
+                            onChange?.();
+                            setView(ViewMode.CLOSED);
                             setActive(false);
                         }}>clear</div>
                     </div>
                     {/* date table */}
-                    <div className={`${styles.datepicker_date}${view === "date" ? "" : "_closed"}`}>                        
+                    <div className={`${styles.datepicker_date}${view === ViewMode.DATE ? "" : "_closed"}`}>                        
                         <div className={styles.days}>
                             {
                                 days.map(((d, index) => {
@@ -229,24 +230,24 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
                             }
                         </div>
                         <div className={styles.dates_input}>
-                            <DateTableProps 
+                            <DateTable 
                                 year={year} 
                                 month={month} 
                                 selectedDate={selectedDate}
                                 onSelect={(day:number) => {
                                     setSelectedDate(new Date(year, month, day));
-                                    setView("closed");
+                                    setView(ViewMode.CLOSED);
                                     setActive(true);
                                     onChange?.(selectedDate);
                                 }}>
-                            </DateTableProps>
+                            </DateTable>
                         </div>
                         
                     </div>
                     {/* month table */}                    
-                    <div className={`${styles.datepicker_month}${view === "month" ? "" : "_closed"}`} >
+                    <div className={`${styles.datepicker_month}${view === ViewMode.MONTH ? "" : "_closed"}`} >
                         <div className={styles.month_input}>
-                            <MonthTableProps
+                            <MonthTable
                                 months={months}
                                 year={year}
                                 selectedDate={selectedDate}
@@ -254,38 +255,38 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
                                     setSelectedDate(new Date(year, month, date));
                                     onChange?.(selectedDate); 
                                     setMonth(month)
-                                    setView("date")
+                                    setView(ViewMode.DATE)
                                     setActive(true);
                                 }}
                             >
-                            </MonthTableProps>
+                            </MonthTable>
                         </div>
                     </div>
                     {/* year table */}
-                    <div className={`${styles.datepicker_year}${view === "year" ? "" : "_closed"}`} >
+                    <div className={`${styles.datepicker_year}${view === ViewMode.YEAR ? "" : "_closed"}`} >
                         <div className={styles.year_input}>
-                            <YearTableProps
+                            <YearTable
                                 startYear={century}
                                 selectedDate={selectedDate}
                                 onSelect={(year:number) => {
                                     setSelectedDate(new Date(year, month, date));
                                     onChange?.(selectedDate);
                                     setYear(year);
-                                    setView("month")
+                                    setView(ViewMode.MONTH)
                                     setActive(true);
                                 }}       
                             >
-                            </YearTableProps>
+                            </YearTable>
                         </div>
                     </div>
                 </div>
 
         {/* picker undo overlay */}
         { 
-            !(view === "closed") && (
+            !(view === ViewMode.CLOSED) && (
             <div className={styles.undo_datepicker_overlay}
                 onClick={()=>{
-                setView("closed");
+                setView(ViewMode.CLOSED);
                 }}>
             </div>
         ) 
@@ -294,4 +295,4 @@ const DatePickerProps = ({onChange}:DatePickerProps) => {
     );
 }
 
-export default DatePickerProps;
+export default DatePicker;

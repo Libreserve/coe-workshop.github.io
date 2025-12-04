@@ -48,28 +48,29 @@ const CartItemsAction = ({ item, onIncrease, onDecrease, onRemove }:CartItemsPro
 const getDbDateTime = (date: Date):string => {
   return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
 }
-
-
 const CartView = () => {
-    const [userCart, setUserCart] = useState<UserCartProps | void>();
+    const [userCart, setUserCart] = useState<UserCartProps | undefined>();
     const [onLoad, setOnLoad] = useState(false);
     // ใน nextมีcomponentอะไรนะ
     const [loadingMessage, setLoadingMessage] = useState("LOADING...");
 
     const increaseQuantity = (index: number) => {
-        const updateCart = { ...userCart!};
+        if (!userCart) return;
+        const updateCart = { ...userCart};
         if (updateCart.items[index].quantity < updateCart.items[index].available) updateCart.items[index].quantity += 1;
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     }
     const decreaseQuantity = (index: number) => {
-        const updateCart = { ...userCart!};
+        if (!userCart) return;
+        const updateCart = { ...userCart};
         if (updateCart.items[index].quantity > 1) updateCart.items[index].quantity --;
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     } 
     const removeItem = (index: number) => {
-        const updateCart = { ...userCart!};
+        if (!userCart) return;
+        const updateCart = { ...userCart};
         updateCart.items.splice(index, 1);
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
@@ -110,7 +111,7 @@ const CartView = () => {
     const fetchData = async () => {
         setOnLoad(true);
         try {
-            const cartData = localStorage.getItem("cart-data") || "";
+            const cartData = localStorage.getItem("cart-data") || undefined;
             if (cartData) setUserCart(JSON.parse(cartData));
         }
         catch(error) {
@@ -134,7 +135,7 @@ const CartView = () => {
             <div className={styles.cart_view_left}> 
                 <h1 className={styles.cart_view_left_header}>TOOL BOX</h1>
                 {
-                    userCart?.items && userCart.items.length > 0 ? (
+                    userCart && userCart.items.length > 0 ? (
                         userCart.items.map((item, id) => (
                             <CartItemsAction 
                                 key={id}
@@ -142,7 +143,7 @@ const CartView = () => {
                                 onIncrease={() => {increaseQuantity(id)}}
                                 onDecrease={() => {decreaseQuantity(id)}}
                                 onRemove={() => {removeItem(id)}}
-                            />
+                            ></CartItemsAction>
                         ))
                     ) : (
                         <div className={styles.fackball}>no item in cart...🧐</div>
