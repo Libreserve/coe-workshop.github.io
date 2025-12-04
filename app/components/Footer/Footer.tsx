@@ -7,7 +7,7 @@ import Link from "next/link";
 const Footer = () => {
 
 // adding each link is needed
-    const About_List = [
+    const aboutList = [
         { 
             Header: "Pages",
             Content: [
@@ -45,6 +45,45 @@ const Footer = () => {
          }
     ]
 
+    const aboutListTh = [
+        { 
+            Header: "หน้าเพจ",
+            Content: [
+                { title: "หน้าหลัก", link: "/" },
+                { title: "อุปกรณ์", link: "/" },
+                { title: "ตะกร้า", link: "/" },
+                { title: "รายการ", link: "/" },
+          ]
+         },
+         {
+            Header: "เกี่ยวกับ",
+            Content: [
+                { title: "เว็บไซต์", link: "/" },
+                { title: "ผู้ชี้แนะ", link: "/" },
+                { title: "ผู้พัฒนา", link: "/" },
+            ]
+         },
+         {
+            Header: "แหล่งข้อมูล",
+            Content: [
+                { title: "EN KKU", link: "/" },
+                { title: "บล็อก", link: "/" },
+                { title: "กิจกรรม", link: "/" },
+                { title: "ข่าว", link: "/" },
+            ]
+         },
+         {
+            Header: "ช่วยเหลือ",
+            Content: [
+                { title: "คำถามที่พบบ่อย", link: "/" },
+                { title: "รีวิว", link: "/" },
+                { title: "วิธีใช้งาน", link: "/" },
+                { title: "รายงานปัญหา", link: "/" },
+            ]
+         }
+    ]
+
+
 // link via logo, unfinished logo issue
     // const left_contact = {
     //     github: {
@@ -77,7 +116,7 @@ const Footer = () => {
 
         <div className={styles.right}>
             {
-                About_List.map((item, index) => (
+                aboutListTh.map((item, index) => (
                     <div key={index} className={styles.right_blog}>
                         <div key={`header-${index}`} className={styles.right_heading}>{item.Header}</div>
                         <div className={styles.right_content}>
