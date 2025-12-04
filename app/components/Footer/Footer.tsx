@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 
-function Footer() {
+const Footer = () => {
 
 // adding each link is needed
     const About_List = [

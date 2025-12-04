@@ -7,7 +7,7 @@ import styles from "../HistoryCard/HistoryCard.module.scss";
 import { useState } from "react";
 import type { HistoryCard, Items } from "./types";
 
-function HistoryCard({ transaction, email }: HistoryCard) {
+const HistoryCard = ({ transaction, email }: HistoryCard) => {
     const [open, setOpen] = useState(false);
     const date = new Date(transaction.startDay);
     const day = date.toLocaleDateString("en-US", { weekday: "short" });

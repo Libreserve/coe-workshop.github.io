@@ -1,6 +1,6 @@
 import styles from "../StatusBadge/StatusBadge.module.scss";
 import type { StatusBadges, Status } from "./type";
-function StatusBadge({status}:StatusBadges) {
+const StatusBadge = ({status}:StatusBadges) => {
     const getStateInThai:Record<Status, string> = {
         pending: "รออนุมัติ",
         doing: "ระหว่างใช้",

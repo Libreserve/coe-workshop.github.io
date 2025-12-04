@@ -70,18 +70,18 @@ const mock = {
   ]
 }
 // YYYY-MM-DD HH:MM:SS
-function getDbDateTime(date: Date):string {
+const getDbDateTime = (date: Date):string => {
   return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
 } 
 
-function AllHistory() {
+const AllHistory = () => {
   const [status, setStatus] = useState<Status | string>("");
   const [data, setData] = useState<History>();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   // const [page, setPage] = useState<Number>(1);
   // const [hasMore, setHasMore] = useState(true);
 
-  async function loadData() {
+  const loadData = async () => {
     const params = new URLSearchParams();
     // params.append("page", String(page));
     params.append("limit", String(10));
@@ -154,3 +154,4 @@ function AllHistory() {
 }
 
 export default AllHistory;
+  

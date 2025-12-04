@@ -3,7 +3,7 @@ import {useState } from "react";
 import styles from "./DropDown.module.scss";
 import Image from "next/image";
 import type { Status, DropDown  } from "./types"
-function DropDown({ value, onChange }: DropDown) {
+const DropDown = ({ value, onChange }: DropDown) => {
   const [active, setActive] = useState(false);
   const [selected, setSelected] = useState<Status | string>("");
   const states:Status[] = ["pending", "doing", "rejected", "returned"];
@@ -13,7 +13,7 @@ function DropDown({ value, onChange }: DropDown) {
         rejected: "ปฎิเสธ",
         returned: "คืนแล้ว",
     }
-  function handleOnClick(state: Status) {
+  const handleOnClick = (state: Status) => {
     if (state === selected) {
       setSelected("");
       onChange?.("");

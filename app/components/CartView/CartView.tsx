@@ -5,7 +5,7 @@ import styles from "./CartView.module.scss";
 import Link from "next/link";
 import type { CartItemsMatches, UserCart, Transaction  } from "./type";
 
-function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches){
+const CartItemsAction = ({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches) => {
     return (
         <div className={styles.item_card}>
             <Image
@@ -44,88 +44,12 @@ function CartItemsAction({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
         </div>
     )
 }
-function getDbDateTime(date: Date):string {
+const getDbDateTime = (date: Date):string => {
   return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
 }
-// for mock data
-// ก่อนหน้านี้ตอนกดaddลงcartจะประกอบjasonแบบmockdataนี้แล้วเก็บsetItem ลงlocal storage ตัวแปรcart-data
-// const mockCartData: UserCart = {
-//   items: [
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
 
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
 
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-//     {
-//       Url: "/",
-//       ImageUrl: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-//       Title: "Wireless Headphones",
-//       Description: "Noise-cancelling over-ear headphones with 20h battery life.",
-//       Quantity: 1,
-//       Available: 35,
-//     },
-    
-//   ],
-// };
-
-// localStorage.setItem("cart-data", JSON.stringify(mockCartData));
-
-function cartView(){
+const CartView = () => {
     const [userCart, setUserCart] = useState<UserCart | void>();
     const [onLoad, setOnLoad] = useState(false);
     // ใน nextมีcomponentอะไรนะ
@@ -161,7 +85,7 @@ function cartView(){
         return reservationData;
     }
 
-    async function reserve() {
+    const reserve = async () => {
         const reservationData = getReserveData();
         if (reservationData.toolList.length === 0) return;
         setOnLoad(true);
@@ -182,7 +106,7 @@ function cartView(){
         setLoadingMessage("Loding");
     }
 
-    async function fetchData() {
+    const fetchData = async () => {
         setOnLoad(true);
         try {
             const cartData = localStorage.getItem("cart-data") || "";
@@ -262,4 +186,4 @@ function cartView(){
         </>
     );
 }
-export default cartView;
+export default CartView;

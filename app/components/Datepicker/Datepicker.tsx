@@ -28,7 +28,7 @@ const days = [
   { name: "Saturday", abbr: "Sat",ToomAbbr: "S" }
 ];
 
-function DateTable({year, month, selectedDate, onSelect}:DateTable) {
+const DateTable = ({year, month, selectedDate, onSelect}:DateTable) => {
     const prevMonth = new Date(year, month, 0);
     const lastDateOfPrevMonth = prevMonth.getDate();
     const lastDayOfprevMonth = prevMonth.getDay();
@@ -67,7 +67,7 @@ function DateTable({year, month, selectedDate, onSelect}:DateTable) {
     );
 };
 
-function MonthTable({months, year,  selectedDate,  onSelect}:MonthTable) {
+const MonthTable = ({months, year,  selectedDate,  onSelect}:MonthTable) => {
     return(
         <>
             {
@@ -86,7 +86,7 @@ function MonthTable({months, year,  selectedDate,  onSelect}:MonthTable) {
     );
 };
 
-function YearTable({startYear, selectedDate, onSelect}:YearTable ) {
+const YearTable = ({startYear, selectedDate, onSelect}:YearTable ) => {
     return (
         <>
             {(() => {
@@ -107,7 +107,7 @@ function YearTable({startYear, selectedDate, onSelect}:YearTable ) {
     );
 }
 
-function DatePicker({onChange}:DatePicker) {
+const DatePicker = ({onChange}:DatePicker) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [year, setYear] = useState(selectedDate.getFullYear()); 
     const [month, setMonth] = useState(selectedDate.getMonth());
@@ -116,7 +116,7 @@ function DatePicker({onChange}:DatePicker) {
     const [view, setView] = useState<"date" | "month" | "year" | "closed">("closed");
     const [active, setActive] = useState(false);
 
-    function next(viewMode: string) {
+    const next = (viewMode: string) => {
         switch (viewMode) {
             case "date":
                 if (month === 11) setYear(year + 1);
@@ -125,7 +125,6 @@ function DatePicker({onChange}:DatePicker) {
             case "month":
                     setYear( year + 1);
                 break;
-            // ... more cases
             case "year":
                 setCentury(century + 12);
                 break;
@@ -134,7 +133,7 @@ function DatePicker({onChange}:DatePicker) {
         }
     }
 
-    function prev(viewMode: string) {
+    const prev = (viewMode: string) =>  {
         switch (viewMode) {
             case "date":
                 if (month === 0 ) setYear(year - 1) ;
@@ -143,7 +142,6 @@ function DatePicker({onChange}:DatePicker) {
             case "month":
                     setYear( year - 1);
                 break;
-            // ... more cases
             case "year":
                 setCentury(century - 12);
                 break;

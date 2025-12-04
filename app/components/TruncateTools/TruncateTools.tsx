@@ -10,7 +10,7 @@ interface Items {
 }
 
 
-function truncateToolName(tool:Item[], max:number): string {
+const TruncateToolName = (tool:Item[], max:number): string => {
     let result = "";
     for (let i = 0; i < tool.length; i++) {
         const itemString = `${tool[i].title}*${tool[i].quantity}`;
@@ -24,12 +24,12 @@ function truncateToolName(tool:Item[], max:number): string {
     return result;
 }
 
-function TruncateTools({items}:Items) {
+const TruncateTools = ({items}:Items) => {
     const max:number = 20;
   return(
     <>
         <div className={styles.tooltip}>
-            {truncateToolName(items, max)}
+            {TruncateToolName(items, max)}
             <div className={styles.tooltip_text} >
                 {   
                     items.map((item, index) => 
