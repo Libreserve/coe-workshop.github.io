@@ -7,7 +7,6 @@ export interface CalendarButtonProps {
     disabled: boolean
     idx: number
     text: string
-    cssclass: string
     onSelect: () => void
 }
 
