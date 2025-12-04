@@ -3,21 +3,22 @@ import {useEffect, useState} from "react";
 import Image from "next/image";
 import styles from "./CartView.module.scss";
 import Link from "next/link";
-import type { CartItemsMatches, UserCart, Transaction  } from "./type";
+import type { CartItemsProps, UserCartProps, TransactionProps,  } from "./CartView.type";
+import { TransactionStatus  } from "./CartView.type";
 
-const CartItemsAction = ({ item, onIncrease, onDecrease, onRemove }:CartItemsMatches) => {
+const CartItemsAction = ({ item, onIncrease, onDecrease, onRemove }:CartItemsProps) => {
     return (
         <div className={styles.item_card}>
             <Image
-                    src={item.ImageUrl}
-                    alt={item.Title}
+                    src={item.imageUrl}
+                    alt={item.title}
                     width={100}
                     height={100}
                     className={styles.item_card_img}
                 />
             <div className={styles.item_card_details}>
-                <Link href={item.Url} className={styles.item_card_details_title}>{item.Title}</Link>
-                <div className={styles.item_card_details_description }>{item.Description}</div>
+                <Link href={item.url} className={styles.item_card_details_title}>{item.title}</Link>
+                <div className={styles.item_card_details_description }>{item.description}</div>
                 
             </div>
             <div className={styles.item_card_buttons_group}>
@@ -26,7 +27,7 @@ const CartItemsAction = ({ item, onIncrease, onDecrease, onRemove }:CartItemsMat
                         -
                     </div>
                     <p>
-                    {item.Quantity}
+                    {item.quantity}
                     </p>
                     <div onClick={onIncrease}>
                         +
@@ -50,20 +51,20 @@ const getDbDateTime = (date: Date):string => {
 
 
 const CartView = () => {
-    const [userCart, setUserCart] = useState<UserCart | void>();
+    const [userCart, setUserCart] = useState<UserCartProps | void>();
     const [onLoad, setOnLoad] = useState(false);
     // ใน nextมีcomponentอะไรนะ
     const [loadingMessage, setLoadingMessage] = useState("LOADING...");
 
     const increaseQuantity = (index: number) => {
         const updateCart = { ...userCart!};
-        if (updateCart.items[index].Quantity < updateCart.items[index].Available) updateCart.items[index].Quantity += 1;
+        if (updateCart.items[index].quantity < updateCart.items[index].available) updateCart.items[index].quantity += 1;
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     }
     const decreaseQuantity = (index: number) => {
         const updateCart = { ...userCart!};
-        if (updateCart.items[index].Quantity > 1) updateCart.items[index].Quantity --;
+        if (updateCart.items[index].quantity > 1) updateCart.items[index].quantity --;
         setUserCart(updateCart);
         localStorage.setItem("cart-data", JSON.stringify(updateCart));
     } 
@@ -76,11 +77,11 @@ const CartView = () => {
     // todo ประกอบdata ส่งไป transaction รอรับ response , ดูว่าเราจะเอาgmail user มาไง
     const getReserveData = () => {
         const today = new Date();
-        const reservationData:Transaction = {
+        const reservationData:TransactionProps = {
             email: "scoopy",
-            status: "pending",
+            status: TransactionStatus.PENDING,
             startDay: getDbDateTime(today),
-            toolList: userCart?.items?.map((tool) => ({name:tool.Title || "", image: tool.ImageUrl || "", quantity:tool.Quantity || 0})) || [],
+            toolList: userCart?.items?.map((tool) => ({name:tool.title || "", image: tool.imageUrl || "", quantity:tool.quantity || 0})) || [],
         }
         return reservationData;
     }
@@ -160,10 +161,10 @@ const CartView = () => {
                             userCart.items.map((item, id) => (
                                 <div className={styles.summary_cart_table_item} key={id}>
                                     <div>
-                                        {item.Title}
+                                        {item.title}
                                     </div>
                                     <div>
-                                        *{item.Quantity}
+                                        *{item.quantity}
                                     </div>
                                 </div>
                             ))

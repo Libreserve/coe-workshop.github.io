@@ -1,30 +1,36 @@
-export interface item {
-        Url: string;
-        ImageUrl: string;
-        Title: string;
-        Description: string;
-        Quantity: number;
-        Available: number;
+export interface ItemProps {
+        url: string;
+        imageUrl: string;
+        title: string;
+        description: string;
+        quantity: number;
+        available: number;
 }
-export interface UserCart {
-  items: item[];
+export interface UserCartProps {
+  items: ItemProps[];
 }
-export interface CartItemsMatches {
-    item: item;
+export interface CartItemsProps {
+    item: ItemProps;
     onIncrease: () => void;
     onDecrease: () => void;
     onRemove: () => void;
 }
 
-export interface Tool {
+export interface ToolProps {
     name: string;
     image: string;
     quantity: number;
 }
-export type Status = "pending" | "doing" | "rejected" | "returned";
-export interface Transaction {
+export enum TransactionStatus {
+  PENDING = "pending",
+  DOING = "doing",
+  REJECTED = "rejected",
+  RETURNED = "returned",
+}
+
+export interface TransactionProps {
     email: string;
-    toolList: Tool[];
-    status: Status;
+    toolList: ToolProps[];
+    status: TransactionStatus;
     startDay: string;
 }

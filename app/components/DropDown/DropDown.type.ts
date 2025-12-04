@@ -1,6 +1,11 @@
-export interface DropDown {
-     onChange?: (value?: string | void) => void;
-     value?: string 
+export interface DropDownProps {
+     onChange?: (value?: TransactionStatus | undefined) => void;
+     value?: TransactionStatus | undefined
 }
 
-export type Status = "pending" | "doing" | "rejected" | "returned" ;
+export enum TransactionStatus {
+  PENDING = "pending",
+  DOING = "doing",
+  REJECTED = "rejected",
+  RETURNED = "returned",
+}

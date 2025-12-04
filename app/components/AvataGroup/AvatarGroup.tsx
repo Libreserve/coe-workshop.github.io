@@ -1,8 +1,8 @@
 import styles from "@/app/components/AvataGroup/AvatarGroup.module.scss"
 import Image from "next/image"
-import { AvatarGroup } from "./types";
+import type { AvatarGroupProps } from "./AvatarGroup.type";
 
-const AvataGroup = ({max, imageList}:AvatarGroup) =>  {
+const AvataGroup = ({max, imageList}:AvatarGroupProps) =>  {
     const rest:number = imageList.length + 1 - max;
     return (
         <>

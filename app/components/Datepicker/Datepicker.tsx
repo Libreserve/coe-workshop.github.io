@@ -2,7 +2,7 @@
 import {useState} from "react";
 import styles from "./Datepicker.module.scss"
 import Image from "next/image";
-import type { DatePicker, DateTable, MonthTable, YearTable } from "./types"
+import type { DatePickerProps, DateTableProps, MonthTableProps, YearTableProps } from "./Datepicker.type"
 
 const months = [
   { name: "January", abbr: "Jan" },
@@ -28,7 +28,7 @@ const days = [
   { name: "Saturday", abbr: "Sat",ToomAbbr: "S" }
 ];
 
-const DateTable = ({year, month, selectedDate, onSelect}:DateTable) => {
+const DateTableProps = ({year, month, selectedDate, onSelect}:DateTableProps) => {
     const prevMonth = new Date(year, month, 0);
     const lastDateOfPrevMonth = prevMonth.getDate();
     const lastDayOfprevMonth = prevMonth.getDay();
@@ -67,7 +67,7 @@ const DateTable = ({year, month, selectedDate, onSelect}:DateTable) => {
     );
 };
 
-const MonthTable = ({months, year,  selectedDate,  onSelect}:MonthTable) => {
+const MonthTableProps = ({months, year,  selectedDate,  onSelect}:MonthTableProps) => {
     return(
         <>
             {
@@ -86,7 +86,7 @@ const MonthTable = ({months, year,  selectedDate,  onSelect}:MonthTable) => {
     );
 };
 
-const YearTable = ({startYear, selectedDate, onSelect}:YearTable ) => {
+const YearTableProps = ({startYear, selectedDate, onSelect}:YearTableProps ) => {
     return (
         <>
             {(() => {
@@ -107,7 +107,7 @@ const YearTable = ({startYear, selectedDate, onSelect}:YearTable ) => {
     );
 }
 
-const DatePicker = ({onChange}:DatePicker) => {
+const DatePickerProps = ({onChange}:DatePickerProps) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [year, setYear] = useState(selectedDate.getFullYear()); 
     const [month, setMonth] = useState(selectedDate.getMonth());
@@ -229,7 +229,7 @@ const DatePicker = ({onChange}:DatePicker) => {
                             }
                         </div>
                         <div className={styles.dates_input}>
-                            <DateTable 
+                            <DateTableProps 
                                 year={year} 
                                 month={month} 
                                 selectedDate={selectedDate}
@@ -239,14 +239,14 @@ const DatePicker = ({onChange}:DatePicker) => {
                                     setActive(true);
                                     onChange?.(selectedDate);
                                 }}>
-                            </DateTable>
+                            </DateTableProps>
                         </div>
                         
                     </div>
                     {/* month table */}                    
                     <div className={`${styles.datepicker_month}${view === "month" ? "" : "_closed"}`} >
                         <div className={styles.month_input}>
-                            <MonthTable
+                            <MonthTableProps
                                 months={months}
                                 year={year}
                                 selectedDate={selectedDate}
@@ -258,13 +258,13 @@ const DatePicker = ({onChange}:DatePicker) => {
                                     setActive(true);
                                 }}
                             >
-                            </MonthTable>
+                            </MonthTableProps>
                         </div>
                     </div>
                     {/* year table */}
                     <div className={`${styles.datepicker_year}${view === "year" ? "" : "_closed"}`} >
                         <div className={styles.year_input}>
-                            <YearTable
+                            <YearTableProps
                                 startYear={century}
                                 selectedDate={selectedDate}
                                 onSelect={(year:number) => {
@@ -275,7 +275,7 @@ const DatePicker = ({onChange}:DatePicker) => {
                                     setActive(true);
                                 }}       
                             >
-                            </YearTable>
+                            </YearTableProps>
                         </div>
                     </div>
                 </div>
@@ -294,4 +294,4 @@ const DatePicker = ({onChange}:DatePicker) => {
     );
 }
 
-export default DatePicker;
+export default DatePickerProps;

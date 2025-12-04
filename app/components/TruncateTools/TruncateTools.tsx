@@ -1,8 +1,8 @@
 import styles from "@/app/components/TruncateTools/TruncateTools.module.scss";
-import type { Item, Items } from "./TruncateTools.type";
+import type { ItemProps, ItemsProps } from "./TruncateTools.type";
 
 
-const TruncateToolName = (tool:Item[], max:number): string => {
+const TruncateToolName = (tool:ItemProps[], max:number): string => {
     let result = "";
     for (let i = 0; i < tool.length; i++) {
         const itemString = `${tool[i].title}*${tool[i].quantity}`;
@@ -16,7 +16,7 @@ const TruncateToolName = (tool:Item[], max:number): string => {
     return result;
 }
 
-const TruncateTools = ({items}:Items) => {
+const TruncateTools = ({items}:ItemsProps) => {
     const max:number = 20;
   return(
     <>

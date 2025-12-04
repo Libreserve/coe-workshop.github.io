@@ -1,4 +1,4 @@
-export interface AvatarGroup {
+export interface AvatarGroupProps {
     max:number
     imageList:string[]
 }

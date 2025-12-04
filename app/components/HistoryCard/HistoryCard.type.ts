@@ -1,26 +1,31 @@
 
-export interface Tool {
+export interface ToolProps {
     name: string;
     image: string;
     quantity: number;
 }
 
-export type Status = "pending" | "doing" | "rejected" | "returned";
+export enum TransactionStatus {
+  PENDING = "pending",
+  DOING = "doing",
+  REJECTED = "rejected",
+  RETURNED = "returned",
+}
 
-export interface Transaction {
-    toolList: Tool[];
-    status: Status;
+export interface TransactionProps {
+    toolList: ToolProps[];
+    status: TransactionStatus;
     startDay: string;
 }
 
-export interface HistoryCard {
-    transaction: Transaction;
+export interface HistoryCardProps {
+    transaction: TransactionProps;
     email:string
 }
 
-export interface Item {
+export interface ItemProps {
     title:string,
     quantity: number
 }
 
-export type Items = Item[];
+export type ItemsProps = ItemProps[];

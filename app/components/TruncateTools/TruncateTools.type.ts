@@ -1,8 +1,7 @@
-export interface Item {
+export interface ItemProps {
     title:string,
     quantity: number
 }
-// type Items = Item[];
-export interface Items {
-    items: Item[]
+export interface ItemsProps {
+    items: ItemProps[]
 }

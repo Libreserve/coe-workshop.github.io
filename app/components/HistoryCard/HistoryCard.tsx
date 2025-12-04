@@ -5,14 +5,14 @@ import TruncateTools from "../TruncateTools/TruncateTools";
 import Image from "next/image";
 import styles from "../HistoryCard/HistoryCard.module.scss";
 import { useState } from "react";
-import type { HistoryCard, Items } from "./types";
+import type { HistoryCardProps, ItemsProps } from "./HistoryCard.type";
 
-const HistoryCard = ({ transaction, email }: HistoryCard) => {
+const HistoryCardProps = ({ transaction, email }: HistoryCardProps) => {
     const [open, setOpen] = useState(false);
     const date = new Date(transaction.startDay);
     const day = date.toLocaleDateString("en-US", { weekday: "short" });
     const date_no = date.getDate();
-    const items: Items = [];
+    const items: ItemsProps = [];
     const imageList: string[] = [];
     const time = date.toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit", hour12:false});
 
@@ -82,4 +82,4 @@ const HistoryCard = ({ transaction, email }: HistoryCard) => {
     );
 };
 
-export default HistoryCard;
+export default HistoryCardProps;

@@ -1,10 +1,12 @@
 "use client";
-import HistoryCard from "../HistoryCard/HistoryCard";
-import DropDown from "../DropDown/DropDown";
-import DatePicker from "../Datepicker/Datepicker";
+import HistoryCardProps from "../HistoryCard/HistoryCard";
+import DropDownProps from "../DropDown/DropDown";
+import DatePickerProps from "../Datepicker/Datepicker";
 import { useState, useEffect } from "react";
 import styles from "../AllHistory/AllHistory.module.scss";
-import type { Transaction, Status, History } from "./types"
+import type { TransactionProps, HistoryProps } from "./AllHistory.type"
+import { TransactionStatus } from "./AllHistory.type"
+
 // pagination and filter รอฝั่งเขียน api 
 // เราต้องเขียนแบบserver and user component ไหมน้า < ไม่หรอกปวดหัว
 const BASE_URL = "http://localhost:8000";
@@ -75,8 +77,8 @@ const getDbDateTime = (date: Date):string => {
 } 
 
 const AllHistory = () => {
-  const [status, setStatus] = useState<Status | string>("");
-  const [data, setData] = useState<History>();
+  const [status, setStatus] = useState<TransactionStatus | string>("");
+  const [data, setData] = useState<HistoryProps>();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   // const [page, setPage] = useState<Number>(1);
   // const [hasMore, setHasMore] = useState(true);
@@ -96,7 +98,7 @@ const AllHistory = () => {
       setData(data);
     }
     catch(error) {
-      setData(mock as History);
+      setData(mock as HistoryProps);
       console.log(error);
       console.error("Iter เขีนนapiดีๆ")
     }
@@ -122,17 +124,17 @@ const AllHistory = () => {
         </div>
         <div className={styles.filter}>
           <div className={styles.datepicker}>
-            <DatePicker
+            <DatePickerProps
             value={selectedDate}
             onChange={(value) => {setSelectedDate(value as Date);}}
-            ></DatePicker>
+            ></DatePickerProps>
           </div>
           <div className={styles.status_filter}>
-            <DropDown value={status} 
+            <DropDownProps value={status} 
             onChange={(value) => {
-              setStatus(value as Status); 
+              setStatus(value as TransactionStatus); 
               }}
-            ></DropDown>
+            ></DropDownProps>
           </div>  
         </div>
       </div>
@@ -140,7 +142,7 @@ const AllHistory = () => {
         {
           data ? (data?.transactions?.map((transaction, index)=> {
             return (
-              <HistoryCard  transaction={transaction as Transaction}  email={transaction.email} key={`${index}`}></HistoryCard>
+              <HistoryCardProps  transaction={transaction as TransactionProps}  email={transaction.email} key={`${index}`}></HistoryCardProps>
             )
           })) : (
             <p className={styles.fall_back}>

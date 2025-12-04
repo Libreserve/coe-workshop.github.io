@@ -1,5 +1,9 @@
-export type Status = "pending" | "doing" | "rejected" | "returned";
-
-export interface StatusBadges {
-    status: Status
+export enum TransactionStatus {
+  PENDING = "pending",
+  DOING = "doing",
+  REJECTED = "rejected",
+  RETURNED = "returned",
+}
+export interface StatusBadgesProps {
+    status: TransactionStatus
 }
