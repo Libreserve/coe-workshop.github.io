@@ -1,13 +1,5 @@
 import styles from "@/app/components/TruncateTools/TruncateTools.module.scss";
-
-interface Item {
-    title:string,
-    quantity: number
-}
-// type Items = Item[];
-interface Items {
-    items: Item[]
-}
+import type { Item, Items } from "./TruncateTools.type";
 
 
 const TruncateToolName = (tool:Item[], max:number): string => {
