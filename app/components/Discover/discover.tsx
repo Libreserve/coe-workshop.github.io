@@ -1,7 +1,7 @@
 import styles from "@/app/components/Discover/discover.module.scss";
 import Image from "next/image";
-import React from "react";
 import Link from "next/link";
+import { BlogProps } from "./type";
 
 function Blog({ Cover, Title, Url }: BlogProps) {
   return (

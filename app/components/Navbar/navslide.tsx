@@ -1,8 +1,7 @@
-import { navSlideProps } from "./type";
-import styles from "./Navbar.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { useDisclosure } from "@mantine/hooks";
+import styles from "./Navbar.module.scss";
+import { navSlideProps } from "./type";
 const NavSlide = ({ menuMapPropsList, onClose }: navSlideProps) => {
   return (
     <div className={styles.navSlide}>

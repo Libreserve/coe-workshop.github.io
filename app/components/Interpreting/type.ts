@@ -1,5 +1,5 @@
-interface InterProps {
-    Cover: string;
-    Title: string;
-    Description: string;
+export interface InterProps {
+  Cover: string;
+  Title: string;
+  Description: string;
 }

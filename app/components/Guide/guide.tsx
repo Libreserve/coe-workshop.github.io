@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./guide.module.scss";
 import Image from "next/image";
-function StepBlog({ Index, Cover, Title, Description }: StepBlogProps) {
+import styles from "./guide.module.scss";
+import { StepBlogProps } from "./types";
+function StepBlog({ Index, Cover, Title }: StepBlogProps) {
   return (
     <div className={styles.blog}>
       <div className={styles.blog_content}>

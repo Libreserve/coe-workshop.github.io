@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import StatusBadge from "../StatusBadge/StatusBadge";
 import AvataGroup from "../AvataGroup/AvatarGroup";
 import TruncateTools from "../TruncateTools/TruncateTools";

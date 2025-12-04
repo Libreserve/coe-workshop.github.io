@@ -102,17 +102,20 @@ const Footer = () => {
 
   return (
     <div className={styles.blog}>
-        <div className={styles.left}>
-            <div className={styles.left_heading}>
-                    EN.<span style={{ color: "#b6acacff" }}>W</span>
-            </div>
-            <div className={styles.left_text}>
-                DEVELOP
-            </div>
-            <div className={styles.left_logo}>
-                <Image src={"/footer/left_contact_logo.png"} alt="Logo" width={97} height={29}/>
-            </div>
+      <div className={styles.left}>
+        <div className={styles.left_heading}>
+          EN.<span style={{ color: "#b6acacff" }}>W</span>
         </div>
+        <div className={styles.left_text}>DEVELOP</div>
+        <div className={styles.left_logo}>
+          <Image
+            src={"/footer/left_contact_logo.png"}
+            alt="Logo"
+            width={97}
+            height={29}
+          />
+        </div>
+      </div>
 
         <div className={styles.right}>
             {

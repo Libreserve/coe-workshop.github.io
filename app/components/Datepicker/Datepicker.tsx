@@ -17,16 +17,16 @@ const months = [
   { name: "September", abbr: "Sep" },
   { name: "October", abbr: "Oct" },
   { name: "November", abbr: "Nov" },
-  { name: "December", abbr: "Dec" }
+  { name: "December", abbr: "Dec" },
 ];
 const days = [
-  { name: "Sunday", abbr: "Sun",ToomAbbr: "S" },
-  { name: "Monday", abbr: "Mon",ToomAbbr: "M" },
-  { name: "Tuesday", abbr: "Tue",ToomAbbr: "T" },
-  { name: "Wednesday", abbr: "Wed",ToomAbbr: "W" },
-  { name: "Thursday", abbr: "Thu",ToomAbbr: "T" },
-  { name: "Friday", abbr: "Fri",ToomAbbr: "F" },
-  { name: "Saturday", abbr: "Sat",ToomAbbr: "S" }
+  { name: "Sunday", abbr: "Sun", ToomAbbr: "S" },
+  { name: "Monday", abbr: "Mon", ToomAbbr: "M" },
+  { name: "Tuesday", abbr: "Tue", ToomAbbr: "T" },
+  { name: "Wednesday", abbr: "Wed", ToomAbbr: "W" },
+  { name: "Thursday", abbr: "Thu", ToomAbbr: "T" },
+  { name: "Friday", abbr: "Fri", ToomAbbr: "F" },
+  { name: "Saturday", abbr: "Sat", ToomAbbr: "S" },
 ];
 
 const DateTable = ({year, month, selectedDate, onSelect}:DateTableProps) => {
