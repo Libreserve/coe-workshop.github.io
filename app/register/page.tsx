@@ -19,7 +19,7 @@ export default function RegisterPage() {
                 <h2 >Authentication Error</h2>
                 <p>Please ensure this page is wrapped with AuthProvider</p>
                 <button 
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => router.push('/')}
                 >
                     back 
                 </button>
