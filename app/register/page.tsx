@@ -1,19 +1,37 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/Context/AuthContext/AuthContext';
+import { AuthContext } from '@/app/Context/AuthContext/AuthContext';
 import { registerUser} from '@/app/lib/api';
 import { RegisterResponse } from '@/app//lib/types';
 
 export default function RegisterPage() {
     const router = useRouter();
-    const { user, authenticated, loading } = useAuth();
+    const authContext = useContext(AuthContext)
+
+    if (!authContext) {
+        console.error('useAuth must be used within AuthProvider')
+        return (
+            <div>
+                <h1>error modal</h1>
+                <h2 >Authentication Error</h2>
+                <p>Please ensure this page is wrapped with AuthProvider</p>
+                <button 
+                    onClick={() => window.location.href = '/'}
+                >
+                    back 
+                </button>
+            </div>
+        );
+    }
+
+    const { user, authenticated, loading } = useAuth(); 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
-
     useEffect(() => {
         if (!loading && !authenticated) {
             router.push('/');

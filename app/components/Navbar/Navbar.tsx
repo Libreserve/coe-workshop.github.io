@@ -69,11 +69,11 @@ function Navbar() {
         ></Image>
         {authenticated && user ? (
           <div className={styles.action_button} onClick={handleLogoutClick}>
-            Logout
+            ออกจากระบบ
           </div>
         ) : (
           <div className={styles.action_button} onClick={handleLoginClick}>
-            let's start
+            เริ่มใช้งาน
           </div>
         )}
       </div>

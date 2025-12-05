@@ -1,6 +1,6 @@
-import {AuthResponse, RegisterData, RegisterResponse} from "@/app/lib/types";
+import {AuthResponse, RegisterRequest, RegisterResponse} from "@/app/lib/types";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080';
 
 // api ดึงข้อมูล
 export async function getCurrentUser():Promise<AuthResponse> {
@@ -33,7 +33,7 @@ export async function logout(): Promise<void> {
     }
 }
 
-export async function registerUser(data: RegisterData): Promise<RegisterResponse> {
+export async function registerUser(data: RegisterRequest): Promise<RegisterResponse> {
     try {
         const res = await fetch(`${API_URL}/api/auth/register`, {
             method: 'POST',

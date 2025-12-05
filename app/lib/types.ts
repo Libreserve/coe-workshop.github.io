@@ -1,6 +1,8 @@
 export interface User {
     email: string;
     isRegistered: boolean;
+    firstName?: string;
+    lastName?: string;
 }
 
 export interface AuthResponse {
@@ -9,7 +11,7 @@ export interface AuthResponse {
     user: User | null;
 }
 
-export interface RegisterData {
+export interface RegisterRequest {
     firstName: string;
     lastName: string;
 }
@@ -18,9 +20,7 @@ export interface RegisterResponse {
     success: boolean;
     message?: string;
     error?: string;
-    user?: {
-        email: string;
-        firstName: string;
-        lastName: string;
-    };
+    // user?: Omit<User, "isRegistered">
+    user?: User
+
 }
