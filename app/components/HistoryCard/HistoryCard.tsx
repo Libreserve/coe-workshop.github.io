@@ -16,7 +16,7 @@ const HistoryCard = ({ transaction, email }: HistoryCardProps) => {
     const imageList: string[] = [];
     const time = date.toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit", hour12:false});
 
-    transaction.toolList.forEach(tool => {
+    transaction.toolList.map(tool => {
         items.push({ title: tool.name, quantity: tool.quantity });
         imageList.push(tool.image);
     });
