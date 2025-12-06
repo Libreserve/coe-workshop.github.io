@@ -79,7 +79,7 @@ const getDbDateTime = (date: Date):string => {
 const AllHistory = () => {
   const [status, setStatus] = useState<TransactionStatus | undefined>();
   const [data, setData] = useState<HistoryProps | undefined>();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>();
   // const [page, setPage] = useState<Number>(1);
   // const [hasMore, setHasMore] = useState(true);
 
@@ -87,6 +87,7 @@ const AllHistory = () => {
     const params = new URLSearchParams();
     // params.append("page", String(page));
     params.append("limit", String(10)); 
+    console.log("where to use ", selectedDate)
     if(selectedDate) params.append("startDay", getDbDateTime(selectedDate));
     if(status) params.append("status", status);
     try {
@@ -124,7 +125,6 @@ const AllHistory = () => {
         <div className={styles.filter}>
           <div className={styles.datepicker}>
             <DatePicker
-            value={selectedDate}
             onChange={(value) => {setSelectedDate(value);}}
             ></DatePicker>
           </div>

@@ -1,6 +1,6 @@
 export interface DatePickerProps {
-    onChange?: (value?:Date | undefined) => void
-    value?: Date | undefined 
+    onChange?: (value?:Date | undefined | null) => void
+    value?: Date | undefined | null
 }
 
 export interface CalendarButtonProps {
@@ -13,7 +13,7 @@ export interface CalendarButtonProps {
 export interface DateTableProps {
     year: number
     month: number
-    selectedDate: Date
+    selectedDate: Date | undefined | null
     onSelect: (date:number) => void  
 }
 
@@ -24,13 +24,13 @@ export interface MonthTableProps {
             abbr: string
         }[]
     year: number
-    selectedDate: Date
+    selectedDate: Date | undefined | null
     onSelect: (month:number) => void
 }
 
 export  interface YearTableProps {
     startYear: number
-    selectedDate: Date
+    selectedDate: Date | undefined | null
     onSelect:(year:number) => void
 }
 export enum ViewMode {
