@@ -33,17 +33,13 @@ export default function RegisterPage() {
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
     useEffect(() => {
-        if (!loading && !authenticated) {
-            router.push('/');
-        }
-    }, [loading, authenticated, router]);
-
-    useEffect(() => {
-        if (!loading && authenticated && user?.isRegistered) {
-            router.push('/');
-        }
+        if (loading) return;
+        if (!authenticated) 
+            { router.push('/'); 
+                return
+            };
+        if (user && user.isRegistered) router.push('/'); 
     }, [loading, authenticated, user, router]);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
