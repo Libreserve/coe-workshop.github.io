@@ -7,9 +7,6 @@ import ModalContainer from "../ModalContainer/modalContainer";
 import styles from "./Navbar.module.scss";
 import { MenuMapProps } from "./type";
 import NavSlide from "./navslide";
-import { useAuth } from "@/app/Context/AuthContext/AuthContext";
-import { getLoginUrl } from "@/app/lib/api";
-
 function Navbar() {
   const { opened, handle } = useDisclosure();
   const menuMapProps: MenuMapProps[] = [
@@ -17,17 +14,6 @@ function Navbar() {
     { title: "About", path: "/about" },
     { title: "Report", path: "/path" },
   ];
-
-  const { user, authenticated, logout } = useAuth();
-
-  const handleLoginClick = () => {
-    window.location.href = getLoginUrl();
-  };
-
-  const handleLogoutClick = async () => {
-    await logout();
-    window.location.reload();
-  };
 
   return (
     <div className={styles.navbar}>
@@ -67,15 +53,7 @@ function Navbar() {
           alt="hamberger_icon"
           src={"hamberger.svg"}
         ></Image>
-        {authenticated && user ? (
-          <div className={styles.action_button} onClick={handleLogoutClick}>
-            ออกจากระบบ
-          </div>
-        ) : (
-          <div className={styles.action_button} onClick={handleLoginClick}>
-            เริ่มใช้งาน
-          </div>
-        )}
+        <div className={styles.action_button}>let's start</div>
       </div>
       <ModalContainer opened={opened} onClose={handle.close}>
         <NavSlide

@@ -1,4 +1,4 @@
-export interface ImageProps {
-  cover: string;
-  title: string;
+interface ImageProps {
+    Cover: string;
+    Title: string;
 }

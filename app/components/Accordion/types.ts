@@ -1,4 +1,4 @@
-export interface AccordionProps {
+interface AccordionProps {
   Title: string;
   Content: string;
 }

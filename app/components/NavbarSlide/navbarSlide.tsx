@@ -1,6 +1,6 @@
 import { NavbarSlideProps } from "./types";
 
-const NavbarSlide = ({ opened }: NavbarSlideProps) => {
+const NavbarSlide = ({ opened, onClose }: NavbarSlideProps) => {
   return (
     <div>
       {opened && (
