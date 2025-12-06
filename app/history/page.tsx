@@ -1,7 +1,7 @@
 import AllHistory from "../components/AllHistory/AllHistory";
 import styles from "@/app/page.module.scss";
 
-const history = () => {
+const History = () => {
     return (
         <div className={styles.landing}>
             <AllHistory></AllHistory>
@@ -9,4 +9,4 @@ const history = () => {
     );
 }
 
-export default history;
+export default History;

@@ -1,10 +1,10 @@
 import styles from "@/app/page.module.scss";
 import CartView from "@/app/components/CartView/CartView";
-const tools = () => {
+const Cart = () => {
     return (
         <div className={styles.landing} >
             <CartView></CartView>
         </div>
     );
 }
-export default tools;
+export default Cart;
