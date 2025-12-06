@@ -28,7 +28,7 @@ const TruncateTools = ({items}:ItemsProps) => {
                         {   
                             return (
                             <div key={`${index}-${item.title}`}>
-                                {`${item.title}*${item.quantity}`}
+                                {`${item.title.toLowerCase()}*${item.quantity}`}
                             </div>
                         )}
                     )
