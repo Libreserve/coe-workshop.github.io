@@ -87,7 +87,6 @@ const AllHistory = () => {
     const params = new URLSearchParams();
     // params.append("page", String(page));
     params.append("limit", String(10)); 
-    console.log("where to use ", selectedDate)
     if(selectedDate) params.append("startDay", getDbDateTime(selectedDate));
     if(status) params.append("status", status);
     try {
