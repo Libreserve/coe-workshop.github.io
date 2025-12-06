@@ -34,7 +34,7 @@ const mock = {
     {
       email: "kritsada.ba@kkumail.com",
       toolList: [{ name: "Saw", image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png", quantity: 2 }],
-      status: "returned",
+      status: "doing",
       startDay: "2025-11-15T14:30:00.000Z",
     },
     {
@@ -66,8 +66,14 @@ const mock = {
           quantity: 1,
         },
       ],
-      status: "returned",
+      status: "rejected",
       startDay: "2025-11-16T10:00:00.000Z",
+    },
+    {
+      email: "kritsada.ba@kkumail.com",
+      toolList: [{ name: "Saw", image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png", quantity: 2 }],
+      status: "returned",
+      startDay: "2025-11-15T14:30:00.000Z",
     },
   ]
 }

@@ -44,7 +44,9 @@ const DropDown = ({ value, onChange }: DropDownProps) => {
                   handleOnClick(status);
                 }}
               >
-                {getTransactionStatusTH[status]}
+                <div>
+                  {getTransactionStatusTH[status]}
+                </div>
               </div>
             );
           })}

@@ -1,4 +1,6 @@
 @use "./../../styles/_breakpoints" as *;
+@use "./../../styles/functions" as *;
+@use "./../../styles/variables" as *;
 :global(*) {
     padding: 0;
     margin: 0;
@@ -29,20 +31,20 @@
 .datepicker {
     position: absolute;
     top: 100%;
-    background-color: rgb(255, 255, 255);
-    padding: 5px;
+    background-color: $sub-0;
+    padding: rem(5px);
     z-index: 997;
     transition: 0.3s;
     opacity: 1;
-    width: 249px;
+    width: rem(249px);
     height: fit-content;
-    border-radius: 15px;
+    border-radius: rem(15px);
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
-    padding-top: 10px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding-top: rem(10px);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
 }
 
 .datepicker_closed {
@@ -59,7 +61,7 @@
 }
 
 .datepicker .header {
-    gap: 20px;
+    gap: rem(20px);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -69,23 +71,23 @@
 .change_table {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: rem(4px);
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: rem(15px);
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
 
     :hover {
-        border-radius: 15px;
-        background-color: #D9D9D9B2
+        border-radius: rem(15px);
+        background-color: $sub-200;
     }
 }
 
 .change_table div {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: rem(4px);
 }
 
 .undo_datepicker_overlay {
@@ -97,49 +99,49 @@
 }
 
 .placeholder {
-    width: 160;
-    height: 42;
+    width: rem(160);
+    height: rem(42);
     position: static;
-    border-radius: 15px;
-    border-width: 1px;
+    border-radius: rem(15px);
+    border-width: rem(1px);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 3px;
+    gap: rem(3px);
     // padding: 9px;
-    border: 1px solid  #E1E1E1 ;
+    border: rem(1px) solid  $sub-200 ;
     text-align: center;
     
     font-weight: 400;
     font-style: Regular;
-    font-size: 14.56px;
+    font-size: rem(14.56px);
     opacity: 1;
-    background-color: white;
+    background-color: $sub-0;
     @include respond-to-max(lg) {
-        font-size: 13.5px;
-        height: 33px;
-        border-radius: 15px;
+        font-size: rem(13.5px);
+        height: rem(33px);
+        border-radius: rem(15px);
     }
     @include respond-to-max(md) {
-        font-size: 12px;
-        height: 33px;
-        border-radius: 15px;
-        gap: 1px;
+        font-size: rem(12px);
+        height: rem(33px);
+        border-radius: rem(15px);
+        gap: rem(1px);
     }
     @include respond-to-max(sm) {
-        font-size: 10.5px;
-        width: 120px;
-        height: 35px;
-        border-radius: 15px;
-        gap: 1px;
+        font-size: rem(10.5px);
+        width: rem(120px);
+        height: rem(35px);
+        border-radius: rem(15px);
+        gap: rem(1px);
     }
     @include respond-to-max(xs) {
-        font-size: 9px;
-        width: 100px;
-        height: 35px;
-        border-radius: 15px;
-        gap: 1px;
+        font-size: rem(9px);
+        width: rem(100px);
+        height: rem(35px);
+        border-radius: rem(15px);
+        gap: rem(1px);
     } 
 }
 
@@ -165,14 +167,14 @@
 
 .days, .dates_input {
     display: grid;
-    grid-template-columns: repeat(7, 25px);
-    gap: 7px;
-    margin-bottom: 9px;
+    grid-template-columns: repeat(7, rem(25px));
+    gap: rem(7px);
+    margin-bottom: rem(9px);
 }
 
 .datepicker_date {
     opacity: 1;
-    padding: 10px;
+    padding: rem(10px);
     transition: 0.3s;
 }
 
@@ -184,24 +186,24 @@
 }
 
 .days {
-    color: #00000040;
+    color: $sub-1000;
 }
 
 .dates_input button.selected {
-    background-color: #D9D9D9B2;  
+    background-color: $sub-200;  
 }
 
 .dates_input button, .month_input button, .year_input button {
-    background-color: white;
-    width: 21;
-    height: 21;
+    background-color: $sub-0;
+    width: rem(21);
+    height: rem(21);
     justify-self: center;
     align-self: center;
 }
 
 .month_input button, .year_input button {
-    width: 51;
-    height: 20;
+    width: rem(51);
+    height: rem(20);
 }
 
 .dates_input button:disabled {
@@ -211,7 +213,7 @@
 }
 
 .dates_input button:hover, .month_input button:hover, .year_input button:hover {
-    background-color: #D9D9D9B2;
+    background-color: $sub-200;
 }
 
 .datepicker_month {
@@ -228,9 +230,9 @@
 
 .month_input, .year_input {
     display: grid;
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(4, 40px);
-    gap: 10px;
+    grid-template-columns: repeat(3, rem(60px));
+    grid-template-rows: repeat(4, rem(40px));
+    gap: rem(10px);
 }
 
 .datepicker_year {
@@ -247,64 +249,64 @@
 
 
 .placeholder_closed {
-    width: 160;
+    width: rem(160);
     opacity: 1;
     pointer-events: none;
     position: static;
-    height: 42;
-    border-radius: 15px;
-    border-width: 1px;
+    height: rem(42);
+    border-radius: rem(15px);
+    border-width: rem(1px);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 3px;
-    padding: 9px;
-    border: 1px solid  #E1E1E1 ;
+    gap: rem(3px);
+    padding: rem(9px);
+    border: rem(1px) solid  $sub-200;
     text-align: center;
     font-weight: 400;
     font-style: Regular;
-    font-size: 14.56px;
-    background-color: white;
+    font-size: rem(14.56px);
+    background-color: $sub-0;
     @include respond-to-max(lg) {
-        font-size: 13.5px;
-        height: 33px;
-        border-radius: 15px;
+        font-size: rem(13.5px);
+        height: rem(33px);
+        border-radius: rem(15px);
     }
     @include respond-to-max(md) {
-        font-size: 12px;
-        height: 33px;
-        gap: 1px;
+        font-size: rem(12px);
+        height: rem(33px);
+        gap: rem(1px);
     }
     @include respond-to-max(sm) {
-        font-size: 10.5px;
-        width: 120px;
-        height: 35px;
-        gap: 1px;
+        font-size: rem(10.5px);
+        width: rem(120px);
+        height: rem(35px);
+        gap: rem(1px);
     }
     @include respond-to-max(xs) {
-        font-size: 9px;
-        width: 100px;
-        height: 35px;
-        gap: 1px;
+        font-size: rem(9px);
+        width: rem(100px);
+        height: rem(35px);
+        gap: rem(1px);
     }  
 }
 
 .prev_button, .next_button {
-    background-color: white;
+    background-color: $sub-0;
     position: absolute;
     :active {
-        transform: translateY(1px) ;
+        transform: translateY(rem(1px)) ;
     }
 } 
 
 .prev_button {
     rotate: 180deg;
-    left: 20px;
+    left: rem(20px);
 }
 
 .next_button {
-    right: 20px;
+    right: rem(20px);
 }
 
 .clear {
@@ -313,13 +315,11 @@
     justify-items: center;
     align-items: center;
     position: absolute;
-    top: 249px;
-    left: 110px;
-    background-color: white;
-    padding: 1px;
-    border-radius: 9px;
-    box-shadow: 1px 1px 4px #d9d9d9c0;
+    top: rem(249px);
+    left: rem(110px);
+    background-color: $sub-0;
+    padding: rem(1px);
+    border-radius: rem(9px);
+    box-shadow: rem(1px) rem(1px) rem(4px) $sub-200;
     cursor: pointer;
 }
-
-

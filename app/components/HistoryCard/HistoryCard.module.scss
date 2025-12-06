@@ -1,22 +1,23 @@
 @use "./../../styles/_breakpoints" as *;
+@use "./../../styles/functions" as *;
+@use "./../../styles/variables" as *;
 .container {
     display: grid;
     grid-template-columns: 85% 15%;
-    min-height: 103;
-    background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    padding: 12px;
+    min-height: rem(103);
+    background-color: $sub-0;
+    border-radius: rem(10px);
+    padding: rem(12px);
     padding-left: 0px;
-    // box-shadow: 0.2rem 0.2rem rgba($color: #6c6c6c, $alpha: 0.7);
     
     @include respond-to-max(md) {
         grid-template-columns: 70% 30%;
-        height: 36px;
-        padding: 9px;
+        height: rem(36px);
+        padding: rem(9px);
     }
     @include respond-to-max(sm) {
-        min-height: 50px;
-        padding: 6px;
+        min-height: rem(50px);
+        padding: rem(6px);
     } 
 }
 .detail {
@@ -33,21 +34,21 @@
 .timestamp_left {
     display: flex;
     flex-direction: column;
-    width: 59px;
+    width: rem(59px);
     justify-content: center;
     align-items: start;
-    border-right: 0.65px solid #8C8C8C;
+    border-right: rem(0.65px) solid $sub-300;
     @include respond-to-max(lg) {
-        width: 53px;
+        width: rem(53px);
     }
     @include respond-to-max(md) {
-        width: 47px;
+        width: rem(47px);
     }
     @include respond-to-max(sm) {
-        width: 41px;
+        width: rem(41px);
     }
     @include respond-to-max(xs) {
-        width: 35px;
+        width: rem(35px);
     } 
 }
 
@@ -56,20 +57,20 @@
     font-family: Inter;
     font-weight: 400;
     font-style: Regular;
-    font-size: 19.34px;
+    font-size: rem(19.34px);
     line-height: 100%;
     letter-spacing: 0%;   
     @include respond-to-max(lg) {
-        font-size: 17.5px;
+        font-size: rem(17.5px);
     }
     @include respond-to-max(md) {
-        font-size: 15px;
+        font-size: rem(15px);
     }
     @include respond-to-max(sm) {
-        font-size: 12.5px;
+        font-size: rem(12.5px);
     }
     @include respond-to-max(xs) {
-        font-size: 10px;
+        font-size: rem(10px);
     }  
 }
 
@@ -77,22 +78,21 @@
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
-    font-size: 34.82px;
+    font-size: rem(34.82px);
     line-height: 100%;
     letter-spacing: 0%;
-    // padding-left: 10%;
     align-self:baseline; 
     @include respond-to-max(lg) {
-        font-size: 31px;      
+        font-size: rem(31px);      
     }
     @include respond-to-max(md) {
-        font-size: 27px;       
+        font-size: rem(27px);       
     }
     @include respond-to-max(sm) {
-        font-size: 22px;       
+        font-size: rem(22px);       
     }
     @include respond-to-max(xs) {
-        font-size: 18.02px;
+        font-size: rem(18.02px);
     } 
 }
 
@@ -100,23 +100,23 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 17px;
+    padding: rem(17px);
     pointer-events: auto;
     transition: opacity 0.2s ease-in-out;
     opacity: 1;
     @include respond-to-max(md) {
         visibility: hidden;
         position: absolute;
-        right: 15px;
+        right: rem(15px);
         opacity: 0;
         pointer-events: none;
     }
 }
 
 .timestamp_right span {
-    margin-left:11px;
+    margin-left: rem(11px);
     @media (max-width:480px) {
-        font-size: 10px;
+        font-size: rem(10px);
     }  
 }
 
@@ -126,24 +126,24 @@
     flex-direction: column;
     justify-content: center;
 
-    padding: 7px;
-    font-size: 19.15px;
+    padding: rem(7px);
+    font-size: rem(19.15px);
     @include respond-to-max(lg) {
         padding: 0;
-        padding-left: 7px;    
+        padding-left: rem(7px);    
     }
     @include respond-to-max(md) {
         padding: 0;
-        padding-left: 7px;     
+        padding-left: rem(7px);     
     }
     @include respond-to-max(sm) {
         padding: 0;
-        padding-left: 7px;
+        padding-left: rem(7px);
     }
     @include respond-to-max(xs) {
-        font-size: 10.22px;
+        font-size: rem(10.22px);
         padding: 0;
-        padding-left: 7px;
+        padding-left: rem(7px);
     } 
     
 }
@@ -156,9 +156,9 @@
     flex-direction: row;
     align-items: center;
     justify-items: center;
-    padding-right: 67px;
+    padding-right: rem(67px);
     @include respond-to-max(md) {
-        margin-right: 7px;   
+        margin-right: rem(7px);   
     }
     
 }
@@ -182,14 +182,14 @@
     cursor: pointer;
     pointer-events: all;
     @include respond-to-max(md) {
-        margin-left: 10px;
-        width: 23px;
-        height: 23px;
+        margin-left: rem(10px);
+        width: rem(23px);
+        height: rem(23px);
     }
     @include respond-to-max(sm) {
-        margin-left: 7px;
-        width: 13px;
-        height: 13px;
+        margin-left: rem(7px);
+        width: rem(13px);
+        height: rem(13px);
     }
 }
 
@@ -199,16 +199,16 @@
     opacity: 0;
     display: flex;
     flex-direction: column;
-    background-color: black;
-    color: white;
+    background-color: $sub-1000;
+    color: $sub-0;
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
-    font-size: 10.22px;
+    font-size: rem(10.22px);
     line-height: 100%;
     letter-spacing: 0%;
-    padding: 9px;
-    border-radius: 5px;
+    padding: rem(9px);
+    border-radius: rem(5px);
    
 }
 
@@ -217,16 +217,16 @@
     right: 5%;
     display: flex;
     flex-direction: column;
-    background-color: black;
-    color: white;
+    background-color: $sub-1000;
+    color: $sub-0;
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
-    font-size: 10.22px;
+    font-size: rem(10.22px);
     line-height: 100%;
     letter-spacing: 0%;
-    padding: 9px;
-    border-radius: 5px;
+    padding: rem(9px);
+    border-radius: rem(5px);
     z-index: 999;
 }
 

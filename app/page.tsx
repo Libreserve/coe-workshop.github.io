@@ -3,6 +3,7 @@ import Discover from "@/app/components/Discover/discover";
 import Category from "./components/Category/Category";
 import Guide from "./components/Guide/guide";
 import WelcomeText from "./components/Welcome_text/Welcome_text";
+import Footer from "./components/Footer/Footer"
 import styles from "./page.module.scss";
 function page() {
   return (
@@ -14,6 +15,7 @@ function page() {
       {/* <Popular></Popular>
       <Interpreting></Interpreting> */}
       <Accordion></Accordion>
+      <Footer></Footer>
     </div>
   );
 }

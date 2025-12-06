@@ -104,7 +104,7 @@ const Footer = () => {
     <div className={styles.blog}>
       <div className={styles.left}>
         <div className={styles.left_heading}>
-          EN.<span style={{ color: "#b6acacff" }}>W</span>
+          EN.<span>W</span>
         </div>
         <div className={styles.left_text}>DEVELOP</div>
         <div className={styles.left_logo}>
