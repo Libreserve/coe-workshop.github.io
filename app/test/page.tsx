@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import ToastProvider, { useToast } from "../Context/Toast/ToastProvider";
-import Toast from "../components/Toast/Toast";
+import { useState } from "react";
+import { useToast } from "../Context/Toast/ToastProvider";
 import styles from "./test.module.scss";
 function Page() {
   const [add, setAdd] = useState(false);
   const [count, setCount] = useState(0);
-  const { toastStack, addToastStack } = useToast();
+  const { addToastStack } = useToast();
   const onToastClick = () => {
     addToastStack(
       "Hello Toast" + count,

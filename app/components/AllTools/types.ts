@@ -1,4 +1,4 @@
-interface AllToolsMatches {
+export interface AllToolsMatches {
   Url: string;
   Title: string;
   Description: string;

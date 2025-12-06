@@ -1,11 +1,10 @@
 "use client";
 
 import { useToast } from "@/app/Context/Toast/ToastProvider";
-import { Variant } from "@/app/Context/Toast/types";
 import Image from "next/image";
 import React from "react";
 import styles from "./Toast.module.scss";
-import { positionStyle, ToastProps, VariantStyle, ToastItem } from "./types";
+import { positionStyle, ToastItem, ToastProps, VariantStyle } from "./types";
 function Toast({ Position }: ToastProps) {
   const { toastStack } = useToast();
 

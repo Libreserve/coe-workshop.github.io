@@ -5,6 +5,7 @@ import "./styles/globals.scss";
 import Toast from "./components/Toast/Toast";
 import ToastProvider from "./Context/Toast/ToastProvider";
 import Navbar from "./components/Navbar/Navbar";
+import { AuthProvider } from "@/app/Context/AuthContext/AuthContext";
 
 const geistInter = Inter({
   variable: "--font-Inter",
@@ -24,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistInter.variable} `}>
-        <Navbar></Navbar>
-        <ToastProvider>
-          <MantineProvider>{children}</MantineProvider>
-          <Toast Position="bottom-right"></Toast>
-        </ToastProvider>
+        <AuthProvider>
+          <Navbar></Navbar>
+          <ToastProvider>
+            <MantineProvider>{children}</MantineProvider>
+            <Toast Position="bottom-right"></Toast>
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );
