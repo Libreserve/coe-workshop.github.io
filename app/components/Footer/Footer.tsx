@@ -6,52 +6,52 @@ import Link from "next/link";
 
 const Footer = () => {
 
-// adding each link is needed
-    // const aboutList = [
-    //     { 
-    //         Header: "Pages",
-    //         Content: [
-    //             { title: "Home", link: "/" },
-    //             { title: "Tools", link: "/" },
-    //             { title: "Basket", link: "/" },
-    //             { title: "Transaction", link: "/" },
-    //       ]
-    //      },
-    //      {
-    //         Header: "About",
-    //         Content: [
-    //             { title: "Website", link: "/" },
-    //             { title: "Instructor", link: "/" },
-    //             { title: "Developer", link: "/" },
-    //         ]
-    //      },
-    //      {
-    //         Header: "Resources",
-    //         Content: [
-    //             { title: "EN KKU", link: "/" },
-    //             { title: "Blog", link: "/" },
-    //             { title: "Event", link: "/" },
-    //             { title: "News", link: "/" },
-    //         ]
-    //      },
-    //      {
-    //         Header: "Help",
-    //         Content: [
-    //             { title: "FAQs", link: "/" },
-    //             { title: "Reviews", link: "/" },
-    //             { title: "How it works ", link: "/" },
-    //             { title: "Report", link: "/" },
-    //         ]
-    //      }
-    // ]
+
+    const aboutList = [
+        { 
+            Header: "Pages",
+            Content: [
+                { title: "Home", link: "/" },
+                { title: "Tools", link: "/" },
+                { title: "Basket", link: "/" },
+                { title: "Transaction", link: "/" },
+          ]
+         },
+         {
+            Header: "About",
+            Content: [
+                { title: "Website", link: "/" },
+                { title: "Instructor", link: "/" },
+                { title: "Developer", link: "/" },
+            ]
+         },
+         {
+            Header: "Resources",
+            Content: [
+                { title: "EN KKU", link: "/" },
+                { title: "Blog", link: "/" },
+                { title: "Event", link: "/" },
+                { title: "News", link: "/" },
+            ]
+         },
+         {
+            Header: "Help",
+            Content: [
+                { title: "FAQs", link: "/" },
+                { title: "Reviews", link: "/" },
+                { title: "How it works ", link: "/" },
+                { title: "Report", link: "/" },
+            ]
+         }
+    ]
 
     const aboutListTh = [
         { 
             Header: "หน้าเพจ",
             Content: [
                 { title: "หน้าหลัก", link: "/" },
-                { title: "อุปกรณ์", link: "/" },
-                { title: "ตะกร้า", link: "/" },
+                { title: "อุปกรณ์", link: "https://ben10.fandom.com/wiki/Omnitrix" },
+                { title: "ตะกร้า", link: "https://www.facebook.com/share/v/1Bz5FMqiAm/" },
                 { title: "รายการ", link: "/" },
           ]
          },
@@ -59,7 +59,7 @@ const Footer = () => {
             Header: "เกี่ยวกับ",
             Content: [
                 { title: "เว็บไซต์", link: "/" },
-                { title: "ผู้ชี้แนะ", link: "/" },
+                { title: "ผู้ชี้แนะ", link: "" },
                 { title: "ผู้พัฒนา", link: "/" },
             ]
          },
@@ -83,37 +83,49 @@ const Footer = () => {
          }
     ]
 
-
-// link via logo, unfinished logo issue
-    // const left_contact = {
-    //     github: {
-    //         image: "GitHub",
-    //         url: "https://github.com/yourusername"
-    //     },
-    //     facebook: {
-    //         image : "Facebook",
-    //         url: "https://facebook.com/yourpage"
-    //     },
-    //     gmail: {
-    //         image: "Email Us",
-    //         url: "mailto:youremail@gmail.com"
-    //     }
-    // };
-
   return (
     <div className={styles.blog}>
+      <div className={styles.content}>
+
       <div className={styles.left}>
         <div className={styles.left_heading}>
-          EN.<span>W</span>
+          <div>
+            EN.<span>W</span>
+          </div>
+        </div >
+        <div className={styles.left_links}>
+          <div className={styles.left_text}>DEVELOP</div>
+          <div className={styles.left_logoes}>
+            <div>
+              <Link href={"https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"} key={"github"}>
+                <Image
+                  src={`github.svg`}
+                  alt="github"
+                  width={30}
+                  height={30}
+                  className={styles.logo}
+                />
+              </Link>
+            </div>
+              <Link href={"https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"} key={"facebook"}>
+              <Image
+                src={`facebook.svg`}
+                alt="facebook"
+                width={30}
+                height={30}
+                className={styles.logo}
+              />
+              </Link>
+              <Link href={"https://facebook.com"} key={"mail"}>
+                <Image
+                  src={`mail.svg`}
+                  alt="mail"
+                  width={30}
+                  height={30}
+                  className={styles.logo}
+                />
+              </Link>
         </div>
-        <div className={styles.left_text}>DEVELOP</div>
-        <div className={styles.left_logo}>
-          <Image
-            src={"/footer/left_contact_logo.png"}
-            alt="Logo"
-            width={97}
-            height={29}
-          />
         </div>
       </div>
 
@@ -133,7 +145,7 @@ const Footer = () => {
                 ))
             }
         </div>
-        <hr className={styles.hr}/>
+      </div>
     </div>
   );
 }

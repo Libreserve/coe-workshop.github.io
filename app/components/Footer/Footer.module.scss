@@ -4,37 +4,69 @@
 .blog {
     height: rem(581px);
     background-image: url("/footer/background.png");
-    display: grid ;
-    padding: rem(70px);
-    grid-template-rows: 70% 30%;
-    grid-template-columns: 50% 50%;
     margin-right: rem(-70px);
     margin-left: rem(-70px);
-    @media (max-width: 768px) {
-        grid-template-columns: 30% 70%;
-  }
-    @media (max-width: 644px) {
-        grid-template-columns: 1fr;
-        grid-template-rows: 40% 40% 20%;
-  }
-    @media (max-width: 480px) {
-        padding: rem(20px);
-  }    
+    padding: rem(70px);
+}
+
+.content {
+    height: 82%;
+    display: flex ;
+    flex-direction: row;
+    // padding-bottom: 140px;
+    border-bottom: rem(1.5px) solid $sub-400;
+    // margin-bottom: rem(40px);
+    @include respond-to-max(lg) {
+    
+    }
+    @include respond-to-max(md) {
+    }
+    @include respond-to-max(sm) {
+        flex-direction: column;
+        padding-bottom: 0px;
+        border-bottom: rem(0px) ;
+    }
+    @include respond-to-max(xs) {
+    } 
+
+}
+
+.left {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: rem(111px);
+    @include respond-to-max(xl) {
+        width: 80%;
+    }
+    @include respond-to-max(lg) {
+        width: 70%;
+    }
+    @include respond-to-max(md) {
+        width: 60%;
+    }
+    @include respond-to-max(sm) {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+        padding-bottom: rem(0px);
+    }
+    @include respond-to-max(xs) {
+    }
 }
 
 
-.left {
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 1;
-    grid-column-end: 2;
-    display: grid;
-    @media (max-width: 644px) {
-        grid-column-start: 1;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 2;
-  }
+.left_links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50%;
+    @include respond-to-max(sm) {
+        height: 100%;
+        width: 100%;
+        justify-content: end;
+    }
 }
 
 .left_heading {
@@ -42,10 +74,22 @@
     font-weight: 600;
     font-style: Semi Bold;
     font-size: rem(51.35px);
-    // leading-trim: NONE;
-    line-height: 100%;
-    letter-spacing: 0%;
     color: $sub-1000;
+    display: flex;
+    @include respond-to-max(lg) {
+    }
+    @include respond-to-max(md) {
+    }
+    @include respond-to-max(sm) {
+        width: 100%;
+    }
+    @include respond-to-max(xs) {
+    }
+}
+
+.left_heading div {
+    display: flex;
+    justify-content: end;
 }
 
 .left_heading span {
@@ -56,48 +100,114 @@
     font-family: Inter;
     font-weight: 500;
     font-style: Medium;
-    font-size: rem(19.99px);
-    // leading-trim: NONE;
-    line-height: 100%;
-    letter-spacing: 0%;
+    font-size: rem(20px);
+    @include respond-to-max(lg) {
+        font-size: rem(18.86px); 
+    }
+    @include respond-to-max(md) {
+        font-size: rem(18px); 
+    }
+    @include respond-to-max(sm) {
+        font-size: rem(17.14px); 
+        margin-bottom: rem(4.5px);
+    }
+    @include respond-to-max(xs) {
+        font-size: rem(13.62px); 
+    }
 }
 
-.left_logo {
-    grid-row: 1fr 1fr 1fr;
+
+.left_logoes {
+    display: flex;
+    gap: rem(5px);
+    @include respond-to-max(lg) {
+        gap: rem(4.75px); 
+    }
+    @include respond-to-max(md) {
+        gap: rem(4.5px); 
+    }
+    @include respond-to-max(sm) {
+        gap: rem(4px); 
+    }
+    @include respond-to-max(xs) {
+        gap: rem(3.41px); 
+    }
+
+}
+
+.logo {
+    cursor: pointer;
+    width: rem(30px);
+    height: auto;
+    display: flex;
+    @include respond-to-max(lg) {
+        width: rem(28px); 
+        height: auto;
+    }
+    @include respond-to-max(md) {
+        width: rem(26px); 
+    }
+    @include respond-to-max(sm) {
+        width: rem(23px);
+        height: rem(23px);
+    }
+    @include respond-to-max(xs) {
+        width: rem(20px);
+        height: rem(20px);
+    }
 }
 
 .right {
-    grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 2;
-    grid-column-end: 3;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    @media (max-width: 644px) {
-        grid-column-start: 1;
-        grid-column-end: 3;
-        grid-row-start: 2;
-        grid-row-end: 3;
-  }
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    @include respond-to-max(sm) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    @include respond-to-max(xs) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 
 .right_blog {
-    display: grid;
-    grid-template-rows: 30% 70%;
-    width: rem(48);
-    height: rem(197.97833251953125);
- 
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    padding-top: rem(30px);
+     @include respond-to-max(sm) {
+        margin-left: 0;
+    }
+    @include respond-to-max(xs) {
+    }
+
 }
 
 .right_heading {
     font-family: Inter;
-    font-weight: 500;
+    font-weight: 600;
     font-style: Medium;
     font-size: rem(17.5px);
-    // leading-trim: NONE;
-    line-height: 100%;
-    // letter-spacing: 0%;
+    margin-bottom: rem(39.84px);
+
+    @include respond-to-max(lg) {
+        font-size: rem(16.5px); 
+        margin-bottom: rem(39.84px);
+    }
+    @include respond-to-max(md) {
+        font-size: rem(15.75px);
+        margin-bottom: rem(36px);
+    }
+    @include respond-to-max(sm) {
+        font-size: rem(15px); 
+        margin-bottom: rem(34px);
+    }
+    @include respond-to-max(xs) {
+        font-size: rem(12.5px); 
+        margin-bottom: rem(31.65px);
+    }
 }
 
 .right_content {
@@ -105,29 +215,25 @@
     flex-direction: column;
     gap: rem(19px);
     width: 100%;
-    height: rem(141);
     font-family: Inter;
     font-weight: 400;
     font-style: Regular;
+    cursor: pointer;
     font-size: rem(16.95px);
-    // leading-trim: NONE;
-    line-height: 100%;
-    // letter-spacing: 0%;    
-}
-
-.hr {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    border: rem(1px) solid $sub-1000;
-    opacity: 0.1;
-    margin-top: rem(40px);
-
-    height: 0px;
-    opacity: 1;
-    @media (max-width: 644px) {
-        grid-column-start: 1;
-        grid-column-end: 3;
-        grid-row-start: 3;
-        grid-row-end: 4;
-  }
+    @include respond-to-max(lg) {
+        font-size: rem(15.99px); 
+        gap: rem(18.25px); 
+    }
+    @include respond-to-max(md) {
+        font-size: rem(15.26px); 
+        gap: rem(17.5px);
+    }
+    @include respond-to-max(sm) {
+        font-size: rem(14.54px); 
+        gap: rem(16.5px); 
+    }
+    @include respond-to-max(xs) {
+        font-size: rem(12.3px); 
+        gap: rem(15.35px);
+    }
 }
