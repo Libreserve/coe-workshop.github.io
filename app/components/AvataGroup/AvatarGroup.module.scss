@@ -1,5 +1,7 @@
 /* start: Global */
 @use "./../../styles/_breakpoints" as *;
+@use "./../../styles/functions" as *;
+@use "./../../styles/variables" as *;
 :global(*) {
     ::before,
     ::after {
@@ -21,18 +23,18 @@
 }
 
 .avatar:not(:first-child) {
-    margin-left: -9px;
+    margin-left: rem(-9px);
     @include respond-to-max(lg) {
-        margin-left: -8px;
+        margin-left: rem(-8px);
     }
     @include respond-to-max(md) {
-        margin-left: -6px;
+        margin-left: rem(-6px);
     }
     @include respond-to-max(sm) {
-        margin-left: -5px;
+        margin-left: rem(-5px);
     }
     @include respond-to-max(xs) {
-        margin-left: -4.8px;
+        margin-left: rem(-4.8px);
     } 
 }
 
@@ -48,8 +50,8 @@
     bottom: calc(100% + .5rem);
     padding: .5rem .75rem;
     border-radius: .25rem;
-    background-color: black;
-    color: white;
+    background-color: $sub-1000;
+    color: $sub-0;
     font-size: .875rem;
     white-space:nowrap;
     opacity: 0;
@@ -63,62 +65,58 @@
 }
 
 .avatar_image {
-    width: 31.12px;
-    height: 31.12px;
+    width: rem(31.12px);
+    height: rem(31.12px);
     display: block;
     object-fit: cover;
     border-radius: 50%;
-    // border: 1px solid white;
-    // box-shadow: 0.25rem 0.25rem 0.25rem rgba($color: #000000, $alpha: .10);
     @include respond-to-max(lg) {
-        width: 28px;
-        height: 28px;
+        width: rem(28px);
+        height: rem(28px);
     }
     @include respond-to-max(md) {
-        width: 24px;
-        height: 24px;
+        width: rem(24px);
+        height: rem(24px);
     }
     @include respond-to-max(sm) {
-        width: 20px;
-        height: 20px;
+        width: rem(20px);
+        height: rem(20px);
     }
     @include respond-to-max(xs) {
-        width: 16.6px;
-        height: 16.6px;
+        width: rem(16.6px);
+        height: rem(16.6px);
     } 
 }
 
 .avatar_rest {
-    width: 31.12px;
-    height: 31.12px;
+    width: rem(31.12px);
+    height: rem(31.12px);
     border-radius: 50%;
-    background-color: #7A7A7A;
-    // box-shadow: 0.25rem 0.25rem 0.25rem rgba($color: #000000, $alpha: .10);
-    // margin-left: -1.5rem;
+    background-color: $sub-400;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    font-size: 17.47px;
+    color: $sub-0;
+    font-size: rem(17.47px);
     pointer-events: none;
     @include respond-to-max(lg) {
-        width: 28px;
-        height: 28px;
-        font-size: 15px;
+        width: rem(28px);
+        height: rem(28px);
+        font-size: rem(15px);
     }
     @include respond-to-max(md) {
-        width: 24px;
-        height: 24px;
-        font-size: 13px;
+        width: rem(24px);
+        height: rem(24px);
+        font-size: rem(13px);
     }
     @include respond-to-max(sm) {
-        width: 20px;
-        height: 20px;
-        font-size: 11px;
+        width: rem(20px);
+        height: rem(20px);
+        font-size: rem(11px);
     }
     @include respond-to-max(xs) {
-        width: 16.6px;
-        height: 16.6px;
-        font-size: 7.38px;
+        width: rem(16.6px);
+        height: rem(16.6px);
+        font-size: rem(7.38px);
     } 
 }

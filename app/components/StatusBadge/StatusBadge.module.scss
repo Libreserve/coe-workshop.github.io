@@ -1,7 +1,9 @@
 @use "./../../styles/_breakpoints" as *;
+@use "./../../styles/functions" as *;
+@use "./../../styles/variables" as *;
 .pending {
     display: flex;
-    background-color: #FFFEE0;
+    background-color: $yellow-100;
     width: 144px;
     height: 46px;
     padding: 10px 10px;
@@ -15,7 +17,7 @@
     font-size: 18.39px;
     line-height: 100%;
     letter-spacing: 0%;
-    color: #D6D157;
+    color: $yellow-500;
     @include respond-to-max(lg) {
         max-width: 128px;
         height: 43px;
@@ -88,7 +90,7 @@
 
 .rejected {
     display: flex;
-    background-color: #D6575726;
+    background-color: $red-50;
     width: 144px;
     height: 46px;
     padding: 10px 10px;
@@ -102,7 +104,7 @@
     font-size: 18.39px;
     line-height: 100%;
     letter-spacing: 0%;
-    color: #D65757;
+    color: $red-500;
     @include respond-to-max(lg) {
         max-width: 128px;
         height: 43px;
@@ -131,7 +133,7 @@
 
 .returned {
     display: flex;
-    background-color: #57D67126;
+    background-color: $green-100;
     width: 144px;
     height: 46px;
     padding: 10px 10px;
@@ -145,7 +147,7 @@
     font-size: 18.39px;
     line-height: 100%;
     letter-spacing: 0%;
-    color: #57D671;
+    color: $green-500;
     @include respond-to-max(lg) {
         max-width: 128px;
         height: 43px;
