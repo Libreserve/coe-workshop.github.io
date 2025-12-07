@@ -190,7 +190,7 @@
 }
 
 .dates_input button.selected {
-    background-color: $sub-200;  
+    background-color: $sub-200;
 }
 
 .dates_input button, .month_input button, .year_input button {
@@ -205,6 +205,11 @@
     width: rem(51);
     height: rem(20);
 }
+
+.month_input button.selected, .year_input button.selected {
+     background-color: $sub-200;
+}
+
 
 .dates_input button:disabled {
     opacity: 0.5;
@@ -261,7 +266,6 @@
     justify-content: center;
     align-items: center;
     gap: rem(3px);
-    padding: rem(9px);
     border: rem(1px) solid  $sub-200;
     text-align: center;
     font-weight: 400;

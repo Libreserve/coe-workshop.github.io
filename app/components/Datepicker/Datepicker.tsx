@@ -157,6 +157,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
   const [century, setCentury] = useState(dummy.getFullYear());
   const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
   const [active, setActive] = useState(false);
+  const [prevSelectedDate, setPrevSelectedDate] = useState<Date | null>();
   const next = (viewMode: ViewMode) => {
     switch (viewMode) {
       case ViewMode.DATE:
@@ -165,7 +166,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
         break;
       case ViewMode.MONTH:
         setYear(year + 1);
-        break;
+        break;  
       case ViewMode.YEAR:
         setCentury(century + 12);
         break;
@@ -192,17 +193,19 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
   const handleOnSelectDay = (day: number) => {
     const updatedDate = new Date(year, month, day);
     const isSameDate =
-      day === selectedDate?.getDate() &&
-      updatedDate.getMonth() === selectedDate?.getMonth() &&
-      updatedDate.getDate() === selectedDate?.getDate();
+      day === prevSelectedDate?.getDate() &&
+      month === prevSelectedDate?.getMonth() &&
+      year === prevSelectedDate?.getFullYear();
     if (isSameDate) {
       setSelectedDate(null);
+      setPrevSelectedDate(null);
       setDay(dummy.getDate());
       setMonth(dummy.getMonth());
       setYear(dummy.getFullYear());
       onChange?.(null);
     } else {
       setSelectedDate(updatedDate);
+      setPrevSelectedDate(updatedDate);
       onChange?.(updatedDate);
       setDay(day);
     }
@@ -225,6 +228,10 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
     setView(ViewMode.MONTH);
     setActive(true);
   };
+  const handleUndoOverlay = () => {
+      setView(ViewMode.CLOSED);
+      setPrevSelectedDate(new Date(day, year, month))
+  }
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.datepicker_container}>
@@ -370,9 +377,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
       {!(view === ViewMode.CLOSED) && (
         <div
           className={styles.undo_datepicker_overlay}
-          onClick={() => {
-            setView(ViewMode.CLOSED);
-          }}
+          onClick={() => handleUndoOverlay()}
         ></div>
       )}
     </div>
