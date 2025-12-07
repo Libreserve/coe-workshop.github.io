@@ -20,7 +20,7 @@ const AvataGroup = ({ max, imageList }: AvatarGroupProps) => {
             </div>
           ) : (
             <div></div>
-          )
+          ),
         )}
         {rest > 0 && (
           <div className={styles.avatar} key={`avatar-shrink`}>

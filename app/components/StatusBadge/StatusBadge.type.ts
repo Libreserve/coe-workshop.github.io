@@ -5,5 +5,5 @@ export enum TransactionStatus {
   RETURNED = "returned",
 }
 export interface StatusBadgesProps {
-    status: TransactionStatus
+  status: TransactionStatus;
 }

@@ -4,10 +4,10 @@ import DropDown from "../DropDown/DropDown";
 import DatePicker from "../Datepicker/Datepicker";
 import { useState, useEffect } from "react";
 import styles from "../AllHistory/AllHistory.module.scss";
-import type { HistoryProps } from "./AllHistory.type"
-import { TransactionStatus } from "./AllHistory.type"
+import type { HistoryProps } from "./AllHistory.type";
+import { TransactionStatus } from "./AllHistory.type";
 
-// pagination and filter รอฝั่งเขียน api 
+// pagination and filter รอฝั่งเขียน api
 // เราต้องเขียนแบบserver and user component ไหมน้า < ไม่หรอกปวดหัว
 const BASE_URL = "http://localhost:8000";
 const mock = {
@@ -33,7 +33,13 @@ const mock = {
     },
     {
       email: "kritsada.ba@kkumail.com",
-      toolList: [{ name: "Saw", image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png", quantity: 2 }],
+      toolList: [
+        {
+          name: "Saw",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 2,
+        },
+      ],
       status: "doing",
       startDay: "2025-11-15T14:30:00.000Z",
     },
@@ -71,16 +77,22 @@ const mock = {
     },
     {
       email: "kritsada.ba@kkumail.com",
-      toolList: [{ name: "Saw", image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png", quantity: 2 }],
+      toolList: [
+        {
+          name: "Saw",
+          image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          quantity: 2,
+        },
+      ],
       status: "returned",
       startDay: "2025-11-15T14:30:00.000Z",
     },
-  ]
-}
+  ],
+};
 // YYYY-MM-DD HH:MM:SS
-const getDbDateTime = (date: Date):string => {
+const getDbDateTime = (date: Date): string => {
   return date.toLocaleString("en-CA", { hour12: false }).replace(",", "");
-} 
+};
 
 const AllHistory = () => {
   const [status, setStatus] = useState<TransactionStatus | undefined>();
@@ -92,37 +104,34 @@ const AllHistory = () => {
   const loadData = async () => {
     const params = new URLSearchParams();
     // params.append("page", String(page));
-    params.append("limit", String(10)); 
-    if(selectedDate) params.append("startDay", getDbDateTime(selectedDate));
-    if(status) params.append("status", status);
+    params.append("limit", String(10));
+    if (selectedDate) params.append("startDay", getDbDateTime(selectedDate));
+    if (status) params.append("status", status);
     try {
-      const res = await fetch(`${BASE_URL}/history?${params.toString()}`); 
-      const data = await res.json()
+      const res = await fetch(`${BASE_URL}/history?${params.toString()}`);
+      const data = await res.json();
       // if (data.length === 0) setHasMore(false);
-      // connect to prev load 
+      // connect to prev load
       // unfinished
       if (data) setData(data);
-    }
-    catch(error) {
+    } catch (error) {
       setData(mock as HistoryProps);
       console.log(error);
       // console.error("Iter เขีนนapiดีๆ")
     }
   };
-  
+
   useEffect(() => {
     // setPage(1);
     // setHasMore(true);
     // setData({});
-    loadData(); 
-  }, [status, selectedDate])
+    loadData();
+  }, [status, selectedDate]);
   return (
     <div className={styles.container}>
       <div className={styles.table_hearder}>
         <div className={styles.header}>
-          <h1 >
-            History
-          </h1>
+          <h1>History</h1>
           <p className={styles.sub_title}>
             Duis aute irure dolor in reprehenderit.
           </p>
@@ -130,34 +139,38 @@ const AllHistory = () => {
         <div className={styles.filter}>
           <div className={styles.datepicker}>
             <DatePicker
-            onChange={(value) => {setSelectedDate(value);}}
+              onChange={(value) => {
+                setSelectedDate(value);
+              }}
             ></DatePicker>
           </div>
           <div className={styles.status_filter}>
-            <DropDown value={status} 
-            onChange={(value) => {
-              setStatus(value); 
+            <DropDown
+              value={status}
+              onChange={(value) => {
+                setStatus(value);
               }}
             ></DropDown>
-          </div>  
+          </div>
         </div>
       </div>
       <div className={styles.table_body}>
-        {
-          data ? (data?.transactions?.map((transaction, index)=> {
+        {data ? (
+          data?.transactions?.map((transaction, index) => {
             return (
-              <HistoryCard  transaction={transaction}  email={transaction.email} key={`${index}`}></HistoryCard>
-            )
-          })) : (
-            <p className={styles.fall_back}>
-              no history available...🗿
-            </p>
-          )
-        }
+              <HistoryCard
+                transaction={transaction}
+                email={transaction.email}
+                key={`${index}`}
+              ></HistoryCard>
+            );
+          })
+        ) : (
+          <p className={styles.fall_back}>no history available...🗿</p>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default AllHistory;
-  

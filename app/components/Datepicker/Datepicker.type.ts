@@ -1,41 +1,40 @@
 export interface DatePickerProps {
-    onChange?: (value?:Date | undefined | null) => void
-    value?: Date | undefined | null
+  onChange?: (value?: Date | undefined | null) => void;
+  value?: Date | undefined | null;
 }
 
 export interface CalendarButtonProps {
-    disabled: boolean
-    idx: number
-    text: string
-    onSelect: () => void
+  disabled: boolean;
+  idx: number;
+  text: string;
+  onSelect: () => void;
 }
 
 export interface DateTableProps {
-    year: number
-    month: number
-    selectedDate: Date | undefined | null
-    onSelect: (date:number) => void  
+  year: number;
+  month: number;
+  selectedDate: Date | undefined | null;
+  onSelect: (date: number) => void;
 }
 
 export interface MonthTableProps {
-    months: 
-        {
-            name: string
-            abbr: string
-        }[]
-    year: number
-    selectedDate: Date | undefined | null
-    onSelect: (month:number) => void
+  months: {
+    name: string;
+    abbr: string;
+  }[];
+  year: number;
+  selectedDate: Date | undefined | null;
+  onSelect: (month: number) => void;
 }
 
-export  interface YearTableProps {
-    startYear: number
-    selectedDate: Date | undefined | null
-    onSelect:(year:number) => void
+export interface YearTableProps {
+  startYear: number;
+  selectedDate: Date | undefined | null;
+  onSelect: (year: number) => void;
 }
 export enum ViewMode {
-    DATE = "date",
-    MONTH = "month",
-    YEAR = "year",
-    CLOSED = "closed"
+  DATE = "date",
+  MONTH = "month",
+  YEAR = "year",
+  CLOSED = "closed",
 }

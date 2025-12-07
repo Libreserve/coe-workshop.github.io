@@ -1,8 +1,7 @@
-
 export interface ToolProps {
-    name: string;
-    image: string;
-    quantity: number;
+  name: string;
+  image: string;
+  quantity: number;
 }
 
 export enum TransactionStatus {
@@ -13,19 +12,19 @@ export enum TransactionStatus {
 }
 
 export interface TransactionProps {
-    toolList: ToolProps[];
-    status: TransactionStatus;
-    startDay: string;
+  toolList: ToolProps[];
+  status: TransactionStatus;
+  startDay: string;
 }
 
 export interface HistoryCardProps {
-    transaction: TransactionProps;
-    email:string
+  transaction: TransactionProps;
+  email: string;
 }
 
 export interface ItemProps {
-    title:string,
-    quantity: number
+  title: string;
+  quantity: number;
 }
 
 export type ItemsProps = ItemProps[];

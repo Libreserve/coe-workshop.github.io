@@ -59,7 +59,7 @@ const DateTable = ({ year, month, selectedDate, onSelect }: DateTableProps) => {
               onClick={() => onSelect(day)}
             >
               {day}
-            </button>
+            </button>,
           );
         }
         for (let day = 1; day <= curMonth.getDate(); day++) {
@@ -75,7 +75,7 @@ const DateTable = ({ year, month, selectedDate, onSelect }: DateTableProps) => {
               onClick={() => onSelect(day)}
             >
               {day}
-            </button>
+            </button>,
           );
         }
         for (let day = nextMonth.getDay(); day < 7; day++) {
@@ -89,7 +89,7 @@ const DateTable = ({ year, month, selectedDate, onSelect }: DateTableProps) => {
               }
             >
               {day - firstDayOfNextMonth + firstDateOfNextMonth}
-            </button>
+            </button>,
           );
         }
         return dates;
@@ -139,7 +139,7 @@ const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
               onClick={() => onSelect(year)}
             >
               {year}
-            </button>
+            </button>,
           );
         }
         return years;
@@ -166,7 +166,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
         break;
       case ViewMode.MONTH:
         setYear(year + 1);
-        break;  
+        break;
       case ViewMode.YEAR:
         setCentury(century + 12);
         break;
@@ -229,9 +229,9 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
     setActive(true);
   };
   const handleUndoOverlay = () => {
-      setView(ViewMode.CLOSED);
-      setPrevSelectedDate(new Date(day, year, month))
-  }
+    setView(ViewMode.CLOSED);
+    setPrevSelectedDate(new Date(day, year, month));
+  };
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.datepicker_container}>

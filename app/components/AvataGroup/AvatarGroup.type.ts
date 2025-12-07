@@ -1,4 +1,4 @@
 export interface AvatarGroupProps {
-    max:number
-    imageList:string[]
+  max: number;
+  imageList: string[];
 }

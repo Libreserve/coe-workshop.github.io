@@ -1,7 +1,7 @@
 export interface ItemProps {
-    title:string,
-    quantity: number
+  title: string;
+  quantity: number;
 }
 export interface ItemsProps {
-    items: ItemProps[]
+  items: ItemProps[];
 }
