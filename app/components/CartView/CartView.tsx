@@ -58,7 +58,7 @@ const CartView = () => {
   const [userCart, setUserCart] = useState<UserCartProps | undefined>();
   const [onLoad, setOnLoad] = useState(false);
   // ใน nextมีcomponentอะไรนะ
-  const [loadingMessage, setLoadingMessage] = useState("LOADING...");
+  const [loadingMessage, setLoadingMessage] = useState("กำลังโหลด...");
 
   const increaseQuantity = (index: number) => {
     if (!userCart) return;

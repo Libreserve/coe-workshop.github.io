@@ -67,7 +67,7 @@ export default function RegisterPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>กำลังโหลด...</div>;
   }
 
   if (!authenticated) {
