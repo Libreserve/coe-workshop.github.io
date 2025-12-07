@@ -17,6 +17,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      NEXT_PUBLIC_BACKEND_URL: ${{ vars.DEV_BACKEND_URL }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,20 +27,14 @@ jobs:
       - name: Setup Bun.js - Cache dependencies - Install dependencies
         uses: ./.github/workflows/setup-bun
 
-      # - name: Run linting
-      #   run: bun run lint
+      - name: Run linting
+        run: bun run lint
 
-      # - name: Run type checking
-      #   run: bun run type-check
+      - name: Run type checking
+        run: bun run type-check
 
       - name: Build with Next.js
-        run: npx next build
-
-      - name: Debug - List files
-        run: |
-          pwd
-          ls -la
-          ls -la out/ || echo "No out folder found"
+        run: bun run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -46,7 +43,7 @@ jobs:
 
   deploy:
     environment:
-      name: github-pages
+      name: development
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
