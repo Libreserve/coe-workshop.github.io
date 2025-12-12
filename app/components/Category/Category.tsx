@@ -38,7 +38,7 @@ function Category() {
   );
 }
 
-function CategoryBlog({ Cover, Title, Description }: CategoryProps) {
+const CategoryBlog = ({ Cover, Title, Description }: CategoryProps) => {
   return (
     <div className={styles.category}>
       <div className={styles.category_imageContainer}>
@@ -56,6 +56,6 @@ function CategoryBlog({ Cover, Title, Description }: CategoryProps) {
       </div>
     </div>
   );
-}
+};
 
 export default Category;

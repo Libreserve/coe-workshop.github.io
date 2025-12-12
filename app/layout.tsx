@@ -1,13 +1,14 @@
 import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Noto_Sans_Thai } from "next/font/google";
 import "./styles/globals.scss";
+
 import Toast from "./components/Toast/Toast";
 import ToastProvider from "./Context/Toast/ToastProvider";
 import Navbar from "./components/Navbar/Navbar";
 
-const geistInter = Inter({
-  variable: "--font-Inter",
+const geistNoto = Noto_Sans_Thai({
+  variable: "--font-Noto",
   subsets: ["latin"],
 });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistInter.variable} `}>
+      <body className={`${geistNoto.variable} `}>
         <Navbar></Navbar>
         <ToastProvider>
           <MantineProvider>{children}</MantineProvider>

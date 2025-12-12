@@ -1,5 +1,5 @@
 export interface CategoryProps {
-  Cover: string; //image address
-  Title: string; //name of catagory
-  Description: string;
+  cover: string; //image address
+  title: string; //name of catagory
+  description: string;
 }

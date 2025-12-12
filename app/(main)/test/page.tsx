@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useToast } from "../Context/Toast/ToastProvider";
+import { useToast } from "../../Context/Toast/ToastProvider";
 import styles from "./test.module.scss";
 function Page() {
   const [add, setAdd] = useState(false);

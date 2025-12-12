@@ -18,14 +18,14 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.navbar_inner}>
-        <div className={styles.logo}>
-          <p className={styles.logo_mark}>EN</p>
-          <p className={styles.logo_dot}>.W</p>
-        </div>
+        <Link href={"/"} className={styles.logo}>
+          <h1 className={styles.logo_mark}>EN</h1>
+          <h1 className={styles.logo_dot}>.W</h1>
+        </Link>
         <div className={styles.link}>
           {menuMapProps.map((item, index) => (
             <Link key={index} href={item.path}>
-              <p>{item.title}</p>
+              <h2>{item.title}</h2>
             </Link>
           ))}
         </div>

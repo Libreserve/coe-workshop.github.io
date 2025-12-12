@@ -1,0 +1,22 @@
+@use "../../../styles/variables" as *;
+
+.textInput {
+  display: flex;
+  flex-direction: column;
+  width: clamp(200px, 80%, 300px);
+
+  .textInput_input {
+    padding: 8px 12px;
+    background-color: $sub-100;
+    border: 0;
+    border-radius: 4px;
+  }
+
+  .textInput_label {
+    padding: 8px 0;
+  }
+
+  .textInput_require {
+    color: $red-400;
+  }
+}

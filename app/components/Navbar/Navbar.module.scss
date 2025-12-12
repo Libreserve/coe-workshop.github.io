@@ -3,7 +3,7 @@
 
 .navbar {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
   padding: 15px min(4rem, 5%);
 }
@@ -16,13 +16,17 @@
 .logo {
   font-size: 1.3rem;
   display: flex;
+  align-items: end;
 
   .logo_mark {
-    color: black;
+    color: $sub-1000;
+  }
+  .logo_dot {
+    color: $sub-400;
   }
   p {
     font-weight: bold;
-    color: gray;
+    color: $sub-200;
   }
 }
 
