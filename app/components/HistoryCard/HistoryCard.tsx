@@ -5,24 +5,24 @@ import TruncateTools from "../TruncateTools/TruncateTools";
 import Image from "next/image";
 import styles from "../HistoryCard/HistoryCard.module.scss";
 import { useState } from "react";
-import { HistoryCardProps, Items } from "./types";
-function HistoryCard({ transaction, email }: HistoryCardProps) {
+import type { HistoryCardProps, ItemsProps } from "./HistoryCard.type";
+
+const HistoryCard = ({ transaction, email }: HistoryCardProps) => {
   const [open, setOpen] = useState(false);
   const date = new Date(transaction.startDay);
   const day = date.toLocaleDateString("en-US", { weekday: "short" });
   const date_no = date.getDate();
-  const items: Items = [];
-  const imageList: string[] = [];
+  const items: ItemsProps = transaction.toolList.map((tool) => ({
+    title: tool.name,
+    quantity: tool.quantity,
+  }));
+  const imageList: string[] = transaction.toolList.map((tool) => tool.image);
   const time = date.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   });
 
-  transaction.toolList.forEach((tool) => {
-    items.push({ title: tool.name, quantity: tool.quantity });
-    imageList.push(tool.image);
-  });
   return (
     <>
       <div className={styles.container}>
@@ -75,9 +75,7 @@ function HistoryCard({ transaction, email }: HistoryCardProps) {
               }}
             ></Image>
             <div
-              className={`${styles.timestamp_right_hidden}${
-                open ? "_active" : ""
-              }`}
+              className={`${styles.timestamp_right_hidden}${open ? "_active" : ""}`}
             >
               <span>{time}</span>
               <span>{email}</span>
@@ -93,6 +91,6 @@ function HistoryCard({ transaction, email }: HistoryCardProps) {
       )}
     </>
   );
-}
+};
 
 export default HistoryCard;

@@ -1,4 +1,15 @@
-.landing {
-  padding: 0 min(4rem, 5%);
-  position: relative;
+.hello {
+  height: 100%;
+}
+.message {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+  margin: 0 auto;
+  font-size: 4rem;
+  font-family: none;
+  padding: 1.5rem;
+  text-align: center;
 }

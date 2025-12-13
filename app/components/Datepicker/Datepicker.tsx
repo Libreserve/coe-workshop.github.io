@@ -1,13 +1,15 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
 import styles from "./Datepicker.module.scss";
-import {
+import Image from "next/image";
+import type {
   DatePickerProps,
-  DateTableProp,
+  DateTableProps,
   MonthTableProps,
   YearTableProps,
-} from "./types";
+} from "./Datepicker.type";
+import { ViewMode } from "./Datepicker.type";
+
 const months = [
   { name: "January", abbr: "Jan" },
   { name: "February", abbr: "Feb" },
@@ -32,7 +34,7 @@ const days = [
   { name: "Saturday", abbr: "Sat", ToomAbbr: "S" },
 ];
 
-function DateTable({ year, month, selectedDate, onSelect }: DateTableProp) {
+const DateTable = ({ year, month, selectedDate, onSelect }: DateTableProps) => {
   const prevMonth = new Date(year, month, 0);
   const lastDateOfPrevMonth = prevMonth.getDate();
   const lastDayOfprevMonth = prevMonth.getDay();
@@ -40,9 +42,6 @@ function DateTable({ year, month, selectedDate, onSelect }: DateTableProp) {
   const nextMonth = new Date(year, month + 1, 1);
   const firstDayOfNextMonth = nextMonth.getDay();
   const firstDateOfNextMonth = nextMonth.getDate();
-  const selectedYear = selectedDate.getFullYear();
-  const selectedMonth = selectedDate.getMonth();
-  const selectedDay = selectedDate.getDate();
   return (
     <>
       {(() => {
@@ -60,14 +59,14 @@ function DateTable({ year, month, selectedDate, onSelect }: DateTableProp) {
               onClick={() => onSelect(day)}
             >
               {day}
-            </button>
+            </button>,
           );
         }
         for (let day = 1; day <= curMonth.getDate(); day++) {
           const isSelected =
-            selectedYear === curMonth.getFullYear() &&
-            selectedMonth === curMonth.getMonth() &&
-            selectedDay === day;
+            selectedDate?.getFullYear() === curMonth.getFullYear() &&
+            selectedDate?.getMonth() === curMonth.getMonth() &&
+            selectedDate?.getDate() === day;
           dates.push(
             <button
               key={`cur-${day}`}
@@ -76,7 +75,7 @@ function DateTable({ year, month, selectedDate, onSelect }: DateTableProp) {
               onClick={() => onSelect(day)}
             >
               {day}
-            </button>
+            </button>,
           );
         }
         for (let day = nextMonth.getDay(); day < 7; day++) {
@@ -90,22 +89,27 @@ function DateTable({ year, month, selectedDate, onSelect }: DateTableProp) {
               }
             >
               {day - firstDayOfNextMonth + firstDateOfNextMonth}
-            </button>
+            </button>,
           );
         }
         return dates;
       })()}
     </>
   );
-}
+};
 
-function MonthTable({ months, year, selectedDate, onSelect }: MonthTableProps) {
+const MonthTable = ({
+  months,
+  year,
+  selectedDate,
+  onSelect,
+}: MonthTableProps) => {
   return (
     <>
       {months.map((m, index) => {
         const isSelected =
-          selectedDate.getFullYear() === year &&
-          selectedDate.getMonth() === index;
+          selectedDate?.getFullYear() === year &&
+          selectedDate?.getMonth() === index;
         return (
           <button
             key={`${index}${m.name}`}
@@ -118,15 +122,15 @@ function MonthTable({ months, year, selectedDate, onSelect }: MonthTableProps) {
       })}
     </>
   );
-}
+};
 
-function YearTable({ startYear, selectedDate, onSelect }: YearTableProps) {
+const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
   return (
     <>
       {(() => {
         const years = [];
         for (let year = startYear - 6; year <= startYear + 5; year++) {
-          const isSelected = selectedDate.getFullYear() === year;
+          const isSelected = selectedDate?.getFullYear() === year;
           years.push(
             <button
               key={`year-${year}`}
@@ -135,67 +139,108 @@ function YearTable({ startYear, selectedDate, onSelect }: YearTableProps) {
               onClick={() => onSelect(year)}
             >
               {year}
-            </button>
+            </button>,
           );
         }
         return years;
       })()}
     </>
   );
-}
+};
 
-function DatePicker({ onChange }: DatePickerProps) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [year, setYear] = useState(selectedDate.getFullYear());
-  const [month, setMonth] = useState(selectedDate.getMonth());
-  const [date] = useState(selectedDate.getDate());
-  const [century, setCentury] = useState(selectedDate.getFullYear());
-  const [view, setView] = useState<"date" | "month" | "year" | "closed">(
-    "closed"
-  );
+const DatePicker = ({ onChange, value }: DatePickerProps) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
+  const dummy = new Date();
+  const [year, setYear] = useState(dummy.getFullYear());
+  const [month, setMonth] = useState(dummy.getMonth());
+  const [day, setDay] = useState(dummy.getDate());
+  const [century, setCentury] = useState(dummy.getFullYear());
+  const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
   const [active, setActive] = useState(false);
-
-  function next(viewMode: string) {
+  const [prevSelectedDate, setPrevSelectedDate] = useState<Date | null>();
+  const next = (viewMode: ViewMode) => {
     switch (viewMode) {
-      case "date":
+      case ViewMode.DATE:
         if (month === 11) setYear(year + 1);
         setMonth((month + 1) % 12);
         break;
-      case "month":
+      case ViewMode.MONTH:
         setYear(year + 1);
         break;
-      // ... more cases
-      case "year":
+      case ViewMode.YEAR:
         setCentury(century + 12);
         break;
       default:
     }
-  }
+  };
 
-  function prev(viewMode: string) {
+  const prev = (viewMode: ViewMode) => {
     switch (viewMode) {
-      case "date":
+      case ViewMode.DATE:
         if (month === 0) setYear(year - 1);
         setMonth((month - 1 + 12) % 12);
         break;
-      case "month":
+      case ViewMode.MONTH:
         setYear(year - 1);
         break;
-      // ... more cases
-      case "year":
+      case ViewMode.YEAR:
         setCentury(century - 12);
         break;
       default:
     }
-  }
+  };
 
+  const handleOnSelectDay = (day: number) => {
+    const updatedDate = new Date(year, month, day);
+    const isSameDate =
+      day === prevSelectedDate?.getDate() &&
+      month === prevSelectedDate?.getMonth() &&
+      year === prevSelectedDate?.getFullYear();
+    if (isSameDate) {
+      setSelectedDate(null);
+      setPrevSelectedDate(null);
+      setDay(dummy.getDate());
+      setMonth(dummy.getMonth());
+      setYear(dummy.getFullYear());
+      onChange?.(null);
+    } else {
+      setSelectedDate(updatedDate);
+      setPrevSelectedDate(updatedDate);
+      onChange?.(updatedDate);
+      setDay(day);
+    }
+    setView(ViewMode.CLOSED);
+    setActive(true);
+  };
+  const handleOnSelectMonth = (month: number) => {
+    const updatedDate = new Date(year, month, day);
+    setSelectedDate(updatedDate);
+    onChange?.(updatedDate);
+    setMonth(month);
+    setView(ViewMode.DATE);
+    setActive(true);
+  };
+  const handleOnSelectYear = (year: number) => {
+    const updatedDate = new Date(year, month, day);
+    setSelectedDate(updatedDate);
+    onChange?.(updatedDate);
+    setYear(year);
+    setView(ViewMode.MONTH);
+    setActive(true);
+  };
+  const handleUndoOverlay = () => {
+    setView(ViewMode.CLOSED);
+    setPrevSelectedDate(new Date(day, year, month));
+  };
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.datepicker_container}>
       <div
-        className={`${styles.placeholder}${view === "closed" ? "" : "_closed"}`}
+        className={`${styles.placeholder}${
+          view === ViewMode.CLOSED ? "" : "_closed"
+        }`}
         onClick={() => {
-          setView("date");
+          setView(ViewMode.DATE);
         }}
       >
         <Image
@@ -205,7 +250,7 @@ function DatePicker({ onChange }: DatePickerProps) {
           height={18}
           className={styles.placeholder_img}
         />
-        {!active ? (
+        {!selectedDate || !active ? (
           <div>Calendar</div>
         ) : (
           <>
@@ -217,7 +262,9 @@ function DatePicker({ onChange }: DatePickerProps) {
       </div>
       {/* picker */}
       <div
-        className={`${styles.datepicker}${view !== "closed" ? "" : "_closed"}`}
+        className={`${styles.datepicker}${
+          view !== ViewMode.CLOSED ? "" : "_closed"
+        }`}
       >
         <div className={styles.header}>
           <button className={styles.prev_button} onClick={() => prev(view)}>
@@ -230,10 +277,10 @@ function DatePicker({ onChange }: DatePickerProps) {
             />
           </button>
           <div className={styles.change_table}>
-            {view === "date" && (
+            {view === ViewMode.DATE && (
               <div
                 onClick={() => {
-                  setView("month");
+                  setView(ViewMode.MONTH);
                 }}
               >
                 <div>{months[month].name}</div>
@@ -241,17 +288,19 @@ function DatePicker({ onChange }: DatePickerProps) {
               </div>
             )}
 
-            {view === "month" && (
+            {view === ViewMode.MONTH && (
               <div
                 onClick={() => {
-                  setView("year");
+                  setView(ViewMode.YEAR);
                 }}
               >
                 {year}
               </div>
             )}
 
-            {view === "year" && <div>{`${century - 6} - ${century + 5}`}</div>}
+            {view === ViewMode.YEAR && (
+              <div>{`${century - 6} - ${century + 5}`}</div>
+            )}
           </div>
           <button className={styles.next_button} onClick={() => next(view)}>
             <Image
@@ -262,21 +311,21 @@ function DatePicker({ onChange }: DatePickerProps) {
               className={""}
             />
           </button>
-          <div
+          {/* <div
             className={styles.clear}
             onClick={() => {
-              onChange?.("");
-              setView("closed");
+              onChange?.();
+              setView(ViewMode.CLOSED);
               setActive(false);
             }}
           >
             clear
-          </div>
+          </div> */}
         </div>
         {/* date table */}
         <div
           className={`${styles.datepicker_date}${
-            view === "date" ? "" : "_closed"
+            view === ViewMode.DATE ? "" : "_closed"
           }`}
         >
           <div className={styles.days}>
@@ -289,19 +338,14 @@ function DatePicker({ onChange }: DatePickerProps) {
               year={year}
               month={month}
               selectedDate={selectedDate}
-              onSelect={(day: number) => {
-                setSelectedDate(new Date(year, month, day));
-                setView("closed");
-                setActive(true);
-                onChange?.(selectedDate);
-              }}
+              onSelect={(day: number) => handleOnSelectDay(day)}
             ></DateTable>
           </div>
         </div>
         {/* month table */}
         <div
           className={`${styles.datepicker_month}${
-            view === "month" ? "" : "_closed"
+            view === ViewMode.MONTH ? "" : "_closed"
           }`}
         >
           <div className={styles.month_input}>
@@ -309,49 +353,35 @@ function DatePicker({ onChange }: DatePickerProps) {
               months={months}
               year={year}
               selectedDate={selectedDate}
-              onSelect={(month: number) => {
-                setSelectedDate(new Date(year, month, date));
-                onChange?.(selectedDate);
-                setMonth(month);
-                setView("date");
-                setActive(true);
-              }}
+              onSelect={(month: number) => handleOnSelectMonth(month)}
             ></MonthTable>
           </div>
         </div>
         {/* year table */}
         <div
           className={`${styles.datepicker_year}${
-            view === "year" ? "" : "_closed"
+            view === ViewMode.YEAR ? "" : "_closed"
           }`}
         >
           <div className={styles.year_input}>
             <YearTable
               startYear={century}
               selectedDate={selectedDate}
-              onSelect={(year: number) => {
-                setSelectedDate(new Date(year, month, date));
-                onChange?.(selectedDate);
-                setYear(year);
-                setView("month");
-                setActive(true);
-              }}
+              onSelect={(year: number) => handleOnSelectYear(year)}
             ></YearTable>
           </div>
         </div>
       </div>
 
       {/* picker undo overlay */}
-      {!(view === "closed") && (
+      {!(view === ViewMode.CLOSED) && (
         <div
           className={styles.undo_datepicker_overlay}
-          onClick={() => {
-            setView("closed");
-          }}
+          onClick={() => handleUndoOverlay()}
         ></div>
       )}
     </div>
   );
-}
+};
 
 export default DatePicker;

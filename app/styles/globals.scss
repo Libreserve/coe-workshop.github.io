@@ -1,7 +1,7 @@
 @use "variables" as *;
 @use "breakpoints" as *;
-
 :root {
+  --font-Noto: "Noto Sans Thai", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +17,7 @@ body {
   overflow-x: hidden;
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
@@ -43,8 +44,15 @@ textarea {
 a {
   color: inherit;
   text-decoration: none;
+  font-family: var(--font-Noto);
 }
-
+h1,
+h2,
+h3,
+h4,
+p {
+  font-family: var(--font-Noto);
+}
 h1 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -55,11 +63,14 @@ h2 {
 }
 
 h3 {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
-h4,
+h4 {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
 p {
   font-size: 0.8rem;
   font-weight: 400;
@@ -88,7 +99,7 @@ table {
 
   thead th {
     border-bottom: 1px solid $sub-200;
-    font-weight: 600;
+    font-weight: 400;
   }
   tbody tr {
     transition: all 0.5s ease;

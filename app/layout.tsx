@@ -1,11 +1,9 @@
-import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
-import "./styles/globals.scss";
-
 import Toast from "./components/Toast/Toast";
 import ToastProvider from "./Context/Toast/ToastProvider";
-import Navbar from "./components/Navbar/Navbar";
+import "./styles/globals.scss";
+import { AuthProvider } from "./Context/AuthContext/AuthContext";
 
 const geistNoto = Noto_Sans_Thai({
   variable: "--font-Noto",
@@ -25,9 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistNoto.variable} `}>
-        <Navbar></Navbar>
         <ToastProvider>
-          <MantineProvider>{children}</MantineProvider>
+          <AuthProvider>{children}</AuthProvider>
           <Toast Position="bottom-right"></Toast>
         </ToastProvider>
       </body>

@@ -27,6 +27,9 @@
 .guide_action {
   display: flex;
   overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @include respond-to(md) {
     overflow: visible;
   }

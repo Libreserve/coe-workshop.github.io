@@ -3,99 +3,123 @@ import styles from "./Footer.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
-function Footer() {
-  // adding each link is needed
-  const About_List = [
+const Footer = () => {
+  const aboutListTh = [
     {
-      Header: "Pages",
+      Header: "หน้าเพจ",
       Content: [
-        { title: "Home", link: "/" },
-        { title: "Tools", link: "/" },
-        { title: "Basket", link: "/" },
-        { title: "Transaction", link: "/" },
+        { title: "หน้าหลัก", link: "/" },
+        { title: "อุปกรณ์", link: "https://ben10.fandom.com/wiki/Omnitrix" },
+        {
+          title: "ตะกร้า",
+          link: "https://www.facebook.com/share/v/1Bz5FMqiAm/",
+        },
+        { title: "รายการ", link: "/" },
       ],
     },
     {
-      Header: "About",
+      Header: "เกี่ยวกับ",
       Content: [
-        { title: "Website", link: "/" },
-        { title: "Instructor", link: "/" },
-        { title: "Developer", link: "/" },
+        { title: "เว็บไซต์", link: "/" },
+        { title: "ผู้ชี้แนะ", link: "" },
+        { title: "ผู้พัฒนา", link: "/" },
       ],
     },
     {
-      Header: "Resources",
+      Header: "แหล่งข้อมูล",
       Content: [
         { title: "EN KKU", link: "/" },
-        { title: "Blog", link: "/" },
-        { title: "Event", link: "/" },
-        { title: "News", link: "/" },
+        { title: "บล็อก", link: "/" },
+        { title: "กิจกรรม", link: "/" },
+        { title: "ข่าว", link: "/" },
       ],
     },
     {
-      Header: "Help",
+      Header: "ช่วยเหลือ",
       Content: [
-        { title: "FAQs", link: "/" },
-        { title: "Reviews", link: "/" },
-        { title: "How it works ", link: "/" },
-        { title: "Report", link: "/" },
+        { title: "คำถามที่พบบ่อย", link: "/" },
+        { title: "รีวิว", link: "/" },
+        { title: "วิธีใช้งาน", link: "/" },
+        { title: "รายงานปัญหา", link: "/" },
       ],
     },
   ];
 
-  // link via logo, unfinished logo issue
-  // const left_contact = {
-  //     github: {
-  //         image: "GitHub",
-  //         url: "https://github.com/yourusername"
-  //     },
-  //     facebook: {
-  //         image : "Facebook",
-  //         url: "https://facebook.com/yourpage"
-  //     },
-  //     gmail: {
-  //         image: "Email Us",
-  //         url: "mailto:youremail@gmail.com"
-  //     }
-  // };
-
   return (
     <div className={styles.blog}>
-      <div className={styles.left}>
-        <div className={styles.left_heading}>
-          EN.<span style={{ color: "#b6acacff" }}>W</span>
-        </div>
-        <div className={styles.left_text}>DEVELOP</div>
-        <div className={styles.left_logo}>
-          <Image
-            src={"/footer/left_contact_logo.png"}
-            alt="Logo"
-            width={97}
-            height={29}
-          />
-        </div>
-      </div>
-
-      <div className={styles.right}>
-        {About_List.map((item, index) => (
-          <div key={index} className={styles.right_blog}>
-            <div key={`header-${index}`} className={styles.right_heading}>
-              {item.Header}
-            </div>
-            <div className={styles.right_content}>
-              {item.Content &&
-                item.Content.map((contentItem, contentIndex) => (
-                  <Link href={contentItem.link} key={contentIndex}>
-                    {contentItem.title}
-                  </Link>
-                ))}
+      <div className={styles.content}>
+        <div className={styles.left}>
+          <div className={styles.left_heading}>
+            <div>
+              EN.<span>W</span>
             </div>
           </div>
-        ))}
+          <div className={styles.left_links}>
+            <div className={styles.left_text}>DEVELOP</div>
+            <div className={styles.left_logoes}>
+              <div>
+                <Link
+                  href={
+                    "https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"
+                  }
+                  key={"github"}
+                >
+                  <Image
+                    src={`github.svg`}
+                    alt="github"
+                    width={30}
+                    height={30}
+                    className={styles.logo}
+                  />
+                </Link>
+              </div>
+              <Link
+                href={
+                  "https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"
+                }
+                key={"facebook"}
+              >
+                <Image
+                  src={`facebook.svg`}
+                  alt="facebook"
+                  width={30}
+                  height={30}
+                  className={styles.logo}
+                />
+              </Link>
+              <Link href={"https://facebook.com"} key={"mail"}>
+                <Image
+                  src={`mail.svg`}
+                  alt="mail"
+                  width={30}
+                  height={30}
+                  className={styles.logo}
+                />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.right}>
+          {aboutListTh.map((item, index) => (
+            <div key={index} className={styles.right_blog}>
+              <h3 key={`header-${index}`} className={styles.right_heading}>
+                {item.Header}
+              </h3>
+              <div className={styles.right_content}>
+                {item.Content &&
+                  item.Content.map((contentItem, contentIndex) => (
+                    <Link href={contentItem.link} key={contentIndex}>
+                      <h3>{contentItem.title}</h3>
+                    </Link>
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <hr className={styles.hr} />
     </div>
   );
-}
+};
 
 export default Footer;

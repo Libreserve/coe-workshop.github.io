@@ -25,6 +25,9 @@
     display: flex;
     gap: 15px;
     overflow-x: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     @include respond-to(md) {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

@@ -1,0 +1,78 @@
+@use "../../styles/variables" as *;
+
+.tableWrapper {
+  border: 1px solid $sub-200;
+  border-radius: 0.4rem;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.userInfo {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.itemName {
+  width: 15rem;
+}
+
+.assetID {
+  width: 12rem;
+}
+
+.status {
+  width: 8rem;
+}
+
+.endTime {
+  width: 8rem;
+}
+
+.message {
+  width: 24rem;
+  color: $sub-500;
+}
+
+.action {
+  width: 6rem;
+}
+
+.table {
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+  }
+}
+
+.userRow {
+  background-color: $sub-100;
+}
+
+.action_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.allApprove {
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.2rem;
+  background-color: $sub-700;
+  color: $sub-0;
+}
