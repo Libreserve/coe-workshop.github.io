@@ -1,6 +1,5 @@
 import { User } from "../../types/api/user";
-import styles from "./ProfileInfo.module.scss";
-const ProfileInfo = ({ tel, profileUrl, username, email }: User) => {
+const ProfileInfo = ({ username, email }: User) => {
   return (
     <div>
       <div></div>

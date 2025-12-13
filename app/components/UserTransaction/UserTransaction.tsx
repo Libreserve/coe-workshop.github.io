@@ -1,11 +1,10 @@
 "use client";
 
 import { mockUserTableTransactions } from "@/app/mockdata/mockdata";
+import Image from "next/image";
 import React, { useState } from "react";
 import { StatusTag } from "../StatusTag/StatusTag";
-import { Tooltip } from "../Tooltip/Tooltip";
 import styles from "./UserTrasaction.module.scss";
-import Image from "next/image";
 export const UserTransaction = () => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
 

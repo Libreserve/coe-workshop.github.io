@@ -5,19 +5,19 @@ import { CategoryProps } from "./types";
 function Category() {
   const Category_List: CategoryProps[] = [
     {
-      Cover: "01_printer",
-      Title: "3D Printer",
-      Description: "Lorem ipsum dolor sit amet consectetu",
+      cover: "01_printer",
+      title: "3D Printer",
+      description: "Lorem ipsum dolor sit amet consectetu",
     },
     {
-      Cover: "01_printer",
-      Title: "3D Printer",
-      Description: "Lorem ipsum dolor sit amet consectetu",
+      cover: "01_printer",
+      title: "3D Printer",
+      description: "Lorem ipsum dolor sit amet consectetu",
     },
     {
-      Cover: "01_printer",
-      Title: "3D Printer",
-      Description: "Lorem ipsum dolor sit amet consectetu",
+      cover: "01_printer",
+      title: "3D Printer",
+      description: "Lorem ipsum dolor sit amet consectetu",
     },
   ];
 
@@ -28,9 +28,9 @@ function Category() {
         {Category_List.map((item, index) => (
           <CategoryBlog
             key={index}
-            Cover={item.Cover}
-            Title={item.Title}
-            Description={item.Description}
+            cover={item.cover}
+            title={item.title}
+            description={item.description}
           ></CategoryBlog>
         ))}
       </div>
@@ -38,21 +38,21 @@ function Category() {
   );
 }
 
-const CategoryBlog = ({ Cover, Title, Description }: CategoryProps) => {
+const CategoryBlog = ({ cover, title, description }: CategoryProps) => {
   return (
     <div className={styles.category}>
       <div className={styles.category_imageContainer}>
         <Image
           className={styles.category_image}
-          src={`/category/${Cover}.png`}
+          src={`/category/${cover}.png`}
           width={500}
           height={500}
-          alt={`${Cover}`}
+          alt={`${cover}`}
         ></Image>
       </div>
       <div className={styles.article}>
-        <h2 className={styles.title}>{Title}</h2>
-        <p className={styles.Description}>{Description}</p>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.description}>{description}</p>
       </div>
     </div>
   );

@@ -5,10 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ModalContainer from "../ModalContainer/modalContainer";
 import styles from "./Navbar.module.scss";
-import { MenuMapProps } from "./type";
 import NavSlide from "./navslide";
-import { useAuth } from "@/app/Context/AuthContext/AuthContext";
-import { getLoginUrl } from "@/app/lib/api";
+import { MenuMapProps } from "./type";
 
 function Navbar() {
   const { opened, handle } = useDisclosure();
