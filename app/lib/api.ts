@@ -60,5 +60,5 @@ export async function registerUser(
 }
 
 export function getLoginUrl(): string {
-  return `${API_URL}/api/auth/google`;
+  return `${API_URL}/auth`;
 }
