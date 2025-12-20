@@ -2,7 +2,7 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
 
 concurrency:
   group: development-deploy
@@ -33,9 +33,6 @@ jobs:
 
       - name: Run type checking
         run: bun run type-check
-
-      - name: Build with Next.js
-        run: bun run build
 
       - name: Add server to known_hosts
         run: |

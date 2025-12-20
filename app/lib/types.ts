@@ -8,7 +8,7 @@ export interface User {
 export interface AuthResponse {
   success: boolean;
   authenticated: boolean;
-  user: User | null;
+  data: User | null;
 }
 
 export interface RegisterRequest {

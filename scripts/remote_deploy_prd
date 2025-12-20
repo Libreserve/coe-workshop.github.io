@@ -17,6 +17,11 @@ mkdir -p "$RELEASE_DIR"
 log "Linking shared resources"
 ln -sfn "$SHARED_DIR/.env" "$RELEASE_DIR/.env"
 
+log "Installing dependencies"
+if [ -f "$RELEASE_DIR/package.json" ]; then
+  (cd "$RELEASE_DIR" && bun run build || true)
+fi
+
 log "Switching current symlink atomically"
 ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
 

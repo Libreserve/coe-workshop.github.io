@@ -30,11 +30,11 @@ export default function RegisterPage() {
   const [submitting, setSubmitting] = useState(false);
   useEffect(() => {
     if (loading) return;
-    if (!authenticated) {
+    if (!user) {
       router.push("/");
       return;
     }
-    if (user && user.isRegistered) router.push("/");
+    if (user.isRegistered) router.push("/");
   }, [loading, authenticated, user, router]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

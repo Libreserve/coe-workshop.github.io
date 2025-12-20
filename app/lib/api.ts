@@ -14,13 +14,13 @@ export async function getCurrentUser(): Promise<AuthResponse> {
     });
 
     if (!res.ok) {
-      return { success: false, authenticated: false, user: null };
+      return { success: false, authenticated: false, data: null };
     }
 
     return await res.json();
   } catch (error) {
     console.error("Error fetching user:", error);
-    return { success: false, authenticated: false, user: null };
+    return { success: false, authenticated: false, data: null };
   }
 }
 

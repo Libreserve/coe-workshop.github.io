@@ -1,8 +1,10 @@
 name: publish-to-github-pages
 on:
-  push:
-    branches:
-      - dev
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag to deploy (e.g. v1.2.3)'
+        required: true
 
 permissions:
   contents: read
