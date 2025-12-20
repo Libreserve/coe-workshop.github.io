@@ -1,0 +1,62 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ "dev" ]
+
+concurrency:
+  group: development-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      NEXT_PUBLIC_BACKEND_URL: ${{ vars.DEV_BACKEND_URL }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set release timestamp
+        id: set_ts
+        run: echo "ts=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+
+      - name: Setup Bun.js - Cache dependencies - Install dependencies
+        uses: ./.github/workflows/setup-bun
+
+      - name: Run linting
+        run: bun run lint
+
+      - name: Run type checking
+        run: bun run type-check
+
+      - name: Install dependencies
+        shell: bash
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: |
+          bun ci --ignore-scripts
+          bun run build
+
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 22 "$SERVER_IP" >> ~/.ssh/known_hosts
+
+      - name: Upload files with rsync
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$SSH_PRIVATE_KEY"
+          rsync -az --delete \
+            -e "ssh -o StrictHostKeyChecking=yes -p 22" \
+            --exclude ".git" \
+            ./ "deploy@${SERVER_IP}:/var/www/en_w_reserver/releases/${{ steps.set_ts.outputs.ts }}/"
+
+      - name: Run remote deploy script
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "$SSH_PRIVATE_KEY"
+          ssh "deploy@${SERVER_IP}" "TIMESTAMP=${{ steps.set_ts.outputs.ts }} bash -s" < ./scripts/remote_deploy
