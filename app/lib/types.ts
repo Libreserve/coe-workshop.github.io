@@ -14,6 +14,9 @@ export interface AuthResponse {
 export interface RegisterRequest {
   firstName: string;
   lastName: string;
+  faculty?: string;
+  role: string;
+  phone: string;
 }
 
 export interface RegisterResponse {
