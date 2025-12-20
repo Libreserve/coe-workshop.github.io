@@ -9,7 +9,7 @@ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 // api ดึงข้อมูล
 export async function getCurrentUser(): Promise<AuthResponse> {
   try {
-    const res = await fetch(`${API_URL}/api/user`, {
+    const res = await fetch(`${API_URL}/v1/user/me`, {
       credentials: "include",
     });
 
@@ -24,7 +24,6 @@ export async function getCurrentUser(): Promise<AuthResponse> {
   }
 }
 
-// Logout
 export async function logout(): Promise<void> {
   try {
     await fetch(`${API_URL}/api/auth/logout`, {
@@ -40,7 +39,7 @@ export async function registerUser(
   data: RegisterRequest,
 ): Promise<RegisterResponse> {
   try {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
+    const res = await fetch(`${API_URL}/v1/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,5 +59,5 @@ export async function registerUser(
 }
 
 export function getLoginUrl(): string {
-  return `${API_URL}/auth`;
+  return `${API_URL}/v1/auth`;
 }

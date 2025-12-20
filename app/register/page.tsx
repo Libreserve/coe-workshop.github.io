@@ -51,6 +51,9 @@ export default function RegisterPage() {
       const result: RegisterResponse = await registerUser({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
+        faculty: "test",
+        role: "RESERVER",
+        phone: "1234567890",
       });
 
       if (result.success) {
