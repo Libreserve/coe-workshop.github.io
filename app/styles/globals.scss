@@ -4,9 +4,10 @@
   --font-Noto: "Noto Sans Thai", sans-serif;
 }
 
+// background colour for dark mode
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: $sub-dark;
     --foreground: #ededed;
   }
 }
