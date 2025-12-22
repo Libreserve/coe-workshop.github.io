@@ -46,6 +46,7 @@
 .content_text {
   font-size: 1rem;
   padding-left: 3.5rem;
+  color:$sub-550;
 
   @include respond-to(xs) {
     font-size: 1.2rem;
@@ -130,5 +131,11 @@
   @include respond-to(md) {
     gap: 1.5rem;
     padding-top: 1.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .content_text {
+    color: $sub-450;
   }
 }
