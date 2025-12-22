@@ -71,6 +71,10 @@
   align-items: center;
 }
 
+.icon_color {
+  color: $icon;
+}
+
 .action_button {
   font-size: 0.9rem;
   color: $sub-0;
@@ -120,4 +124,22 @@
   padding: 10px;
   background-color: $sub-0;
   color: $sub-1000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    .logo_mark {
+      color: $sub-100;
+    }
+    .logo_dot {
+      color: $sub-400;
+    }
+    p {
+      font-weight: bold;
+      color: $sub-200;
+    }
+  }
+  .icon_color {
+    color: $icon-dark;
+  }
 }
