@@ -49,7 +49,7 @@ function Navbar() {
       <div className={styles.action}>
         <IconSvgMono
           // svg={searchSvg}
-          className={`${styles.action_search}`}
+          className={`${styles.action_search} ${styles.icon_color}`}
           width={100}
           height={100}
           alt="search_icon"
