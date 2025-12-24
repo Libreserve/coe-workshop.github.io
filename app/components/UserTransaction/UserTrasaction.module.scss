@@ -55,7 +55,7 @@
   thead th {
     position: sticky;
     top: 0;
-    background: $sub-0-short;
+    background: $sub-0;
     z-index: 2;
   }
 }
@@ -83,7 +83,7 @@
       background: $sub-800;
     }
     thead th:hover .userInfo {
-      color: $sub-1000-short;
+      color: $sub-1000;
     }
   }
   .userRow {
@@ -93,19 +93,19 @@
     background-color: $sub-300;
   }
   .userRow:hover .userInfo {
-    color: $sub-1000-short;
+    color: $sub-1000;
   }
   .transactionRow {
     background-color: $sub-600;
   }
   .transactionRow:hover {
     background-color: $sub-200;
-    color: $sub-1000-short;
+    color: $sub-1000;
   }
   .message {
-    color: $sub-400-short;
+    color: $sub-400;
   }
   .transactionRow:hover .message {
-    color: $sub-600-short;
+    color: $sub-600;
   }
 }

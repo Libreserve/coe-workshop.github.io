@@ -2,7 +2,6 @@
 
 import useDisclosure from "@/app/hook/useDisclosure";
 import IconSvgMono from "@/app/components/Icon/SvgIcon";
-import { searchSvg, basketSvg } from "@/app/components/Icon/SvgIcon";
 import Image from "next/image";
 import Link from "next/link";
 import ModalContainer from "../ModalContainer/modalContainer";

@@ -101,11 +101,11 @@
 // }
 //var(--primary-color)
 
-// @media (prefers-color-scheme: dark) {
-//   .title {
-//     color: $sub-900-short;
-//   }
-//   .description {
-//     color: $sub-500-short;
-//   }
-// }
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: $sub-900 !important;
+  }
+  .description {
+    color: $sub-500 !important;
+  }
+}
