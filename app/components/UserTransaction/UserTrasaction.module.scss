@@ -38,7 +38,7 @@
 
 .message {
   width: 24rem;
-  color: $sub-500;
+  color: var(--text-fade-mid2);
 }
 
 .action {
@@ -101,9 +101,6 @@
   .transactionRow:hover {
     background-color: $sub-200;
     color: $sub-1000;
-  }
-  .message {
-    color: $sub-300;
   }
   .transactionRow:hover .message {
     color: $sub-600;

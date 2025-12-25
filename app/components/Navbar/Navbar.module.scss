@@ -19,10 +19,10 @@
   align-items: end;
 
   .logo_mark {
-    color: $sub-1000;
+    color: var(--logo-mark);
   }
   .logo_dot {
-    color: $sub-600;
+    color: var(--logo-dot);
   }
   p {
     font-weight: bold;
@@ -72,7 +72,7 @@
 }
 
 .icon_color {
-  color: $icon;
+  color: var(--icon);
 }
 
 .action_button {
@@ -123,23 +123,5 @@
 .navSlide_auth {
   padding: 10px;
   background-color: $sub-0;
-  color: $sub-1000;
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    .logo_mark {
-      color: $sub-100;
-    }
-    .logo_dot {
-      color: $sub-400;
-    }
-    p {
-      font-weight: bold;
-      color: $sub-200;
-    }
-  }
-  .icon_color {
-    color: $icon-dark;
-  }
+  color: var(--text-normal);
 }

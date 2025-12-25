@@ -2,6 +2,7 @@
 @use "breakpoints" as *;
 :root {
   --font-Noto: "Noto Sans Thai", sans-serif;
+  @include theme-vars($light);
 }
 
 
@@ -104,9 +105,11 @@ table {
   }
 }
 
+
 // background colour for dark mode
 @media (prefers-color-scheme: dark) {
   :root {
+    @include theme-vars($dark);
     --background: #1f1f1f;
     --foreground: #ededed;
   }

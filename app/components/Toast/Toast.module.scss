@@ -70,6 +70,7 @@
 
 .title {
   font-size: 0.8rem;
+  color: $sub-1000;
 }
 .description {
   font-size: 0.6rem;
@@ -100,12 +101,3 @@
 //   position: fixed;
 // }
 //var(--primary-color)
-
-@media (prefers-color-scheme: dark) {
-  .title {
-    color: $sub-900 !important;
-  }
-  .description {
-    color: $sub-500 !important;
-  }
-}
