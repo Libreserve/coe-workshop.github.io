@@ -1,0 +1,30 @@
+@use "../../styles/variables" as *;
+
+.select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  .require {
+    color: $red-600;
+  }
+}
+
+.input {
+  width: fit-content;
+  position: relative;
+  .input_select {
+    border: 1px solid $sub-200;
+    padding: 0.4rem 2.8rem 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    z-index: 4;
+    transform: translateY(-50%);
+  }
+}

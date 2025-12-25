@@ -110,3 +110,7 @@ table {
     background-color: $sub-100;
   }
 }
+select option {
+  border: none;
+  outline: none;
+}
