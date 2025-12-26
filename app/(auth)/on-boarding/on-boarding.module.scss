@@ -2,8 +2,8 @@
 
 .onBoarding {
   width: clamp(16rem, 90%, 30rem);
+  margin: 3rem;
   margin-inline: auto;
-  margin-top: 4rem;
 }
 .header {
   display: flex;
@@ -21,6 +21,10 @@
   background-color: $sub-1000;
   border-radius: 0.4rem;
   color: $sub-0;
-  padding: 0.4rem;
-  margin: 1rem 0;
+  padding: 0.6rem;
+}
+
+.errorEndpoint {
+  color: $red-500;
+  padding-top: 0.4rem;
 }

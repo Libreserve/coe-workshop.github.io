@@ -13,6 +13,7 @@ export const Select = ({
   options,
   placeholder,
   errorMessage,
+  onTop = false,
   onChange,
 }: SelectProps) => {
   const { ref, isOpen, setIsopen } = useClickOutSide();
@@ -36,7 +37,10 @@ export const Select = ({
           height={12}
         ></Image>
         {isOpen && (
-          <div ref={ref} className={styles.input_choiceContainer}>
+          <div
+            ref={ref}
+            className={`${styles.input_choiceContainer} ${styles.input_onTop}`}
+          >
             {options.map((prefix, index) => (
               <button
                 className={styles.input_choice}
@@ -52,6 +56,9 @@ export const Select = ({
           </div>
         )}
       </div>
+      {value === "" && errorMessage && (
+        <p className={styles.errorMessage}>{errorMessage}</p>
+      )}
     </div>
   );
 };

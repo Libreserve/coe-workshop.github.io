@@ -1,6 +1,5 @@
 "use client";
-
-import { useSetState } from "@mantine/hooks";
+import { FormError } from "@/app/types/ui/form";
 import styles from "./on-boarding.module.scss";
 import { TextInput } from "@/app/components/TextInput/TextInput";
 import { useEffect, useState } from "react";
@@ -42,6 +41,20 @@ const OnBoarding = () => {
     "บุคคลภายนอก",
   ]);
   const [major, setMajor] = useState<string>("");
+  const [errors, setErrors] = useState<FormError>({
+    prefix: "",
+    name: "",
+    lastname: "",
+    tel: "",
+    major: "",
+  });
+
+  const handleSubmit = () => {
+    console.log("hello");
+    setErrors({
+      endpoint: "กรุณากรอกข้อมูล",
+    });
+  };
   return (
     <div className={styles.onBoarding}>
       <div className={styles.header}>
@@ -51,7 +64,13 @@ const OnBoarding = () => {
           กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนก่อนกดส่งแบบฟอร์ม
         </p>
       </div>
-      <form className={styles.form} action="">
+      <form
+        className={styles.form}
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         <Select
           label="คำนำหน้า"
           onChange={setPrefix}
@@ -59,6 +78,7 @@ const OnBoarding = () => {
           value={prefix}
           options={prefixChoice}
           require
+          errorMessage={errors.prefix}
         ></Select>
         <TextInput
           require={true}
@@ -66,6 +86,7 @@ const OnBoarding = () => {
           onChange={setName}
           title="ชื่อ"
           placeholder="กรอกชื่อของคุณ"
+          errorMessage={errors.name}
         ></TextInput>
         <TextInput
           require={true}
@@ -73,6 +94,7 @@ const OnBoarding = () => {
           onChange={setLastname}
           title="นามสกุล"
           placeholder="กรอกนามสกุลของคุณ"
+          errorMessage={errors.lastname}
         ></TextInput>
         <TextInput
           require={true}
@@ -80,6 +102,7 @@ const OnBoarding = () => {
           onChange={setTel}
           title="เบอร์ติดต่อ"
           placeholder="0812345678"
+          errorMessage={errors.tel}
         ></TextInput>
         <Select
           label="คณะ/วิทยาลัย"
@@ -88,7 +111,10 @@ const OnBoarding = () => {
           value={major}
           options={majorChoice}
           require
+          onTop
+          errorMessage={errors.major}
         ></Select>
+        <p className={styles.errorEndpoint}>{errors.endpoint}</p>
         <button type="submit" className={styles.register}>
           ลงทะเบียน
         </button>

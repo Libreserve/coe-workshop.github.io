@@ -6,4 +6,5 @@ export interface SelectProps {
   options: string[];
   placeholder?: string;
   errorMessage?: string;
+  onTop?: boolean;
 }
