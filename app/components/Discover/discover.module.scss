@@ -106,11 +106,11 @@
             }
 
             .text_default {
-              color: gray;
+              color: var(--text-fade-mid);
             }
 
             .text_hover {
-              color: black;
+              color: var(--text-fade-high);
               position: absolute;
               top: 0;
               left: 0;

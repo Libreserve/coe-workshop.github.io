@@ -38,7 +38,7 @@
 
 .message {
   width: 24rem;
-  color: $sub-500;
+  color: var(--text-fade-mid2);
 }
 
 .action {
@@ -55,7 +55,7 @@
   thead th {
     position: sticky;
     top: 0;
-    background: #fff;
+    background: $sub-0;
     z-index: 2;
   }
 }
@@ -75,4 +75,34 @@
   border-radius: 0.2rem;
   background-color: $sub-700;
   color: $sub-0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    thead th {
+      background: $sub-800;
+    }
+    thead th:hover .userInfo {
+      color: $sub-1000;
+    }
+  }
+  .userRow {
+    background-color: $sub-700;
+  }
+  .userRow:hover {
+    background-color: $sub-300;
+  }
+  .userRow:hover .userInfo {
+    color: $sub-1000;
+  }
+  .transactionRow {
+    background-color: $sub-600;
+  }
+  .transactionRow:hover {
+    background-color: $sub-200;
+    color: $sub-1000;
+  }
+  .transactionRow:hover .message {
+    color: $sub-600;
+  }
 }

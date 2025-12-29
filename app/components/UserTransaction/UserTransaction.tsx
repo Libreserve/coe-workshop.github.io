@@ -1,6 +1,7 @@
 "use client";
 
 import { mockUserTableTransactions } from "@/app/mockdata/mockdata";
+import IconSvgMono from "@/app/components/Icon/SvgIcon";
 import Image from "next/image";
 import React, { useState } from "react";
 import { StatusTag } from "../StatusTag/StatusTag";
@@ -50,18 +51,19 @@ export const UserTransaction = () => {
               <tr className={styles.userRow}>
                 <td colSpan={5}>
                   <div className={styles.userInfo}>
-                    <Image
-                      style={{
+                    <div style={{
                         transform: openTransaction.includes(index)
                           ? ""
                           : "rotate(-90deg)",
                       }}
-                      onClick={() => toggleOpenTransaction(index)}
-                      src={`/icon/arrow.svg`}
-                      width={15}
-                      height={15}
-                      alt="arrowDown"
-                    ></Image>
+                      onClick={() => toggleOpenTransaction(index)}>
+                        <IconSvgMono
+                        src={`/icon/arrow.svg`}
+                        width={15}
+                        height={15}
+                        alt="arrowDown"
+                      ></IconSvgMono>
+                    </div>
                     <h2 className={styles.username}>{item.startTime}</h2>
                   </div>
                 </td>
