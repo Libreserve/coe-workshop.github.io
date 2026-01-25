@@ -1,0 +1,39 @@
+@use "../../../styles/breakpoints" as *;
+@use "../../../styles/variables" as *;
+.toolitem {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  gap: 2rem;
+
+  @include respond-to-max(lg) {
+  }
+}
+.info {
+  width: 100%;
+  .info_title {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    .info_itemname {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+    .info_category {
+      background-color: $sub-300;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.4rem;
+    }
+  }
+}
+
+.action {
+  padding: 1rem 0;
+  width: 100%;
+  .action_title {
+    display: flex;
+    justify-content: space-between;
+    .action_reserve {
+      background-color: ---;
+    }
+  }
+}
