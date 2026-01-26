@@ -222,3 +222,15 @@
     gap: rem(15.35px);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .right_heading {
+    color: var(--background);
+  }
+  .right_content {
+    color: var(--background);
+  }
+  .blog {
+    filter: brightness(80%);
+  }
+}

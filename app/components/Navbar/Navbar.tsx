@@ -2,7 +2,6 @@
 
 import useDisclosure from "@/app/hook/useDisclosure";
 import IconSvgMono from "@/app/components/Icon/SvgIcon";
-import { searchSvg, basketSvg } from "@/app/components/Icon/SvgIcon";
 import Image from "next/image";
 import Link from "next/link";
 import ModalContainer from "../ModalContainer/modalContainer";
@@ -49,7 +48,7 @@ function Navbar() {
       <div className={styles.action}>
         <IconSvgMono
           // svg={searchSvg}
-          className={`${styles.action_search}`}
+          className={`${styles.action_search} ${styles.icon_color}`}
           width={100}
           height={100}
           alt="search_icon"

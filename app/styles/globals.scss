@@ -2,15 +2,9 @@
 @use "breakpoints" as *;
 :root {
   --font-Noto: "Noto Sans Thai", sans-serif;
+  @include theme-vars($light);
 }
 
-// background colour for dark mode
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: $sub-dark;
-    --foreground: #ededed;
-  }
-}
 
 html,
 body {
@@ -75,7 +69,7 @@ h4 {
 p {
   font-size: 0.8rem;
   font-weight: 400;
-  color: $sub-500;
+  color: $sub-550;
 }
 input {
   font-family: var(--font-Noto);
@@ -110,7 +104,16 @@ table {
     background-color: $sub-100;
   }
 }
-select option {
-  border: none;
-  outline: none;
+
+
+// background colour for dark mode
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include theme-vars($dark);
+    --background: #1f1f1f;
+    --foreground: #ededed;
+  }
+  p {
+    color: $sub-400;
+  }
 }

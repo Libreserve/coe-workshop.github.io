@@ -4,7 +4,9 @@ $sub-100: #f5f5f5;
 $sub-200: #e5e5e5;
 $sub-300: #cccccc;
 $sub-400: #999999;
+$sub-450: #7f7f7f;
 $sub-500: #666666;
+$sub-550: #565656;
 $sub-600: #4d4d4d;
 $sub-700: #333333;
 $sub-800: #1a1a1a;
@@ -46,6 +48,39 @@ $yellow-900: #713f12;
 
 
 
-$bg-dark: #1f1f1f;
-$icon:#333;
-$icon-dark:#ccc;
+
+// for every element color
+// how to use :
+// Ex. var(--logo-mark)
+$light: (
+    test : $green-500,
+
+    icon : #333,
+    logo-mark : $sub-1000,
+    logo-dot : $sub-600,
+
+    text-normal : $sub-1000,
+    text-fade-low : $sub-400,
+    text-fade-mid : $sub-500,
+    text-fade-mid2 : $sub-550,
+    text-fade-high : $sub-700,
+);
+$dark: (
+    test : $green-500,
+
+    icon:#ccc,
+    logo-mark : $sub-0,
+    logo-dot : $sub-400,
+
+    text-normal : $sub-100,
+    text-fade-low : $sub-500,
+    text-fade-mid : $sub-400,
+    text-fade-mid2 : $sub-300,
+    text-fade-high : $sub-200,
+);
+
+@mixin theme-vars($map) {
+  @each $name, $value in $map {
+    --#{$name}: #{$value};
+  }
+}
