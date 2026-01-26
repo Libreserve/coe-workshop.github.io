@@ -11,7 +11,6 @@ const ModalContainer = ({ opened, onClose, children }: ModalContainerProps) => {
           className={styles.background}
           onClick={() => {
             onClose();
-            console.log("hello");
           }}
         ></div>
       </div>

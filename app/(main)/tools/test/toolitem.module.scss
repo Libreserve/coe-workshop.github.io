@@ -27,13 +27,13 @@
 }
 
 .action {
-  padding: 1rem 0;
+  padding: 1.2rem 0;
   width: 100%;
   .action_title {
     display: flex;
     justify-content: space-between;
     .action_reserve {
-      background-color: ---;
+      cursor: pointer;
     }
   }
 }

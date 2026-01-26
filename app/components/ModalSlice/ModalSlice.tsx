@@ -1,13 +1,23 @@
-import { ReactNode } from "react";
+import styles from "./Modal.module.scss";
+import { ModalSliceProps } from "./ModalSlice.types";
 
-const ModalSlice = ({
-  openedd,
-  onClose,
-  children,
-}: {
-  children: ReactNode;
-}) => {
-  return <div>{children}</div>;
+const ModalSlice = ({ opened, onClose, children }: ModalSliceProps) => {
+  if (opened) {
+    return (
+      <div className={styles.modalContainer}>
+        <div className={styles.children}>{children}</div>
+        <div
+          className={styles.background}
+          onClick={() => {
+            onClose();
+            console.log("hello");
+          }}
+        ></div>
+      </div>
+    );
+  } else {
+    return;
+  }
 };
 
 export default ModalSlice;
