@@ -1,5 +1,5 @@
 "use client";
-
+import { Select } from "@/app/components/Select/Select";
 import ModalSlice from "@/app/components/ModalSlice/ModalSlice";
 import Image from "next/image";
 import styles from "./toolitem.module.scss";
@@ -15,6 +15,8 @@ const Toolitem = () => {
     Ut enim ad minim veniam, quis nostrud 
     `);
   const { opened, handle } = useDisclosure();
+  const [assetIdOption] = useState<string[]>(["671455kku", "6l514j5kku"]);
+  const [assetId] = useState();
   const opendhide = () => {
     handle.open();
     console.log(" Hello");
@@ -29,8 +31,7 @@ const Toolitem = () => {
             การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
             จุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
           </p>
-          
-
+          <Select value={assetId}  label="หมายเลขครุภัณฑ์"></Select>
         </div>
       </ModalSlice>
       <section className={styles.info}>
