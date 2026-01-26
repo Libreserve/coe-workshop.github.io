@@ -1,0 +1,62 @@
+@use "../../styles/variables" as *;
+
+.select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  .require {
+    color: $red-600;
+  }
+}
+
+.input {
+  width: fit-content;
+  position: relative;
+  display: flex;
+  gap: 4rem;
+  width: fit-content;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid $sub-200;
+  justify-content: space-between;
+  align-items: center;
+
+  .input_value {
+    text-wrap: nowrap;
+  }
+
+  .input_choiceContainer {
+    max-height: 12rem;
+    overflow-y: auto;
+    position: absolute;
+    top: 2.4rem;
+    left: 0;
+    padding: 0.4rem 0;
+    background-color: $sub-0;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    border-radius: 0.4rem;
+    .input_choice {
+      margin: 0.2rem 0;
+      background-color: $sub-0;
+      text-align: start;
+      text-wrap: nowrap;
+      width: 100%;
+      padding: 0.2rem 4rem 0.2rem 1rem;
+      &:hover {
+        background-color: $sub-200;
+      }
+    }
+  }
+  .input_onTop {
+    top: unset;
+    bottom: 2.4rem;
+  }
+}
+
+.input_focus {
+  border: 2px solid $sub-1000;
+}
+
+.errorMessage {
+  color: $red-500;
+}

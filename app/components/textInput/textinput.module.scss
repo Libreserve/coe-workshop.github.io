@@ -1,15 +1,21 @@
-@use "../../../styles/variables" as *;
+@use "../../styles/variables" as *;
 
 .textInput {
   display: flex;
   flex-direction: column;
-  width: clamp(200px, 80%, 300px);
+  width: 100%;
 
   .textInput_input {
     padding: 8px 12px;
-    background-color: $sub-100;
-    border: 0;
-    border-radius: 4px;
+    border: 1px solid $sub-200;
+    border-radius: 0.4rem;
+  }
+
+  .error_input {
+    border: 1px solid $red-600;
+    &::placeholder {
+      color: $red-600;
+    }
   }
 
   .textInput_label {
@@ -17,6 +23,12 @@
   }
 
   .textInput_require {
-    color: $red-400;
+    color: $red-600;
   }
+}
+
+.error_message {
+  color: $red-600;
+  margin-top: 0.4rem;
+  margin-left: 0.4rem;
 }
