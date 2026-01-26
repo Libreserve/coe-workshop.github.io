@@ -25,6 +25,6 @@
 }
 
 .errorEndpoint {
-  color: $red-500;
+  color: var(--error-red);
   padding-top: 0.4rem;
 }

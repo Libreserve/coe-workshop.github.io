@@ -5,6 +5,7 @@ import styles from "./Select.module.scss";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
+import IconSvgMono from "@/app/components/Icon/SvgIcon";
 
 export const Select = ({
   value,
@@ -29,13 +30,13 @@ export const Select = ({
       >
         <h4 className={styles.input_value}>{!!value ? value : placeholder}</h4>
 
-        <Image
+        <IconSvgMono
           className={styles.icon}
           src={"/icon/arrow.svg"}
           alt="arrow"
           width={12}
           height={12}
-        ></Image>
+        ></IconSvgMono>
         {isOpen && (
           <div
             ref={ref}

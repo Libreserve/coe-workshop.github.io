@@ -1,7 +1,7 @@
 "use client";
 import { FormError } from "@/app/types/ui/form";
 import styles from "./on-boarding.module.scss";
-import { TextInput } from "@/app/components/TextInput/TextInput";
+import { TextInput } from "@/app/components/textInput/textInput";
 import { useEffect, useState } from "react";
 import { Select } from "@/app/components/Select/Select";
 
@@ -124,3 +124,6 @@ const OnBoarding = () => {
 };
 
 export default OnBoarding;
+
+
+// sent with redux

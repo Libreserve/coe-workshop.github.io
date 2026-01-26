@@ -29,6 +29,7 @@ $red-100: #fee2e2;
 $red-200: #fecaca;
 $red-300: #fca5a5;
 $red-400: #f87171;
+$red-450: #ff5555;
 $red-500: #ef4444;
 $red-600: #dc2626;
 $red-700: #b91c1c;
@@ -64,19 +65,34 @@ $light: (
     text-fade-mid : $sub-500,
     text-fade-mid2 : $sub-550,
     text-fade-high : $sub-700,
-);
+    
+    warning-red: $red-600,
+    error-red: $red-500,
+    
+    box-background : $sub-0,
+    box-hover : $sub-200,
+    box-shadow: rgba(0, 0, 0, 0.05),
+    );
 $dark: (
     test : $green-500,
-
+    
     icon:#ccc,
     logo-mark : $sub-0,
     logo-dot : $sub-400,
 
     text-normal : $sub-100,
+    text-inverse : $sub-1000,
     text-fade-low : $sub-500,
     text-fade-mid : $sub-400,
     text-fade-mid2 : $sub-300,
     text-fade-high : $sub-200,
+    
+    warning-red: $red-450,
+    error-red: $red-400,
+    
+    box-background : $sub-800,
+    box-hover : $sub-700,
+    box-shadow: rgba(255, 255, 255, 0.05),
 );
 
 @mixin theme-vars($map) {

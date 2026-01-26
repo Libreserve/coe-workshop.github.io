@@ -7,14 +7,14 @@
 
   .textInput_input {
     padding: 8px 12px;
-    border: 1px solid $sub-200;
+    border: 1px solid var(--warning-red);
     border-radius: 0.4rem;
   }
 
   .error_input {
-    border: 1px solid $red-600;
+    border: 1px solid var(--warning-red);
     &::placeholder {
-      color: $red-600;
+      color: var(--warning-red);
     }
   }
 
@@ -23,12 +23,12 @@
   }
 
   .textInput_require {
-    color: $red-600;
+    color: var(--warning-red);
   }
 }
 
 .error_message {
-  color: $red-600;
+  color: var(--warning-red);
   margin-top: 0.4rem;
   margin-left: 0.4rem;
 }
