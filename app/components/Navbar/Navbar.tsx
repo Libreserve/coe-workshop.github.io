@@ -53,7 +53,7 @@ function Navbar() {
           height={100}
           alt="search_icon"
           src={"./search.svg"}
-          ></IconSvgMono>
+        ></IconSvgMono>
         <IconSvgMono
           // svg={basketSvg}
           className={`${styles.action_basket} ${styles.icon_color}`}
@@ -75,9 +75,13 @@ function Navbar() {
             ออกจากระบบ
           </div>
         ) : (
-          <div className={styles.action_button} onClick={handleLoginClick}>
+          <button
+            type="button"
+            className={styles.action_button}
+            onClick={handleLoginClick}
+          >
             เริ่มใช้งาน
-          </div>
+          </button>
         )}
       </div>
       <ModalContainer opened={opened} onClose={handle.close}>
