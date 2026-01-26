@@ -1,10 +1,11 @@
 "use client";
-import { Select } from "@/app/components/Select/Select";
 import ModalSlice from "@/app/components/ModalSlice/ModalSlice";
-import Image from "next/image";
-import styles from "./toolitem.module.scss";
-import { useState } from "react";
+import { Select } from "@/app/components/Select/Select";
 import useDisclosure from "@/app/hook/useDisclosure";
+import { useState } from "react";
+import { AreaInput } from "@/app/components/AreaInput/AreaInput";
+import styles from "./toolitem.module.scss";
+import DatePicker from "@/app/components/Datepicker/Datepicker";
 const Toolitem = () => {
   const [itemName] = useState<string>("Occaecat");
   const [category] = useState<string>("กระมงปรือ");
@@ -16,10 +17,48 @@ const Toolitem = () => {
     `);
   const { opened, handle } = useDisclosure();
   const [assetIdOption] = useState<string[]>(["671455kku", "6l514j5kku"]);
-  const [assetId] = useState();
-  const opendhide = () => {
-    handle.open();
-    console.log(" Hello");
+  const [assetId, setAssetId] = useState<string>();
+  const [timeOptions, setTimeOptions] = useState<string[]>([
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+  ]);
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const [object, setObject] = useState<string>("");
+
+  const getStartTimeOptions = (): string[] => {
+    let startTimeOptions = timeOptions.slice(0, -1);
+
+    if (!endTime) {
+      return startTimeOptions;
+    }
+
+    const pos = timeOptions.indexOf(endTime);
+    return startTimeOptions.filter((_, index) => index < pos);
+  };
+
+  const getEndTimeOptions = (): string[] => {
+    let endTimeOptions = timeOptions.slice(1);
+
+    if (!startTime) {
+      return endTimeOptions;
+    }
+
+    const pos = timeOptions.indexOf(startTime);
+    return endTimeOptions.filter((_, index) => index + 1 > pos);
   };
 
   return (
@@ -31,7 +70,44 @@ const Toolitem = () => {
             การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
             จุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
           </p>
-          <Select value={assetId}  label="หมายเลขครุภัณฑ์"></Select>
+          <form className={styles.form} action="">
+            <Select
+              onChange={setAssetId}
+              value={assetId}
+              options={assetIdOption}
+              label="หมายเลขครุภัณฑ์"
+              placeholder="--โปรดเลือกเลขครุภัณฑ์--"
+              errorMessage=""
+            ></Select>
+            <div className={styles.form_time}>
+              <Select
+                onChange={setStartTime}
+                value={startTime}
+                options={getStartTimeOptions()}
+                label="เวลาเริ่มจอง"
+                placeholder="--:--"
+                errorMessage=""
+              ></Select>
+              <Select
+                onChange={setEndTime}
+                value={endTime}
+                options={getEndTimeOptions()}
+                label="เวลาสิ้นสุด"
+                placeholder="--:--"
+                errorMessage=""
+              ></Select>
+            </div>
+            <AreaInput
+              value={object}
+              onChange={setObject}
+              label="จุดประสงค์การจอง"
+              placeholder="บอกจุดประสงค์การใช้งานเพื่อแจ้งให้ผู้ดูแลทราบ"
+            ></AreaInput>
+            <DatePicker></DatePicker>
+            <button className={styles.form_submit} type="submit">
+              ยืนยันการจอง
+            </button>
+          </form>
         </div>
       </ModalSlice>
       <section className={styles.info}>
@@ -46,7 +122,7 @@ const Toolitem = () => {
         <div className={styles.action_title}>
           <h2>ตารางการจอง</h2>
           <button
-            onClick={() => opendhide()}
+            onClick={() => handle.open()}
             type="button"
             className={styles.action_reserve}
           >
