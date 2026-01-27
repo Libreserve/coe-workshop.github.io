@@ -1,4 +1,5 @@
 @use "../../styles/variables" as *;
+@use "../../styles/breakpoints" as *;
 
 .modalContainer {
   width: 100vw;
@@ -17,10 +18,15 @@
 .children {
   z-index: 100;
   position: absolute;
-  left: 0;
+  right: 0;
   bottom: 0;
   background-color: var(--theme-0);
-  width: 100%;
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
+  height: 100%;
+  width: 30rem;
+  @include respond-to-max(md) {
+    height: fit-content;
+    width: 100%;
+  }
 }

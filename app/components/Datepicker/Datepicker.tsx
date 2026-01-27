@@ -251,7 +251,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
           className={styles.placeholder_img}
         /> */}
         {!selectedDate || !active ? (
-          <div>Calendar</div>
+          <h3>--/--/----</h3>
         ) : (
           <>
             {`${selectedDate.getDate()} ${
@@ -269,6 +269,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
         <div className={styles.header}>
           <button className={styles.prev_button} onClick={() => prev(view)}>
             <IconSvgMono
+              className={styles.prev_button}
               src={"./arrow.svg"}
               alt="arrow"
               width={20}

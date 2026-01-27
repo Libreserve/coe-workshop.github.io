@@ -64,7 +64,7 @@ const Toolitem = () => {
   return (
     <div className={styles.toolitem}>
       <ModalSlice onClose={handle.close} opened={opened}>
-        <div>
+        <div className={styles.transaction}>
           <h2>แบบฟอร์มการจอง</h2>
           <p>
             การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
@@ -79,6 +79,10 @@ const Toolitem = () => {
               placeholder="--โปรดเลือกเลขครุภัณฑ์--"
               errorMessage=""
             ></Select>
+            <div className={styles.form_calendar}>
+              <h3>วันที่จอง</h3>
+              <DatePicker></DatePicker>
+            </div>
             <div className={styles.form_time}>
               <Select
                 onChange={setStartTime}
@@ -97,13 +101,13 @@ const Toolitem = () => {
                 errorMessage=""
               ></Select>
             </div>
+
             <AreaInput
               value={object}
               onChange={setObject}
               label="จุดประสงค์การจอง"
               placeholder="บอกจุดประสงค์การใช้งานเพื่อแจ้งให้ผู้ดูแลทราบ"
             ></AreaInput>
-            <DatePicker></DatePicker>
             <button className={styles.form_submit} type="submit">
               ยืนยันการจอง
             </button>

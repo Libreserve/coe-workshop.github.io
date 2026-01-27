@@ -37,7 +37,12 @@
     }
   }
 }
+.transaction {
+  height: 100%;
+}
+
 .form {
+  height: 100%;
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
@@ -51,5 +56,10 @@
     color: var(--theme-0);
     padding: 0.4rem;
     border-radius: 0.6rem;
+  }
+  .form_calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 }

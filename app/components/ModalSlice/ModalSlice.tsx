@@ -10,7 +10,6 @@ const ModalSlice = ({ opened, onClose, children }: ModalSliceProps) => {
           className={styles.background}
           onClick={() => {
             onClose();
-            console.log("hello");
           }}
         ></div>
       </div>
