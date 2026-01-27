@@ -199,23 +199,20 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
     if (isSameDate) {
       setSelectedDate(null);
       setPrevSelectedDate(null);
-      setDay(dummy.getDate());
-      setMonth(dummy.getMonth());
-      setYear(dummy.getFullYear());
-      onChange?.(null);
+      setDay(day);
+      setMonth(month);
+      setYear(year);
     } else {
       setSelectedDate(updatedDate);
       setPrevSelectedDate(updatedDate);
-      onChange?.(updatedDate);
       setDay(day);
     }
-    setView(ViewMode.CLOSED);
     setActive(true);
   };
   const handleOnSelectMonth = (month: number) => {
     const updatedDate = new Date(year, month, day);
     setSelectedDate(updatedDate);
-    onChange?.(updatedDate);
+    setPrevSelectedDate(updatedDate);
     setMonth(month);
     setView(ViewMode.DATE);
     setActive(true);
@@ -223,14 +220,23 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
   const handleOnSelectYear = (year: number) => {
     const updatedDate = new Date(year, month, day);
     setSelectedDate(updatedDate);
-    onChange?.(updatedDate);
+    setPrevSelectedDate(updatedDate);
     setYear(year);
     setView(ViewMode.MONTH);
     setActive(true);
   };
-  const handleUndoOverlay = () => {
+  const handleConfirmOverlay = () => {
     setView(ViewMode.CLOSED);
-    setPrevSelectedDate(new Date(day, year, month));
+    onChange?.(selectedDate);
+    if (selectedDate) {
+      setDay(selectedDate.getDate());
+      setMonth(selectedDate.getMonth());
+      setYear(selectedDate.getFullYear());
+      return;
+    }
+    setDay(dummy.getDate());
+    setMonth(dummy.getMonth());
+    setYear(dummy.getFullYear());
   };
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
@@ -373,11 +379,11 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
         </div>
       </div>
 
-      {/* picker undo overlay */}
-      {!(view === ViewMode.CLOSED) && (
+      {/* picker last confirm selected  overlay */}
+      {view === ViewMode.DATE && (
         <div
-          className={styles.undo_datepicker_overlay}
-          onClick={() => handleUndoOverlay()}
+          className={styles.confirm_datepicker_overlay}
+          onClick={() => handleConfirmOverlay()}
         ></div>
       )}
     </div>

@@ -90,7 +90,7 @@
     gap: rem(4px);
 }
 
-.undo_datepicker_overlay {
+.confirm_datepicker_overlay {
     height: 100%;
     width: 100%;
     position: fixed;
@@ -305,11 +305,12 @@
 } 
 
 .prev_button {
-    rotate: 180deg;
+    rotate: 90deg;
     left: rem(20px);
 }
 
 .next_button {
+    rotate: -90deg;
     right: rem(20px);
 }
 
