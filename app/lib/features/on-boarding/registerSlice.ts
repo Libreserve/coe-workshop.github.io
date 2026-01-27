@@ -43,6 +43,7 @@ export const apiSliceWithRegister = apiSlice.injectEndpoints({
         method: "POST",
         body: form,
       }),
+      invalidatesTags: ["register"],
     }),
   }),
 });

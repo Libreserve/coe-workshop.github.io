@@ -80,6 +80,8 @@ const OnBoarding = () => {
       } else {
         setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" })
       }
+    } finally {
+      console.log("sent: ", form);
     }
   };
 
@@ -149,6 +151,3 @@ const OnBoarding = () => {
 };
 
 export default OnBoarding;
-
-
-// sent with redux
