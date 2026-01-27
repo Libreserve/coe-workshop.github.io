@@ -1,5 +1,5 @@
 import { TextInputProps } from "./tpyes";
-import styles from "./textinput.module.scss";
+import styles from "./temp.module.scss";
 import React from "react";
 
 export const TextInput = ({

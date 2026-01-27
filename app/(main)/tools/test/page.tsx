@@ -31,7 +31,7 @@ const Toolitem = () => {
             การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
             จุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
           </p>
-          <Select value={assetId}  label="หมายเลขครุภัณฑ์"></Select>
+          {/* <Select value={assetId}  label="หมายเลขครุภัณฑ์"></Select> */}
         </div>
       </ModalSlice>
       <section className={styles.info}>
