@@ -4,8 +4,24 @@ import styles from "./on-boarding.module.scss";
 import { TextInput } from "@/app/components/temp/temp";
 import { useEffect, useState } from "react";
 import { Select } from "@/app/components/Select/Select";
+import { useRegisterUserMutation } from "@/app/lib/features/on-boarding/registerSlice";
+import { RegisterRequest } from "@/app/lib/types";
 
 const OnBoarding = () => {
+  // State
+  const [registerUser, { isLoading, isError, error, isSuccess }] = useRegisterUserMutation();
+
+  const [form, setForm] = useState<RegisterRequest>({
+    prefix: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    faculty: "",
+    isUniStudent: true,
+    role: "RESERVER",
+  });
+
+  // init
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [tel, setTel] = useState<string>("");
@@ -41,6 +57,8 @@ const OnBoarding = () => {
     "บุคคลภายนอก",
   ]);
   const [major, setMajor] = useState<string>("");
+
+  // handle
   const [errors, setErrors] = useState<FormError>({
     prefix: "",
     name: "",
@@ -49,12 +67,22 @@ const OnBoarding = () => {
     major: "",
   });
 
-  const handleSubmit = () => {
-    console.log("hello");
-    setErrors({
-      endpoint: "กรุณากรอกข้อมูล",
-    });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await registerUser(form).unwrap();
+      console.log("ลงทะเบียนสำเร็จ");
+    } catch (err: any) {
+      // err: any ล้าง TypeScript ไม่รู้ structure
+      console.error("เกิดข้อผิดพลาด:", err);
+      if (err?.data?.error) {
+        setErrors({ endpoint: "เกิดข้อผิดพลาด: " + String(err.data.error) })
+      } else {
+        setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" })
+      }
+    }
   };
+
   return (
     <div className={styles.onBoarding}>
       <div className={styles.header}>
@@ -66,10 +94,7 @@ const OnBoarding = () => {
       </div>
       <form
         className={styles.form}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit}
       >
         <Select
           label="คำนำหน้า"

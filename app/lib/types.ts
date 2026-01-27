@@ -11,11 +11,17 @@ export interface AuthResponse {
   data: User | null;
 }
 
+// NOTE : Shared UserRoleEnum from backend for usable
+export const UserRoleEnum = ["RESERVER", "ADMIN"] as const;
+export type UserRoleEnum = typeof UserRoleEnum[number];
+
 export interface RegisterRequest {
   firstName: string;
   lastName: string;
+  prefix: string;
+  isUniStudent: boolean;
   faculty?: string;
-  role: string;
+  role: UserRoleEnum;
   phone: string;
 }
 

@@ -4,6 +4,7 @@ import Toast from "./components/Toast/Toast";
 import ToastProvider from "./Context/Toast/ToastProvider";
 import "./styles/globals.scss";
 import { AuthProvider } from "./Context/AuthContext/AuthContext";
+import { Providers } from "./lib/providers";
 
 const geistNoto = Noto_Sans_Thai({
   variable: "--font-Noto",
@@ -24,7 +25,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistNoto.variable} `}>
         <ToastProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Providers>
+              {children}
+            </Providers>
+          </AuthProvider>  
           <Toast Position="bottom-right"></Toast>
         </ToastProvider>
       </body>
