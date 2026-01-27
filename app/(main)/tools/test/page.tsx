@@ -1,10 +1,11 @@
 "use client";
-import ModalSlice from "@/app/components/ModalSlice/ModalSlice";
+import ModalSlice from "@/app/components/ModalSlide/ModalSlice";
 import { Select } from "@/app/components/Select/Select";
 import useDisclosure from "@/app/hook/useDisclosure";
 import { useState } from "react";
 import { AreaInput } from "@/app/components/AreaInput/AreaInput";
 import styles from "./toolitem.module.scss";
+import { FormError } from "@/app/types/ui/form";
 import DatePicker from "@/app/components/Datepicker/Datepicker";
 const Toolitem = () => {
   const [itemName] = useState<string>("Occaecat");
@@ -38,6 +39,12 @@ const Toolitem = () => {
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
   const [object, setObject] = useState<string>("");
+  const [formError, setFormError] = useState<FormError>({
+    assetId: "",
+    startTime: "",
+    endTime: "",
+    object: "",
+  });
 
   const getStartTimeOptions = (): string[] => {
     let startTimeOptions = timeOptions.slice(0, -1);
@@ -61,6 +68,8 @@ const Toolitem = () => {
     return endTimeOptions.filter((_, index) => index + 1 > pos);
   };
 
+  const handleSubmit = () => {};
+
   return (
     <div className={styles.toolitem}>
       <ModalSlice onClose={handle.close} opened={opened}>
@@ -70,8 +79,16 @@ const Toolitem = () => {
             การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
             จุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
           </p>
-          <form className={styles.form} action="">
+          <form
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault;
+              handleSubmit();
+            }}
+            className={styles.form}
+            action=""
+          >
             <Select
+              require
               onChange={setAssetId}
               value={assetId}
               options={assetIdOption}
@@ -85,6 +102,7 @@ const Toolitem = () => {
             </div>
             <div className={styles.form_time}>
               <Select
+                require
                 onChange={setStartTime}
                 value={startTime}
                 options={getStartTimeOptions()}
@@ -93,6 +111,7 @@ const Toolitem = () => {
                 errorMessage=""
               ></Select>
               <Select
+                require
                 onChange={setEndTime}
                 value={endTime}
                 options={getEndTimeOptions()}
@@ -103,6 +122,7 @@ const Toolitem = () => {
             </div>
 
             <AreaInput
+              require
               value={object}
               onChange={setObject}
               label="จุดประสงค์การจอง"

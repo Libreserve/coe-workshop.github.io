@@ -1,3 +1,5 @@
+@use "../../styles/variables" as *;
+
 .AreaInput {
   display: flex;
   flex-direction: column;
@@ -9,5 +11,8 @@
     border: 0.05rem solid var(--theme-200);
     border-radius: 0.4rem;
     outline-color: black;
+  }
+  .areaInput_require {
+    color: $red-500;
   }
 }

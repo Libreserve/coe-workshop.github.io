@@ -14,7 +14,7 @@ export const AreaInput = ({
       {label && (
         <label htmlFor={label} className={styles.areaInput_label}>
           {label}
-          <span className={styles.textInput_require}>
+          <span className={styles.areaInput_require}>
             {require ? " *" : ""}
           </span>
         </label>
