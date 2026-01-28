@@ -157,7 +157,7 @@ const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
   );
 };
 
-const DatePicker = ({ onChange, value, disable = false, onTop = true, placeholder = "Calendar", datePlaceholderFormat = 2, required = true, isCasual = true, label = "วันที่จอง" }: DatePickerProps) => {
+const DatePicker = ({ onChange, value, disable = false, onTop = false, placeholder = "Calendar", datePlaceholderFormat = 2, required = true, isCasual = true, label = "วันที่จอง", errorMessage =  "I Newt absolute has no idea with this args, so he only added field in interface"}: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const dummy = new Date();
   const [year, setYear] = useState(dummy.getFullYear());
@@ -286,7 +286,7 @@ const DatePicker = ({ onChange, value, disable = false, onTop = true, placeholde
           height={18}
           className={styles.placeholder_img}
         /> */}
-        <input type="text" value={ selectedDate && getFormatDate(selectedDate, datePlaceholderFormat) || ""} required={required} placeholder={placeholder}/>
+        <input type="text" value={ selectedDate && getFormatDate(selectedDate, datePlaceholderFormat) || ""} required={required && !disable} placeholder={placeholder} disabled={disable}/>
       </div>
       {/* picker */}
       <div

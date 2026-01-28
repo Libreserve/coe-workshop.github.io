@@ -8,6 +8,7 @@ export interface DatePickerProps {
   required?: boolean;
   isCasual?: boolean;
   label?: string;
+  errorMessage?: string;
 }
 
 export interface CalendarButtonProps {
