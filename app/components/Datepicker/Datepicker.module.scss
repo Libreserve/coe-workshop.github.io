@@ -8,24 +8,42 @@
     font-family: Inter;
 }
 
-
 .wrapper {
     position: block;
 }
 
 .datepicker_container {
     position: relative;
+    width: fit-content;
     z-index: 996;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.datepicker button {
+.datepicker button, .datepicker_onTop button {
     cursor: pointer;
     border: none;
     border-radius: 50px;
     transition: 0.3s;
+}
+
+.datepicker_onTop {
+    position: absolute;
+    bottom: 100%;;
+    background-color: $sub-0;
+    padding: rem(5px);
+    z-index: 997;
+    transition: 0.3s;
+    opacity: 1;
+    width: rem(249px);
+    border-radius: rem(15px);
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: rem(10px);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
 }
 
 .datepicker {
@@ -60,7 +78,7 @@
     top: 100%;
 }
 
-.datepicker .header {
+.datepicker .header, .datepicker_onTop .header {
     gap: rem(20px);
     display: flex;
     flex-direction: row;

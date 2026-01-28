@@ -1,6 +1,8 @@
 export interface DatePickerProps {
   onChange?: (value?: Date | undefined | null) => void;
   value?: Date | undefined | null;
+  disable?: boolean;
+  onTop?: boolean;
 }
 
 export interface CalendarButtonProps {

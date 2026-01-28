@@ -148,7 +148,7 @@ const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
   );
 };
 
-const DatePicker = ({ onChange, value }: DatePickerProps) => {
+const DatePicker = ({ onChange, value, disable = false, onTop = false }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const dummy = new Date();
   const [year, setYear] = useState(dummy.getFullYear());
@@ -156,7 +156,6 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
   const [day, setDay] = useState(dummy.getDate());
   const [century, setCentury] = useState(dummy.getFullYear());
   const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
-  const [active, setActive] = useState(false);
   const [prevSelectedDate, setPrevSelectedDate] = useState<Date | null>();
   const next = (viewMode: ViewMode) => {
     switch (viewMode) {
@@ -207,7 +206,6 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
       setPrevSelectedDate(updatedDate);
       setDay(day);
     }
-    setActive(true);
   };
   const handleOnSelectMonth = (month: number) => {
     const updatedDate = new Date(year, month, day);
@@ -215,7 +213,6 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
     setPrevSelectedDate(updatedDate);
     setMonth(month);
     setView(ViewMode.DATE);
-    setActive(true);
   };
   const handleOnSelectYear = (year: number) => {
     const updatedDate = new Date(year, month, day);
@@ -223,9 +220,10 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
     setPrevSelectedDate(updatedDate);
     setYear(year);
     setView(ViewMode.MONTH);
-    setActive(true);
   };
   const handleConfirmOverlay = () => {
+    if (view !== ViewMode.DATE) return;
+    if (!disable) return;
     setView(ViewMode.CLOSED);
     onChange?.(selectedDate);
     if (selectedDate) {
@@ -246,7 +244,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
           view === ViewMode.CLOSED ? "" : "_closed"
         }`}
         onClick={() => {
-          setView(ViewMode.DATE);
+          if (!disable) setView(ViewMode.DATE);
         }}
       >
         <Image
@@ -256,7 +254,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
           height={18}
           className={styles.placeholder_img}
         />
-        {!selectedDate || !active ? (
+        {!selectedDate ? (
           <div>Calendar</div>
         ) : (
           <>
@@ -269,7 +267,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
       {/* picker */}
       <div
         className={`${styles.datepicker}${
-          view !== ViewMode.CLOSED ? "" : "_closed"
+          view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed"
         }`}
       >
         <div className={styles.header}>
@@ -380,7 +378,7 @@ const DatePicker = ({ onChange, value }: DatePickerProps) => {
       </div>
 
       {/* picker last confirm selected  overlay */}
-      {view === ViewMode.DATE && (
+      {view !== ViewMode.CLOSED && (
         <div
           className={styles.confirm_datepicker_overlay}
           onClick={() => handleConfirmOverlay()}
