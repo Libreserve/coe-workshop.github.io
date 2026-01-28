@@ -223,7 +223,7 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false }: DatePic
   };
   const handleConfirmOverlay = () => {
     if (view !== ViewMode.DATE) return;
-    if (!disable) return;
+    if (disable) return;
     setView(ViewMode.CLOSED);
     onChange?.(selectedDate);
     if (selectedDate) {
