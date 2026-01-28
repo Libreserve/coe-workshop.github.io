@@ -157,7 +157,7 @@ const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
   );
 };
 
-const DatePicker = ({ onChange, value, disable = false, onTop = false, placeholder = "Calendar", datePlaceholderFormat = 2, required = true, isCasual = true }: DatePickerProps) => {
+const DatePicker = ({ onChange, value, disable = false, onTop = true, placeholder = "Calendar", datePlaceholderFormat = 2, required = true, isCasual = true, label = "วันที่จอง" }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const dummy = new Date();
   const [year, setYear] = useState(dummy.getFullYear());
@@ -265,6 +265,11 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
 }
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
+    <div className={styles.wrapper}>
+      <div className={styles.label}>
+        {label} 
+        {label && required &&<span> *</span>}
+      </div>
     <div className={styles.datepicker_container}>
       <div
         className={`${styles.placeholder}${
@@ -404,6 +409,7 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
           onClick={() => handleConfirmOverlay()}
         ></div>
       )}
+    </div>
     </div>
   );
 };

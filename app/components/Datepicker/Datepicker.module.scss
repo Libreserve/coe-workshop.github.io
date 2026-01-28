@@ -5,11 +5,34 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: Inter;
+    @include respond-to-max(lg) {
+        font-size: rem(13.5px);
+    }
+    @include respond-to-max(md) {
+        font-size: rem(12px);
+        gap: rem(1px);
+    }
+    @include respond-to-max(sm) {
+        font-size: rem(10.5px);
+        gap: rem(1px);
+    }
+    @include respond-to-max(xs) {
+        font-size: rem(9px);
+    } 
 }
 
 .wrapper {
-    position: block;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    padding-left: rem(5);
+    font-weight: 600;
+}
+
+.label span {
+    color: $red-600;
 }
 
 .datepicker_container {
@@ -20,10 +43,11 @@
     width: rem(200);
     height: rem(42);
     // padding-right: 50px;
-    z-index: 996;
+    // z-index: 996;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: $sub-0;
     @include respond-to-max(lg) {
         height: rem(33);
         border-radius: rem(15);
@@ -55,7 +79,7 @@
     bottom: calc(100% + 5px);;
     background-color: $sub-0;
     padding: rem(5px);
-    z-index: 997;
+    z-index: 999;
     transition: 0.3s;
     opacity: 1;
     width: rem(249px);
@@ -73,7 +97,7 @@
     top: calc(100% + 5px);
     background-color: $sub-0;
     padding: rem(5px);
-    z-index: 997;
+    z-index: 999;
     transition: 0.3s;
     opacity: 1;
     width: rem(249px);
@@ -114,7 +138,6 @@
     gap: rem(4px);
     cursor: pointer;
     border-radius: rem(15px);
-    font-family: Inter;
     font-weight: 500;
     font-style: Medium;
 

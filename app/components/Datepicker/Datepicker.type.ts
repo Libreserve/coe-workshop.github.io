@@ -7,6 +7,7 @@ export interface DatePickerProps {
   datePlaceholderFormat?: number;
   required?: boolean;
   isCasual?: boolean;
+  label?: string;
 }
 
 export interface CalendarButtonProps {
