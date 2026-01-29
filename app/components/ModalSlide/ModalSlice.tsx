@@ -1,12 +1,11 @@
-import { ModalContainerProps } from "./types";
-import styles from "./modal.module.scss";
+import styles from "./ModalSlide.module.scss";
+import { ModalSliceProps } from "./ModalSlide.types";
 
-const ModalContainer = ({ opened, onClose, children }: ModalContainerProps) => {
+const ModalSlide = ({ opened, onClose, children }: ModalSliceProps) => {
   if (opened) {
     return (
       <div className={styles.modalContainer}>
-        <div className={styles.content}>{children}</div>
-
+        <div className={styles.children}>{children}</div>
         <div
           className={styles.background}
           onClick={() => {
@@ -20,4 +19,4 @@ const ModalContainer = ({ opened, onClose, children }: ModalContainerProps) => {
   }
 };
 
-export default ModalContainer;
+export default ModalSlide;

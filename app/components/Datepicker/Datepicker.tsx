@@ -9,9 +9,7 @@ import type {
   YearTableProps,
 } from "./Datepicker.type";
 import { ViewMode } from "./Datepicker.type";
-import { Underdog } from "next/font/google";
-const today = new Date();
-
+import IconSvgMono from "../Icon/SvgIcon";
 const months = [
   { name: "January", abbr: "Jan" },
   { name: "February", abbr: "Feb" },
@@ -282,11 +280,21 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
         {/* <Image
           src={"calendar.svg"}
           alt={"calendar"}
+          src={"./calendar.svg"}
+          alt={"./calendar"}
           width={18}
           height={18}
           className={styles.placeholder_img}
         /> */}
-        <input type="text" value={ selectedDate && getFormatDate(selectedDate, datePlaceholderFormat) || ""} required={required && !disable} placeholder={placeholder} disabled={disable}/>
+        {!selectedDate || !active ? (
+          <h3>--/--/----</h3>
+        ) : (
+          <>
+            {`${selectedDate.getDate()} ${
+              months[selectedDate.getMonth()].name
+            } ${selectedDate.getFullYear() % 100}`}
+          </>
+        )}
       </div>
       {/* picker */}
       <div
@@ -296,13 +304,13 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
       >
         <div className={styles.header}>
           <button className={styles.prev_button} onClick={() => prev(view)}>
-            <Image
-              src={"arrow.svg"}
-              alt={"prev"}
-              width={19}
-              height={19}
-              className={""}
-            />
+            <IconSvgMono
+              className={styles.prev_button}
+              src={"./arrow.svg"}
+              alt="arrow"
+              width={20}
+              height={20}
+            ></IconSvgMono>
           </button>
           <div className={styles.change_table}>
             {view === ViewMode.DATE && (
@@ -331,14 +339,19 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
             )}
           </div>
           <button className={styles.next_button} onClick={() => next(view)}>
-            <Image
-              src={"arrow.svg"}
-              alt={"next"}
-              width={19}
-              height={19}
-              className={""}
-            />
+            <IconSvgMono
+              src={"./arrow.svg"}
+              alt="arrow"
+              width={20}
+              height={20}
+            ></IconSvgMono>
           </button>
+          <IconSvgMono
+            src={"./calendar.svg"}
+            alt="calendar"
+            width={20}
+            height={20}
+          ></IconSvgMono>
           {/* <div
             className={styles.clear}
             onClick={() => {

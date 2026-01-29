@@ -14,6 +14,7 @@ export const Select = ({
   placeholder,
   errorMessage,
   onTop = false,
+  disable = false,
   onChange,
 }: SelectProps) => {
   const { ref, isOpen, setIsopen } = useClickOutSide();

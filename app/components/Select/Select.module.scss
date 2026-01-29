@@ -14,7 +14,6 @@
   position: relative;
   display: flex;
   gap: 4rem;
-  width: fit-content;
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
   border: 1px solid $sub-200;
@@ -32,18 +31,18 @@
     top: 2.4rem;
     left: 0;
     padding: 0.4rem 0;
-    background-color: $sub-0;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    background-color: var(--theme-0);
+    box-shadow: var(--theme-100) 0px 0px 0px 1px;
     border-radius: 0.4rem;
     .input_choice {
       margin: 0.2rem 0;
-      background-color: $sub-0;
+      background-color: var(--theme-0);
       text-align: start;
       text-wrap: nowrap;
       width: 100%;
       padding: 0.2rem 4rem 0.2rem 1rem;
       &:hover {
-        background-color: $sub-200;
+        background-color: var(--theme-200);
       }
     }
   }
