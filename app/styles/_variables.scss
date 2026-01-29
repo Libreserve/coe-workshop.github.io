@@ -47,18 +47,26 @@ $yellow-700: #a16207;
 $yellow-800: #854d0e;
 $yellow-900: #713f12;
 
-
-
-
 // for every element color
 // how to use :
 // Ex. var(--logo-mark)
 $light: (
-    test : $green-500,
+  theme-0: #ffffff,
+  theme-50: #fafafa,
+  theme-100: #f5f5f5,
+  theme-200: #e5e5e5,
+  theme-300: #cccccc,
+  theme-400: #999999,
+  theme-450: #7f7f7f,
+  theme-500: #666666,
+  theme-550: #565656,
+  theme-600: #4d4d4d,
+  theme-700: #333333,
+  theme-800: #1a1a1a,
+  theme-900: #0d0d0d,
+  theme-1000: #000000,
 
-    icon : #333,
-    logo-mark : $sub-1000,
-    logo-dot : $sub-600,
+  test: $green-500,
 
     text-normal : $sub-1000,
     text-fade-low : $sub-400,

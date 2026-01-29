@@ -1,12 +1,9 @@
 @use "../../../styles/breakpoints" as *;
 @use "../../../styles/variables" as *;
 .toolitem {
-  margin-top: 2rem;
+  margin-top: 4rem;
   margin-bottom: 4rem;
   gap: 2rem;
-
-  @include respond-to-max(lg) {
-  }
 }
 .info {
   width: 100%;
@@ -35,5 +32,36 @@
     .action_reserve {
       cursor: pointer;
     }
+  }
+}
+.transaction {
+  height: 100%;
+}
+
+.form {
+  height: 100%;
+  display: flex;
+  padding: 2rem 0;
+  max-height: calc(100vh - 6rem);
+  flex-direction: column;
+  gap: 1rem;
+  .form_time {
+    display: flex;
+    gap: 1rem;
+  }
+  @include respond-to-max(md) {
+    padding: 1rem 0;
+  }
+  .form_submit {
+    background-color: var(--theme-1000);
+    color: var(--theme-0);
+    padding: 0.4rem;
+    border-radius: 0.6rem;
+    margin-top: auto;
+  }
+  .form_calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 }

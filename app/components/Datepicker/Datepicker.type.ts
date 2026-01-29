@@ -1,6 +1,14 @@
 export interface DatePickerProps {
   onChange?: (value?: Date | undefined | null) => void;
   value?: Date | undefined | null;
+  disable?: boolean;
+  onTop?: boolean;
+  placeholder?: string;
+  datePlaceholderFormat?: number;
+  required?: boolean;
+  isCasual?: boolean;
+  label?: string;
+  errorMessage?: string;
 }
 
 export interface CalendarButtonProps {
@@ -14,6 +22,7 @@ export interface DateTableProps {
   year: number;
   month: number;
   selectedDate: Date | undefined | null;
+  isCasual?: boolean;
   onSelect: (date: number) => void;
 }
 

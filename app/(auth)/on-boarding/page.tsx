@@ -1,7 +1,7 @@
 "use client";
 import { FormError } from "@/app/types/ui/form";
 import styles from "./on-boarding.module.scss";
-import { TextInput } from "@/app/components/temp/temp";
+import { TextInput } from "@/app/components/TextInput/TextInput";
 import { useEffect, useState } from "react";
 import { Select } from "@/app/components/Select/Select";
 import { useRegisterUserMutation } from "@/app/lib/features/on-boarding/registerSlice";
