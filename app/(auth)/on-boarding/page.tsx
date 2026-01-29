@@ -2,16 +2,16 @@
 import { FormError } from "@/app/types/ui/form";
 import styles from "./on-boarding.module.scss";
 import { TextInput } from "@/app/components/TextInput/TextInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Select } from "@/app/components/Select/Select";
 import { useRegisterUserMutation } from "@/app/lib/features/on-boarding/registerSlice";
 import { RegisterRequest } from "@/app/lib/types";
 
 const OnBoarding = () => {
   // State
-  const [registerUser, { isLoading, isError, error, isSuccess }] = useRegisterUserMutation();
+  const [registerUser] = useRegisterUserMutation();
 
-  const [form, setForm] = useState<RegisterRequest>({
+  const [form] = useState<RegisterRequest>({
     prefix: "",
     firstName: "",
     lastName: "",
@@ -72,13 +72,18 @@ const OnBoarding = () => {
     try {
       await registerUser(form).unwrap();
       console.log("ลงทะเบียนสำเร็จ");
-    } catch (err: any) {
-      // err: any ล้าง TypeScript ไม่รู้ structure
+    } catch (err: unknown) {
+      // จับข้อผิดพลาดเป็น `unknown` แล้วตรวจสอบโครงสร้างอย่างปลอดภัย
       console.error("เกิดข้อผิดพลาด:", err);
-      if (err?.data?.error) {
-        setErrors({ endpoint: "เกิดข้อผิดพลาด: " + String(err.data.error) })
+      if (typeof err === "object" && err !== null) {
+        const maybeErr = err as { data?: { error?: unknown } };
+        if (maybeErr.data && typeof maybeErr.data === "object" && "error" in maybeErr.data) {
+          setErrors({ endpoint: "เกิดข้อผิดพลาด: " + String((maybeErr.data as { error?: unknown }).error) });
+        } else {
+          setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" });
+        }
       } else {
-        setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" })
+        setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" });
       }
     } finally {
       console.log("sent: ", form);
