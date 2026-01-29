@@ -2,13 +2,37 @@
 @use "./../../styles/functions" as *;
 @use "./../../styles/variables" as *;
 :global(*) {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    @include respond-to-max(lg) {
+        font-size: rem(13.5px);
+    }
+    @include respond-to-max(md) {
+        font-size: rem(12px);
+        gap: rem(1px);
+    }
+    @include respond-to-max(sm) {
+        font-size: rem(10.5px);
+        gap: rem(1px);
+    }
+    @include respond-to-max(xs) {
+        font-size: rem(9px);
+    } 
 }
 
 .wrapper {
-  position: block;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    padding-left: rem(5);
+    font-weight: 600;
+}
+
+.label span {
+    color: $red-600;
 }
 
 
@@ -23,6 +47,24 @@
   border: none;
   border-radius: 1rem;
   transition: 0.3s;
+}
+
+.datepicker_onTop {
+    position: absolute;
+    bottom: calc(100% + 5px);;
+    background-color: $sub-0;
+    padding: rem(5px);
+    z-index: 999;
+    transition: 0.3s;
+    opacity: 1;
+    width: rem(249px);
+    border-radius: rem(15px);
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: rem(10px);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
 }
 
 .datepicker {
@@ -131,6 +173,16 @@
     height: rem(35px);
     gap: rem(1px);
   }
+}
+
+.placeholder input, .placeholder input::placeholder {
+    outline: none;
+    border: none;
+    caret-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .placeholder_img {
