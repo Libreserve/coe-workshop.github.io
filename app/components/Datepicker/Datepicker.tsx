@@ -34,7 +34,14 @@ const days = [
   { name: "Saturday", abbr: "Sat", ToomAbbr: "S" },
 ];
 
-const DateTable = ({ year, month, selectedDate, onSelect, isCasual = false }: DateTableProps) => {
+const DateTable = ({
+  year,
+  month,
+  selectedDate,
+  onSelect,
+  isCasual = false,
+}: DateTableProps) => {
+  const today = new Date();
   const prevMonth = new Date(year, month, 0);
   const lastDateOfPrevMonth = prevMonth.getDate();
   const lastDayOfprevMonth = prevMonth.getDay();
@@ -70,14 +77,14 @@ const DateTable = ({ year, month, selectedDate, onSelect, isCasual = false }: Da
             selectedDate?.getFullYear() === curMonth.getFullYear() &&
             selectedDate?.getMonth() === curMonth.getMonth() &&
             selectedDate?.getDate() === day;
-            let isCasualDay = (year >= actualYear && month >= actualMonth);
-            if (isCasualDay && month === actualMonth) {
-              isCasualDay = day >= actualDate;
+          let isCasualDay = year >= actualYear && month >= actualMonth;
+          if (isCasualDay && month === actualMonth) {
+            isCasualDay = day >= actualDate;
           }
           dates.push(
             <button
               key={`cur-${day}`}
-              disabled={isCasual ? !(isCasualDay) : false}
+              disabled={isCasual ? !isCasualDay : false}
               className={`${isSelected ? styles.selected : ""}`}
               onClick={() => onSelect(day)}
             >
@@ -155,7 +162,18 @@ const YearTable = ({ startYear, selectedDate, onSelect }: YearTableProps) => {
   );
 };
 
-const DatePicker = ({ onChange, value, disable = false, onTop = false, placeholder = "Calendar", datePlaceholderFormat = 2, required = true, isCasual = true, label = "วันที่จอง", errorMessage =  "I Newt absolute has no idea with this args, so he only added field in interface"}: DatePickerProps) => {
+const DatePicker = ({
+  onChange,
+  value,
+  disable = false,
+  onTop = false,
+  placeholder = "Calendar",
+  datePlaceholderFormat = 2,
+  required = true,
+  isCasual = true,
+  label = "วันที่จอง",
+  errorMessage = "I Newt absolute has no idea with this args, so he only added field in interface",
+}: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const dummy = new Date();
   const [year, setYear] = useState(dummy.getFullYear());
@@ -244,40 +262,40 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
     setYear(dummy.getFullYear());
   };
 
-  const getFormatDate = (date:Date, formatType = 0) => {
+  const getFormatDate = (date: Date, formatType = 0) => {
     const day = date.getDate();
     const month = date.getMonth(); // 0-based
     const year = date.getFullYear();
-    const pad = (n:number) => String(n).padStart(2, "0");
+    const pad = (n: number) => String(n).padStart(2, "0");
 
     switch (formatType) {
       case 0:
         return `${day} ${months[month].name} ${year % 100}`;
       case 1:
         return `${year}-${pad(month + 1)}-${pad(day)}`;
-      case 2: 
+      case 2:
         return `${pad(day)}/${pad(month + 1)}/${year}`;
       default:
         return `${day} ${months[month].name} ${year % 100}`;
     }
-}
+  };
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.wrapper}>
       <div className={styles.label}>
-        {label} 
-        {label && required &&<span> *</span>}
+        {label}
+        {label && required && <span> *</span>}
       </div>
-    <div className={styles.datepicker_container}>
-      <div
-        className={`${styles.placeholder}${
-          view === ViewMode.CLOSED ? "" : ""
-        }`}
-        onClick={() => {
-          if (!disable) setView(ViewMode.DATE);
-        }}
-      >
-        {/* <Image
+      <div className={styles.datepicker_container}>
+        <div
+          className={`${styles.placeholder}${
+            view === ViewMode.CLOSED ? "" : ""
+          }`}
+          onClick={() => {
+            if (!disable) setView(ViewMode.DATE);
+          }}
+        >
+          {/* <Image
           src={"calendar.svg"}
           alt={"calendar"}
           src={"./calendar.svg"}
@@ -286,73 +304,73 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
           height={18}
           className={styles.placeholder_img}
         /> */}
-        {!selectedDate || !active ? (
-          <h3>--/--/----</h3>
-        ) : (
-          <>
-            {`${selectedDate.getDate()} ${
-              months[selectedDate.getMonth()].name
-            } ${selectedDate.getFullYear() % 100}`}
-          </>
-        )}
-      </div>
-      {/* picker */}
-      <div
-        className={`${styles.datepicker}${
-          view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed" 
-        }`}
-      >
-        <div className={styles.header}>
-          <button className={styles.prev_button} onClick={() => prev(view)}>
+          {!selectedDate ? (
+            <h3>--/--/----</h3>
+          ) : (
+            <>
+              {`${selectedDate.getDate()} ${
+                months[selectedDate.getMonth()].name
+              } ${selectedDate.getFullYear() % 100}`}
+            </>
+          )}
+        </div>
+        {/* picker */}
+        <div
+          className={`${styles.datepicker}${
+            view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed"
+          }`}
+        >
+          <div className={styles.header}>
+            <button className={styles.prev_button} onClick={() => prev(view)}>
+              <IconSvgMono
+                className={styles.prev_button}
+                src={"./arrow.svg"}
+                alt="arrow"
+                width={20}
+                height={20}
+              ></IconSvgMono>
+            </button>
+            <div className={styles.change_table}>
+              {view === ViewMode.DATE && (
+                <div
+                  onClick={() => {
+                    setView(ViewMode.MONTH);
+                  }}
+                >
+                  <div>{months[month].name}</div>
+                  <div>{year}</div>
+                </div>
+              )}
+
+              {view === ViewMode.MONTH && (
+                <div
+                  onClick={() => {
+                    setView(ViewMode.YEAR);
+                  }}
+                >
+                  {year}
+                </div>
+              )}
+
+              {view === ViewMode.YEAR && (
+                <div>{`${century - 6} - ${century + 5}`}</div>
+              )}
+            </div>
+            <button className={styles.next_button} onClick={() => next(view)}>
+              <IconSvgMono
+                src={"./arrow.svg"}
+                alt="arrow"
+                width={20}
+                height={20}
+              ></IconSvgMono>
+            </button>
             <IconSvgMono
-              className={styles.prev_button}
-              src={"./arrow.svg"}
-              alt="arrow"
+              src={"./calendar.svg"}
+              alt="calendar"
               width={20}
               height={20}
             ></IconSvgMono>
-          </button>
-          <div className={styles.change_table}>
-            {view === ViewMode.DATE && (
-              <div
-                onClick={() => {
-                  setView(ViewMode.MONTH);
-                }}
-              >
-                <div>{months[month].name}</div>
-                <div>{year}</div>
-              </div>
-            )}
-
-            {view === ViewMode.MONTH && (
-              <div
-                onClick={() => {
-                  setView(ViewMode.YEAR);
-                }}
-              >
-                {year}
-              </div>
-            )}
-
-            {view === ViewMode.YEAR && (
-              <div>{`${century - 6} - ${century + 5}`}</div>
-            )}
-          </div>
-          <button className={styles.next_button} onClick={() => next(view)}>
-            <IconSvgMono
-              src={"./arrow.svg"}
-              alt="arrow"
-              width={20}
-              height={20}
-            ></IconSvgMono>
-          </button>
-          <IconSvgMono
-            src={"./calendar.svg"}
-            alt="calendar"
-            width={20}
-            height={20}
-          ></IconSvgMono>
-          {/* <div
+            {/* <div
             className={styles.clear}
             onClick={() => {
               onChange?.();
@@ -362,67 +380,67 @@ const DatePicker = ({ onChange, value, disable = false, onTop = false, placehold
           >
             clear
           </div> */}
-        </div>
-        {/* date table */}
-        <div
-          className={`${styles.datepicker_date}${
-            view === ViewMode.DATE ? "" : "_closed"
-          }`}
-        >
-          <div className={styles.days}>
-            {days.map((d, index) => {
-              return <span key={`${index}${d.name}`}>{d.ToomAbbr}</span>;
-            })}
           </div>
-          <div className={styles.dates_input}>
-            <DateTable
-              year={year}
-              month={month}
-              selectedDate={selectedDate}
-              isCasual={isCasual}
-              onSelect={(day: number) => handleOnSelectDay(day)}
-            ></DateTable>
+          {/* date table */}
+          <div
+            className={`${styles.datepicker_date}${
+              view === ViewMode.DATE ? "" : "_closed"
+            }`}
+          >
+            <div className={styles.days}>
+              {days.map((d, index) => {
+                return <span key={`${index}${d.name}`}>{d.ToomAbbr}</span>;
+              })}
+            </div>
+            <div className={styles.dates_input}>
+              <DateTable
+                year={year}
+                month={month}
+                selectedDate={selectedDate}
+                isCasual={isCasual}
+                onSelect={(day: number) => handleOnSelectDay(day)}
+              ></DateTable>
+            </div>
+          </div>
+          {/* month table */}
+          <div
+            className={`${styles.datepicker_month}${
+              view === ViewMode.MONTH ? "" : "_closed"
+            }`}
+          >
+            <div className={styles.month_input}>
+              <MonthTable
+                months={months}
+                year={year}
+                selectedDate={selectedDate}
+                onSelect={(month: number) => handleOnSelectMonth(month)}
+              ></MonthTable>
+            </div>
+          </div>
+          {/* year table */}
+          <div
+            className={`${styles.datepicker_year}${
+              view === ViewMode.YEAR ? "" : "_closed"
+            }`}
+          >
+            <div className={styles.year_input}>
+              <YearTable
+                startYear={century}
+                selectedDate={selectedDate}
+                onSelect={(year: number) => handleOnSelectYear(year)}
+              ></YearTable>
+            </div>
           </div>
         </div>
-        {/* month table */}
-        <div
-          className={`${styles.datepicker_month}${
-            view === ViewMode.MONTH ? "" : "_closed"
-          }`}
-        >
-          <div className={styles.month_input}>
-            <MonthTable
-              months={months}
-              year={year}
-              selectedDate={selectedDate}
-              onSelect={(month: number) => handleOnSelectMonth(month)}
-            ></MonthTable>
-          </div>
-        </div>
-        {/* year table */}
-        <div
-          className={`${styles.datepicker_year}${
-            view === ViewMode.YEAR ? "" : "_closed"
-          }`}
-        >
-          <div className={styles.year_input}>
-            <YearTable
-              startYear={century}
-              selectedDate={selectedDate}
-              onSelect={(year: number) => handleOnSelectYear(year)}
-            ></YearTable>
-          </div>
-        </div>
-      </div>
 
-      {/* picker last confirm selected  overlay */}
-      {view !== ViewMode.CLOSED && (
-        <div
-          className={styles.confirm_datepicker_overlay}
-          onClick={() => handleConfirmOverlay()}
-        ></div>
-      )}
-    </div>
+        {/* picker last confirm selected  overlay */}
+        {view !== ViewMode.CLOSED && (
+          <div
+            className={styles.confirm_datepicker_overlay}
+            onClick={() => handleConfirmOverlay()}
+          ></div>
+        )}
+      </div>
     </div>
   );
 };

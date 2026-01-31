@@ -1,10 +1,10 @@
 "use client";
 
-import { SelectProps } from "./Select.types";
 import styles from "./Select.module.scss";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { SelectProps } from "./Select.types";
+import IconSvgMono from "../Icon/SvgIcon";
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
+import Image from "next/image";
 
 export const Select = ({
   value,
@@ -30,17 +30,17 @@ export const Select = ({
       >
         <h4 className={styles.input_value}>{!!value ? value : placeholder}</h4>
 
-        <Image
+        <IconSvgMono
           className={styles.icon}
           src={"/icon/arrow.svg"}
           alt="arrow"
           width={12}
           height={12}
-        ></Image>
+        ></IconSvgMono>
         {isOpen && (
           <div
             ref={ref}
-            className={`${styles.input_choiceContainer} ${styles.input_onTop}`}
+            className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""}`}
           >
             {options.map((prefix, index) => (
               <button
