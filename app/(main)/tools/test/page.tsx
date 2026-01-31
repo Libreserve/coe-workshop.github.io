@@ -83,7 +83,7 @@ const Toolitem = () => {
           </p>
           <form
             onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              e.preventDefault;
+              e.preventDefault();
               handleSubmit();
             }}
             className={styles.form}
@@ -99,7 +99,8 @@ const Toolitem = () => {
               errorMessage=""
             ></Select>
             <div className={styles.form_calendar}>
-              <DatePicker></DatePicker>
+              {/* <h3>วันที่จอง</h3> */}
+              <DatePicker placeholder="--/--/----" required={true}></DatePicker>
             </div>
             <div className={styles.form_time}>
               <Select
