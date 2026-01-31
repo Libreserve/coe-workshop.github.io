@@ -13,7 +13,6 @@ import IconSvgMono from "../Icon/SvgIcon";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-
 const months = [
   { name: "January", abbr: "Jan" },
   { name: "February", abbr: "Feb" },
@@ -45,7 +44,6 @@ const DateTable = ({
   onSelect,
   isCasual = false,
 }: DateTableProps) => {
-  const today = new Date();
   const prevMonth = new Date(year, month, 0);
   const lastDateOfPrevMonth = prevMonth.getDate();
   const lastDayOfprevMonth = prevMonth.getDay();
@@ -74,12 +72,13 @@ const DateTable = ({
           );
         }
         for (let day = 1; day <= curMonth.getDate(); day++) {
-          const isSelected = selectedDate ? (
-            selectedDate?.getFullYear() === curMonth.getFullYear() &&
-            selectedDate?.getMonth() === curMonth.getMonth() &&
-            selectedDate?.getDate() === day) : false;
-            const cellDate = new Date(year, month, day);
-            const isCasualDay = cellDate >= today;
+          const isSelected = selectedDate
+            ? selectedDate?.getFullYear() === curMonth.getFullYear() &&
+              selectedDate?.getMonth() === curMonth.getMonth() &&
+              selectedDate?.getDate() === day
+            : false;
+          const cellDate = new Date(year, month, day);
+          const isCasualDay = cellDate >= today;
           dates.push(
             <button
               key={`cur-${day}`}
@@ -215,18 +214,18 @@ const DatePicker = ({
   const handleOnSelectDay = (day: number) => {
     const updatedDate = new Date(year, month, day);
     const isSameDate =
-    day === prevSelectedDate?.getDate() &&
-    month === prevSelectedDate?.getMonth() &&
-    year === prevSelectedDate?.getFullYear();
+      day === prevSelectedDate?.getDate() &&
+      month === prevSelectedDate?.getMonth() &&
+      year === prevSelectedDate?.getFullYear();
     if (isSameDate) {
       setSelectedDate(null);
       setPrevSelectedDate(null);
     } else {
       setSelectedDate(updatedDate);
       setPrevSelectedDate(updatedDate);
-      console.log("set wei set")
       // setDay(day);
     }
+    setView(ViewMode.CLOSED);
     console.log("selected date at selecteDate", selectedDate);
   };
   const handleOnSelectMonth = (month: number) => {
@@ -264,102 +263,108 @@ const DatePicker = ({
       default:
         return `${day} ${months[month].name} ${year % 100}`;
     }
-}
+  };
   const isCasualDate = (date: Date | null) => {
     if (!date) return false;
     const targetDate = new Date(date.getTime()).setHours(0, 0, 0, 0);
     return targetDate >= today.getTime();
-  }
+  };
 
   //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.label}>
-        {label} 
-        {label && required &&<span> *</span>}
+        {label}
+        {label && required && <span> *</span>}
       </h2>
-    <div className={styles.datepicker_container}>
-      <div
-        className={`${styles.placeholder}${
-          view === ViewMode.CLOSED ? "" : ""
-        }`}
-        onClick={() => {
-          if (!disable) setView(ViewMode.DATE);
-        }}
-      >
-        {/* <Image
+      <div className={styles.datepicker_container}>
+        <div
+          className={`${styles.placeholder}${
+            view === ViewMode.CLOSED ? "" : ""
+          }`}
+          onClick={() => {
+            if (!disable) setView(ViewMode.DATE);
+          }}
+        >
+          {/* <Image
           src={"calendar.svg"}
           alt={"calendar"}
           width={18}
           height={18}
           className={styles.placeholder_img}
         /> */}
-        <input type="text" value={ selectedDate && getFormatDate(selectedDate, datePlaceholderFormat) || ""} /*required={required && !disable}*/ placeholder={placeholder} disabled={disable}/>
-        <Image
-          className={styles.placeholder_img}
-          src={"/icon/arrow.svg"}
-          alt="arrow"
-          width={12}
-          height={12}
-        ></Image>
-      </div>
-      {/* picker */}
-      <div
-        className={`${styles.datepicker}${
-          view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed" 
-        }`}
-      >
-        <div className={styles.header}>
-          <button className={styles.prev_button} onClick={() => prev(view)}>
-            <IconSvgMono
-              src={"/arrow.svg"}
-              alt={"prev"}
-              width={19}
-              height={19}
-              className={""}
-            />
-          </button>
-          <div className={styles.change_table}>
-            {view === ViewMode.DATE && (
-              <div
-                onClick={() => {
-                  setView(ViewMode.MONTH);
-                }}
-              >
-                <h2>{months[month].name}</h2>
-                <h2>{year}</h2>
-              </div>
-            )}
+          <input
+            type="text"
+            value={
+              (selectedDate &&
+                getFormatDate(selectedDate, datePlaceholderFormat)) ||
+              ""
+            }
+            /*required={required && !disable}*/ placeholder={placeholder}
+            disabled={disable}
+          />
+          <Image
+            className={styles.placeholder_img}
+            src={"/icon/arrow.svg"}
+            alt="arrow"
+            width={12}
+            height={12}
+          ></Image>
+        </div>
+        {/* picker */}
+        <div
+          className={`${styles.datepicker}${
+            view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed"
+          }`}
+        >
+          <div className={styles.header}>
+            <button className={styles.prev_button} onClick={() => prev(view)}>
+              <IconSvgMono
+                src={"/arrow.svg"}
+                alt={"prev"}
+                width={14}
+                height={14}
+                className={""}
+              />
+            </button>
+            <div className={styles.change_table}>
+              {view === ViewMode.DATE && (
+                <div
+                  onClick={() => {
+                    setView(ViewMode.MONTH);
+                  }}
+                >
+                  <h2>{months[month].name}</h2>
+                  <h2>{year}</h2>
+                </div>
+              )}
 
-            {view === ViewMode.MONTH && (
-              <div
-                onClick={() => {
-                  setView(ViewMode.YEAR);
-                }}
-              >
-                {year}
-              </div>
-            )}
+              {view === ViewMode.MONTH && (
+                <div
+                  onClick={() => {
+                    setView(ViewMode.YEAR);
+                  }}
+                >
+                  <h2>{year}</h2>
+                </div>
+              )}
 
-            {view === ViewMode.YEAR && (
-              <div>{`${century - 6} - ${century + 5}`}</div>
-            )}
-          </div>
-          <button className={styles.next_button} onClick={() => next(view)}>
-            <IconSvgMono
-              src={"./arrow.svg"}
-              alt="arrow"
-              width={20}
-              height={20}
-            ></IconSvgMono>
-          </button>
-          <IconSvgMono
-            src={"./calendar.svg"}
-            alt="calendar"
-            width={20}
-            height={20}
-          ></IconSvgMono>
-          {/* <div
+              {view === ViewMode.YEAR && (
+                <div>
+                  <h2>{`${century - 6} - ${century + 5}`}</h2>
+                </div>
+              )}
+            </div>
+            <button className={styles.next_button} onClick={() => next(view)}>
+              <IconSvgMono
+                src={"/arrow.svg"}
+                alt={"next"}
+                width={14}
+                height={14}
+                className={""}
+              />
+            </button>
+            {/* <div
             className={styles.clear}
             onClick={() => {
               onChange?.();

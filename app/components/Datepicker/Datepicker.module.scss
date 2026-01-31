@@ -3,369 +3,380 @@
 @use "./../../styles/variables" as *;
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .label {
 }
 
 .label span {
-    color: $red-600;
+  color: $red-600;
 }
 
 .datepicker_container {
-    position: relative;
-    border-radius: 0.4rem;
-    border-width: rem(1px);
-    border: rem(1px) solid  $sub-200 ;
-    width: rem(236);
-    height: rem(32);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: $sub-0;
-    @include respond-to-max(lg) {
-    }
-    @include respond-to-max(md) {
-    }
-    @include respond-to-max(sm) {
-    }
-    @include respond-to-max(xs) {
-        gap: rem(1);
-    }
+  position: relative;
+  border-radius: 0.4rem;
+  border-width: rem(1px);
+  border: rem(1px) solid $sub-200;
+  width: rem(236);
+  height: rem(32);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $sub-0;
+  @include respond-to-max(lg) {
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+    gap: rem(1);
+  }
 }
 
-.datepicker button, .datepicker_onTop button {
-    cursor: pointer;
-    border: none;
-    border-radius: 50px;
-    transition: 0.3s;
+.datepicker button,
+.datepicker_onTop button {
+  cursor: pointer;
+  border: none;
+  border-radius: 50px;
+  transition: 0.3s;
 }
 
 .datepicker_onTop {
-    position: absolute;
-    bottom: calc(100% + 5px);;
-    background-color: $sub-0;
-    padding: rem(5px);
-    z-index: 99;
-    transition: 0.3s;
-    opacity: 1;
-    width: rem(249px);
-    border-radius: rem(15px);
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: end;
-    align-items: center;
-    padding-bottom: rem(10px);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
+  position: absolute;
+  bottom: calc(100% + 5px);
+  background-color: $sub-0;
+  padding: rem(5px);
+  z-index: 99;
+  transition: 0.3s;
+  opacity: 1;
+  width: rem(249px);
+  border-radius: rem(15px);
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: end;
+  align-items: center;
+  padding-bottom: rem(10px);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
 }
 
 .datepicker {
-    position: absolute;
-    top: calc(100% + 5px);
-    background-color: $sub-0;
-    padding: rem(5px);
-    z-index: 99;
-    transition: 0.3s;
-    opacity: 1;
-    width: rem(249px);
-    height: fit-content;
-    border-radius: rem(15px);
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    padding-top: rem(10px);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
+  position: absolute;
+  top: calc(100% + 5px);
+  background-color: $sub-0;
+  padding: rem(5px);
+  z-index: 99;
+  transition: 0.3s;
+  opacity: 1;
+  width: rem(249px);
+  height: fit-content;
+  border-radius: rem(15px);
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding-top: rem(10px);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
 }
 
 .datepicker_closed {
-    opacity: 1;
-    pointer-events: none;
-    top: 100%;
-    left:0;
-    transform-origin: top;
-    pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s;
-    position: fixed;
-    right: 0;
-    top: 100%;
+  opacity: 1;
+  pointer-events: none;
+  top: 100%;
+  left: 0;
+  transform-origin: top;
+  pointer-events: none;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  position: fixed;
+  right: 0;
+  top: 100%;
 }
 
-.datepicker .header, .datepicker_onTop .header {
-    gap: rem(20px);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    @include respond-to-max(lg) {
-        font-size: rem(14px);
-    }
-    @include respond-to-max(md) {
-        font-size: rem(14px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(sm) {
-        font-size: rem(14px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(xs) {
-        font-size: rem(14px);
-    } 
+.datepicker .header,
+.datepicker_onTop .header {
+  gap: rem(20px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  @include respond-to-max(lg) {
+    font-size: rem(14px);
+  }
+  @include respond-to-max(md) {
+    font-size: rem(14px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(sm) {
+    font-size: rem(14px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(xs) {
+    font-size: rem(14px);
+  }
 }
 
 .change_table {
-    display: flex;
-    flex-direction: row;
-    gap: rem(4px);
-    cursor: pointer;
-    border-radius: rem(15px);
-    font-weight: 500;
-    font-style: Medium;
+  display: flex;
+  flex-direction: row;
+  gap: rem(4px);
+  cursor: pointer;
+  border-radius: rem(15px);
+  font-weight: 500;
+  font-style: Medium;
 
-    :hover {
-        border-radius: rem(15px);
-        background-color: $sub-200;
-    }
+  :hover {
+    border-radius: rem(15px);
+    background-color: $sub-200;
+  }
 }
 
 .change_table div {
-    display: flex;
-    flex-direction: row;
-    gap: rem(4px);
+  display: flex;
+  flex-direction: row;
+  gap: rem(4px);
 }
 
 .confirm_datepicker_overlay {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 98;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 98;
 }
 
 .placeholder {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: rem(3px);
-    text-align: center;    
-    font-weight: 400;
-    font-style: Regular;
-    font-size: rem(14.56px);
-    opacity: 1;
-    background-color: $sub-0;
-    width: 100%;
-    @include respond-to-max(lg) {
-        font-size: rem(13.5px);
-    }
-    @include respond-to-max(md) {
-        font-size: rem(12px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(sm) {
-        font-size: rem(10.5px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(xs) {
-        font-size: rem(9px);
-        gap: rem(1px);
-    } 
+  position: static;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem(3px);
+  text-align: center;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: rem(14.56px);
+  opacity: 1;
+  background-color: $sub-0;
+  width: 100%;
+  @include respond-to-max(lg) {
+    font-size: rem(13.5px);
+  }
+  @include respond-to-max(md) {
+    font-size: rem(12px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(sm) {
+    font-size: rem(10.5px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(xs) {
+    font-size: rem(9px);
+    gap: rem(1px);
+  }
 }
 
-.placeholder input, .placeholder input::placeholder {
-    outline: none;
-    border: none;
-    caret-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-grow: 1;
+.placeholder input,
+.placeholder input::placeholder {
+  outline: none;
+  border: none;
+  caret-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
 }
 
 .placeholder_img {
-    margin-right: rem(16);
-    @include respond-to-max(lg) {
-    }
-    @include respond-to-max(md) {
-    }
-    @include respond-to-max(sm) {
-    }
-    @include respond-to-max(xs) {
-    }
+  margin-right: rem(16);
+  @include respond-to-max(lg) {
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
 }
-
 
 .days span {
-    text-align: center;
+  text-align: center;
 }
 
-.days, .dates_input {
-    display: grid;
-    grid-template-columns: repeat(7, rem(25px));
-    gap: rem(7px);
-    margin-bottom: rem(9px);
+.days,
+.dates_input {
+  display: grid;
+  grid-template-columns: repeat(7, rem(25px));
+  gap: rem(7px);
+  margin-bottom: rem(9px);
 }
 
 .datepicker_date {
-    opacity: 1;
-    padding: rem(10px);
-    transition: 0.3s;
+  opacity: 1;
+  padding: rem(10px);
+  transition: 0.3s;
 }
 
 .datepicker_date_closed {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 100%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 100%;
 }
 
 .days {
-    color: $sub-1000;
+  color: var(--theme-1000);
 }
 
 .dates_input button.selected {
-    background-color: $sub-200;
+  background-color: var(--theme-200);
 }
 
-.dates_input button, .month_input button, .year_input button {
-    background-color: $sub-0;
-    width: rem(21);
-    height: rem(21);
-    justify-self: center;
-    align-self: center;
+.dates_input button,
+.month_input button,
+.year_input button {
+  background-color: var(--theme-0);
+  width: rem(21);
+  height: rem(21);
+  justify-self: center;
+  align-self: center;
 }
 
-.month_input button, .year_input button {
-    width: rem(51);
-    height: rem(20);
+.month_input button,
+.year_input button {
+  width: rem(51);
+  height: rem(20);
 }
 
-.month_input button.selected, .year_input button.selected {
-     background-color: $sub-200;
+.month_input button.selected,
+.year_input button.selected {
+  background-color: $sub-200;
 }
-
 
 .dates_input button:disabled {
-    opacity: 0.5;
-    pointer-events: none;
-    user-select: none;
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
 }
 
-.dates_input button:hover, .month_input button:hover, .year_input button:hover {
-    background-color: $sub-200;
+.dates_input button:hover,
+.month_input button:hover,
+.year_input button:hover {
+  background-color: $sub-200;
 }
 
 .datepicker_month {
-    transition:0.3s;
-    opacity: 1;
+  transition: 0.3s;
+  opacity: 1;
 }
 
 .datepicker_month_closed {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    right: 100%;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  right: 100%;
 }
 
-.month_input, .year_input {
-    display: grid;
-    grid-template-columns: repeat(3, rem(60px));
-    grid-template-rows: repeat(4, rem(40px));
-    gap: rem(10px);
+.month_input,
+.year_input {
+  display: grid;
+  grid-template-columns: repeat(3, rem(60px));
+  grid-template-rows: repeat(4, rem(40px));
+  gap: rem(10px);
 }
 
 .datepicker_year {
-    transition: 0.3s;
-    opacity: 1;
+  transition: 0.3s;
+  opacity: 1;
 }
 
 .datepicker_year_closed {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 100%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 100%;
 }
-
 
 .placeholder_closed {
-    width: rem(160);
-    opacity: 1;
-    pointer-events: none;
-    position: static;
-    height: rem(42);
-    border-radius: 0.4rem;
-    border-width: rem(1px);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: rem(3px);
-    border: rem(1px) solid  $sub-200;
-    text-align: center;
-    font-weight: 400;
-    font-style: Regular;
-    font-size: rem(14.56px);
-    background-color: $sub-0;
-    @include respond-to-max(lg) {
-        font-size: rem(13.5px);
-        height: rem(33px);
-        border-radius: rem(15px);
-    }
-    @include respond-to-max(md) {
-        font-size: rem(12px);
-        height: rem(33px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(sm) {
-        font-size: rem(10.5px);
-        width: rem(120px);
-        height: rem(35px);
-        gap: rem(1px);
-    }
-    @include respond-to-max(xs) {
-        font-size: rem(9px);
-        width: rem(100px);
-        height: rem(35px);
-        gap: rem(1px);
-    }  
+  width: rem(160);
+  opacity: 1;
+  pointer-events: none;
+  position: static;
+  height: rem(42);
+  border-radius: 0.4rem;
+  border-width: rem(1px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: rem(3px);
+  border: rem(1px) solid $sub-200;
+  text-align: center;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: rem(14.56px);
+  background-color: $sub-0;
+  @include respond-to-max(lg) {
+    font-size: rem(13.5px);
+    height: rem(33px);
+    border-radius: rem(15px);
+  }
+  @include respond-to-max(md) {
+    font-size: rem(12px);
+    height: rem(33px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(sm) {
+    font-size: rem(10.5px);
+    width: rem(120px);
+    height: rem(35px);
+    gap: rem(1px);
+  }
+  @include respond-to-max(xs) {
+    font-size: rem(9px);
+    width: rem(100px);
+    height: rem(35px);
+    gap: rem(1px);
+  }
 }
 
-.prev_button, .next_button {
-    background-color: $sub-0;
-    position: absolute;
-    :active {
-        transform: translateY(rem(1px)) ;
-    }
-} 
+.prev_button,
+.next_button {
+  background-color: $sub-0;
+  position: absolute;
+  :active {
+    transform: translateY(rem(1px));
+  }
+}
 
 .prev_button {
-    rotate: 90deg;
-    left: rem(20px);
+  rotate: 90deg;
+  left: rem(20px);
 }
 
 .next_button {
-    rotate: -90deg;
-    right: rem(20px);
+  rotate: -90deg;
+  right: rem(20px);
 }
 
 .clear {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    position: absolute;
-    top: rem(249px);
-    left: rem(110px);
-    background-color: $sub-0;
-    padding: rem(1px);
-    border-radius: rem(9px);
-    box-shadow: rem(1px) rem(1px) rem(4px) $sub-200;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  position: absolute;
+  top: rem(249px);
+  left: rem(110px);
+  background-color: $sub-0;
+  padding: rem(1px);
+  border-radius: rem(9px);
+  box-shadow: rem(1px) rem(1px) rem(4px) $sub-200;
+  cursor: pointer;
 }
