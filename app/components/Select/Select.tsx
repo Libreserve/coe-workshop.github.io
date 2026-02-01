@@ -1,10 +1,10 @@
 "use client";
 
-import { SelectProps } from "./Select.types";
 import styles from "./Select.module.scss";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { SelectProps } from "./Select.types";
+import IconSvgMono from "../Icon/SvgIcon";
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
+import Image from "next/image";
 import IconSvgMono from "@/app/components/Icon/SvgIcon";
 
 export const Select = ({
@@ -41,7 +41,7 @@ export const Select = ({
         {isOpen && (
           <div
             ref={ref}
-            className={`${styles.input_choiceContainer} ${styles.input_onTop}`}
+            className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""}`}
           >
             {options.map((prefix, index) => (
               <button

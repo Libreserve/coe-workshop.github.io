@@ -1,5 +1,5 @@
 "use client";
-import ModalSlice from "@/app/components/ModalSlide/ModalSlice";
+import ModalSlice from "@/app/components/ModalSlide/ModalSlide";
 import { Select } from "@/app/components/Select/Select";
 import useDisclosure from "@/app/hook/useDisclosure";
 import { useState } from "react";
@@ -68,7 +68,9 @@ const Toolitem = () => {
     return endTimeOptions.filter((_, index) => index + 1 > pos);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    console.log("form ");
+  };
 
   return (
     <div className={styles.toolitem}>
@@ -76,12 +78,12 @@ const Toolitem = () => {
         <div className={styles.transaction}>
           <h2>แบบฟอร์มการจอง</h2>
           <p>
-            การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้อง โปรดระบุ
-            จุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
+            การจองของคุณจะเริ่มต้นเมื่อผู้ดูแลได้อนุมัติคำร้องืย
+            โปรดระบุจุดประสงค์ให้ชัดเจน เพื่อให้ง่ายต่อการตัดสินใจของผู้ดูแล
           </p>
           <form
             onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              e.preventDefault;
+              e.preventDefault();
               handleSubmit();
             }}
             className={styles.form}
@@ -97,8 +99,8 @@ const Toolitem = () => {
               errorMessage=""
             ></Select>
             <div className={styles.form_calendar}>
-              <h3>วันที่จอง</h3>
-              <DatePicker></DatePicker>
+              {/* <h3>วันที่จอง</h3> */}
+              <DatePicker placeholder="--/--/----" required={true}></DatePicker>
             </div>
             <div className={styles.form_time}>
               <Select
