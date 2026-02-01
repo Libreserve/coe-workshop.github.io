@@ -2,10 +2,18 @@
 import { Select } from "@/app/components/Select/Select";
 import { TextInput } from "@/app/components/TextInput/TextInput";
 import { FormError } from "@/app/types/ui/form";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
+import { useRegisterMutation } from "@/app/lib/features/authApiSlice";
+import { ToastContext } from "@/app/Context/Toast/ToastContext";
+import { UserRoleEnum } from "@/app/lib/types";
 import styles from "./on-boarding.module.scss";
 
 const OnBoarding = () => {
+  const router = useRouter();
+  const toastContext = useContext(ToastContext);
+  const [register, { isLoading }] = useRegisterMutation();
+
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [tel, setTel] = useState<string>("");
@@ -49,10 +57,79 @@ const OnBoarding = () => {
     major: "",
   });
 
-  const handleSubmit = () => {
-    setErrors({
-      endpoint: "กรุณากรอกข้อมูล",
-    });
+  const validatePhone = (phone: string): boolean => {
+    const phoneRegex = /^0[0-9]{9}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormError = {};
+
+    if (!prefix) {
+      newErrors.prefix = "กรุณาเลือกคำนำหน้า";
+    }
+
+    if (!name.trim()) {
+      newErrors.name = "กรุณากรอกชื่อ";
+    }
+
+    if (!lastname.trim()) {
+      newErrors.lastname = "กรุณากรอกนามสกุล";
+    }
+
+    if (!tel.trim()) {
+      newErrors.tel = "กรุณากรอกเบอร์ติดต่อ";
+    } else if (!validatePhone(tel)) {
+      newErrors.tel = "รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง (ตัวอย่าง: 0812345678)";
+    }
+
+    if (!major) {
+      newErrors.major = "กรุณาเลือกคณะ/วิทยาลัย";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    const isUniStudent = major !== "บุคคลภายนอก";
+
+    try {
+      const result = await register({
+        firstName: name.trim(),
+        lastName: lastname.trim(),
+        prefix: prefix,
+        isUniStudent: isUniStudent,
+        faculty: isUniStudent ? major : undefined,
+        role: UserRoleEnum[0],
+        phone: tel.trim(),
+      }).unwrap();
+
+      if (result.success) {
+        toastContext?.addToastStack(
+          "ลงทะเบียนสำเร็จ",
+          "ยินดีต้อนรับเข้าสู่ระบบ",
+          "success"
+        );
+        router.push("/landing");
+      } else {
+        toastContext?.addToastStack(
+          "ลงทะเบียนไม่สำเร็จ",
+          result.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+          "error"
+        );
+      }
+    } catch (error) {
+      toastContext?.addToastStack(
+        "ลงทะเบียนไม่สำเร็จ",
+        "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง",
+        "error"
+      );
+    }
   };
   return (
     <div className={styles.onBoarding}>
@@ -113,9 +190,12 @@ const OnBoarding = () => {
           onTop
           errorMessage={errors.major}
         ></Select>
-        <p className={styles.errorEndpoint}>{errors.endpoint}</p>
-        <button type="submit" className={styles.register}>
-          ลงทะเบียน
+        <button
+          type="submit"
+          className={styles.register}
+          disabled={isLoading}
+        >
+          {isLoading ? "กำลังลงทะเบียน..." : "ลงทะเบียน"}
         </button>
       </form>
     </div>
