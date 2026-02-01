@@ -8,9 +8,6 @@
   gap: 0.4rem;
 }
 
-.label {
-}
-
 .label span {
   color: $red-600;
 }
@@ -27,12 +24,6 @@
   align-items: center;
   justify-content: center;
   background-color: $sub-0;
-  @include respond-to-max(lg) {
-  }
-  @include respond-to-max(md) {
-  }
-  @include respond-to-max(sm) {
-  }
   @include respond-to-max(xs) {
     gap: rem(1);
   }
@@ -196,14 +187,6 @@
 
 .placeholder_img {
   margin-right: rem(16);
-  @include respond-to-max(lg) {
-  }
-  @include respond-to-max(md) {
-  }
-  @include respond-to-max(sm) {
-  }
-  @include respond-to-max(xs) {
-  }
 }
 
 .days span {

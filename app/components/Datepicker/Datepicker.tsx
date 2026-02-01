@@ -223,10 +223,8 @@ const DatePicker = ({
     } else {
       setSelectedDate(updatedDate);
       setPrevSelectedDate(updatedDate);
-      // setDay(day);
     }
     setView(ViewMode.CLOSED);
-    console.log("selected date at selecteDate", selectedDate);
   };
   const handleOnSelectMonth = (month: number) => {
     setMonth(month);
@@ -243,7 +241,6 @@ const DatePicker = ({
     setMonth(selectedDate ? selectedDate.getMonth() : today.getMonth());
     setYear(selectedDate ? selectedDate.getFullYear() : today.getFullYear());
     onChange?.(selectedDate);
-    console.log("selected date at confirmOverlay", selectedDate);
     setView(ViewMode.CLOSED);
   };
 
@@ -270,7 +267,6 @@ const DatePicker = ({
     return targetDate >= today.getTime();
   };
 
-  //codes under this line were written by the guy who things he knows css, He thought for smooth transition he designed to render about four layout for one component
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.label}>
