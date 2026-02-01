@@ -1,8 +1,7 @@
 "use client";
 
-import { mockUserTableTransactions } from "@/app/mockdata/mockdata";
 import IconSvgMono from "@/app/components/Icon/SvgIcon";
-import Image from "next/image";
+import { mockUserTableTransactions } from "@/app/mockdata/mockdata";
 import React, { useState } from "react";
 import { StatusTag } from "../StatusTag/StatusTag";
 import styles from "./UserTrasaction.module.scss";

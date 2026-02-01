@@ -51,6 +51,7 @@ const DateTable = ({
   const nextMonth = new Date(year, month + 1, 1);
   const firstDayOfNextMonth = nextMonth.getDay();
   const firstDateOfNextMonth = nextMonth.getDate();
+
   return (
     <>
       {(() => {
@@ -170,12 +171,10 @@ const DatePicker = ({
   required = true,
   isCasual = true,
   label = "วันที่จอง",
-  errorMessage = "I Newt absolute has no idea with this args, so he only added field in interface",
 }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
-  const [day, setDay] = useState(today.getDate());
   const [century, setCentury] = useState(today.getFullYear());
   const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
   const [prevSelectedDate, setPrevSelectedDate] = useState<Date | null>();
@@ -237,7 +236,6 @@ const DatePicker = ({
   const handleConfirmOverlay = () => {
     if (view !== ViewMode.DATE) return;
     if (disable) return;
-    setDay(selectedDate ? selectedDate.getDate() : today.getDate());
     setMonth(selectedDate ? selectedDate.getMonth() : today.getMonth());
     setYear(selectedDate ? selectedDate.getFullYear() : today.getFullYear());
     onChange?.(selectedDate);
@@ -261,11 +259,11 @@ const DatePicker = ({
         return `${day} ${months[month].name} ${year % 100}`;
     }
   };
-  const isCasualDate = (date: Date | null) => {
-    if (!date) return false;
-    const targetDate = new Date(date.getTime()).setHours(0, 0, 0, 0);
-    return targetDate >= today.getTime();
-  };
+  // const isCasualDate = (date: Date | null) => {
+  //   if (!date) return false;
+  //   const targetDate = new Date(date.getTime()).setHours(0, 0, 0, 0);
+  //   return targetDate >= today.getTime();
+  // };
 
   return (
     <div className={styles.wrapper}>
@@ -285,6 +283,8 @@ const DatePicker = ({
           {/* <Image
           src={"calendar.svg"}
           alt={"calendar"}
+          src={"./calendar.svg"}
+          alt={"./calendar"}
           width={18}
           height={18}
           className={styles.placeholder_img}

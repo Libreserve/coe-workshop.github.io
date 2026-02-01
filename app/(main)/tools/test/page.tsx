@@ -1,12 +1,11 @@
 "use client";
-import ModalSlice from "@/app/components/ModalSlide/ModalSlide";
+import { AreaInput } from "@/app/components/AreaInput/AreaInput";
+import DatePicker from "@/app/components/Datepicker/Datepicker";
+import ModalSlide from "@/app/components/ModalSlide/ModalSlide";
 import { Select } from "@/app/components/Select/Select";
 import useDisclosure from "@/app/hook/useDisclosure";
 import { useState } from "react";
-import { AreaInput } from "@/app/components/AreaInput/AreaInput";
 import styles from "./toolitem.module.scss";
-import { FormError } from "@/app/types/ui/form";
-import DatePicker from "@/app/components/Datepicker/Datepicker";
 const Toolitem = () => {
   const [itemName] = useState<string>("Occaecat");
   const [category] = useState<string>("กระมงปรือ");
@@ -19,7 +18,7 @@ const Toolitem = () => {
   const { opened, handle } = useDisclosure();
   const [assetIdOption] = useState<string[]>(["671455kku", "6l514j5kku"]);
   const [assetId, setAssetId] = useState<string>();
-  const [timeOptions, setTimeOptions] = useState<string[]>([
+  const [timeOptions] = useState<string[]>([
     "09:00",
     "09:30",
     "10:00",
@@ -39,15 +38,9 @@ const Toolitem = () => {
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
   const [object, setObject] = useState<string>("");
-  const [formError, setFormError] = useState<FormError>({
-    assetId: "",
-    startTime: "",
-    endTime: "",
-    object: "",
-  });
 
   const getStartTimeOptions = (): string[] => {
-    let startTimeOptions = timeOptions.slice(0, -1);
+    const startTimeOptions = timeOptions.slice(0, -1);
 
     if (!endTime) {
       return startTimeOptions;
@@ -58,7 +51,7 @@ const Toolitem = () => {
   };
 
   const getEndTimeOptions = (): string[] => {
-    let endTimeOptions = timeOptions.slice(1);
+    const endTimeOptions = timeOptions.slice(1);
 
     if (!startTime) {
       return endTimeOptions;
@@ -68,13 +61,11 @@ const Toolitem = () => {
     return endTimeOptions.filter((_, index) => index + 1 > pos);
   };
 
-  const handleSubmit = () => {
-    console.log("form ");
-  };
+  const handleSubmit = () => {};
 
   return (
     <div className={styles.toolitem}>
-      <ModalSlice onClose={handle.close} opened={opened}>
+      <ModalSlide onClose={handle.close} opened={opened}>
         <div className={styles.transaction}>
           <h2>แบบฟอร์มการจอง</h2>
           <p>
@@ -135,7 +126,7 @@ const Toolitem = () => {
             </button>
           </form>
         </div>
-      </ModalSlice>
+      </ModalSlide>
       <section className={styles.info}>
         <div className={styles.info_cover}></div>
         <div className={styles.info_title}>

@@ -1,11 +1,9 @@
 "use client";
 
+import { useClickOutSide } from "@/app/hook/useClickOutSide";
+import IconSvgMono from "../Icon/SvgIcon";
 import styles from "./Select.module.scss";
 import { SelectProps } from "./Select.types";
-import IconSvgMono from "../Icon/SvgIcon";
-import { useClickOutSide } from "@/app/hook/useClickOutSide";
-import Image from "next/image";
-import IconSvgMono from "@/app/components/Icon/SvgIcon";
 
 export const Select = ({
   value,
@@ -15,7 +13,6 @@ export const Select = ({
   placeholder,
   errorMessage,
   onTop = false,
-  disable = false,
   onChange,
 }: SelectProps) => {
   const { ref, isOpen, setIsopen } = useClickOutSide();

@@ -1,5 +1,5 @@
 import { TextInputProps } from "./tpyes";
-import styles from "./temp.module.scss";
+import styles from "./TextInput.module.scss";
 import React from "react";
 
 export const TextInput = ({
@@ -15,7 +15,9 @@ export const TextInput = ({
       {title && (
         <label htmlFor={title} className={styles.textInput_label}>
           {title}
-          <span className={styles.textInput_require}>{require ? " *" : ""}</span>
+          <span className={styles.textInput_require}>
+            {require ? " *" : ""}
+          </span>
         </label>
       )}
       <input
