@@ -5,6 +5,7 @@ import { SelectProps } from "./Select.types";
 import IconSvgMono from "../Icon/SvgIcon";
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
 import Image from "next/image";
+import IconSvgMono from "@/app/components/Icon/SvgIcon";
 
 export const Select = ({
   value,

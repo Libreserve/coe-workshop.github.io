@@ -2,10 +2,26 @@
 import { FormError } from "@/app/types/ui/form";
 import styles from "./on-boarding.module.scss";
 import { TextInput } from "@/app/components/TextInput/TextInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Select } from "@/app/components/Select/Select";
+import { useRegisterUserMutation } from "@/app/lib/features/on-boarding/registerSlice";
+import { RegisterRequest } from "@/app/lib/types";
 
 const OnBoarding = () => {
+  // State
+  const [registerUser] = useRegisterUserMutation();
+
+  const [form] = useState<RegisterRequest>({
+    prefix: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    faculty: "",
+    isUniStudent: true,
+    role: "RESERVER",
+  });
+
+  // init
   const [name, setName] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [tel, setTel] = useState<string>("");
@@ -41,6 +57,8 @@ const OnBoarding = () => {
     "บุคคลภายนอก",
   ]);
   const [major, setMajor] = useState<string>("");
+
+  // handle
   const [errors, setErrors] = useState<FormError>({
     prefix: "",
     name: "",
@@ -49,12 +67,29 @@ const OnBoarding = () => {
     major: "",
   });
 
-  const handleSubmit = () => {
-    console.log("hello");
-    setErrors({
-      endpoint: "กรุณากรอกข้อมูล",
-    });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await registerUser(form).unwrap();
+      console.log("ลงทะเบียนสำเร็จ");
+    } catch (err: unknown) {
+      // จับข้อผิดพลาดเป็น `unknown` แล้วตรวจสอบโครงสร้างอย่างปลอดภัย
+      console.error("เกิดข้อผิดพลาด:", err);
+      if (typeof err === "object" && err !== null) {
+        const maybeErr = err as { data?: { error?: unknown } };
+        if (maybeErr.data && typeof maybeErr.data === "object" && "error" in maybeErr.data) {
+          setErrors({ endpoint: "เกิดข้อผิดพลาด: " + String((maybeErr.data as { error?: unknown }).error) });
+        } else {
+          setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" });
+        }
+      } else {
+        setErrors({ endpoint: "ขออภัย เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ" });
+      }
+    } finally {
+      console.log("sent: ", form);
+    }
   };
+
   return (
     <div className={styles.onBoarding}>
       <div className={styles.header}>
@@ -66,10 +101,7 @@ const OnBoarding = () => {
       </div>
       <form
         className={styles.form}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
+        onSubmit={handleSubmit}
       >
         <Select
           label="คำนำหน้า"
