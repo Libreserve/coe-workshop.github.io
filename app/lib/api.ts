@@ -1,8 +1,4 @@
-import {
-  AuthResponse,
-  RegisterRequest,
-  RegisterResponse,
-} from "@/app/lib/types";
+import { AuthResponse } from "@/app/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
@@ -26,7 +22,7 @@ export async function getCurrentUser(): Promise<AuthResponse> {
 
 export async function logout(): Promise<void> {
   try {
-    await fetch(`${API_URL}/api/auth/logout`, {
+    await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });
@@ -35,26 +31,23 @@ export async function logout(): Promise<void> {
   }
 }
 
-export async function registerUser(
-  data: RegisterRequest,
-): Promise<RegisterResponse> {
+export async function createItem(): Promise<void> {
   try {
-    const res = await fetch(`${API_URL}/v1/auth/register`, {
+    await fetch(`${API_URL}/v1/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        name: "test7",
+        description: "string",
+        categoryName: "MACHINE",
+        image_url: "string",
+      }),
     });
-
-    return await res.json();
-  } catch (error) {
-    console.error("Error registering user:", error);
-    return {
-      success: false,
-      error: "Network error occurred",
-    };
+  } catch (err) {
+    console.log(err);
   }
 }
 
