@@ -113,21 +113,21 @@ const OnBoarding = () => {
         toastContext?.addToastStack(
           "ลงทะเบียนสำเร็จ",
           "ยินดีต้อนรับเข้าสู่ระบบ",
-          "success"
+          "success",
         );
         router.push("/landing");
       } else {
         toastContext?.addToastStack(
           "ลงทะเบียนไม่สำเร็จ",
           result.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
-          "error"
+          "error",
         );
       }
-    } catch (error) {
+    } catch {
       toastContext?.addToastStack(
         "ลงทะเบียนไม่สำเร็จ",
         "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง",
-        "error"
+        "error",
       );
     }
   };
@@ -190,11 +190,7 @@ const OnBoarding = () => {
           onTop
           errorMessage={errors.major}
         ></Select>
-        <button
-          type="submit"
-          className={styles.register}
-          disabled={isLoading}
-        >
+        <button type="submit" className={styles.register} disabled={isLoading}>
           {isLoading ? "กำลังลงทะเบียน..." : "ลงทะเบียน"}
         </button>
       </form>
