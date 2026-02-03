@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import styles from "./Datepicker.module.scss";
-import Image from "next/image";
 import type {
   DatePickerProps,
   DateTableProps,
