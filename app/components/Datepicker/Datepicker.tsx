@@ -295,8 +295,9 @@ const DatePicker = ({
                 getFormatDate(selectedDate, datePlaceholderFormat)) ||
               ""
             }
+            readOnly
+            inputMode="none"
             /*required={required && !disable}*/ placeholder={placeholder}
-            disabled={disable}
           />
           <IconSvgMono
             className={styles.placeholder_img}
