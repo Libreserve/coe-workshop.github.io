@@ -299,13 +299,13 @@ const DatePicker = ({
             /*required={required && !disable}*/ placeholder={placeholder}
             disabled={disable}
           />
-          <Image
+          <IconSvgMono
             className={styles.placeholder_img}
             src={"/icon/arrow.svg"}
             alt="arrow"
             width={12}
             height={12}
-          ></Image>
+          ></IconSvgMono>
         </div>
         {/* picker */}
         <div

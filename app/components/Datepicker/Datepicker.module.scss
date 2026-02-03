@@ -6,24 +6,26 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  color: var(--text-normal);
 }
 
 .label span {
-  color: $red-600;
+  color: var(--warning-red);
 }
 
 .datepicker_container {
   position: relative;
   border-radius: 0.4rem;
   border-width: rem(1px);
-  border: rem(1px) solid $sub-200;
+  border: rem(1px) solid var(--box-hover);
   width: rem(236);
   height: rem(32);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   @include respond-to-max(xs) {
     gap: rem(1);
   }
@@ -35,14 +37,16 @@
   border: none;
   border-radius: 50px;
   transition: 0.3s;
+  color: var(--text-normal);
 }
 
 .datepicker_onTop {
   position: absolute;
   bottom: calc(100% + 5px);
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   padding: rem(5px);
-  z-index: 99;
+  z-index: 98;
   transition: 0.3s;
   opacity: 1;
   width: rem(249px);
@@ -52,15 +56,16 @@
   justify-content: end;
   align-items: center;
   padding-bottom: rem(10px);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
+  box-shadow: 0px rem(1px) rem(4px) var(--box-shadow);
 }
 
 .datepicker {
   position: absolute;
   top: calc(100% + 5px);
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   padding: rem(5px);
-  z-index: 99;
+  z-index: 98;
   transition: 0.3s;
   opacity: 1;
   width: rem(249px);
@@ -71,7 +76,7 @@
   justify-items: center;
   align-items: center;
   padding-top: rem(10px);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px rem(1px) rem(4px);
+  box-shadow: 0px rem(1px) rem(4px) var(--box-shadow);
 }
 
 .datepicker_closed {
@@ -96,6 +101,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  color: var(--text-normal);
   @include respond-to-max(lg) {
     font-size: rem(14px);
   }
@@ -120,10 +126,11 @@
   border-radius: rem(15px);
   font-weight: 500;
   font-style: Medium;
+  color: var(--text-normal);
 
   :hover {
     border-radius: rem(15px);
-    background-color: $sub-200;
+    background-color: var(--box-hover);
   }
 }
 
@@ -131,6 +138,7 @@
   display: flex;
   flex-direction: row;
   gap: rem(4px);
+  color: var(--text-normal);
 }
 
 .confirm_datepicker_overlay {
@@ -139,7 +147,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 98;
+  z-index: 97;
 }
 
 .placeholder {
@@ -154,8 +162,10 @@
   font-style: Regular;
   font-size: rem(14.56px);
   opacity: 1;
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   width: 100%;
+  cursor: pointer;
   @include respond-to-max(lg) {
     font-size: rem(13.5px);
   }
@@ -183,6 +193,9 @@
   align-items: center;
   text-align: center;
   flex-grow: 1;
+  background-color: var(--box-background);
+  color: var(--text-normal);
+  cursor: pointer;
 }
 
 .placeholder_img {
@@ -191,6 +204,7 @@
 
 .days span {
   text-align: center;
+  pointer-events: none;
 }
 
 .days,
@@ -199,12 +213,15 @@
   grid-template-columns: repeat(7, rem(25px));
   gap: rem(7px);
   margin-bottom: rem(9px);
+  background-color: var(--box-background);
+  color: var(--text-normal);
 }
 
 .datepicker_date {
   opacity: 1;
   padding: rem(10px);
   transition: 0.3s;
+  color: var(--text-normal);
 }
 
 .datepicker_date_closed {
@@ -215,17 +232,14 @@
 }
 
 .days {
-  color: var(--theme-1000);
-}
-
-.dates_input button.selected {
-  background-color: var(--theme-200);
+  color: var(--text-normal);
 }
 
 .dates_input button,
 .month_input button,
 .year_input button {
-  background-color: var(--theme-0);
+  background-color: var(--box-background);
+  color: var(--text-normal);
   width: rem(21);
   height: rem(21);
   justify-self: center;
@@ -239,8 +253,10 @@
 }
 
 .month_input button.selected,
-.year_input button.selected {
-  background-color: $sub-200;
+.year_input button.selected,
+.dates_input button.selected {
+  background-color: var(--box-hover);
+  color: var(--text-normal);
 }
 
 .dates_input button:disabled {
@@ -252,7 +268,7 @@
 .dates_input button:hover,
 .month_input button:hover,
 .year_input button:hover {
-  background-color: $sub-200;
+  background-color: var(--box-hover);
 }
 
 .datepicker_month {
@@ -273,6 +289,7 @@
   grid-template-columns: repeat(3, rem(60px));
   grid-template-rows: repeat(4, rem(40px));
   gap: rem(10px);
+  color: var(--text-normal);
 }
 
 .datepicker_year {
@@ -300,12 +317,13 @@
   justify-content: center;
   align-items: center;
   gap: rem(3px);
-  border: rem(1px) solid $sub-200;
+  border: rem(1px) solid var(--box-hover);
   text-align: center;
   font-weight: 400;
   font-style: Regular;
   font-size: rem(14.56px);
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   @include respond-to-max(lg) {
     font-size: rem(13.5px);
     height: rem(33px);
@@ -332,7 +350,8 @@
 
 .prev_button,
 .next_button {
-  background-color: $sub-0;
+  background-color: var(--box-background);
+  color: var(--text-normal);
   position: absolute;
   :active {
     transform: translateY(rem(1px));
@@ -357,9 +376,9 @@
   position: absolute;
   top: rem(249px);
   left: rem(110px);
-  background-color: $sub-0;
+  background-color: var(--box-background);
   padding: rem(1px);
   border-radius: rem(9px);
-  box-shadow: rem(1px) rem(1px) rem(4px) $sub-200;
+  box-shadow: rem(1px) rem(1px) rem(4px) var(--box-shadow);
   cursor: pointer;
 }
