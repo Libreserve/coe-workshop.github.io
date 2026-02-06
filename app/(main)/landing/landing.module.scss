@@ -1,3 +1,15 @@
 // .landing {
 //   padding: 0 min(4%, 4rem);
 // }
+.landing {
+  .landing_body {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .searchBar {
+      width: clamp(16rem, 80%, 40rem);
+      margin: 0 auto;
+    }
+  }
+}

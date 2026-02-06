@@ -1,20 +1,25 @@
-import Accordion from "@/app/components/Accordion/Accordion";
-import Discover from "@/app/components/Discover/discover";
-import Category from "../../components/Category/Category";
-import Guide from "../../components/Guide/guide";
-import WelcomeText from "../../components/Welcome_text/Welcome_text";
+"use client";
+
+import { SearchBar } from "@/app/components/Form/SearchBar/SearchBar";
+import { useState } from "react";
 import styles from "./landing.module.scss";
 
 function Landing() {
+  const [content, setContent] = useState("");
   return (
     <div className={styles.landing}>
-      <WelcomeText></WelcomeText>
+      <div className={styles.landing_body}>
+        <div className={styles.searchBar}>
+          <SearchBar placeholder="เว็บแต่งกี่เพ่าหน่อย สาวหมวยของเค้า"></SearchBar>
+        </div>
+      </div>
+      {/* <WelcomeText></WelcomeText>
       <Category></Category>
       <Guide></Guide>
-      <Discover></Discover>
+      <Discover></Discover> */}
       {/* <Popular></Popular>
       <Interpreting></Interpreting> */}
-      <Accordion></Accordion>
+      {/* <Accordion></Accordion> */}
     </div>
   );
 }
