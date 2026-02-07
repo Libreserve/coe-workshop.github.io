@@ -1,0 +1,13 @@
+.tagNav {
+  width: fit-content;
+  border: 0.05rem solid var(--theme-400);
+  border-radius: 1rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.6rem;
+  transition: all 0.5s ease;
+}
+.tagNav:hover {
+  background-color: var(--theme-800);
+  color: var(--theme-0);
+  transition: all 0.5s ease;
+}

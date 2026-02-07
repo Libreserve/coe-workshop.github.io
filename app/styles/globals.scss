@@ -119,3 +119,28 @@ table {
     color: $sub-400;
   }
 }
+
+div[contenteditable] {
+  &[placeholder]:has(br)::before { 
+    content: attr(placeholder);
+    z-index: 9;
+    line-height: 1.7;
+    color: #555;
+    word-break: break-all;
+    user-select: none;
+    background-color: red;
+  }
+  &[placeholder]:empty::before {
+    content: attr(placeholder);
+    z-index: 9;
+    line-height: 1.7;
+    color: #555;
+    word-break: break-all;
+    user-select: none;
+    background-color: red;
+  }
+
+  &[placeholder]:empty:focus::before {
+    content: "";
+  }
+}
