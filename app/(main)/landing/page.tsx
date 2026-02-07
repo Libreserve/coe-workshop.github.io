@@ -2,6 +2,7 @@
 
 import { SearchBar } from "@/app/components/Form/SearchBar/SearchBar";
 import { useState } from "react";
+import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
 function Landing() {
@@ -11,6 +12,24 @@ function Landing() {
     "ออกแบบชิ้นส่วน",
     "Microcontroller",
   ]);
+  const categories = [
+    "ELECTRONIC ⚡",
+    "MECHANICAL 🔧",
+    "ELECTRICAL 🔌",
+    "PNEUMATIC 💨",
+    "HYDRAULIC 🛢️",
+    "MEASUREMENT 📏",
+    "SOLDERING 🔥",
+    "HAND TOOLS 🛠️",
+    "POWER TOOLS ⚙️",
+    "SAFETY 🦺",
+    "ROBOTICS 🤖",
+    "AUTOMATION 🏭",
+    "PROTOTYPING 🧪",
+    "3D PRINTING 🖨️",
+    "CNC 🧱",
+    "MAINTENANCE 🔩",
+  ];
   return (
     <div className={styles.landing}>
       <div className={styles.landing_body}>
@@ -20,6 +39,18 @@ function Landing() {
         </div>
         <div className={styles.searchBar}>
           <SearchBar placeholder="เว็บแต่งกี่เพ่าหน่อย สาวหมวยของเค้า"></SearchBar>
+        </div>
+        <div>
+          <div className={styles.action}>
+            <h2 className={styles.action_title}>หมวดหมู่</h2>
+            <div className={styles.category}>
+              {categories.map((c, index) => (
+                <div key={index}>
+                  <TagNav title={c}></TagNav>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       {/* <WelcomeText></WelcomeText>

@@ -1,24 +1,43 @@
-// .landing {
-//   padding: 0 min(4%, 4rem);
-// }
+@use "../../styles/breakpoints" as *;
+
 .landing {
   .landing_body {
-    margin-top: 6rem;
-    margin-bottom: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: clamp(16rem, 95%, 40rem);
+    margin: 6rem auto;
+
     .searchBar {
       width: clamp(16rem, 80%, 40rem);
+
       margin: 0 auto;
     }
     .header {
       margin: 1rem auto;
       display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 1rem;
+      flex-direction: row;
+      @include respond-to-max(md) {
+        flex-direction: column;
+      }
+
       .header_text {
+        text-wrap: nowrap;
         font-size: 2rem;
       }
     }
   }
+}
+.category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  margin: 1rem auto;
+}
+.action {
+  margin: 2rem;
 }
