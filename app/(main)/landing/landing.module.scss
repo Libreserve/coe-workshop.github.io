@@ -3,13 +3,22 @@
 // }
 .landing {
   .landing_body {
-    height: 90vh;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     .searchBar {
       width: clamp(16rem, 80%, 40rem);
       margin: 0 auto;
+    }
+    .header {
+      margin: 1rem auto;
+      display: flex;
+      gap: 1rem;
+      .header_text {
+        font-size: 2rem;
+      }
     }
   }
 }
