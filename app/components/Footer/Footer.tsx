@@ -14,39 +14,39 @@ const Footer = () => {
           title: "ตะกร้า",
           link: "https://www.facebook.com/share/v/1Bz5FMqiAm/",
         },
-        { title: "รายการ", link: "/" },
+        { title: "รายการ", link: "https://www.instagram.com/p/DMN8fpNpJnt/" },
       ],
     },
     {
       Header: "เกี่ยวกับ",
       Content: [
-        { title: "เว็บไซต์", link: "/" },
-        { title: "ผู้ชี้แนะ", link: "" },
-        { title: "ผู้พัฒนา", link: "/" },
+        { title: "เว็บไซต์", link: "https://election2569.thestandard.co/" },
+        { title: "ผู้ชี้แนะ", link: "https://www.hindustantimes.com/entertainment/anime/jujutsu-kaisen-101-jujutsu-kaisen-power-system-and-gojo-satoru-limitless-technique-explained-101690524713929.html" },
+        { title: "ผู้พัฒนา", link: "https://www.instagram.com/p/DSwm6d5kTKp/" },
       ],
     },
     {
       Header: "แหล่งข้อมูล",
       Content: [
-        { title: "EN KKU", link: "/" },
-        { title: "บล็อก", link: "/" },
-        { title: "กิจกรรม", link: "/" },
-        { title: "ข่าว", link: "/" },
+        { title: "EN KKU", link: "https://www.instagram.com/p/C-JMHWLOMvx/" },
+        { title: "บล็อก", link: "https://www.instagram.com/p/DFHt5zrzdBe/" },
+        { title: "กิจกรรม", link: "https://www.instagram.com/p/DNFmyihTA4s/" },
+        { title: "ข่าว", link: "https://www.instagram.com/p/DAGYo6vz9LA/" },
       ],
     },
     {
       Header: "ช่วยเหลือ",
       Content: [
-        { title: "คำถามที่พบบ่อย", link: "/" },
-        { title: "รีวิว", link: "/" },
-        { title: "วิธีใช้งาน", link: "/" },
-        { title: "รายงานปัญหา", link: "/" },
+        { title: "คำถามที่พบบ่อย", link: "https://www.instagram.com/p/DG1DtrSxsaE/" },
+        { title: "รีวิว", link: "https://www.instagram.com/p/DUYqD4XEtg6/" },
+        { title: "วิธีใช้งาน", link: "https://help.dododex.com/en/article/how-to-tame-dinosaurs-in-ark-survival-evolved-beginners-guide" },
+        { title: "รายงานปัญหา", link: "https://www.instagram.com/p/DUmafZSASiJ/" },
       ],
     },
   ];
 
   return (
-    <div className={styles.blog}>
+    <footer className={styles.blog}>
       <div className={styles.content}>
         <div className={styles.left}>
           <div className={styles.left_heading}>
@@ -103,9 +103,9 @@ const Footer = () => {
         <div className={styles.right}>
           {aboutListTh.map((item, index) => (
             <div key={index} className={styles.right_blog}>
-              <h3 key={`header-${index}`} className={styles.right_heading}>
+              <h2 key={`header-${index}`} className={styles.right_heading}>
                 {item.Header}
-              </h3>
+              </h2>
               <div className={styles.right_content}>
                 {item.Content &&
                   item.Content.map((contentItem, contentIndex) => (
@@ -118,7 +118,10 @@ const Footer = () => {
           ))}
         </div>
       </div>
-    </div>
+      <div className={styles.endline}>
+        <hr></hr>
+      </div>
+    </footer>
   );
 };
 

@@ -80,6 +80,7 @@ $light: (
     box-background : $sub-0,
     box-hover : $sub-200,
     box-shadow: rgba(0, 0, 0, 0.05),
+    borderline: $sub-300
     );
 $dark: (
     test : $green-500,
@@ -101,6 +102,7 @@ $dark: (
     box-background : $sub-800,
     box-hover : $sub-600,
     box-shadow: rgba(255, 255, 255, 0.05),
+    borderline: $sub-1000
 );
 
 @mixin theme-vars($map) {

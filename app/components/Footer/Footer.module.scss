@@ -2,20 +2,18 @@
 @use "./../../styles/functions" as *;
 @use "./../../styles/variables" as *;
 .blog {
-  height: rem(581px);
-  background-image: url("/footer/background.png");
+  background-image: url("/footer/background.svg");
   margin-inline: rem(-70px);
   margin-top: auto;
-  padding: rem(70px);
+  padding-right: rem(70px);
+  padding-left: rem(70px);
+  color: var(--text-inverse);
 }
 
 .content {
-  height: 82%;
   display: flex;
   flex-direction: row;
-  // padding-bottom: 140px;
-  border-bottom: rem(1.5px) solid $sub-400;
-  // margin-bottom: rem(40px);
+  padding: rem(15px) min(4rem, 5%);
 
   @include respond-to-max(sm) {
     flex-direction: column;
@@ -27,19 +25,17 @@
 }
 
 .left {
-  width: 90%;
+  width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding-bottom: rem(111px);
   @include respond-to-max(xl) {
-    width: 80%;
-  }
-  @include respond-to-max(lg) {
     width: 70%;
   }
-  @include respond-to-max(md) {
+  @include respond-to-max(lg) {
     width: 60%;
+  }
+  @include respond-to-max(md) {
+    width: 50%;
   }
   @include respond-to-max(sm) {
     flex-direction: row;
@@ -59,7 +55,7 @@
   @include respond-to-max(sm) {
     height: 100%;
     width: 100%;
-    justify-content: end;
+    align-self: end;
   }
 }
 
@@ -67,7 +63,8 @@
   font-weight: 600;
   font-style: Semi Bold;
   font-size: rem(51.35px);
-  color: $sub-1000;
+  color: var(--text-inverse);
+  height: 50%;
   display: flex;
   @include respond-to-max(lg) {
   }
@@ -86,7 +83,7 @@
 }
 
 .left_heading span {
-  color: $sub-500;
+  color: var(--text-fade-low);
 }
 
 .left_text {
@@ -154,6 +151,7 @@
   @include respond-to-max(sm) {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    padding-left: rem(15px);
   }
   @include respond-to-max(xs) {
     display: grid;
@@ -176,24 +174,19 @@
 .right_heading {
   font-weight: 600;
   font-style: Medium;
-  font-size: rem(17.5px);
-  margin-bottom: rem(39.84px);
+  margin-bottom: rem(35.84px);
 
   @include respond-to-max(lg) {
-    font-size: rem(16.5px);
-    margin-bottom: rem(39.84px);
+    margin-bottom: rem(35.84px);
   }
   @include respond-to-max(md) {
-    font-size: rem(15.75px);
-    margin-bottom: rem(36px);
+    margin-bottom: rem(27px);
   }
   @include respond-to-max(sm) {
-    font-size: rem(15px);
-    margin-bottom: rem(34px);
+    margin-bottom: rem(20px);
   }
   @include respond-to-max(xs) {
-    font-size: rem(12.5px);
-    margin-bottom: rem(31.65px);
+    margin-bottom: rem(15.65px);
   }
 }
 
@@ -204,33 +197,56 @@
   width: 100%;
   font-weight: 400;
   cursor: pointer;
-  font-size: rem(16.95px);
   @include respond-to-max(lg) {
-    font-size: rem(15.99px);
     gap: rem(18.25px);
   }
   @include respond-to-max(md) {
-    font-size: rem(15.26px);
     gap: rem(17.5px);
   }
   @include respond-to-max(sm) {
-    font-size: rem(14.54px);
     gap: rem(16.5px);
   }
   @include respond-to-max(xs) {
-    font-size: rem(12.3px);
     gap: rem(15.35px);
   }
+  // :hover {
+  //   transform: scale(1.01);
+  //   transition: transfrom 0.5 ease-in-out;
+  // }
 }
 
-@media (prefers-color-scheme: dark) {
-  .right_heading {
-    color: var(--background);
+.endline {
+  padding: rem(15px) min(4rem, 5%);
+  margin-top: rem(50px);
+  margin-bottom: rem(40px);
+  @include respond-to-max(md) {
+    margin-bottom: rem(30px);
   }
-  .right_content {
-    color: var(--background);
+  @include respond-to-max(sm) {
+    margin-bottom: rem(15px);
   }
-  .blog {
-    filter: brightness(80%);
+  hr {
+    border-top: rem(2.5px) solid var(--borderline);
+    // border-top: rem(2.5px) solid black;
+    border-radius: rem(2.5px);
+
+    @include respond-to-max(lg) {
+      border-top: rem(2px) solid (--borderline);
+      border-radius: rem(2px);
+    }
+    @include respond-to-max(sm) {
+      display: none;
+    }
   }
 }
+// @media (prefers-color-scheme: dark) {
+//   .right_heading {
+//     color: var(--background);
+//   }
+//   .right_content {
+//     color: var(--background);
+//   }
+//   .blog {
+//     filter: brightness(80%);
+//   }
+// }
