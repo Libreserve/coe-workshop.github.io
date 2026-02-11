@@ -7,7 +7,7 @@ export const TypeEffect = ({ options }: TypeEffectProps) => {
   const [contentIndex, setContentIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   useEffect(() => {
-    const runType = (wordDelay: number) => {
+    const runType = () => {
       //word delay is timeout between eachword
       setDisplayText("");
       const typeSpeed = 2000;
@@ -44,7 +44,7 @@ export const TypeEffect = ({ options }: TypeEffectProps) => {
         clearTimeout(next);
       };
     };
-    runType(4000);
+    runType();
   }, [contentIndex, options]);
 
   return (

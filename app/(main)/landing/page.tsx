@@ -6,8 +6,7 @@ import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
 function Landing() {
-  const [content, setContent] = useState("");
-  const [typeOptions, setTypeOptions] = useState([
+  const [typeOptions] = useState([
     "Print 3D",
     "ออกแบบชิ้นส่วน",
     "Microcontroller",
