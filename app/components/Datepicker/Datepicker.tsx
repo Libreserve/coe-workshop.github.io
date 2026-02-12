@@ -8,7 +8,7 @@ import type {
   YearTableProps,
 } from "./Datepicker.type";
 import { ViewMode } from "./Datepicker.type";
-import IconSvgMono from "../Icon/SvgIcon";
+import SvgIconMono from "../Icon/SvgIconMono";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
@@ -299,13 +299,13 @@ const DatePicker = ({
             inputMode="none"
             /*required={required && !disable}*/ placeholder={placeholder}
           />
-          <IconSvgMono
+          <SvgIconMono
             className={styles.placeholder_img}
             src={"/icon/arrow.svg"}
             alt="arrow"
             width={12}
             height={12}
-          ></IconSvgMono>
+          ></SvgIconMono>
         </div>
         {/* picker */}
         <div
@@ -315,7 +315,7 @@ const DatePicker = ({
         >
           <div className={styles.header}>
             <button className={styles.prev_button} onClick={() => prev(view)}>
-              <IconSvgMono
+              <SvgIconMono
                 src={"/arrow.svg"}
                 alt={"prev"}
                 width={14}
@@ -352,7 +352,7 @@ const DatePicker = ({
               )}
             </div>
             <button className={styles.next_button} onClick={() => next(view)}>
-              <IconSvgMono
+              <SvgIconMono
                 src={"/arrow.svg"}
                 alt={"next"}
                 width={14}

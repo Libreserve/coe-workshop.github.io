@@ -1,26 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
-type Props = {
-  svg?: string;          // raw svg string (preferred)
-  src?: string;          // url to fetch (public/)
-  width?: number;
-  height?: number;
-  size?: number;
-  color?: string;        // color to embed or omit to use "currentColor"
-  className?: string;
-  alt?: string;
-};
+import { Props } from "./Type";
 
 /**
- * @brief for get svg and modify it but it so slow af
- * @param size if want completely squre, if want retangle just use width and height
- * @param color for fixing color icon. can't change
- * @returns <svg className={className} {...svgProps} dangerouslySetInnerHTML={{ __html: svgInner }}
-    />
+ * @brief แปลง raw SVG string หรือโหลดจาก src แล้วปรับแต่งสี/ขนาด
+ *
+ * @param size ถ้าใส่จะบังคับให้ svg เป็นสี่เหลี่ยมจัตุรัส (width=height=size)
+ *             ถ้าอยากได้สี่เหลี่ยมผืนผ้า ให้ใช้ width และ height แทน
+ * @param color ใช้สำหรับ fix สีของ icon (fill/stroke) ให้เป็นค่าเดียวกัน
+ *              ถ้าไม่ fixColor จะใช้ currentColor เพื่อให้สืบทอดจาก CSS ได้
+ * @param className ใส่ className ให้กับ <svg> เพื่อใช้ styling ภายนอก
+ * @param alt คำอธิบายสำหรับ aria-label เพื่อการเข้าถึง (accessibility)
+ * @param fixColor ถ้า true จะไม่เปลี่ยน fill/stroke เดิมของ svg
+ *
+ * @returns React component ที่ render เป็น:
+ *   <svg className={className} {...svgProps}
+ *        dangerouslySetInnerHTML={{ __html: svgInner }} />
  */
-export default function IconSvgMono({
+export default function SvgIconMono({
     svg,
     src,
     width = 24,
@@ -29,6 +27,7 @@ export default function IconSvgMono({
     color,
     className,
     alt,
+    fixColor = false,
 }: Props) {
     const [svgInner, setSvgInner] = useState<string | null>(null);
     const [svgAttrs, setSvgAttrs] = useState<Record<string, string>>({});
@@ -42,8 +41,10 @@ export default function IconSvgMono({
             
             // default color = currentColor to allow CSS inheritance
             const finalColor = color ?? "currentColor";
-            s = s.replace(/fill="(?!none)[^"]*"/gi, `fill="${finalColor}"`);
-            s = s.replace(/stroke="(?!none)[^"]*"/gi, `stroke="${finalColor}"`);
+            if (!fixColor) {
+                s = s.replace(/fill="(?!none)[^"]*"/gi, `fill="${finalColor}"`);
+                s = s.replace(/stroke="(?!none)[^"]*"/gi, `stroke="${finalColor}"`);
+            }
             
             // extract <svg ...attrs...>inner</svg>
             const m = s.match(/<svg([^>]*)>([\s\S]*?)<\/svg>/i);
@@ -101,7 +102,7 @@ export default function IconSvgMono({
         return () => {
             cancelled = true;
         };
-    }, [svg, src, width, height, size, color]);
+    }, [svg, src, width, height, size, color, fixColor]);
     
     if (!svgInner) return null;
     
@@ -110,7 +111,7 @@ export default function IconSvgMono({
     for (const k in svgAttrs) {
         // React uses camelCase for some props (viewBox stays viewBox)
         const propName = k === "viewbox" ? "viewBox" : k;
-        // assign as any
+        // assign as unknown instead any
         (svgProps as unknown as Record<string, string>)[propName] = svgAttrs[k];
     }
     
@@ -127,12 +128,3 @@ export default function IconSvgMono({
         />
     );
 }
-
-export const searchSvg = `<svg viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.884 23.992l-5.287-5.289a10.255 10.255 0 10-1.893 1.893l5.291 5.292a1.337 1.337 0 101.893-1.892l-.004-.004zM4.899 12.47a7.57 7.57 0 117.57 7.57 7.578 7.578 0 01-7.57-7.57z" 
-fill="currentColor"/>
-</svg>`
-export const basketSvg = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M28 8h-6V7a3 3 0 00-3-3h-6a3 3 0 00-3 3v1H4a2 2 0 00-2 2v14a2 2 0 002 2h24a2 2 0 002-2V10a2 2 0 00-2-2zM12 7a1 1 0 011-1h6a1 1 0 011 1v1h-8V7zm16 3v4h-4v-1a1 1 0 00-2 0v1H10v-1a1 1 0 10-2 0v1H4v-4h24zm0 14H4v-8h4v1a1 1 0 102 0v-1h12v1a1 1 0 002 0v-1h4v8z" 
-fill="currentColor"/>
-</svg>`
