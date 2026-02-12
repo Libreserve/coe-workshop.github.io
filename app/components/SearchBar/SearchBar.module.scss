@@ -16,41 +16,43 @@
   }
   .input {
     flex: 1;
-    padding: 0.15rem 0.15rem 0.15rem 0;
+    padding: 0.15rem;
     position: relative;
     color: var(--obj-fade);
 
     &::before {
       content: "";
       position: absolute;
-      right: 0.15rem;
+      left: 0.15rem;
       top: 0;
       bottom: 0;
-      width: 20%;
-      height: 80%;
+      width: 1rem;
+      height: 90%;
       z-index: 2;
-      background: linear-gradient(to right, transparent, var(--background));
+      background: linear-gradient(to left, transparent, var(--background));
       pointer-events: none;
-      transition: transform 0.2s ease;
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
     &::after {
       content: "";
       position: absolute;
+      right: 0.15rem;
+      top: 0;
       bottom: 0;
-      left: 0;
-      right: 0;
-      border-bottom: 2px solid var(--text-normal);
+      width: 1rem;
+      height: 90%;
+      z-index: 2;
+      background: linear-gradient(to right, transparent, var(--background));
+      pointer-events: none;
+      opacity: 0;
       transition: opacity 0.2s ease;
-      /* เริ่มต้น: scaleX(0) → ไม่มีเส้น */
-      transform: scaleX(0);
-      transform-origin: left; /* เริ่มจากซ้าย */
-      transition: transform 0.2s ease;
     }
+    &.fadeLeft::before { opacity: 1; }
+    &.fadeRight::after { opacity: 1; }
+
     &.active {
       color: var(--text-normal);
-    }
-    &.active::after {
-      transform: scaleX(1);
     }
     .inside {
       width: 100%;
@@ -72,6 +74,17 @@
   .input:empty + .placeholder {
     display: block;
   }
+  .underline {
+    position: absolute;
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    height: 0.075rem;
+    background-color: var(--text-normal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
 }
 .searchbar:focus-within {
   .search {
@@ -80,22 +93,14 @@
   .input .inside {
     color: var(--text-normal);
   }
-  .input::before {
-    transform: scaleX(0);
-    transform-origin: right;
-  }
-  .input::after {
+  .underline {
     transform: scaleX(1);
     transform-origin: left;
   }
 }
 .searchbar:not(:focus-within) {
   /* เมื่อ blur: เส้นหดจากขวาไปซ้าย */
-  .input::before {
-    transform: scaleX(1);
-    transform-origin: right;
-  }
-  .input::after {
+  .underline {
     transform: scaleX(0);
     transform-origin: right;
   }
