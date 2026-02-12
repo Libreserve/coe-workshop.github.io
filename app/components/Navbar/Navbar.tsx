@@ -1,7 +1,7 @@
 "use client";
 
 import useDisclosure from "@/app/hook/useDisclosure";
-import IconSvgMono from "@/app/components/Icon/SvgIcon";
+import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import Image from "next/image";
 import Link from "next/link";
 import ModalContainer from "../ModalContainer/modalContainer";
@@ -46,22 +46,22 @@ function Navbar() {
         </div>
       </div>
       <div className={styles.action}>
-        <IconSvgMono
+        <SvgIconMono
           // svg={searchSvg}
           className={`${styles.action_search} ${styles.icon_color}`}
           width={100}
           height={100}
           alt="search_icon"
           src={"./search.svg"}
-        ></IconSvgMono>
-        <IconSvgMono
+        ></SvgIconMono>
+        <SvgIconMono
           // svg={basketSvg}
           className={`${styles.action_basket} ${styles.icon_color}`}
           width={120}
           height={120}
           alt="basket_icon"
           src={"./basket.svg"}
-        ></IconSvgMono>
+        ></SvgIconMono>
         <Image
           onClick={() => handle.open()}
           className={`${styles.action_hamberger}`}

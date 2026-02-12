@@ -1,6 +1,6 @@
 "use client";
 
-import IconSvgMono from "@/app/components/Icon/SvgIcon";
+import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { mockUserTableTransactions } from "@/app/mockdata/mockdata";
 import React, { useState } from "react";
 import { StatusTag } from "../StatusTag/StatusTag";
@@ -56,12 +56,12 @@ export const UserTransaction = () => {
                           : "rotate(-90deg)",
                       }}
                       onClick={() => toggleOpenTransaction(index)}>
-                        <IconSvgMono
+                        <SvgIconMono
                         src={`/icon/arrow.svg`}
                         width={15}
                         height={15}
                         alt="arrowDown"
-                      ></IconSvgMono>
+                      ></SvgIconMono>
                     </div>
                     <h2 className={styles.username}>{item.startTime}</h2>
                   </div>

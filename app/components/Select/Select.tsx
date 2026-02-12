@@ -1,7 +1,7 @@
 "use client";
 
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
-import IconSvgMono from "../Icon/SvgIcon";
+import SvgIconMono from "../Icon/SvgIconMono";
 import styles from "./Select.module.scss";
 import { SelectProps } from "./Select.types";
 
@@ -28,13 +28,13 @@ export const Select = ({
       >
         <h4 className={styles.input_value}>{!!value ? value : placeholder}</h4>
 
-        <IconSvgMono
+        <SvgIconMono
           className={styles.icon}
           src={"/icon/arrow.svg"}
           alt="arrow"
           width={12}
           height={12}
-        ></IconSvgMono>
+        ></SvgIconMono>
         {isOpen && (
           <div
             ref={ref}
