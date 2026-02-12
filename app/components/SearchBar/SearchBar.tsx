@@ -4,7 +4,7 @@
 import { SearchBarProps } from "./SearchBar.type";
 import styles from "./SearchBar.module.scss";
 import SvgIconMono from "../Icon/SvgIconMono";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export const SearchBar = ({ 
     placeholder = "", 
@@ -33,7 +33,7 @@ export const SearchBar = ({
                     if (e.key === "Enter") {
                     e.preventDefault();
                     const el = e.target as HTMLInputElement;
-                    el.value.trim() === "" ? setIsEnter(false) : setIsEnter(true);    
+                    setIsEnter(el.value.trim() !== "");    
                     inputRef.current?.blur(); // ออกจาก focus
                     }
                 }}

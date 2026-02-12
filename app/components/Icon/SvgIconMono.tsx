@@ -128,7 +128,7 @@ export default function SvgIconMono({
       role="img"
       aria-label={alt}
       // 1. ใส่ Attribute เดิมจากไฟล์ SVG (เช่น viewBox)
-      {...(svgAttrs as any)} 
+      {...(svgAttrs)} 
       
       // 2. ทับด้วย Props ที่ส่งเข้ามา (Width/Height/Class)
       width={finalWidth}

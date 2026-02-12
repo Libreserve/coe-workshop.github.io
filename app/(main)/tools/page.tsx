@@ -23,12 +23,15 @@ const Tools = () => {
           options={["1","1","1","1",]} 
           onChange={handleSelectChange} 
           icon="/icon/funnel-simple.svg"
-        ></Select>
+          ></Select>
       </div>
+        <SearchBar placeholder="ชื่อของอุปกรณ์" iconSize={24}></SearchBar>
         <Select 
           placeholder="Category"
           options={["1","1","1","1",]} 
           onChange={handleSelectChange} 
+          icon="/icon/funnel-simple.svg"
+          iconSize={48}
         ></Select>
     </div>
   );
