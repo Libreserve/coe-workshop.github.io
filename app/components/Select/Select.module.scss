@@ -20,6 +20,7 @@
   justify-content: space-between;
   align-items: center;
   transition: all 0.2s ease;
+
   cursor: pointer;
   
   &:hover {
@@ -75,7 +76,7 @@
 }
 
 .input_focus {
-  border: 2px solid var(--text-normal);
+  outline: 2px solid var(--text-normal);
 }
 
 .errorMessage {
