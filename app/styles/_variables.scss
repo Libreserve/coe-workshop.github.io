@@ -8,6 +8,7 @@ $sub-450: #7f7f7f;
 $sub-500: #666666;
 $sub-550: #565656;
 $sub-600: #4d4d4d;
+$sub-650: #404040;
 $sub-700: #333333;
 $sub-800: #1a1a1a;
 $sub-900: #0d0d0d;
@@ -80,7 +81,10 @@ $light: (
     box-background : $sub-0,
     box-hover : $sub-200,
     box-shadow: rgba(0, 0, 0, 0.05),
-    borderline: $sub-300
+    borderline: $sub-300,
+    borderline-fade: $sub-200,
+
+    obj-fade: $sub-400,
     );
 $dark: (
     test : $green-500,
@@ -100,9 +104,12 @@ $dark: (
     error-red: $red-400,
     
     box-background : $sub-800,
-    box-hover : $sub-600,
+    box-hover : $sub-650,
     box-shadow: rgba(255, 255, 255, 0.05),
-    borderline: $sub-1000
+    borderline: $sub-1000,
+    borderline-fade: $sub-500,
+
+    obj-fade: $sub-500,
 );
 
 @mixin theme-vars($map) {

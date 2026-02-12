@@ -1,0 +1,102 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 6rem;
+  position: relative;
+  flex: 1;
+
+  .search {
+  flex: 0 0 auto;
+  color: var(--obj-fade);
+  transition: color 0.2s ease;
+  }
+  .search.active {
+    color: var(--text-normal);
+  }
+  .input {
+    flex: 1;
+    padding: 0.15rem 0.15rem 0.15rem 0;
+    position: relative;
+    color: var(--obj-fade);
+
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0.15rem;
+      top: 0;
+      bottom: 0;
+      width: 20%;
+      height: 80%;
+      z-index: 2;
+      background: linear-gradient(to right, transparent, var(--background));
+      pointer-events: none;
+      transition: transform 0.2s ease;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 2px solid var(--text-normal);
+      transition: opacity 0.2s ease;
+      /* เริ่มต้น: scaleX(0) → ไม่มีเส้น */
+      transform: scaleX(0);
+      transform-origin: left; /* เริ่มจากซ้าย */
+      transition: transform 0.2s ease;
+    }
+    &.active {
+      color: var(--text-normal);
+    }
+    &.active::after {
+      transform: scaleX(1);
+    }
+    .inside {
+      width: 100%;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+      color: var(--obj-fade);
+
+      &.active {
+        color: var(--text-normal); 
+      }
+    }
+  }
+  .input:has(br) + .placeholder,
+  .input:empty + .placeholder {
+    display: block;
+  }
+}
+.searchbar:focus-within {
+  .search {
+    color: var(--text-normal);
+  }
+  .input .inside {
+    color: var(--text-normal);
+  }
+  .input::before {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  .input::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+.searchbar:not(:focus-within) {
+  /* เมื่อ blur: เส้นหดจากขวาไปซ้าย */
+  .input::before {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  .input::after {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
