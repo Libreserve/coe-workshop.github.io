@@ -2,10 +2,16 @@
 
 import { SearchBar } from "@/app/components/SearchBar/SearchBar";
 import styles from "./SearchItem.module.scss";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Select } from "@/app/components/Select/Select";
 
 const Tools = () => {
+  const searchParams = useSearchParams();
+  
+  const search = searchParams.get("search");
+  const filter = searchParams.get("filter");
+  
   useEffect(() => {
     console.log();
   }, []);

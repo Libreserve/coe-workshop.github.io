@@ -5,6 +5,8 @@ import { useState } from "react";
 import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
+import { useRouter, useSearchParams } from "next/navigation";
+
 function Landing() {
   const [typeOptions] = useState([
     "Print 3D",
@@ -29,6 +31,25 @@ function Landing() {
     "CNC 🧱",
     "MAINTENANCE 🔩",
   ];
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const handleSearch = (term:string | null, category:string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (term) {
+      params.set("search", term);
+    } else if (term === "") {
+      params.delete("search");
+    }
+
+    if (category) {
+      params.set("filter", category);
+    }
+
+    router.push(`/tools?${params.toString()}`);
+  };
+
   return (
     <div className={styles.landing}>
       <div className={styles.landing_body}>
@@ -37,14 +58,17 @@ function Landing() {
           <TypeEffect options={typeOptions}></TypeEffect>
         </div>
         <div className={styles.searchBar}>
-          <SearchBar placeholder="เว็บแต่งกี่เพ่าหน่อย สาวหมวยของเค้า"></SearchBar>
+          <SearchBar 
+          placeholder="เว็บแต่งกี่เพ่าหน่อย สาวหมวยของเค้า"
+          onSearch={(value) => handleSearch(value, null)}
+          ></SearchBar>
         </div>
         <div>
           <div className={styles.action}>
             <h2 className={styles.action_title}>หมวดหมู่</h2>
             <div className={styles.category}>
               {categories.map((c, index) => (
-                <div key={index}>
+                <div key={index} onClick={() => handleSearch(null, c)}>
                   <TagNav title={c}></TagNav>
                 </div>
               ))}
