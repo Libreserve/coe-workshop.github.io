@@ -49,15 +49,15 @@ function addColorClasses(svgString: string): string {
  *
  * ```scss
  * .logo {
- *   :global(.color1) { fill: red; }
- *   :global(.color2) { fill: blue; }
+ *   :global(.color1) { color: red; }
+ *   :global(.color2) { color: blue; }
  * }
  * ```
  *
  * ผลลัพธ์ที่ compile ออกมา:
  * ```css
- * .login-module-scss-module__XXX__logo .color1 { fill: red; }
- * .login-module-scss-module__XXX__logo .color2 { fill: blue; }
+ * .login-module-scss-module__XXX__logo .color1 { color: red; }
+ * .login-module-scss-module__XXX__logo .color2 { color: blue; }
  * ```
  *
  * แบบนี้จะทำให้ CSS ของคุณ match กับ DOM ที่มี `<svg class="login-module-scss-module__XXX__logo">`

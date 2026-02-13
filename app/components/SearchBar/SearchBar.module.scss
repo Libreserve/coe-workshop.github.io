@@ -1,0 +1,107 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 6rem;
+  position: relative;
+  flex: 1;
+
+  .search {
+  flex: 0 0 auto;
+  color: var(--obj-fade);
+  transition: color 0.2s ease;
+  }
+  .search.active {
+    color: var(--text-normal);
+  }
+  .input {
+    flex: 1;
+    padding: 0.15rem;
+    position: relative;
+    color: var(--obj-fade);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0.15rem;
+      top: 0;
+      bottom: 0;
+      width: 1rem;
+      height: 90%;
+      z-index: 2;
+      background: linear-gradient(to left, transparent, var(--background));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0.15rem;
+      top: 0;
+      bottom: 0;
+      width: 1rem;
+      height: 90%;
+      z-index: 2;
+      background: linear-gradient(to right, transparent, var(--background));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    &.fadeLeft::before { opacity: 1; }
+    &.fadeRight::after { opacity: 1; }
+
+    &.active {
+      color: var(--text-normal);
+    }
+    .inside {
+      width: 100%;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+      color: var(--obj-fade);
+
+      &.active {
+        color: var(--text-normal); 
+      }
+    }
+  }
+  .input:has(br) + .placeholder,
+  .input:empty + .placeholder {
+    display: block;
+  }
+  .underline {
+    position: absolute;
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    height: 0.075rem;
+    background-color: var(--text-normal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+}
+.searchbar:focus-within {
+  .search {
+    color: var(--text-normal);
+  }
+  .input .inside {
+    color: var(--text-normal);
+  }
+  .underline {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+.searchbar:not(:focus-within) {
+  /* เมื่อ blur: เส้นหดจากขวาไปซ้าย */
+  .underline {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}

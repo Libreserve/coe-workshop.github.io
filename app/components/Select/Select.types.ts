@@ -8,4 +8,8 @@ export interface SelectProps {
   errorMessage?: string; //error message display
   onTop?: boolean; //date form have on top on buttom placeholder
   disable?: boolean; //disable input
+  icon?: string; //add icon from left side
+  iconSize?: number;
+  iconWidth?: number;
+  iconHeight?: number;
 }

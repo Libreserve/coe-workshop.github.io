@@ -19,9 +19,32 @@
   border: 1px solid var(--box-hover);
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s ease;
 
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--box-shadow);
+  }
   .input_value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
     text-wrap: nowrap;
+    .leftIcon {
+      flex-shrink: 0; /* ห้ามหด */
+      color: var(--text-fade-high);
+    }
+  }
+  .arrow {
+    flex-shrink: 0; /* ห้ามหด */
+    color: var(--text-fade-high);
+    transition: transform 0.2s ease;
+    
+    &.arrow_open {
+      transform: rotate(180deg);
+    }
   }
 
   .input_choiceContainer {
@@ -53,7 +76,7 @@
 }
 
 .input_focus {
-  border: 2px solid var(--text-normal);
+  outline: 2px solid var(--text-normal);
 }
 
 .errorMessage {
