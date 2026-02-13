@@ -1,7 +1,7 @@
 "use client";
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "../features/apiSlice";
+import { apiSlice } from "./features/apiSlice";
 
 const store = configureStore({
   reducer: {
