@@ -1,6 +1,6 @@
 "use client";
 import { Select } from "@/app/components/Select/Select";
-import { TextInput } from "@/app/components/TextInput/TextInput";
+import { TextInput } from "@/app/components/Form/TextInput/TextInput";
 import { FormError } from "@/app/types/ui/form";
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";

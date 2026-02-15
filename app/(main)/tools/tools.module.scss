@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2rem min(6rem, 7.5%) 0 min(4rem, 5%);
+  flex-wrap: wrap;
+}
+
+.filter {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+
+  .filter_name {
+    min-width: 8rem;
+  }
+}
+.text {
+  display: flex;
+  gap: 0 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  .title {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .description {
+    padding: 0.4rem 0;
+    color: var(--theme-400);
+  }
+}

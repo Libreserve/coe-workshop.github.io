@@ -34,9 +34,9 @@ function Landing() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const handleSearch = (term:string | null, category:string | null) => {
+  const handleSearch = (term: string | null, category: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     if (term) {
       params.set("search", term);
     } else if (term === "") {
@@ -58,9 +58,9 @@ function Landing() {
           <TypeEffect options={typeOptions}></TypeEffect>
         </div>
         <div className={styles.searchBar}>
-          <SearchBar 
-          placeholder="เว็บแต่งกี่เพ่าหน่อย สาวหมวยของเค้า"
-          onSearch={(value) => handleSearch(value, null)}
+          <SearchBar
+            placeholder="ค้นหาอุปกรณ์ที่ต้องการจอง"
+            onSearch={(value) => handleSearch(value, null)}
           ></SearchBar>
         </div>
         <div>
