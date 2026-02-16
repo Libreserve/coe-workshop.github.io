@@ -5,12 +5,12 @@ import styles from "./tools.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Select } from "@/app/components/Select/Select";
-
+import { Pagination } from "@/app/components/UI/Pagination/Pagination";
 const Tools = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
+  const [currentState, setCurrentState] = useState<number>(1);
   const [search, setSearch] = useState<string>(
     searchParams.get("search") || "",
   );
@@ -98,6 +98,11 @@ const Tools = () => {
           ></Select>
         </div>
       </div>
+      <Pagination
+        total={500}
+        currentState={currentState}
+        setCurrentState={setCurrentState}
+      ></Pagination>
     </div>
   );
 };
