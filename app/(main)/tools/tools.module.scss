@@ -1,3 +1,8 @@
+.tools {
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -26,5 +31,29 @@
   .description {
     padding: 0.4rem 0;
     color: var(--theme-400);
+  }
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  .pagination_select {
+    width: clamp(30rem, 32%, 60rem);
+  }
+  .pagination_next {
+    // background-color: transparent;
+    border-radius: 0.4rem;
+    margin-top: 0.4rem;
+    padding: 0.6rem 0.4rem 0.2rem 0.6rem;
+    transform: rotate(-90deg);
+  }
+  .pagination_previous {
+    border-radius: 0.4rem;
+    margin-top: 0.4rem;
+    padding: 0.6rem 0.6rem 0.2rem 0.6rem;
+    transform: rotate(90deg);
   }
 }
