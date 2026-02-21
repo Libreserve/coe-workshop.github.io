@@ -62,6 +62,10 @@ const OnBoarding = () => {
     return phoneRegex.test(phone);
   };
 
+  const hadleSetPrefix = (newPrefix: string) => {
+    setPrefix(newPrefix);
+  };
+
   const validateForm = (): boolean => {
     const newErrors: FormError = {};
 
@@ -149,7 +153,7 @@ const OnBoarding = () => {
       >
         <Select
           label="คำนำหน้า"
-          onChange={setPrefix}
+          onChange={(value) => hadleSetPrefix(value as string)}
           placeholder="--กรุณาเลือกคำนำหน้า--"
           value={prefix}
           options={prefixChoice}
@@ -182,7 +186,7 @@ const OnBoarding = () => {
         ></TextInput>
         <Select
           label="คณะ/วิทยาลัย"
-          onChange={setMajor}
+          onChange={(value) => setMajor(value as string)}
           placeholder="--กรุณาเลือกคณะ/วิทยาลัย--"
           value={major}
           options={majorChoice}

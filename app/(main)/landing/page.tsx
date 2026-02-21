@@ -1,89 +1,10 @@
-"use client";
+import { Suspense } from "react";
+import LandingClient from "./LandingClient";
 
-import { SearchBar } from "@/app/components/Form/SearchBar/SearchBar";
-import { useState } from "react";
-import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
-import styles from "./landing.module.scss";
-import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
-import { useRouter, useSearchParams } from "next/navigation";
-
-function Landing() {
-  const [typeOptions] = useState([
-    "Print 3D",
-    "ออกแบบชิ้นส่วน",
-    "Microcontroller",
-  ]);
-  const categories = [
-    "ELECTRONIC ⚡",
-    "MECHANICAL 🔧",
-    "ELECTRICAL 🔌",
-    "PNEUMATIC 💨",
-    "HYDRAULIC 🛢️",
-    "MEASUREMENT 📏",
-    "SOLDERING 🔥",
-    "HAND TOOLS 🛠️",
-    "POWER TOOLS ⚙️",
-    "SAFETY 🦺",
-    "ROBOTICS 🤖",
-    "AUTOMATION 🏭",
-    "PROTOTYPING 🧪",
-    "3D PRINTING 🖨️",
-    "CNC 🧱",
-    "MAINTENANCE 🔩",
-  ];
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const handleSearch = (term: string | null, category: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (term) {
-      params.set("search", term);
-    } else if (term === "") {
-      params.delete("search");
-    }
-
-    if (category) {
-      params.set("filter", category);
-    }
-
-    router.push(`/tools?${params.toString()}`);
-  };
-
+export const Page = () => {
   return (
-    <div className={styles.landing}>
-      <div className={styles.landing_body}>
-        <div className={styles.header}>
-          <h2 className={styles.header_text}>ค้นหาอุปกรณ์สำหรับ</h2>
-          <TypeEffect options={typeOptions}></TypeEffect>
-        </div>
-        <div className={styles.searchBar}>
-          <SearchBar
-            placeholder="ค้นหาอุปกรณ์ที่ต้องการจอง"
-            onSearch={(value) => handleSearch(value, null)}
-          ></SearchBar>
-        </div>
-        <div>
-          <div className={styles.action}>
-            <h2 className={styles.action_title}>หมวดหมู่</h2>
-            <div className={styles.category}>
-              {categories.map((c, index) => (
-                <div key={index} onClick={() => handleSearch(null, c)}>
-                  <TagNav title={c}></TagNav>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <WelcomeText></WelcomeText>
-      <Category></Category>
-      <Guide></Guide>
-      <Discover></Discover> */}
-      {/* <Popular></Popular>
-      <Interpreting></Interpreting> */}
-      {/* <Accordion></Accordion> */}
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <LandingClient />
+    </Suspense>
   );
-}
-export default Landing;
+};

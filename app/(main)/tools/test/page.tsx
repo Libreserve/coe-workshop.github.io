@@ -82,7 +82,7 @@ const Toolitem = () => {
           >
             <Select
               require
-              onChange={setAssetId}
+              onChange={() => setAssetId}
               value={assetId}
               options={assetIdOption}
               label="หมายเลขครุภัณฑ์"
@@ -96,7 +96,7 @@ const Toolitem = () => {
             <div className={styles.form_time}>
               <Select
                 require
-                onChange={setStartTime}
+                onChange={() => setStartTime}
                 value={startTime}
                 options={getStartTimeOptions()}
                 label="เวลาเริ่มจอง"
@@ -105,7 +105,7 @@ const Toolitem = () => {
               ></Select>
               <Select
                 require
-                onChange={setEndTime}
+                onChange={() => setEndTime}
                 value={endTime}
                 options={getEndTimeOptions()}
                 label="เวลาสิ้นสุด"
