@@ -75,6 +75,11 @@
   outline: 2px solid var(--text-normal);
 }
 
+.input_open {
+  position: relative;
+  z-index: 100;
+}
+
 .errorMessage {
   color: var(--error-red);
 }

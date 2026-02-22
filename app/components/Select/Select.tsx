@@ -15,7 +15,7 @@ export const Select = ({
   onTop = false,
   onChange,
   icon,
-  iconSize = 18, 
+  iconSize = 18,
   iconWidth,
   iconHeight,
 }: SelectProps) => {
@@ -55,7 +55,7 @@ export const Select = ({
         {isOpen && (
           <div
             ref={ref}
-            className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""}`}
+            className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""} ${isOpen ? styles.input_open : ""}`}
             onClick={(e) => e.stopPropagation()} // ป้องกันการคลิกข้างในแล้วปิดทันที
           >
             {options.map((prefix, index) => (
