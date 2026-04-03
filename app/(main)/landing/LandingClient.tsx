@@ -1,11 +1,12 @@
 "use client";
 
 import SearchBar from "@/app/components/SearchBar/SearchBar";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
 import { useRouter, useSearchParams } from "next/navigation";
+import { projectCompilationEventsSubscribe } from "next/dist/build/swc/generated-native";
 
 function LandingClient() {
   const [typeOptions] = useState([
@@ -34,9 +35,14 @@ function LandingClient() {
   const [itemname,setItemname] = useState<string>("")
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [category,setCategory] = useState<string>("")
+
+  //avoid race condition
   useEffect(()=>{
-    console.log(itemname)
-  },[itemname])
+    handleSearch()
+  },[category])
+
+
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
     if (itemname) {
@@ -45,11 +51,15 @@ function LandingClient() {
       params.delete("search");
     }
 
-    // if (category) {
-    //   params.set("filter", category);
-    // }
+    if (category) {
+      params.set("filter", category);
+    }
 
-    router.push(`/tools?${params.toString()}`);
+    const queryParams = params.toString()
+    if (queryParams){
+     router.push(`/tools?${params.toString()}`);
+
+    }
   };
 
   return (
@@ -74,7 +84,9 @@ function LandingClient() {
             <div className={styles.category}>
               {categories.map((c, index) => (
                 <div key={index} 
-                // onClick={() => handleSearch(null, c)}
+                onClick={() =>{ 
+                  setCategory(c)
+                  }}
                 >
                   <TagNav title={c}></TagNav>
                 </div>
