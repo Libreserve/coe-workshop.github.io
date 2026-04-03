@@ -30,6 +30,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/register/page.tsx.bak"
-  ],
+, "app/(main)/tools/ToolClient.tsx.bak"  ],
   "exclude": ["node_modules"]
 }

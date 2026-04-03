@@ -1,7 +1,7 @@
 export interface SearchBarProps {
-  searching?: string;
   placeholder?: string;
-  width?: number;
-  iconSize?: number;
-  onEnter: (value: string) => void; //setValue
+  borderFocus?:boolean
+  onEnter?():void
+  value:string
+  setValue(value:string):void
 }

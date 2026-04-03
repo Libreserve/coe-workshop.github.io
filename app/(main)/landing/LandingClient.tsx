@@ -1,7 +1,7 @@
 "use client";
 
-import { SearchBar } from "@/app/components/Form/SearchBar/SearchBar";
-import { useState } from "react";
+import SearchBar from "@/app/components/SearchBar/SearchBar";
+import { useEffect, useState } from "react";
 import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
@@ -31,21 +31,23 @@ function LandingClient() {
     "CNC 🧱",
     "MAINTENANCE 🔩",
   ];
-
+  const [itemname,setItemname] = useState<string>("")
   const router = useRouter();
   const searchParams = useSearchParams();
-  const handleSearch = (term: string | null, category: string | null) => {
+  useEffect(()=>{
+    console.log(itemname)
+  },[itemname])
+  const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (term) {
-      params.set("search", term);
-    } else if (term === "") {
+    if (itemname) {
+      params.set("search", itemname);
+    } else if (itemname === "") {
       params.delete("search");
     }
 
-    if (category) {
-      params.set("filter", category);
-    }
+    // if (category) {
+    //   params.set("filter", category);
+    // }
 
     router.push(`/tools?${params.toString()}`);
   };
@@ -59,8 +61,11 @@ function LandingClient() {
         </div>
         <div className={styles.searchBar}>
           <SearchBar
+          value={itemname}
+          setValue={setItemname}
+          onEnter={handleSearch}
             placeholder="ค้นหาอุปกรณ์ที่ต้องการจอง"
-            onSearch={(value) => handleSearch(value, null)}
+            borderFocus
           ></SearchBar>
         </div>
         <div>
@@ -68,7 +73,9 @@ function LandingClient() {
             <h2 className={styles.action_title}>หมวดหมู่</h2>
             <div className={styles.category}>
               {categories.map((c, index) => (
-                <div key={index} onClick={() => handleSearch(null, c)}>
+                <div key={index} 
+                // onClick={() => handleSearch(null, c)}
+                >
                   <TagNav title={c}></TagNav>
                 </div>
               ))}
