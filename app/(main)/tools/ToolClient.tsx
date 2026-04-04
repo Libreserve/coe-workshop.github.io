@@ -128,18 +128,25 @@ const ToolsClient = () => {
       </div>
       <section>
         {mockData.map((t,index)=>(
-          <div key={index}>
-            <p>{t.category}</p>
-            <h3>{t.name}</h3>
-            <div>
-                <p></p>
-                <h3>{t.avaliable}/{t.total} จำนวนที่สามารถใช้ได้</h3>
-            </div>
-            <div>
-              <h3>เพิ่มเติม</h3>
-              <SvgIconMono src="./icon/arrow-up-right.svg">
-              </SvgIconMono>
+          <div key={index} className={styles.item}>
+              <div className={styles.item_image_wrapper}></div>
+            <div className={styles.item_info }>
+              <p className={styles.item_category}>{t.category}</p>
+              <h3 className={styles.item_name}>{t.name}</h3>
+              <div className={styles.item_footer}>
+                <div className={styles.item_stock}>
+                  <p>จำนวนที่มี</p>
+                  <h3 className={styles.item_quatity}>{t.avaliable}/{t.total} สามารถใช้ได้</h3>
+              </div>
+              <div className={styles.item_more}>
+                <h3>เพิ่มเติม</h3>
+                <SvgIconMono className={styles.arrow_up_right} src="./icon/arrow-up-right.svg">
+                </SvgIconMono>
           </div>
+              </div>
+              
+          </div>
+
         </div>
         ))}
         
