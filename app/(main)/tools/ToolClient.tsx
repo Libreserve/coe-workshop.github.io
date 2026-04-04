@@ -126,7 +126,7 @@ const ToolsClient = () => {
           ></Select>
         </div>
       </div>
-      <section>
+      <section className={styles.item_container}>
         {mockData.map((t,index)=>(
           <div key={index} className={styles.item}>
               <div className={styles.item_image_wrapper}></div>
@@ -138,10 +138,12 @@ const ToolsClient = () => {
                   <p>จำนวนที่มี</p>
                   <h3 className={styles.item_quatity}>{t.avaliable}/{t.total} สามารถใช้ได้</h3>
               </div>
+              <div className={styles.item_more_wrapper}>
               <div className={styles.item_more}>
                 <h3>เพิ่มเติม</h3>
                 <SvgIconMono className={styles.arrow_up_right} src="./icon/arrow-up-right.svg">
                 </SvgIconMono>
+                </div>
           </div>
               </div>
               

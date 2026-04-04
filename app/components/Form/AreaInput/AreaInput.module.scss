@@ -1,4 +1,3 @@
-@use "../../styles/variables" as *;
 
 .AreaInput {
   display: flex;
@@ -13,6 +12,5 @@
     outline-color: black;
   }
   .areaInput_require {
-    color: $red-500;
   }
 }
