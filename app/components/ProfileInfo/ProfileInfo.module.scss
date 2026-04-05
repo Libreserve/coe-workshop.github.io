@@ -1,0 +1,437 @@
+@use "../../styles/breakpoints" as *;
+@use "../../styles/functions" as *;
+@use "../../styles/variables" as *;
+
+.container {
+  display: flex;
+  min-height: 80vh; /* Takes full height of the viewport */
+  width: 100%;
+  padding: 2% 10%;
+  justify-self: center;
+  align-self: center;
+  column-gap: rem(30px);
+  @include respond-to-max(2xl) {
+    column-gap: rem(20px);
+    padding: 2% 5%;
+  }
+  @include respond-to-max(lg) {
+    padding-top: 0%;
+    flex-direction: column;
+    min-height: 85vh;
+  }
+}
+
+.profile {
+  // height: 100%;
+  // flex: 1;
+  min-width: rem(340px);
+  border-radius: rem(5px);
+  padding: rem(20px);
+  display: flex;
+  flex-direction: column;
+  background-color: $sub-50;
+  justify-content: end;
+  padding: rem(40px);
+  
+  box-shadow: $sub-300 0 rem(2px) rem(2px);
+  @include respond-to-max(2xl) {
+    padding: rem(30px);
+  }
+  @include respond-to-max(lg) {
+    box-shadow: $sub-300 0 0 0;
+    background-color: transparent;
+    height: auto;
+    width: 100%;
+    min-width: auto;
+  }
+  h3 {
+    color: $sub-450;
+  }
+}
+
+.imageContainer {
+  @include respond-to-max(lg) {
+    position: relative;
+    width: fit-content;
+  }
+}
+
+.editBadge {
+  position: absolute;
+  display: none;
+  opacity: 0;
+  bottom: rem(-12px);
+  right: rem(-12px);
+  
+  width: rem(28px);
+  height: rem(42px);
+  background-color: $sub-900;
+  border-radius: rem(999px);
+  
+  border: rem(3px) solid $sub-0;
+  justify-content: center;
+  align-items: center;
+  
+  @include respond-to-max(lg) {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.editIcon {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  @include respond-to-max(lg) {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.profile_url {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding-bottom: rem(20px);
+  
+  .image {
+    border-radius: rem(5px);
+  }
+  
+  @include respond-to-max(lg) {
+    align-items: center;
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+.profile_name {
+  display: flex;
+  @include respond-to-max(lg) {
+    justify-content: center;
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+.profile_faculty {
+  padding-top: rem(30px);
+}
+
+.profile_identification,
+.profile_status,
+.profile_faculty {
+  padding-top: rem(20px);
+  padding-bottom: rem(20px);
+  border-bottom: solid 1px $sub-200;
+  
+  @include respond-to-max(lg) {
+    display: none;
+    border-bottom: none;
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+.profile_faculty {
+  @include respond-to-max(lg) {
+    display: flex;
+    padding-top: 0%;
+    justify-content: center;
+    h3 {
+      display: none;
+    }
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+.profile_edit {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  
+  @include respond-to-max(lg) {
+    display: none;
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+/////////////////transaction part///////////////////////
+.activity {
+  width: 100%;
+  // height: 100%;
+  flex: 1;
+  background-color: $sub-0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  @include respond-to-max(2xl) {
+  }
+  @include respond-to-max(lg) {
+    width: 100%;
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+  .header {
+    // flex: 1;
+    padding-bottom: rem(15px);
+
+    display: flex;
+    flex-direction: row;
+    title {
+      background-color: blue;
+      margin-right: auto;
+    }
+    filter {
+      margin-left: auto;
+    }
+    @include respond-to-max(lg) {
+      display: none;
+    }
+    @include respond-to-max(md) {
+    }
+    @include respond-to-max(sm) {
+    }
+    @include respond-to-max(xs) {
+    }
+  }
+}
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // height: 100%;
+  flex-grow: 1;
+  box-shadow: var(--light-500);
+  min-width: 0;
+
+  @include respond-to-max(lg) {
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+.tableScrollWrapper {
+  flex-grow: 1; /* Takes all space above the footer */
+  width: 100%;
+  overflow-x: auto; /* Enables horizontal scroll */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.15rem;
+  // box-shadow: var(--light-500);
+  box-shadow: $sub-300 0 rem(2px) rem(2px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  flex-grow: 1;
+  min-width: rem(800px); //min width
+  @include respond-to-max(lg) {
+  }
+  th {
+    background-color: $sub-100;
+  }
+  th:nth-child(1),
+  th:nth-child(2) {
+    text-align: start;
+  }
+  th:nth-child(3),
+  th:nth-child(4) {
+    text-align: end;
+  }
+
+  td {
+    padding: 0 1rem; // Left/Right padding only
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.transaction {
+  height: 20%; //devide for 5 row per page
+  min-height: rem(48px);
+  &:nth-child(even) {
+    background-color: $sub-50;
+  }
+
+  td {
+    padding: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Keeps the text perfectly centered vertically as the row stretches */
+    vertical-align: middle;
+    border-bottom: 1px solid #eaeaea; // Optional: keeps rows separated
+    div : {
+      text-overflow: ellipsis;
+    }
+    .itemName {
+      font-weight: 700;
+    }
+  }
+
+  td:nth-child(1),
+  td:nth-child(2) {
+    text-align: start;
+  }
+  td:nth-child(3),
+  td:nth-child(4) {
+    text-align: end;
+  }
+}
+
+.fillerRow {
+  height: auto;
+  td {
+    border: none;
+    padding: 0;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between; /* Pushes info left, controls right */
+  align-items: center;
+  padding: 1.5rem 1rem;
+  background-color: $sub-100;
+  margin-top: auto;
+  border-radius: 0.15rem;
+  box-shadow: $sub-300 0 rem(2px) rem(2px);
+
+  @include respond-to-max(lg) {
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+    flex-direction: column;
+    padding: 0.5rem 0.5rem;
+  }
+  @include respond-to-max(xs) {
+  }
+  .footerInfo {
+    font-size: 0.8rem;
+    font-weight: 500;
+    @include respond-to-max(lg) {
+    }
+    @include respond-to-max(md) {
+    }
+    @include respond-to-max(sm) {
+      font-size: 0.6rem;
+      padding-bottom: 0.2rem;
+    }
+    @include respond-to-max(xs) {
+    }
+  }
+
+  .footerControls {
+    display: flex;
+    gap: 1.5rem;
+    .pageBtnNext,
+    .pageBtnPrev {
+      background: none;
+      border: none;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 500;
+
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:active {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+//button from css scan
+.button {
+  align-items: center;
+  background-color: $sub-50;
+  border: rem(1px) solid $sub-300;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  color: $sub-1000;
+  cursor: pointer;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: 100%;
+  @include respond-to-max(lg) {
+  }
+  @include respond-to-max(md) {
+  }
+  @include respond-to-max(sm) {
+    width: fit-content;
+    height: fit-content;
+  }
+  @include respond-to-max(xs) {
+  }
+}
+
+.button:hover,
+.button:focus {
+  border-color: $sub-300;
+  color: $sub-900;
+}
+
+.button:hover {
+  transform: translateY(rem(-1px));
+}
+
+.button:active {
+  background-color: #f0f0f1;
+  border-color: $sub-400;
+  box-shadow: $sub-200 0 rem(2px) rem(4px);
+  transform: translateY(0);
+}
