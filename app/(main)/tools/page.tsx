@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ToolsClient from "./ToolClient.tsx";
+import ToolsClient from "./ToolClient";
 
 const Page = () => {
   return (

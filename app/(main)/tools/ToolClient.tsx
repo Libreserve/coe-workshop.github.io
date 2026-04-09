@@ -76,7 +76,7 @@ const ToolsClient = () => {
     <div className={styles.tools}>
       <section className={styles.header}>
          <h1 className={styles.header_title}>รายการอุปกรณ์</h1>
-        <SearchBar  borderFocus={true} placeholder="ค้นหาอุปกรณ์ที่คุณต้องการ" ></SearchBar>
+        <SearchBar borderFocus={true} placeholder="ค้นหาอุปกรณ์ที่คุณต้องการ" value={search} setValue={setSearch} onEnter={onEnter}></SearchBar>
       </section>
     </div>
   );
