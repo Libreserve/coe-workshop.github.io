@@ -1,4 +1,3 @@
-export enum catagories {}
 export const enum ToolCategories {
   MACHINE = "MACHINE",
   HANDTOOL = "HANDTOOL",
@@ -18,8 +17,16 @@ export interface Tool {
 
 export type Tools = Tool[];
 
+export interface ToolsFilter {
+  category?: ToolCategories;
+  search?: string;
+}
+
 export interface ToolsResponse {
-  data: Tools;
+  data: {
+    numberOfPage: number;
+    items: Tools;
+  };
   success: boolean;
   error: string | null;
 }

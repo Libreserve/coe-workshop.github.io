@@ -1,15 +1,28 @@
 import { apiSlice } from "../apiSlice";
 import { createSelector } from "@reduxjs/toolkit";
-import type { Tool, Tools, ToolsResponse, ToolResponse } from "./tools.type";
+import type { Tool, Tools, ToolsResponse, ToolResponse, ToolsFilter } from "./tools.type";
 
 export const initialState: Tools = [];
+
+const buildQueryParams = (filter?: ToolsFilter): string => {
+  const params = new URLSearchParams();
+  if (filter?.category) {
+    params.set("category", filter.category);
+  }
+  if (filter?.search) {
+    params.set("search", filter.search);
+  }
+  const queryString = params.toString();
+  return queryString ? `?${queryString}` : "";
+};
+
 export const apiSliceWithTools = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTools: builder.query<Tools, void>({
-      query: () => "/v1/items",
+    getTools: builder.query<Tools, ToolsFilter | void>({
+      query: (filter) => `/v1/items${buildQueryParams(filter ?? undefined)}`,
       keepUnusedDataFor: 300,
       transformResponse(res: ToolsResponse) {
-        return res.data;
+        return res.data.items;
       },
       providesTags: (result = []) =>
         result
@@ -38,16 +51,18 @@ export const apiSliceWithTools = apiSlice.injectEndpoints({
 
 export const { useGetToolsQuery, useGetToolQuery } = apiSliceWithTools;
 
-export const selectToolsResult =
-  apiSliceWithTools.endpoints.getTools.select(undefined);
+export const selectToolsResult = (filter?: ToolsFilter) =>
+  apiSliceWithTools.endpoints.getTools.select(filter);
 
-const selectToolsData = createSelector(
-  selectToolsResult,
-  (result) => result.data ?? initialState,
-);
-export const selectAllTools = selectToolsData;
+const selectToolsData = (filter?: ToolsFilter) =>
+  createSelector(
+    selectToolsResult(filter),
+    (result) => result.data ?? initialState,
+  );
+
+export const selectAllTools = selectToolsData();
 
 export const selectToolById = (toolId: number) =>
-  createSelector(selectToolsData, (tools) =>
+  createSelector(selectToolsData(), (tools) =>
     tools.find((tool) => tool.id === toolId),
   );
