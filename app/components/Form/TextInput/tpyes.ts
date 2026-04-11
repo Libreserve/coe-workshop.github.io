@@ -5,4 +5,5 @@ export interface TextInputProps {
   value: string;
   errorMessage?: string;
   onChange?: (value: string) => void;
+  backgroundColor?: string;
 }

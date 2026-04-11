@@ -161,6 +161,7 @@ const OnBoarding = () => {
           errorMessage={errors.prefix}
         ></Select>
         <TextInput
+          backgroundColor="var(--theme-100)"
           require={true}
           value={name}
           onChange={setName}
@@ -170,6 +171,7 @@ const OnBoarding = () => {
         ></TextInput>
         <TextInput
           require={true}
+          backgroundColor="var(--theme-100)"
           value={lastname}
           onChange={setLastname}
           title="นามสกุล"
@@ -178,6 +180,7 @@ const OnBoarding = () => {
         ></TextInput>
         <TextInput
           require={true}
+          backgroundColor="var(--theme-100)"
           value={tel}
           onChange={setTel}
           title="เบอร์ติดต่อ"

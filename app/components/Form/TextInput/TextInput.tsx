@@ -8,6 +8,7 @@ export const TextInput = ({
   require = false,
   value,
   errorMessage,
+  backgroundColor = "transparent",
   onChange,
 }: TextInputProps) => {
   return (
@@ -21,6 +22,7 @@ export const TextInput = ({
         </label>
       )}
       <input
+        style={{ backgroundColor: backgroundColor }}
         className={` ${errorMessage ? styles.error_input : ""} ${
           styles.textInput_input
         }`}
