@@ -1,12 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   reactCompiler: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "fakestoreapi.com", // ดึง api ภายนอกมาใช้ ค่อยลบ
+        hostname: "fakestoreapi.com",
         pathname: "/img/**",
       },
     ],
