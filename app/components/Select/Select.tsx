@@ -14,7 +14,7 @@ export const Select = ({
   errorMessage,
   onTop = false,
   onChange,
-  icon,
+  icon,/*  */
   iconSize = 18,
   iconWidth,
   iconHeight,

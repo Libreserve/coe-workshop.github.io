@@ -14,15 +14,15 @@
   position: relative;
   display: flex;
   gap: 1rem;
-  padding: 0.4rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.4rem;
-  border: 1px solid var(--box-hover);
+  border: 1px solid var(--theme-200);
   align-items: center;
   transition: all 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    background-color: var(--box-shadow);
+    background-color: var(--theme-100);
   }
   .input_value {
     display: flex;
@@ -50,18 +50,18 @@
     top: 2.4rem;
     left: 0;
     padding: 0.4rem 0;
-    background-color: var(--box-background);
-    box-shadow: var(--box-shadow) 0px 0px 0px 1px;
+    background-color: var(--theme-0);
+    box-shadow: var(--theme-100) 0px 0px 0px 1px;
     border-radius: 0.4rem;
     .input_choice {
       margin: 0.2rem 0;
-      background-color: var(--box-background);
+      background-color: var(--theme-0);
       text-align: start;
       text-wrap: nowrap;
       width: 100%;
       padding: 0.2rem 4rem 0.2rem 1rem;
       &:hover {
-        background-color: var(--box-hover);
+        background-color: var(--theme-100);
       }
     }
   }
@@ -72,7 +72,7 @@
 }
 
 .input_focus {
-  outline: 2px solid var(--text-normal);
+  outline: 2px solid var(--theme-500);
 }
 
 .input_open {

@@ -7,45 +7,41 @@ export const TypeEffect = ({ options }: TypeEffectProps) => {
   const [contentIndex, setContentIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   useEffect(() => {
-    const runType = () => {
-      //word delay is timeout between eachword
-      setDisplayText("");
-      const typeSpeed = 2000;
-      const deleteSpeed = 400;
-      const holdSpeed = 2400;
-      const text = options[contentIndex % options.length];
-      const chars = Array.from(text);
+  const timeouts: ReturnType<typeof setTimeout>[] = [];
 
-      for (let i = 0; i < chars.length; i++) {
-        setTimeout(
-          () => {
-            setDisplayText((prev) => prev + chars[i]);
-          },
-          (i * typeSpeed) / chars.length,
-        );
-      }
+  setDisplayText("");
+  const typeSpeed = 2000;
+  const deleteSpeed = 400;
+  const holdSpeed = 2400;
+  const text = options[contentIndex % options.length];
+  const chars = Array.from(text);
 
-      for (let i = 0; i < chars.length; i++) {
-        setTimeout(
-          () => {
-            setDisplayText((prev) => prev.slice(0, -1));
-          },
-          holdSpeed + typeSpeed + (i * deleteSpeed) / chars.length,
-        );
-      }
+  for (let i = 0; i < chars.length; i++) {
+    timeouts.push(
+      setTimeout(() => {
+        setDisplayText((prev) => prev + chars[i]);
+      }, (i * typeSpeed) / chars.length)
+    );
+  }
 
-      const next = setTimeout(
-        () => {
-          setContentIndex((prev) => prev + 1);
-        },
-        400 + holdSpeed + typeSpeed + deleteSpeed,
-      );
-      return () => {
-        clearTimeout(next);
-      };
-    };
-    runType();
-  }, [contentIndex, options]);
+  for (let i = 0; i < chars.length; i++) {
+    timeouts.push(
+      setTimeout(() => {
+        setDisplayText((prev) => prev.slice(0, -1));
+      }, holdSpeed + typeSpeed + (i * deleteSpeed) / chars.length)
+    );
+  }
+
+  timeouts.push(
+    setTimeout(() => {
+      setContentIndex((prev) => prev + 1);
+    }, 400 + holdSpeed + typeSpeed + deleteSpeed)
+  );
+
+  return () => {
+    timeouts.forEach(clearTimeout);
+  };
+}, [contentIndex, options]);
 
   return (
     <div className={styles.wrapper}>

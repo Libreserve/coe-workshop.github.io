@@ -1,4 +1,5 @@
 "use client";
+
 import SearchBar from "@/app/components/SearchBar/SearchBar";
 import styles from "./tools.module.scss";
 import { useSearchParams } from "next/navigation";

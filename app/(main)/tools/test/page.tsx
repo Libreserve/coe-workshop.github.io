@@ -1,5 +1,5 @@
 "use client";
-import { AreaInput } from "@/app/components/AreaInput/AreaInput";
+import { AreaInput } from "@/app/components/Form/AreaInput/AreaInput";
 import DatePicker from "@/app/components/Datepicker/Datepicker";
 import ModalSlide from "@/app/components/ModalSlide/ModalSlide";
 import { Select } from "@/app/components/Select/Select";
