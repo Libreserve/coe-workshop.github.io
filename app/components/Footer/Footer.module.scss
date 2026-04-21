@@ -8,6 +8,24 @@
   padding-right: rem(70px);
   padding-left: rem(70px);
   color: var(--text-inverse);
+  
+  @media (prefers-color-scheme: dark) {
+    background-image: none;
+    color: var(--foreground);
+    
+    .left_heading {
+      color: var(--foreground);
+    }
+    
+    .right_heading,
+    .right_content {
+      color: var(--foreground);
+    }
+    
+    .left_text {
+      color: var(--foreground);
+    }
+  }
 }
 
 .content {

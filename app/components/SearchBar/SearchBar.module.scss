@@ -5,9 +5,14 @@
     padding:0.6rem 0.4rem;
     display: flex;
     gap: 0.4rem; // distance between icon
-    background-color: $sub-100;
+    background-color: var(--theme-100);
     border-radius:0.2rem ;
     transition: all 0.3 ease ;
+    
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--theme-300);
+    }
+    
     &.canFocus{
         &:focus-within{
             border: 0.1rem solid $sub-1000; 
@@ -20,4 +25,5 @@
     background-color: transparent;
     border: none;
     outline: none;
+    color: var(--foreground);
 }
