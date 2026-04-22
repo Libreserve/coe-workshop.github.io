@@ -14,7 +14,7 @@ import { Options } from "@/app/admin/components/ui/optionAction/types";
 import styles from "./tool.module.scss";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { useParams } from "next/navigation";
-import { useGetToolQuery } from "@/app/lib/features/admin/toolsAdminApi";
+import { useGetToolQuery } from "@/app/lib/features/tools/toolsApiSlice";
 import { Tool } from "@/app/lib/features/admin/tool.typs";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import CreateItem from "@/app/admin/components/modal/create_item/create";

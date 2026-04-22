@@ -2,10 +2,10 @@
 
 .modalContainer {
   display: flex;
-  justify-content: end;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   z-index: 3;
 }
 .content {

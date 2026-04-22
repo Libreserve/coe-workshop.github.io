@@ -15,12 +15,19 @@
   position: relative;
   display: flex;
   gap: 1rem;
-  padding: 0.6rem 1rem;
   border-radius: 0.4rem;
   border: 1px solid var(--theme-200);
   align-items: center;
   transition: all 0.2s ease;
   cursor: pointer;
+
+  &.md {
+    padding: 0.6rem 1rem;
+  }
+
+  &.sm {
+    padding: 0.3rem 1rem;
+  }
 
   &:hover {
     background-color: var(--theme-100);

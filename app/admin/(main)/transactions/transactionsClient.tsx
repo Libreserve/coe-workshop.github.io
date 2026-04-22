@@ -38,12 +38,14 @@ export const Transaction = () => {
               value={Search}
               setValue={setSearch}
               placeholder="ตัวกรองค้นหา"
+	      size="sm"
             ></SearchBar>
           </div>
           <DatePicker
             placeholder="ค้นหาจากวันที่"
             required={true}
             onChange={handleDateChange}
+	    disableLabel={true}
           ></DatePicker>
           <Select
             placeholder="ตัวกรองสถานะ"
@@ -53,6 +55,7 @@ export const Transaction = () => {
             }}
             value={statusFilter as unknown as string}
             options={["Approved", "Pending", "Finished", "Rejected", "Cancel", "Blank"]}
+	    size="sm"
           ></Select>
         </div>
       </div>

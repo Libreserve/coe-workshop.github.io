@@ -14,10 +14,11 @@ export const Select = <T extends string = string,>({
   errorMessage,
   onTop = false,
   onChange,
-  icon, /* optional icon on the left */
+  icon,
   iconSize = 18,
   iconWidth,
   iconHeight,
+  size = "md",
 }: SelectProps<T>) => {
   const finalWidth = iconWidth ?? iconSize;
   const finalHeight = iconHeight ?? iconSize;
@@ -25,12 +26,14 @@ export const Select = <T extends string = string,>({
 
   return (
     <div className={styles.select}>
-      <h2>
-        {label} {require && <span className={styles.require}> *</span>}
-      </h2>
+      {label && (
+        <h2>
+          {label} {require && <span className={styles.require}> *</span>}
+        </h2>
+      )}
       <div
         onClick={() => setIsopen((prev) => !prev)}
-        className={`${styles.input} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
+        className={`${styles.input} ${styles[size]} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
       >
         <h4 className={styles.input_value}>
           {icon && (

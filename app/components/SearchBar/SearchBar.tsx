@@ -7,7 +7,8 @@ const SearchBar = ({
         borderFocus = false,
         onEnter,
         setValue,
-        value
+        value,
+        size = "md",
 }: SearchBarProps) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && onEnter) {
@@ -15,8 +16,8 @@ const SearchBar = ({
         }
     }
     return (
-        <div className={`${styles.searchBar} ${borderFocus ? styles.canFocus : ""}`}>
-            <SvgIconMono src="search.svg" />
+        <div className={`${styles.searchBar} ${styles[size]} ${borderFocus ? styles.canFocus : ""}`}>
+            <SvgIconMono src="/search.svg" />
             <input
                 className={`${styles.input}`}
                 onChange={(e) => setValue(e.target.value)}

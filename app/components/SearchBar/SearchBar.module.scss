@@ -2,20 +2,27 @@
 
 
 .searchBar{
-    padding:0.6rem 0.4rem;
     display: flex;
-    gap: 0.4rem; // distance between icon
+    gap: 0.4rem;
     background-color: var(--theme-100);
-    border-radius:0.2rem ;
-    transition: all 0.3 ease ;
-    
+    border-radius:0.2rem;
+    transition: all 0.3s ease;
+
+    &.md {
+        padding: 0.6rem 0.4rem;
+    }
+
+    &.sm {
+        padding: 0.3rem 0.4rem;
+    }
+
     @media (prefers-color-scheme: dark) {
         background-color: var(--theme-300);
     }
-    
+
     &.canFocus{
         &:focus-within{
-            border: 0.1rem solid $sub-1000; 
+            border: 0.1rem solid $sub-1000;
         }
     }
 }

@@ -2,7 +2,7 @@ import styles from "./deleteConfirm.module.scss";
 import { DeleteConfirmProps } from "./deleteConfirm.types";
 import { TextInput } from "@/app/components/Form/TextInput/TextInput";
 import { useState } from "react";
-import { useDeleteToolMutation } from "@/app/lib/features/admin/toolsAdminApi";
+import { useDeleteToolMutation } from "@/app/lib/features/tools/toolsApiSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/app/Context/Toast/ToastProvider";

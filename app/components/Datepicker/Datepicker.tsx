@@ -170,6 +170,7 @@ const DatePicker = ({
   required = true,
   isCasual = true,
   label = "วันที่จอง",
+  disableLabel = false,
   errorMessage,
 }: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
@@ -267,10 +268,12 @@ const DatePicker = ({
 
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.label}>
-        {label}
-        {label && required && <span> *</span>}
-      </h2>
+      {!disableLabel && (
+        <h2 className={styles.label}>
+          {label}
+          {label && required && <span> *</span>}
+        </h2>
+      )}
       {errorMessage && <span className={styles.error}>{errorMessage}</span>}
       <div className={styles.datepicker_container}>
         <div

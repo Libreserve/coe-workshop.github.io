@@ -4,7 +4,7 @@ import { ErrorResponse, ToolCategories } from "@/app/lib/features/admin/tool.typ
 import {
   useCreateToolMutation,
   useUpdateToolMutation,
-} from "@/app/lib/features/admin/toolsAdminApi";
+} from "@/app/lib/features/tools/toolsApiSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
