@@ -1,0 +1,44 @@
+@use "../../../../styles/variables" as *;
+
+.info {
+  width: clamp(14rem, 90%, 24rem);
+  margin-inline: auto;
+  margin-top: 10rem;
+  background-color: var(--background);
+  position: relative;
+  z-index: 10;
+  border-radius: 0.4rem;
+  padding: 1rem 1.5rem;
+  span {
+    display: flex;
+    gap: 0.4rem;
+  }
+  h2 {
+    margin-bottom: 0.4rem;
+  }
+  .line {
+    margin: 1rem;
+  }
+}
+
+.header {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+.tool {
+  background-color: var(--Obj-fade);
+  padding: 0.8rem 1rem;
+  border-radius: 0.4rem;
+}
+.action {
+  margin: 1rem 0;
+  width: fit-content;
+  margin-left: auto;
+  .action_button {
+    color: $sub-0;
+    background-color: $sub-1000;
+    padding: 0.2rem 1rem;
+    border-radius: 0.4rem;
+  }
+}

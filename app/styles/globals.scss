@@ -25,12 +25,17 @@ body {
 button {
   cursor: pointer;
 }
+
+button:disabled {
+  opacity: 0.8;
+}
 button,
 option,
 select,
 textarea {
   border: none;
   font-family: var(--font-Noto);
+  background: transparent;
 }
 
 * {
@@ -68,14 +73,16 @@ h3 {
 h4 {
   font-size: 0.8rem;
   font-weight: 400;
+  color: var(--text-fade-mid);
 }
 p {
   font-size: 0.8rem;
   font-weight: 400;
-  color: $sub-550;
+  color: var(--theme-500);
 }
 input {
   font-family: var(--font-Noto);
+  background-color: transparent;
 }
 @media (prefers-color-scheme: dark) {
   html {
@@ -89,8 +96,7 @@ table {
 
   th,
   td {
-    padding: 1rem;
-    padding-left: 0.5rem;
+    padding: 1rem 0.8rem;
     text-align: left;
     border-bottom: 1px solid $sub-200;
   }
@@ -104,7 +110,7 @@ table {
   }
 
   tbody tr:hover {
-    background-color: $sub-100;
+    background-color: var(--table-hover);
   }
 }
 

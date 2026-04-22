@@ -50,8 +50,8 @@ const Footer = () => {
       <div className={styles.content}>
         <div className={styles.left}>
           <div className={styles.left_heading}>
-            <div>
-              EN.<span>W</span>
+            <div className={styles.left_logoes}>
+              <span className={styles.logo_mark}>EN</span><span className={styles.logo_dot}>.W</span>
             </div>
           </div>
           <div className={styles.left_links}>

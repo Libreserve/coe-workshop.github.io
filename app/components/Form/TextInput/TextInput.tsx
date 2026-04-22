@@ -3,39 +3,38 @@ import styles from "./TextInput.module.scss";
 import React from "react";
 
 export const TextInput = ({
-  title,
+  label,
   placeholder = "",
   require = false,
   value,
   errorMessage,
-  backgroundColor = "transparent",
   onChange,
 }: TextInputProps) => {
   return (
     <div className={styles.textInput}>
-      {title && (
-        <label htmlFor={title} className={styles.textInput_label}>
-          {title}
+      {label && (
+        <label htmlFor={label} className={styles.textInput_label}>
+          {label}
           <span className={styles.textInput_require}>
             {require ? " *" : ""}
           </span>
         </label>
       )}
       <input
-        style={{ backgroundColor: backgroundColor }}
         className={` ${errorMessage ? styles.error_input : ""} ${
           styles.textInput_input
         }`}
         type="text"
         value={value}
-        name={title}
-        id={title}
+        name={label}
+        id={label}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           onChange?.(e.target.value)
         }
         placeholder={placeholder}
       />
-      {errorMessage && <p className={styles.error_message}>{errorMessage}</p>}
+      {errorMessage && <h4 className={styles.error}>{errorMessage}</h4>}
     </div>
   );
 };
+

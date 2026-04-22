@@ -1,0 +1,37 @@
+@use "../../../../styles/variables" as *;
+
+.deleteConfirm {
+  background-color: $sub-0;
+  padding: 1rem;
+  position: relative;
+  z-index: 10;
+  border-radius: 0.4rem;
+  width: fit-content;
+  margin: 12rem auto;
+  width: clamp(20rem, 30%, 30rem);
+}
+
+.header {
+  padding: 0.4rem 0;
+}
+
+.action {
+  display: flex;
+  width: fit-content;
+  margin: 0.8rem 0 0 auto;
+  gap: 0.8rem;
+  .confirm {
+    background-color: $red-500;
+    color: $sub-0;
+    padding: 0.4rem 1rem;
+    border-radius: 0.4rem;
+  }
+}
+
+.errorMessage {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--warning-red);
+  top: 76%;
+  right: 4%;
+}

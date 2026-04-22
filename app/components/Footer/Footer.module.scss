@@ -7,7 +7,7 @@
   margin-top: auto;
   padding-right: rem(70px);
   padding-left: rem(70px);
-  color: var(--text-inverse);
+  color: var(--text-normal);
   
   @media (prefers-color-scheme: dark) {
     background-image: none;
@@ -126,6 +126,12 @@
 .left_logoes {
   display: flex;
   gap: rem(5px);
+  .logo_mark {
+    color: var(--logo-mark);
+  }
+  .logo_dot {
+    color: var(--logo-dot);
+  }
   @include respond-to-max(lg) {
     gap: rem(4.75px);
   }
@@ -257,6 +263,7 @@
     }
   }
 }
+
 // @media (prefers-color-scheme: dark) {
 //   .right_heading {
 //     color: var(--background);

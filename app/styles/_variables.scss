@@ -10,6 +10,7 @@ $sub-550: #565656;
 $sub-600: #4d4d4d;
 $sub-650: #404040;
 $sub-700: #333333;
+$sub-750: #262626;
 $sub-800: #1a1a1a;
 $sub-900: #0d0d0d;
 $sub-1000: #000000;
@@ -48,6 +49,90 @@ $yellow-700: #a16207;
 $yellow-800: #854d0e;
 $yellow-900: #713f12;
 
+// Blue scale
+$blue-50: #eff6ff;
+$blue-100: #dbeafe;
+$blue-200: #bfdbfe;
+$blue-300: #93c5fd;
+$blue-400: #60a5fa;
+$blue-500: #3b82f6;
+$blue-600: #2563eb;
+$blue-700: #1d4ed8;
+$blue-800: #1e40af;
+$blue-900: #1e3a8a;
+
+// Light blue scale
+$light-blue-50: #f4f8ff;
+$light-blue-100: #e6f0ff;
+$light-blue-200: #cddfff;
+$light-blue-300: #aac7fb;
+$light-blue-400: #88b2f6;
+$light-blue-500: #6fa7ef; // BASE
+$light-blue-600: #4f8fe0;
+$light-blue-700: #3a76c1;
+$light-blue-800: #2c5c98;
+$light-blue-900: #234a78;
+
+// Light green scale
+$green-50: #f0fdf4;
+$green-100: #dcfce7;
+$green-200: #bbf7d0;
+$green-300: #86efac;
+$green-400: #4ade80;
+$green-500: #58dd92;
+$green-600: #3dca78;
+$green-700: #2ea15e;
+$green-800: #1f7845;
+$green-900: #135233;
+
+// Light green scale (alt)
+$light-green-50: #f7ffef;
+$light-green-100: #edffd8;
+$light-green-200: #d7feb0;
+$light-green-300: #c3f791;
+$light-green-400: #b0ee75;
+$light-green-500: #beef6f; // BASE
+$light-green-600: #9fd45a;
+$light-green-700: #7fa847;
+$light-green-800: #5f7d34;
+$light-green-900: #425624;
+
+// Orange scale
+$orange-50: #fff7ed;
+$orange-100: #ffedd5;
+$orange-200: #fed7aa;
+$orange-300: #fdba74;
+$orange-400: #fb923c;
+$orange-500: #f97316;
+$orange-600: #ea580c;
+$orange-700: #c2410c;
+$orange-800: #9a3412;
+$orange-900: #7c2d12;
+
+// Purple scale
+$purple-50: #faf5ff;
+$purple-100: #f3e8ff;
+$purple-200: #e9d5ff;
+$purple-300: #d8b4fe;
+$purple-400: #c084fc;
+$purple-500: #a855f7;
+$purple-600: #9333ea;
+$purple-700: #7e22ce;
+$purple-800: #6b21a8;
+$purple-900: #581c87;
+
+// Brown scale
+$brown-50: #fafaf9;
+$brown-100: #f5f5f4;
+$brown-200: #e7e5e4;
+$brown-300: #d6d3d1;
+$brown-400: #a8a29e;
+$brown-500: #78716c;
+$brown-600: #57534e;
+$brown-700: #44403c;
+$brown-800: #292524;
+$brown-900: #1c1917;
+
 // for every element color
 // how to use :
 // Ex. var(--logo-mark)
@@ -69,23 +154,37 @@ $light: (
 
   test: $green-500,
 
-    text-normal : $sub-1000,
-    text-fade-low : $sub-400,
-    text-fade-mid : $sub-500,
-    text-fade-mid2 : $sub-550,
-    text-fade-high : $sub-700,
-    
-    warning-red: $red-600,
-    error-red: $red-500,
-    
-    box-background : $sub-0,
-    box-hover : $sub-200,
-    box-shadow: rgba(0, 0, 0, 0.05),
-    borderline: $sub-300,
-    borderline-fade: $sub-200,
+  text-normal : $sub-1000,
+  text-fade-low : $sub-400,
+  text-fade-mid : $sub-500,
+  text-fade-mid2 : $sub-550,
+  text-fade-high : $sub-700,
 
-    obj-fade: $sub-400,
-    );
+  warning-red: $red-600,
+  error-red: $red-500,
+
+  box-background : $sub-0,
+  box-hover : $sub-200,
+  box-shadow: rgba(0, 0, 0, 0.05),
+  borderline: $sub-300,
+  borderline-fade: $sub-200,
+
+  obj-fade: $sub-400,
+  icon: $sub-600,
+  icon-fade: $sub-400,
+  logo-mark: $sub-1000,
+  logo-dot: $sub-600,
+  text-inverse: $sub-100,
+  table-hover: $sub-50,
+  table-firstItem: $sub-0,
+  table-oldTransaction: $sub-100,
+  timetable-event-content: $sub-0,
+  Obj-fade: $sub-100,
+  Obj-fade2: $sub-200,
+  Obj-hilight: $yellow-100,
+  textbox: $sub-100,
+  background-fade: $sub-50,
+  );
 $dark: (
   theme-0: #000000,    
   theme-50: #0d0d0d,   
@@ -105,9 +204,9 @@ $dark: (
   test : $green-500,
   
   icon:#ccc,
-  logo-mark : $sub-0,
-  logo-dot : $sub-400,
 
+  logo-mark : $sub-100,
+  logo-dot : $sub-400,
   text-normal : $sub-100,
   text-inverse : $sub-1000,
   text-fade-low : $sub-500,
@@ -124,7 +223,7 @@ $dark: (
   borderline: $sub-1000,
   borderline-fade: $sub-500,
 
-  obj-fade: $sub-500,
+  Obj-fade: $sub-500,
 );
 
 @mixin theme-vars($map) {

@@ -1,0 +1,24 @@
+.action {
+  display: flex;
+  width: 100%;
+  border-bottom: 0.01rem solid var(--theme-200);
+  margin-bottom: 1rem;
+
+  .action_text {
+    font-weight: 400;
+  }
+
+  .action_inner {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.4rem 1rem;
+    align-items: center;
+  }
+  .action_inner:hover {
+    border-radius: 0.4rem 0.4rem 0 0;
+    background-color: var(--theme-100);
+  }
+  .action_select {
+    border-bottom: 0.1rem solid var(--theme-1000);
+  }
+}

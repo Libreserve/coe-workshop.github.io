@@ -2,7 +2,7 @@ import styles from "./AreaInput.module.scss";
 import React from "react";
 import { AreaInputProps } from "./AreaInput.types";
 export const AreaInput = ({
-  label,
+  label = "",
   placeholder = "",
   require = false,
   value,

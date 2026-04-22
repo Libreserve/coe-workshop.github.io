@@ -1,12 +1,51 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
+import HttpStatus from "http-status";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://dev-coe.ionize13.com/api";
+const baseQuery = fetchBaseQuery({
+  baseUrl: "/api/v1",
+  credentials: "include",
+});
+
+// Custom Base Query to handle auth errors
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions);
+
+  if (result.error) {
+    if (
+      result.error.status === HttpStatus.UNAUTHORIZED ||
+      result.error.status === HttpStatus.FORBIDDEN
+    ) {
+      console.warn(
+        "Session expired or unauthorized - clearing session",
+      );
+
+      try {
+        await fetch(`/api/v1/auth/logout`, {
+          method: "POST",
+          credentials: "include",
+        });
+      } catch {}
+
+      const isAdminRoute = window.location.pathname.startsWith("/admin");
+      window.location.href = isAdminRoute ? "/admin/login" : "/login";
+    }
+  }
+  return result;
+};
+
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ 
-    baseUrl: BASE_URL,
-    credentials: "include",
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Tools", "Transaction"],
   endpoints: () => ({}),
 });

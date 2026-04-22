@@ -1,0 +1,37 @@
+@use "../../../../../../styles/variables" as *;
+@use "../../../../../../styles/_breakpoints" as *;
+.searchContainer{
+  margin-top: 3px;
+  display: flex;
+  gap:10px;
+  align-items: center;
+  .searchInput{
+      border: none;
+      border-bottom: 2px solid $sub-200;
+      padding: 5px 0;
+      font-size: 1rem;
+    &::placeholder {
+      color: $sub-300;
+      font-weight: 400;
+    }
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $sub-300;
+    }
+   }
+  .img{
+    object-fit: contain;
+  }
+}
+@include respond-to-max(sm) {
+  .img {
+    width: 15px;
+    height: 15px;
+  }
+  .searchInput {
+    width: 140px;
+    &::placeholder {
+      font-size: 0.9rem;
+    }
+  }
+}

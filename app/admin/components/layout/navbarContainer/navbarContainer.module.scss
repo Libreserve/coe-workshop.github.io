@@ -1,0 +1,24 @@
+@use "../../../../styles/animations" as *;
+@use "../../../../styles/variables" as *;
+
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
+}
+.content {
+  position: relative;
+  width: fit-content;
+  margin: var(--margin-content);
+}
+.background {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+  animation: fadeOut 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.1);
+}

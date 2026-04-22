@@ -1,0 +1,9 @@
+.layout {
+  display: flex;
+  height: 100vh;
+}
+.children {
+  overflow: auto;
+  width: 100%;
+  padding: min(4%, 2rem);
+}

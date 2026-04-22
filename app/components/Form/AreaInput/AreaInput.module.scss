@@ -1,5 +1,4 @@
-
-.AreaInput {
+ .AreaInput {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -12,5 +11,9 @@
     outline-color: black;
   }
   .areaInput_require {
+    color: red;
+  }
+  .areaInput_label {
+    font-weight: 500;
   }
 }

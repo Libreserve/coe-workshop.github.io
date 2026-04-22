@@ -1,68 +1,49 @@
 import { apiSlice } from "../apiSlice";
-import { createSelector } from "@reduxjs/toolkit";
-import type { Tool, Tools, ToolsResponse, ToolResponse, ToolsFilter } from "./tools.type";
+import { Tool, Tools } from "@/app/types/tools";
 
-export const initialState: Tools = [];
-
-const buildQueryParams = (filter?: ToolsFilter): string => {
-  const params = new URLSearchParams();
-  if (filter?.category) {
-    params.set("category", filter.category);
-  }
-  if (filter?.search) {
-    params.set("search", filter.search);
-  }
-  const queryString = params.toString();
-  return queryString ? `?${queryString}` : "";
-};
-
-export const apiSliceWithTools = apiSlice.injectEndpoints({
+export const toolsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTools: builder.query<Tools, ToolsFilter | void>({
-      query: (filter) => `/v1/items${buildQueryParams(filter ?? undefined)}`,
-      keepUnusedDataFor: 300,
-      transformResponse(res: ToolsResponse) {
-        return res.data.items;
-      },
-      providesTags: (result = []) =>
-        result
-          ? [
-              { type: "Tools" as const, id: "LIST" },
-              ...result.map((tool) => ({
-                type: "Tools" as const,
-                id: tool.id,
-              })),
-            ]
-          : [{ type: "Tools" as const, id: "LIST" }],
+    getTools: builder.query<Tools, { category?: string; search?: string }>({
+      query: ({ category, search }) => ({
+        url: "/items",
+        params: { category, search },
+      }),
+      providesTags: ["Tools"],
     }),
-
-    getTool: builder.query<Tool, number>({
-      query: (toolId) => ({ url: `/v1/items/${toolId}`, method: "GET" }),
-      transformResponse(res: ToolResponse) {
-        return res.data;
-      },
-      providesTags: (result, error, arg) => [
-        { type: "Tools" as const, id: arg },
-      ],
+    getTool: builder.query<Tool, string>({
+      query: (id) => `/items/${id}`,
+      providesTags: ["Tools"],
+    }),
+    createTool: builder.mutation<Tool, FormData>({
+      query: (body) => ({
+        url: "/items",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Tools"],
+    }),
+    updateTool: builder.mutation<Tool, { id: string; body: FormData }>({
+      query: ({ id, body }) => ({
+        url: `/items/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Tools"],
+    }),
+    deleteTool: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/items/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Tools"],
     }),
   }),
-  overrideExisting: false,
 });
 
-export const { useGetToolsQuery, useGetToolQuery } = apiSliceWithTools;
-
-export const selectToolsResult = (filter?: ToolsFilter) =>
-  apiSliceWithTools.endpoints.getTools.select(filter);
-
-const selectToolsData = (filter?: ToolsFilter) =>
-  createSelector(
-    selectToolsResult(filter),
-    (result) => result.data ?? initialState,
-  );
-
-export const selectAllTools = selectToolsData();
-
-export const selectToolById = (toolId: number) =>
-  createSelector(selectToolsData(), (tools) =>
-    tools.find((tool) => tool.id === toolId),
-  );
+export const {
+  useGetToolsQuery,
+  useGetToolQuery,
+  useCreateToolMutation,
+  useUpdateToolMutation,
+  useDeleteToolMutation,
+} = toolsApiSlice;

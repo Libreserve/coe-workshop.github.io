@@ -46,8 +46,7 @@ export async function createItem(): Promise<void> {
         image_url: "string",
       }),
     });
-  } catch (err) {
-    console.log(err);
+  } catch {
   }
 }
 

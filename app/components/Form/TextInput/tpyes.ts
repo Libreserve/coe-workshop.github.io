@@ -1,5 +1,5 @@
 export interface TextInputProps {
-  title?: string;
+  label?: string;
   placeholder?: string;
   require?: boolean;
   value: string;

@@ -1,0 +1,53 @@
+@use "@/app/styles/_breakpoints" as *;
+@use "@/app/styles/functions" as *;
+@use "@/app/styles/variables" as *;
+
+.login {
+  margin-top: 3rem;
+}
+.logo {
+  width: 100%;
+  margin: rem(25px) auto;
+  align-self: center;
+  :global(.color1) {
+    color: var(--logo-mark);
+  } 
+  :global(.color2) {
+    color: var(--logo-dot);
+  } 
+  :global(.color3) {
+    color: var(--logo-mark);
+  } 
+}
+.form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: rem(15px);
+  margin-top: 1rem;
+  align-items: center;
+  margin-inline: auto;
+  width: clamp(20rem, 90%, 24rem);
+}
+.submit {
+  margin: rem(10px)0;
+  background-color: var(--theme-1000);
+  border: 0;
+  padding: rem(8px) rem(10px);
+  width: 100%;
+  color: var(--theme-0);
+  border-radius: 0.4rem;
+  transition: background-color 0.3s ease;
+}
+.submit:hover {
+  background-color: var(--theme-1000);
+}
+.error {
+  color: var(--warning-red);
+}
+.errorButton {
+  background-color: var(--theme-1000);
+}
+.errorButton:hover {
+  background-color: var(--warning-red);
+}

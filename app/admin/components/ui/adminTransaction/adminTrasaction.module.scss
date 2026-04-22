@@ -1,0 +1,278 @@
+@use "../../../../styles/variables" as *;
+@use "../../../../styles/animations" as *;
+
+.tableWrapper {
+  border: 1px solid $sub-200;
+  border-radius: 0.4rem;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &.isAtRightEnd {
+    .stickyAction {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+  }
+}
+
+.tableCellLoading {
+  text-align: left;
+  padding: 2rem;
+}
+
+.tableCellError {
+  text-align: left;
+  padding: 2rem;
+  color: var(--warning-red);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.header {
+  position: relative;
+  z-index: 0;
+}
+.userInfo {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.usernameBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--theme-200);
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.usernameBadge::before {
+  content: "ผู้ขอ";
+  color: var(--text-fade-mid);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.username {
+  font-weight: 600;
+}
+.userArrow {
+  transition: all ease 0.1s;
+}
+.userArrowOpen {
+  transform: translateY(12.5%);
+}
+.userArrowClosed {
+  transform: rotate(-90deg) translateY(0);
+}
+
+.itemName {
+  width: 15rem;
+}
+
+.assetID {
+  width: 12rem;
+}
+.itemNameText {
+  white-space: normal;
+  word-wrap: break-word
+}
+.assetText {
+  white-space: normal;
+  word-wrap: break-word
+}
+.status {
+  width: 8rem;
+  color: $sub-1000;
+}
+
+.endTime {
+  width: 8rem;
+}
+
+.message {
+  padding-right: 2rem !important; // old 1rem => +1rem for avoid shadow
+  width: 19rem; // old 18rem => +1rem for avoid shadow
+  color: var(--text-fade-mid);
+}
+
+.action {
+  width: 6rem;
+}
+
+.table {
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+  }
+}
+
+.userRow {
+  background-color: $sub-100;
+}
+
+.stickyAction {
+  position: sticky;
+  right: 0;
+  background-color: var(--background);
+  z-index: 2;
+  width: 1%;
+  white-space: nowrap;
+  opacity: 0; 
+  transform: translateX(1.5rem);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1rem;
+    width: 1rem;
+    background: linear-gradient(to right, transparent, var(--theme-100));
+    pointer-events: none;
+  }
+  .action_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    .action_pointer {
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+    }
+    .action_content_check {
+      display: flex;
+      color: var(--icon);
+    }
+    .action_content_stop {
+      display: flex;
+      color: var(--warning-red);
+    }
+  }
+}
+tr:hover .stickyAction {
+  opacity: 1; 
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.allApprove {
+  cursor: pointer;
+  text-wrap: nowrap;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+  background-color: #10b981;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: none;
+  &:hover {
+    background-color: #059669;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .allApprove {
+    background-color: #10b981;
+    color: white;
+    &:hover {
+      background-color: #059669;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    thead th {
+      background: $sub-800;
+    }
+    tbody tr:hover {
+      background-color: $sub-750;
+    }
+  }
+  .userRow {
+    background-color: $sub-750;
+  }
+  .stickyAction::before {
+    display: none;
+  }
+  .action_content {
+    box-shadow: none;
+  }
+}
+.response {
+  margin: 8rem auto;
+  background-color: var(--theme-0);
+  width: clamp(20rem, 36rem, 90%);
+  position: relative;
+  z-index: 100;
+  padding: 1rem;
+  border-radius: 0.4rem;
+  .response_header {
+    .response_title {
+    }
+    .response_description {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--theme-500);
+    }
+  }
+  .response_input {
+    margin-top: 0.4rem;
+  }
+  .response_action {
+    display: flex;
+    gap: 1rem;
+    width: fit-content;
+    margin-top: 1rem;
+    margin-left: auto;
+    .response_error {
+      display: flex;
+      align-items: center;
+      font-size: small;
+      color: var(--warning-red);
+    }
+    .response_close {
+      padding: 0.4rem 1rem;
+    }
+    .response_submit {
+      background-color: var(--theme-1000);
+      color: var(--theme-0);
+      border-radius: 0.4rem;
+      padding: 0.4rem 1rem;
+    }
+    .error_response_submit {
+      background-color: var(--warning-red);
+    }
+  }
+}
+
+// กันเหนียวสำหรับ ทรศ
+@media (max-width: 48rem) {
+  .stickyAction {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}

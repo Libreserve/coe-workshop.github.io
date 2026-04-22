@@ -1,0 +1,217 @@
+@use "../../../../styles/variables" as *;
+@use "../../../../styles/_breakpoints" as *;
+.container {
+  height: 100%;
+}
+.navbar {
+  border-right: 1px solid $sub-200;
+  width: fit-content;
+  background: $sub-50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.4rem;
+  flex-shrink: 0;
+  height: 100vh;
+  position: relative;
+  top: 0;
+
+  @include respond-to-max(md) {
+    background: $sub-0;
+    width: 100%;
+    height: auto;
+  }
+  .navbar_inner {
+    @include respond-to-max(md) {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+  }
+  .logo {
+    display: flex;
+    align-items: baseline;
+    .logo_mark {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--logo-mark);
+    }
+    .logo_status {
+      padding-left: 10px;
+      font-size: 1rem;
+      color: var(--logo-mark);
+      font-weight: 500;
+    }
+    .logo_dot {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--logo-dot);
+    }
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 5px;
+    @include respond-to-max(md) {
+      margin-top: 0;
+      flex-direction: row;
+    }
+    .button_create {
+      display: flex;
+      background-color: var(--text-normal);
+      align-items: center;
+      padding: 8px;
+      gap: 5px;
+      border-radius: 8px;
+
+      @include respond-to-max(md) {
+        background-color: transparent;
+        flex-direction: column;
+        height: fit-content;
+        width: fit-content;
+        padding: 0;
+      }
+
+      .action_plus {
+        width: 1.5rem;
+        height: 1.5rem;
+        @include respond-to-max(md) {
+          display: none;
+        }
+      }
+      .quickCreate {
+        color: var(--text-inverse);
+        @include respond-to-max(md) {
+          display: none;
+        }
+      }
+    }
+
+    .action_hamberger {
+      display: none;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      @include respond-to-max(md) {
+        display: block;
+      }
+    }
+    .button_list {
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-radius: 8px;
+      transition: all 0.5s ease;
+      width: 16rem;
+      color: var(--text-fade-high);
+      .blog_image {
+        object-fit: contain;
+        object-position: center;
+      }
+      @include respond-to-max(md) {
+        display: none;
+      }
+    }
+
+    .button_list:hover {
+      background-color: $sub-100;
+    }
+  }
+  .tab_admin {
+    display: flex;
+    align-items: center;
+    @include respond-to-max(md) {
+      display: none;
+    }
+    .admin {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 10px;
+      .blog_icon {
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        overflow: hidden;
+        color: var(--icon-fade);
+      }
+      .name {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text-fade-low);
+      }
+      .email {
+        font-size: 0.75rem;
+        color: var(--text-fade-low);
+      }
+    }
+  }
+}
+.navSlide {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background-color: $sub-1000;
+  width: min(50vw, 20rem);
+  height: 100vh;
+  gap: 25px;
+  right: 0;
+  padding: 20px 0;
+  font-weight: bold;
+  animation: slide 0.7s ease 0.2s backwards;
+  @keyframes slide {
+    from {
+      right: -20%;
+      transform: translateX(250px);
+    }
+    to {
+      right: 0;
+      transform: translateX(0px);
+    }
+  }
+}
+.navSlide_imageContainer {
+  padding-left: 15px;
+}
+.navSlide_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 10px;
+}
+
+.navSlide_title {
+  color: $sub-0;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+}
+.navSlide_title:hover {
+  background-color: $sub-800;
+}
+.navSlide_auth {
+  padding: 10px 20px;
+  background-color: $sub-0;
+  color: $sub-1000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background-color: $sub-800;
+    border-right: 1px solid $sub-900;
+    .box {
+      .button_create {
+        .action_plus {
+          filter: invert(96%);
+        }
+      }
+      .button_list:hover {
+        color: $sub-900;
+      }
+    }
+  }
+}

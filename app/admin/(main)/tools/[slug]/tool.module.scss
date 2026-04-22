@@ -1,0 +1,62 @@
+.info {
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.title {
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.category {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.description {
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+.action {
+  cursor: pointer;
+}
+
+.assetId {
+  padding: 1rem;
+}
+
+.assetId_header {
+  margin-bottom: 1rem;
+}
+
+.assetId_title {
+  margin-bottom: 0.5rem;
+}
+
+.assetId_action {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.assetId_cancel,
+.assetId_submit {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}

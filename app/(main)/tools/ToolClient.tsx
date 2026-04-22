@@ -23,7 +23,7 @@ const ToolsClient = () => {
     setCategory(currentCategory);
   }, [searchParams]);
 
-  const { data: tools, isLoading, isError } = useGetToolsQuery({
+  const { data: tools, isLoading, isError, error } = useGetToolsQuery({
     category: category,
     search: search || undefined,
   });
@@ -40,8 +40,9 @@ const ToolsClient = () => {
         ></SearchBar>
       </section>
       {isLoading && <p>Loading...</p>}
-      {isError && <p>Error loading tools</p>}
-      {tools && (
+      {isError && <p>Error: {error?.toString()}</p>}
+      {tools && tools.length === 0 && <p>No tools found</p>}
+      {tools && tools.length > 0 && (
         <ul>
           {tools.map((tool) => (
             <li key={tool.id}>{tool.name}</li>

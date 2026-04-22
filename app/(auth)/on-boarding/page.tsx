@@ -165,7 +165,7 @@ const OnBoarding = () => {
           require={true}
           value={name}
           onChange={setName}
-          title="ชื่อ"
+          label="ชื่อ"
           placeholder="กรอกชื่อของคุณ"
           errorMessage={errors.name}
         ></TextInput>
@@ -174,7 +174,7 @@ const OnBoarding = () => {
           backgroundColor="var(--theme-100)"
           value={lastname}
           onChange={setLastname}
-          title="นามสกุล"
+          label="นามสกุล"
           placeholder="กรอกนามสกุลของคุณ"
           errorMessage={errors.lastname}
         ></TextInput>
@@ -183,7 +183,7 @@ const OnBoarding = () => {
           backgroundColor="var(--theme-100)"
           value={tel}
           onChange={setTel}
-          title="เบอร์ติดต่อ"
+          label="เบอร์ติดต่อ"
           placeholder="0812345678"
           errorMessage={errors.tel}
         ></TextInput>

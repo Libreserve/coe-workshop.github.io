@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--box-background);
+  background-color: transparent;
   color: var(--text-normal);
   @include respond-to-max(xs) {
     gap: rem(1);
@@ -381,4 +381,10 @@
   border-radius: rem(9px);
   box-shadow: rem(1px) rem(1px) rem(4px) var(--box-shadow);
   cursor: pointer;
+}
+
+.error {
+  color: var(--warning-red);
+  font-size: rem(12);
+  margin-top: rem(4);
 }

@@ -1,4 +1,5 @@
 @use "../../styles/variables" as *;
+@use "../../styles/functions" as *;
 
 .select {
   display: flex;
@@ -82,4 +83,8 @@
 
 .errorMessage {
   color: var(--error-red);
+}
+
+.input_error {
+  border: rem(2px) solid var(--error-red);
 }

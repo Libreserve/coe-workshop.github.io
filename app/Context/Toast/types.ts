@@ -2,6 +2,18 @@ import React from "react";
 
 export type Variant = "success" | "warning" | "error";
 
+// Consolidated position variants (including admin-side center-left/right)
+export type Position =
+  | "top-right"
+  | "top-left"
+  | "top-center"
+  | "center-left"
+  | "center-right"
+  | "center-center"
+  | "bottom-right"
+  | "bottom-left"
+  | "bottom-center";
+
 type CssVarStyle = React.CSSProperties & Record<string, string>;
 
 export const VariantStyle: Record<string, { color: string; icon: string }> = {
@@ -41,6 +53,17 @@ export const positionStyle: Record<string, CssVarStyle> = {
     transform: "translateX(-50%)",
   },
 };
+
+export interface ToastProps {
+  Position: Position;
+}
+
+export interface ToastItem {
+  id: number | string;
+  title: string;
+  description: string;
+  variant: Variant;
+}
 
 export interface ToastContextTypeProps {
   addToastStack: (title: string, description: string, variant: Variant) => void;

@@ -1,0 +1,87 @@
+@use "../../../../styles/variables" as *;
+@use "../../../../styles/animations" as *;
+
+.item_transaction {
+  border-radius: 1rem;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  width: 100%;
+  border: 1px solid #ddd;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.firstItem {
+  background-color: var(--table-firstItem);
+  position: relative;
+  z-index: 0;
+}
+.toggle {
+  width: 3rem;
+  .toggle_image {
+    display: block;
+    margin: 0 auto;
+  }
+}
+.header {
+  font-weight: 500;
+  .header_status {
+    width: 8rem;
+  }
+  .header_message {
+    width: 20rem;
+  }
+  .header_action {
+    width: 3rem;
+  }
+}
+
+.table {
+  min-width: 900px;
+  table-layout: fixed;
+  width: 100%;
+  .assetID {
+    text-wrap: nowrap;
+    width: fit-content;
+  }
+  .username {
+    color: var(--text-fade-mid);
+  }
+  .status {
+    color: $sub-1000;
+  }
+  .message {
+    color: var(--text-fade-mid);
+  }
+  .endTime {
+    color: var(--text-fade-mid);
+  }
+}
+
+.oldTransaction td {
+  padding: 0.5rem 0.8rem;
+  background-color: var(--table-oldTransaction);
+  position: relative;
+  z-index: -1;
+}
+
+.trashSpace {
+}
+
+.tashIcon {
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.slideOut {
+  animation: slideOut 0.3s ease forwards;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+    text-align: center;
+}

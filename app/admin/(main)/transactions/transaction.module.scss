@@ -1,0 +1,13 @@
+.filter {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  .filter_action{
+    display: flex;
+    gap: 10px;
+    align-items: end;
+  }
+}
+

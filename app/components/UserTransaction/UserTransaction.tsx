@@ -12,7 +12,6 @@ export const UserTransaction = () => {
     setOpenTransaction((prev) =>
       prev.includes(idx) ? prev.filter((item) => item !== idx) : [...prev, idx]
     );
-    console.log("openTransaction", openTransaction);
   };
 
   const formatHourMinute = (iso: string): string => {

@@ -5,7 +5,7 @@ import SvgIconMono from "../Icon/SvgIconMono";
 import styles from "./Select.module.scss";
 import { SelectProps } from "./Select.types";
 
-export const Select = ({
+export const Select = <T extends string = string,>({
   value,
   label,
   require = false,
@@ -14,11 +14,11 @@ export const Select = ({
   errorMessage,
   onTop = false,
   onChange,
-  icon,/*  */
+  icon, /* optional icon on the left */
   iconSize = 18,
   iconWidth,
   iconHeight,
-}: SelectProps) => {
+}: SelectProps<T>) => {
   const finalWidth = iconWidth ?? iconSize;
   const finalHeight = iconHeight ?? iconSize;
   const { ref, isOpen, setIsopen } = useClickOutSide();
@@ -30,12 +30,12 @@ export const Select = ({
       </h2>
       <div
         onClick={() => setIsopen((prev) => !prev)}
-        className={`${styles.input} ${isOpen ? styles.input_focus : ""}`}
+        className={`${styles.input} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
       >
         <h4 className={styles.input_value}>
           {icon && (
             <SvgIconMono
-              className={styles.leftIcon} // เพิ่ม class สำหรับจัดระยะห่าง
+              className={styles.leftIcon}
               src={icon}
               alt="icon"
               width={finalWidth}
@@ -56,15 +56,14 @@ export const Select = ({
           <div
             ref={ref}
             className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""} ${isOpen ? styles.input_open : ""}`}
-            onClick={(e) => e.stopPropagation()} // ป้องกันการคลิกข้างในแล้วปิดทันที
           >
             {options.map((prefix, index) => (
               <button
-                className={`${styles.input_choice} ${value === prefix ? styles.active : ""}`}
+                className={styles.input_choice}
                 type="button"
                 onClick={() => {
                   onChange?.(prefix);
-                  setIsopen(false); // optional เลือกแล้วควรปิดเมนู
+                  setIsopen(false);
                 }}
                 key={index}
               >
@@ -74,9 +73,7 @@ export const Select = ({
           </div>
         )}
       </div>
-      {value === "" && errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
-      )}
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
     </div>
   );
 };
