@@ -14,6 +14,7 @@ import { useGetAllTransactionsByStatusQuery, useUpdateTransactionStatusMutation 
 import { useSearchParams } from "next/navigation";
 import { ErrorResponse } from "@/app/types/api/transaction";
 import { useScrollToRightEnd } from "@/app/hook/useScrollToRightEnd";
+import Link from "next/link";
 
 type ISODateString = string;
 
@@ -30,14 +31,16 @@ export const AdminTransaction = ({
 
   // ใช้ param => /tranactions?item=__
   const searchParams = useSearchParams();
-  const itemQuery = parseInt(searchParams.get("item") || "0", 10);
-  const userQuery = searchParams.get("user") || "";
   const dateQuery = searchParams.get("date") as ISODateString;
   const pageQuery = parseInt(searchParams.get("page") || "1", 10);
+  const statusQuery = searchParams.get("status") || "RESERVE";
+  const userNameQuery = searchParams.get("userName") || "";
 
   const { data: toolTransaction, isLoading, isError, isFetching } = useGetAllTransactionsByStatusQuery({
-    status: "RESERVE",
+    status: statusQuery,
     page: pageQuery,
+    ...(dateQuery && { date: dateQuery }),
+    ...(userNameQuery && { userName: userNameQuery }),
   });
 
   const { scrollRef, isScrolledToRightEnd, handleScroll } = useScrollToRightEnd<HTMLDivElement>([toolTransaction]);
@@ -174,9 +177,14 @@ export const AdminTransaction = ({
                         ></SvgIconMono>
                       </div>
                       <Tooltip title={userGroup.user?.phone}>
-                        <div className={styles.usernameBadge}>
-                          <span className={styles.username}>{userGroup.user?.userName}</span>
-                        </div>
+                        <Link
+                          href={`/admin/history?userName=${encodeURIComponent(userGroup.user?.userName || "")}`}
+                          className={styles.usernameLink}
+                        >
+                          <div className={styles.usernameBadge}>
+                            <span className={styles.username}>{userGroup.user?.userName}</span>
+                          </div>
+                        </Link>
                       </Tooltip>
                     </div>
                   </td>

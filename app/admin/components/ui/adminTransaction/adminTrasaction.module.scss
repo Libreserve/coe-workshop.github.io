@@ -44,6 +44,15 @@
   position: relative;
   z-index: 1;
 }
+.usernameLink {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .usernameBadge {
   display: inline-flex;
   align-items: center;

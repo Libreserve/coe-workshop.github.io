@@ -1,5 +1,6 @@
 import { apiSlice } from "../apiSlice";
-// Lightweight admin transactions API wrapper
+import { AdminStatus, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
+
 type TranactionQueryElement = {
   toolId?: number | null;
   userId?: string | null;
@@ -9,6 +10,7 @@ type TranactionQueryElement = {
 
 type ToolTransactionData = any;
 type ToolTransactionResponse = any;
+
 export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getToolTransaction: builder.query<ToolTransactionData, TranactionQueryElement>({
@@ -22,13 +24,14 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       },
       keepUnusedDataFor: 300,
       transformResponse: (res: any) => res?.data ?? {},
-      // providesTags could be added if needed
     }),
-    getAllTransactionsByStatus: builder.query<any, { status: string; page?: number }>({
-      query: ({ status, page = 1 }) => {
+    getAllTransactionsByStatus: builder.query<any, { status?: string; page?: number; date?: string; userName?: string }>({
+      query: ({ status, page = 1, date, userName }) => {
         const params = new URLSearchParams();
-        params.set("status", status);
+        if (status) params.set("status", status);
         params.set("page", String(page));
+        if (date) params.set("date", date);
+        if (userName) params.set("userName", userName);
         return `/transactions/by-status?${params.toString()}`;
       },
       keepUnusedDataFor: 300,
@@ -46,6 +49,20 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Transaction"],
     }),
+    getUserTransactionHistory: builder.query<UserTransactionHistory, { userId?: string; userName?: string; page?: number }>({
+      query: ({ userId, userName, page = 1 }) => {
+        const params = new URLSearchParams();
+        if (userId) params.set("user", userId);
+        if (userName) params.set("userName", userName);
+        params.set("page", String(page));
+        return `/transactions/by-user?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse(res: UserTransactionHistoryResponse) {
+        return res.data;
+      },
+      providesTags: ["Transaction"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -54,4 +71,5 @@ export const {
   useGetToolTransactionQuery,
   useGetAllTransactionsByStatusQuery,
   useUpdateTransactionStatusMutation,
+  useGetUserTransactionHistoryQuery,
 } = apiSliceWithTransactionsAdmin;

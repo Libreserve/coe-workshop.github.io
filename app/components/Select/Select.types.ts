@@ -1,14 +1,20 @@
+export interface SelectOption<T extends string = string> {
+  label: string;
+  value: T;
+}
+
 export interface SelectProps<T extends string = string> {
-  value?: T; // value when user select
-  onChange: (value: T) => void; // setValue
-  label?: string; // input label tag
-  require?: boolean; // must full fill this input
-  options: T[];
+  value?: T;
+  defaultValue?: T;
+  onChange: (value: T) => void;
+  label?: string;
+  require?: boolean;
+  options: SelectOption<T>[] | T[];
   placeholder?: string;
-  errorMessage?: string; // error message display
-  onTop?: boolean; // date form have on top on bottom placeholder
-  disable?: boolean; // disable input
-  icon?: string; // add icon from left side
+  errorMessage?: string;
+  onTop?: boolean;
+  disable?: boolean;
+  icon?: string;
   iconSize?: number;
   iconWidth?: number;
   iconHeight?: number;

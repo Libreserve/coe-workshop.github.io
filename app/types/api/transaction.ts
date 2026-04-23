@@ -66,3 +66,32 @@ export interface ErrorResponse {
   error?: string;
   message?: string;
 }
+
+// Transaction history types for admin history page
+export interface UserTransactionItem {
+  itemName: string;
+  assetID: string;
+  startedAt: string;
+  endedAt: string;
+  status: AdminStatus;
+  message: string | null;
+}
+
+export interface UserTransactionDay {
+  startTime: string;
+  userTransactions: UserTransactionItem[];
+}
+
+export interface UserTransactionHistory {
+  user: {
+    phone: string;
+    userName: string;
+    faculty: string | null;
+  };
+  transactions: UserTransactionDay[];
+}
+
+export interface UserTransactionHistoryResponse {
+  success: boolean;
+  data: UserTransactionHistory;
+}

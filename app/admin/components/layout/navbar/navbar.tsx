@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./navbar.module.scss";
 import { AdminProps, BlogProps, MenuMapProps } from "./types";
-import { useLogoutMutation } from "@/app/lib/features/admin/authApi";
+import { useLogoutMutation, useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import CreateItem from "../../modal/create_item/create";
 import ModalContainer from "@/app/components/ModalContainer/modalContainer";
 import { useRouter } from "next/navigation";
@@ -16,36 +16,46 @@ function Navbar() {
   const { addToastStack } = useToast();
   const router = useRouter();
   const [logout] = useLogoutMutation();
+  const { data: user } = useGetMeQuery();
   const { opened, handle } = useDisclosure();
   const { opened: createItem, handle: handlecreateItem } = useDisclosure();
   const menuMapProps: MenuMapProps[] = [
-    { title: "Quick Create", path: "/admin/create" },
-    { title: "Transaction", path: "/admin/transactions" },
-    { title: "Tools", path: "/admin/tools" },
+    { title: "สร้างเครื่องมือ", path: "/admin/create" },
+    { title: "อนุมัติการจอง", path: "/admin/transactions" },
+    { title: "ประวัติผู้ใช้", path: "/admin/history" },
+    { title: "เครื่องมือทั้งหมด", path: "/admin/tools" },
   ];
   const BlogList: BlogProps[] = [
     {
       cover: "/admin/navbar/transaction.svg",
-      title: "Transaction",
+      title: "อนุมัติการจอง",
       url: "/admin/transactions",
     },
     {
-      cover: "/admin/navbar/tools.svg",
-      title: "Tools",
-      url: "/admin/tools",
+      cover: "/icon/history.svg",
+      title: "ประวัติผู้ใช้",
+      url: "/admin/history",
     },
     {
-      cover: "/admin/navbar/account.svg",
-      title: "Account",
-      url: "/admin/account",
+      cover: "/admin/navbar/tools.svg",
+      title: "เครื่องมือทั้งหมด",
+      url: "/admin/tools",
     },
+    // {
+    //   cover: "/admin/navbar/account.svg",
+    //   title: "Account",
+    //   url: "/admin/account",
+    // },
   ];
+
+  const userName = user ? `${user.firstName} ${user.lastName}` : "";
+  const userEmail = user?.email || "";
 
   const Admin: AdminProps = {
     profile: "/admin/navbar/admin.svg",
     title: "Admin",
-    name: "username",
-    email: "Email@example.com",
+    name: userName,
+    email: userEmail,
     icon: "/admin/navbar/meatBalls.svg",
   };
   const handlerLogout = async () => {
@@ -99,7 +109,7 @@ function Navbar() {
                 alt="plus_icon"
                 src="/admin/navbar/plus.svg"
               ></Image>
-              <h3 className={styles.quickCreate}>Quick Create</h3>
+              <h3 className={styles.quickCreate}>สร้างเครื่องมือ</h3>
             </button>
             <div onClick={() => handle.open()}>
               <SvgIconMono
@@ -128,13 +138,14 @@ function Navbar() {
               ></SvgIconMono>
             </div>
           </div>
-          <SvgIconMono
+	  {/*<SvgIconMono
             className={styles.blog_icon}
             src={`${Admin.icon}`}
             width={20}
             height={20}
             alt={Admin.title}
           ></SvgIconMono>
+	  */}
         </div>
         <ModalContainer opened={opened} onClose={handle.close}>
           <NavSlide

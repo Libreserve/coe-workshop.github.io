@@ -52,7 +52,7 @@ function LandingClient() {
     }
 
     if (category) {
-      params.set("filter", category);
+      params.set("category", category);
     }
 
     const queryParams = params.toString()

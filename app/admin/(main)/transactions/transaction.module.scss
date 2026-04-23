@@ -4,10 +4,24 @@
   align-items: end;
   justify-content: space-between;
   margin-bottom: 1rem;
-  .filter_action{
+  .filter_action {
     display: flex;
     gap: 10px;
     align-items: end;
+  }
+}
+
+.statusSelect {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  background: var(--theme-0);
+  color: var(--text-main);
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    border-color: #10b981;
   }
 }
 

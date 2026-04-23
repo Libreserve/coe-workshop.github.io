@@ -3,10 +3,11 @@
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
 import SvgIconMono from "../Icon/SvgIconMono";
 import styles from "./Select.module.scss";
-import { SelectProps } from "./Select.types";
+import { SelectOption, SelectProps } from "./Select.types";
 
 export const Select = <T extends string = string,>({
   value,
+  defaultValue,
   label,
   require = false,
   options,
@@ -23,6 +24,15 @@ export const Select = <T extends string = string,>({
   const finalWidth = iconWidth ?? iconSize;
   const finalHeight = iconHeight ?? iconSize;
   const { ref, isOpen, setIsopen } = useClickOutSide();
+
+  const displayValue = value ?? defaultValue;
+
+  const normalizedOptions: SelectOption<T>[] = options.map((opt) =>
+    typeof opt === "string" ? { label: opt, value: opt as T } : opt
+  );
+
+  const selectedOption = normalizedOptions.find((opt) => opt.value === displayValue);
+  const displayLabel = selectedOption?.label ?? displayValue ?? placeholder;
 
   return (
     <div className={styles.select}>
@@ -45,7 +55,7 @@ export const Select = <T extends string = string,>({
               height={finalHeight}
             />
           )}
-          {!!value ? value : placeholder}
+          {displayLabel}
         </h4>
 
         <SvgIconMono
@@ -60,17 +70,17 @@ export const Select = <T extends string = string,>({
             ref={ref}
             className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""} ${isOpen ? styles.input_open : ""}`}
           >
-            {options.map((prefix, index) => (
+            {normalizedOptions.map((option, index) => (
               <button
                 className={styles.input_choice}
                 type="button"
                 onClick={() => {
-                  onChange?.(prefix);
+                  onChange?.(option.value);
                   setIsopen(false);
                 }}
                 key={index}
               >
-                {prefix}
+                {option.label}
               </button>
             ))}
           </div>

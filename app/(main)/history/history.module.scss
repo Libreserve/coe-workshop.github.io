@@ -1,0 +1,312 @@
+@use "../../styles/variables" as *;
+@use "../../styles/animations" as *;
+
+.header {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .searchBar {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+  }
+}
+
+.userInfo {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: $sub-100;
+  border-radius: 0.4rem;
+
+  .userInfoItem {
+    .label {
+      color: var(--text-fade-mid);
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-fade-mid);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.emptyStateContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.emptyStateTitle {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #000000;
+  margin-bottom: 0.75rem;
+}
+
+.emptyStateDescription {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #93939f;
+  margin-bottom: 2rem;
+}
+
+.emptyStateSearch {
+  width: 100%;
+  max-width: 480px;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background-color: #ffffff;
+  border: 1px solid #d9d9dd;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus-within {
+    border-color: $sub-1000;
+    box-shadow: 0 0 0 2px rgba(155, 96, 170, 0.2);
+  }
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  color: #93939f;
+}
+
+.searchInput {
+  flex: 1;
+  width: 100%;
+  padding: 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: #93939f;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  min-height: 300px;
+}
+
+.loadingText {
+  color: var(--text-fade-mid);
+  font-size: 1rem;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--warning-red);
+}
+
+.tableWrapper {
+  border: 1px solid $sub-200;
+  border-radius: 0.4rem;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+  }
+}
+
+.dayRow {
+  background-color: $sub-100;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $sub-200;
+  }
+}
+
+.dayHeader {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.dayArrow {
+  transition: all ease 0.1s;
+}
+
+.dayArrowOpen {
+  transform: translateY(12.5%);
+}
+
+.dayArrowClosed {
+  transform: rotate(-90deg) translateY(0);
+}
+
+.dayDate {
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+
+.transactionRow {
+  &:hover {
+    background-color: $sub-50;
+  }
+}
+
+.itemName {
+  width: 15rem;
+}
+
+.assetID {
+  width: 12rem;
+}
+
+.status {
+  width: 8rem;
+}
+
+.time {
+  width: 10rem;
+}
+
+.message {
+  color: var(--text-fade-mid);
+}
+
+.itemNameText {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.assetText {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.statusTagCell {
+  width: 8rem;
+}
+
+.timeRange {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.timeDash {
+  color: var(--text-fade-mid);
+}
+
+.emptyCell {
+  text-align: center;
+  color: var(--text-fade-mid);
+  padding: 2rem;
+}
+
+.notFoundState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.notFoundContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.notFoundTitle {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #000000;
+  margin-bottom: 0.75rem;
+}
+
+.notFoundDescription {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #93939f;
+  margin-bottom: 2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .userInfo {
+    background-color: $sub-750;
+  }
+
+  .table {
+    thead th {
+      background: $sub-800;
+    }
+    tbody tr:hover {
+      background-color: $sub-750;
+    }
+  }
+
+  .dayRow {
+    background-color: $sub-750;
+  }
+
+  .transactionRow {
+    background-color: transparent;
+  }
+}

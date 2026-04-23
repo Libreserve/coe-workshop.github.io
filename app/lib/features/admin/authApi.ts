@@ -1,5 +1,15 @@
 import { apiSlice } from "../apiSlice";
 
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  faculty?: string;
+  role?: string;
+}
+
 export const apiSliceWithAuth = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -25,8 +35,15 @@ export const apiSliceWithAuth = apiSlice.injectEndpoints({
         } catch {}
       },
     }),
+    getMe: builder.query<User, void>({
+      query: () => ({
+        url: "/user/me",
+        credentials: "include",
+      }),
+      transformResponse: (res: any) => res.data,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useLogoutMutation } = apiSliceWithAuth;
+export const { useLoginMutation, useLogoutMutation, useGetMeQuery } = apiSliceWithAuth;
