@@ -20,7 +20,7 @@ function Navbar() {
     { title: "Report", path: "/path" },
   ];
 
-  const { user, authenticated, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLoginClick = () => {
     window.location.href = getLoginUrl();
@@ -70,14 +70,17 @@ function Navbar() {
           alt="hamberger_icon"
           src={"hamberger.svg"}
         ></Image>
-        {authenticated && user ? (
+        {user ? (
           <div className={styles.userProfile}>
             <button
               className={styles.userProfileButton}
               onClick={() => setUserMenuOpen(!userMenuOpen)}
             >
-              <div className={styles.userAvatar}>
-                <span className={styles.userInitial}>{userInitial}</span>
+              <div
+                className={styles.userAvatar}
+                style={user?.photo ? { backgroundImage: `url(${user.photo})` } : undefined}
+              >
+                {!user?.photo && <span className={styles.userInitial}>{userInitial}</span>}
               </div>
               <span className={styles.userName}>{userName}</span>
               <SvgIconMono

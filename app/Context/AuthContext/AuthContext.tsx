@@ -16,13 +16,11 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
 
   const fetchUser = async () => {
     setLoading(true);
     const data = await getCurrentUser();
     setUser(data.data);
-    setAuthenticated(data.authenticated);
     setLoading(false);
   };
 
@@ -36,12 +34,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await apiLogout();
     setUser(null);
-    setAuthenticated(false);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, authenticated, logout, refreshUser: fetchUser }}
+      value={{ user, loading, logout, refreshUser: fetchUser }}
     >
       {children}
     </AuthContext.Provider>

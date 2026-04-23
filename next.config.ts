@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         hostname: "fakestoreapi.com",
         pathname: "/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "**.googleusercontent.com",
+      },
     ],
   },
   async redirects() {

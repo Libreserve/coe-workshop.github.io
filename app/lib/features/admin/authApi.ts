@@ -8,6 +8,7 @@ export interface User {
   phone?: string;
   faculty?: string;
   role?: string;
+  photo?: string;
 }
 
 export const apiSliceWithAuth = apiSlice.injectEndpoints({
