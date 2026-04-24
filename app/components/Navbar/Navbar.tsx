@@ -16,8 +16,8 @@ function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuMapProps: MenuMapProps[] = [
     { title: "Tools", path: "/tools" },
-    { title: "About", path: "/about" },
-    { title: "Report", path: "/path" },
+    // { title: "About", path: "/about" },
+    { title: "Report", path: "/report-issue" },
   ];
 
   const { user, logout } = useAuth();

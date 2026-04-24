@@ -6,6 +6,7 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import HttpStatus from "http-status";
+import { getLoginUrl } from "../api";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "/api/v1",
@@ -37,7 +38,7 @@ const baseQueryWithReauth: BaseQueryFn<
       } catch {}
 
       const isAdminRoute = window.location.pathname.startsWith("/admin");
-      window.location.href = isAdminRoute ? "/admin/login" : "/login";
+      window.location.href = isAdminRoute ? "/admin/login" : getLoginUrl();
     }
   }
   return result;
@@ -46,6 +47,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Tools", "Transaction"],
+  tagTypes: ["Tools", "Transaction", "Report"],
   endpoints: () => ({}),
 });

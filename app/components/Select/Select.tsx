@@ -74,7 +74,8 @@ export const Select = <T extends string = string,>({
               <button
                 className={styles.input_choice}
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   onChange?.(option.value);
                   setIsopen(false);
                 }}

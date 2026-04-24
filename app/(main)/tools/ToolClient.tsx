@@ -174,7 +174,7 @@ const ToolsClient = () => {
               id={tool.id}
               name={tool.name}
               description={tool.description || ""}
-              imageUrl={tool.image || ""}
+              imageUrl={tool.imageUrl || ""}
               avaliable={tool.quantity || 0}
               quatity={tool.quantity || 0}
               category={tool.category}

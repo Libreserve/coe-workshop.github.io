@@ -62,6 +62,10 @@
 
 .userRow {
   background-color: $sub-100;
+
+  &:hover {
+    background-color: $sub-200;
+  }
 }
 
 .action_content {

@@ -8,20 +8,16 @@ const Footer = () => {
     {
       Header: "หน้าเพจ",
       Content: [
-        { title: "หน้าหลัก", link: "/" },
-        { title: "อุปกรณ์", link: "https://ben10.fandom.com/wiki/Omnitrix" },
-        {
-          title: "ตะกร้า",
-          link: "https://www.facebook.com/share/v/1Bz5FMqiAm/",
-        },
-        { title: "รายการ", link: "https://www.instagram.com/p/DMN8fpNpJnt/" },
+        { title: "หน้าหลัก", link: "/landing" },
+        { title: "อุปกรณ์", link: "/tools" },
+        { title: "ประวัติ", link: "/history" },
       ],
     },
     {
       Header: "เกี่ยวกับ",
       Content: [
-        { title: "เว็บไซต์", link: "https://election2569.thestandard.co/" },
-        { title: "ผู้ชี้แนะ", link: "https://www.hindustantimes.com/entertainment/anime/jujutsu-kaisen-101-jujutsu-kaisen-power-system-and-gojo-satoru-limitless-technique-explained-101690524713929.html" },
+        // { title: "เว็บไซต์", link: "https://election2569.thestandard.co/" },
+        // { title: "ผู้ชี้แนะ", link: "https://www.hindustantimes.com/entertainment/anime/jujutsu-kaisen-101-jujutsu-kaisen-power-system-and-gojo-satoru-limitless-technique-explained-101690524713929.html" },
         { title: "ผู้พัฒนา", link: "https://www.instagram.com/p/DSwm6d5kTKp/" },
       ],
     },
@@ -37,10 +33,10 @@ const Footer = () => {
     {
       Header: "ช่วยเหลือ",
       Content: [
-        { title: "คำถามที่พบบ่อย", link: "https://www.instagram.com/p/DG1DtrSxsaE/" },
-        { title: "รีวิว", link: "https://www.instagram.com/p/DUYqD4XEtg6/" },
-        { title: "วิธีใช้งาน", link: "https://help.dododex.com/en/article/how-to-tame-dinosaurs-in-ark-survival-evolved-beginners-guide" },
-        { title: "รายงานปัญหา", link: "https://www.instagram.com/p/DUmafZSASiJ/" },
+        // { title: "คำถามที่พบบ่อย", link: "https://www.instagram.com/p/DG1DtrSxsaE/" },
+        // { title: "รีวิว", link: "https://www.instagram.com/p/DUYqD4XEtg6/" },
+        // { title: "วิธีใช้งาน", link: "https://help.dododex.com/en/article/how-to-tame-dinosaurs-in-ark-survival-evolved-beginners-guide" },
+        { title: "รายงานปัญหา", link: "/report-issue" },
       ],
     },
   ];
@@ -60,7 +56,7 @@ const Footer = () => {
               <div>
                 <Link
                   href={
-                    "https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"
+                    "https://github.com/libreserve/coe-workshop.github.io/tree/main/public"
                   }
                   key={"github"}
                 >
@@ -73,7 +69,7 @@ const Footer = () => {
                   />
                 </Link>
               </div>
-              <Link
+	      {/*<Link
                 href={
                   "https://github.com/Coe-Workshop/coe-workshop.github.io/tree/dev/public"
                 }
@@ -87,6 +83,7 @@ const Footer = () => {
                   className={styles.logo}
                 />
               </Link>
+	      */}
               <Link href={"https://facebook.com"} key={"mail"}>
                 <Image
                   src={`mail.svg`}

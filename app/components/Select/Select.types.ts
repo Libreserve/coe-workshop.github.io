@@ -18,5 +18,5 @@ export interface SelectProps<T extends string = string> {
   iconSize?: number;
   iconWidth?: number;
   iconHeight?: number;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 }

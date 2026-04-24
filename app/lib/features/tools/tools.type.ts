@@ -22,7 +22,6 @@ export interface Tool {
   name: string;
   description: string | null;
   imageUrl: string | null;
-  image?: string;
   category: ToolCategories;
   categoryID?: number | null;
   assets_id: number[] | null;
