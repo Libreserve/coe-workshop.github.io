@@ -29,7 +29,7 @@ export const DeleteConfirm = ({
     if (repeatAfter !== confirmMessage) {
       setErrors((prev) => ({
         ...prev,
-        name: "กรุณาพิมพ์ชื่ออุปกรณ์ให้ถูกต้อง",
+        name: "กรุณาพิมพ์ชื่อเครื่องมือให้ถูกต้อง",
       }));
       return;
     }
@@ -37,7 +37,7 @@ export const DeleteConfirm = ({
       await deleteTool({ toolId: Number(toolId) }).unwrap();
       router.push("/admin/tools");
       addToastStack(
-        "ลบอุปกรณ์สำเร็จ",
+        "ลบเครื่องมือสำเร็จ",
         "เลขครุภัณฑ์จะถูกลบไปอย่างถาวร ประวัติหรือข้อมูลอื่นๆ ที่เกี่ยวข้องจะไม่สามารถย้อนกลับได้อีก",
         "success",
       );
@@ -55,9 +55,9 @@ export const DeleteConfirm = ({
   return (
     <div className={styles.deleteConfirm}>
       <div className={styles.header}>
-        <h2>ยืนยันการลบอุปกรณ์</h2>
+        <h2>ยืนยันการลบเครื่องมือ</h2>
         <p>
-          อุปกรณ์จะถูกลบไปอย่างถาวร ประวัติหรือข้อมูลอื่นๆ
+          เครื่องมือจะถูกลบไปอย่างถาวร ประวัติหรือข้อมูลอื่นๆ
           ที่เกี่ยวข้องจะไม่สามารถย้อนกลับได้อีก กรุณาพิม{" "}
           <span>{confirmMessage + " "}</span>
           เพื่อยืนยันการลบ
@@ -72,8 +72,8 @@ export const DeleteConfirm = ({
       >
         <TextInput
           onChange={(value) => setRepeatAfter(value)}
-          label="ชื่ออุปกรณ์"
-          placeholder="ระบุชื่ออุปกรณ์"
+          label="ชื่อเครื่องมือ"
+          placeholder="ระบุชื่อเครื่องมือ"
           require
           value={repeatAfter}
           errorMessage={errors.name}

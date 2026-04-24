@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Datepicker.module.scss";
 import type {
   DatePickerProps,
@@ -179,6 +179,23 @@ const DatePicker = ({
   const [century, setCentury] = useState(today.getFullYear());
   const [view, setView] = useState<ViewMode>(ViewMode.CLOSED);
   const [prevSelectedDate, setPrevSelectedDate] = useState<Date | null>();
+  const datePickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (view === ViewMode.CLOSED) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target as Node)
+      ) {
+        setView(ViewMode.CLOSED);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [view]);
   const next = (viewMode: ViewMode) => {
     switch (viewMode) {
       case ViewMode.DATE:
@@ -220,9 +237,11 @@ const DatePicker = ({
     if (isSameDate) {
       setSelectedDate(null);
       setPrevSelectedDate(null);
+      onChange?.(null);
     } else {
       setSelectedDate(updatedDate);
       setPrevSelectedDate(updatedDate);
+      onChange?.(updatedDate);
     }
     setView(ViewMode.CLOSED);
   };
@@ -233,14 +252,6 @@ const DatePicker = ({
   const handleOnSelectYear = (year: number) => {
     setYear(year);
     setView(ViewMode.MONTH);
-  };
-  const handleConfirmOverlay = () => {
-    if (view !== ViewMode.DATE) return;
-    if (disable) return;
-    setMonth(selectedDate ? selectedDate.getMonth() : today.getMonth());
-    setYear(selectedDate ? selectedDate.getFullYear() : today.getFullYear());
-    onChange?.(selectedDate);
-    setView(ViewMode.CLOSED);
   };
 
   const getFormatDate = (date: Date, formatType = 0) => {
@@ -267,7 +278,7 @@ const DatePicker = ({
   // };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={datePickerRef}>
       {!disableLabel && (
         <h2 className={styles.label}>
           {label}
@@ -284,39 +295,28 @@ const DatePicker = ({
             if (!disable) setView(ViewMode.DATE);
           }}
         >
-          {/* <Image
-          src={"calendar.svg"}
-          alt={"calendar"}
-          src={"./calendar.svg"}
-          alt={"./calendar"}
-          width={18}
-          height={18}
-          className={styles.placeholder_img}
-        /> */}
-          <input
-            type="text"
-            value={
-              (selectedDate &&
-                getFormatDate(selectedDate, datePlaceholderFormat)) ||
-              ""
-            }
-            readOnly
-            inputMode="none"
-            /*required={required && !disable}*/ placeholder={placeholder}
-          />
-          <SvgIconMono
-            className={styles.placeholder_img}
-            src={"/icon/arrow.svg"}
-            alt="arrow"
-            width={12}
-            height={12}
-          ></SvgIconMono>
-        </div>
+            <input
+              type="text"
+              value={
+                (selectedDate &&
+                  getFormatDate(selectedDate, datePlaceholderFormat)) ||
+                ""
+              }
+              readOnly
+              inputMode="none"
+              placeholder={placeholder}
+            />
+            <SvgIconMono
+              className={styles.placeholder_img}
+              src={"/icon/arrow.svg"}
+              alt="arrow"
+              width={12}
+              height={12}
+            ></SvgIconMono>
+          </div>
         {/* picker */}
         <div
-          className={`${styles.datepicker}${
-            view !== ViewMode.CLOSED ? (onTop ? "_onTop" : "") : "_closed"
-          }`}
+          className={`${view !== ViewMode.CLOSED ? (onTop ? styles.datepicker_onTop : styles.datepicker) : styles.datepicker_closed}`}
         >
           <div className={styles.header}>
             <button className={styles.prev_button} onClick={() => prev(view)}>
@@ -428,13 +428,6 @@ const DatePicker = ({
           </div>
         </div>
 
-        {/* picker last confirm selected  overlay */}
-        {view !== ViewMode.CLOSED && (
-          <div
-            className={styles.confirm_datepicker_overlay}
-            onClick={() => handleConfirmOverlay()}
-          ></div>
-        )}
       </div>
     </div>
   );

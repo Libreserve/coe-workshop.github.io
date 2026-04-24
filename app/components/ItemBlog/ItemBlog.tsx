@@ -1,25 +1,6 @@
+import { getCategoryDisplay, toToolCategory } from "@/app/lib/features/tools/category.utils";
 import styles from "./ItemBlog.module.scss";
 import { ItemBlogProps } from "./ItemBlog.types";
-
-const categoryEmojiMap: Record<string, string> = {
-  ELECTRONIC: "⚡",
-  MECHANICAL: "🔧",
-  ELECTRICAL: "🔌",
-  PNEUMATIC: "💨",
-  HYDRAULIC: "🛢️",
-  MEASUREMENT: "📏",
-  SOLDERING: "🔥",
-  HAND_TOOLS: "🛠️",
-  POWER_TOOLS: "⚙️",
-  SAFETY: "🦺",
-  ROBOTICS: "🤖",
-  AUTOMATION: "🏭",
-  PROTOTYPING: "🧪",
-  THREE_D_PRINTING: "🖨️",
-  CNC: "🧱",
-  MAINTENANCE: "🔩",
-  OTHER: "📦",
-};
 
 export const ItemBlog = ({
   id,
@@ -31,10 +12,6 @@ export const ItemBlog = ({
   category,
   onClick,
 }: ItemBlogProps & { onClick?: () => void }) => {
-  const categoryWithEmoji = category
-    ? `${category} ${categoryEmojiMap[category] || ""}`
-    : "";
-
   return (
     <button className={styles.itemBlog} onClick={onClick}>
       <div className={styles.imageContainer}>
@@ -46,7 +23,7 @@ export const ItemBlog = ({
       </div>
       <section className={styles.info}>
         {category && (
-          <span className={styles.info_category}>{categoryWithEmoji}</span>
+          <span className={styles.info_category}>{category ? getCategoryDisplay(toToolCategory(category)!) : ""}</span>
         )}
         <h2 className={styles.info_name}>{name}</h2>
         <p className={styles.info_description}>

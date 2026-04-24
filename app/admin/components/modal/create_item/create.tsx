@@ -5,6 +5,7 @@ import {
   useCreateToolMutation,
   useUpdateToolMutation,
 } from "@/app/lib/features/tools/toolsApiSlice";
+import { getAllCategories, getCategoryThaiName } from "@/app/lib/features/tools/category.utils";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
@@ -133,7 +134,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
     };
 
     if (!name.trim()) {
-      newErrors.name = "กรุณากรอกชื่ออุปกรณ์";
+      newErrors.name = "กรุณากรอกชื่อเครื่องมือ";
     }
 
     if (!category) {
@@ -160,7 +161,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
 
     addToastStack(
       "กำลังอัปโหลด",
-      "กำลังอัปโหลดข้อมูลอุปกรณ์ กรุณารอสักครู่...",
+      "กำลังอัปโหลดข้อมูลเครื่องมือ กรุณารอสักครู่...",
       "warning",
     );
 
@@ -184,8 +185,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
         setUploadStatus({});
 
         addToastStack(
-          "อัปเดตอุปกรณ์สำเร็จ",
-          "อุปกรณ์ถูกอัปเดตไปยังฐานข้อมูลเรียบร้อยแล้ว",
+          "อัปเดตเครื่องมือสำเร็จ",
+          "เครื่องมือถูกอัปเดตไปยังฐานข้อมูลเรียบร้อยแล้ว",
           "success",
         );
         onClose();
@@ -202,8 +203,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
         }));
 
         addToastStack(
-          "อัปเดตอุปกรณ์ไม่สำเร็จ",
-          updateErrorMessage || "เกิดข้อผิดพลาดในการอัปเดตอุปกรณ์",
+          "อัปเดตเครื่องมือไม่สำเร็จ",
+          updateErrorMessage || "เกิดข้อผิดพลาดในการอัปเดตเครื่องมือ",
           "error",
         );
       } finally {
@@ -222,8 +223,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       setUploadStatus({});
 
       addToastStack(
-        "สร้างอุปกรณ์สำเร็จ",
-        "อุปกรณ์ถูกเพิ่มไปยังฐานข้อมูล ชื่อ รูป และคำอธิบายจะแสดงให้ผู้ใช้งานทราบ",
+        "สร้างเครื่องมือสำเร็จ",
+        "เครื่องมือถูกเพิ่มไปยังฐานข้อมูล ชื่อ รูป และคำอธิบายจะแสดงให้ผู้ใช้งานทราบ",
         "success",
       );
       onClose();
@@ -240,8 +241,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       }));
 
       addToastStack(
-        "สร้างอุปกรณ์ไม่สำเร็จ",
-        createErrorMessage || "เกิดข้อผิดพลาดในการสร้างอุปกรณ์",
+        "สร้างเครื่องมือไม่สำเร็จ",
+        createErrorMessage || "เกิดข้อผิดพลาดในการสร้างเครื่องมือ",
         "error",
       );
     } finally {
@@ -255,13 +256,13 @@ function CreateItem({ onClose, value }: CreateItemProps) {
         <form onSubmit={handleSubmit}>
           <div className={styles.content}>
             <div className={styles.formSection}>
-              <h2>{value ? "อัปเดตอุปกรณ์" : "สร้างอุปกรณ์รายการใหม่"}</h2>
+              <h2>{value ? "อัปเดตเครื่องมือ" : "สร้างเครื่องมือรายการใหม่"}</h2>
               <p>หรือข้อมูล และตารางข้อมูลสำหรับจัดการหมวดหมู่ของโปรเจกต์</p>
 
               <div className={styles.field}>
                 <TextInput
-                  label="ชื่ออุปกรณ์"
-                  placeholder="ระบุชื่ออุปกรณ์"
+                  label="ชื่อเครื่องมือ"
+                  placeholder="ระบุชื่อเครื่องมือ"
                   require
                   value={name}
                   onChange={setName}
@@ -287,7 +288,10 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                   errorMessage={errors.category}
                   value={category}
                   onChange={setCategory}
-                  options={Object.values(ToolCategories)}
+                  options={getAllCategories().map((c) => ({
+                    label: getCategoryThaiName(c),
+                    value: c,
+                  }))}
                 ></Select>
               </div>
             </div>

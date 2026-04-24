@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Admin route protection middleware
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const { pathname } = url;
@@ -16,16 +15,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow admin login page
   if (pathname === "/admin/login" || pathname.startsWith("/admin/login")) {
     return NextResponse.next();
   }
 
-  // Check for session cookie
   const hasSession = request.cookies.has("connect.sid");
   const isAdminPath = pathname.startsWith("/admin");
   if (isAdminPath && !pathname.startsWith("/admin/login") && !hasSession) {
-    // Redirect to admin login
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 

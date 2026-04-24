@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useGetReportsQuery, useUpdateReportStatusMutation } from "@/app/lib/features/admin/reportsApi";
 import { ReportStatus, ReportType, reportStatusLabels, reportTypeLabels } from "@/app/types/api/report";
 import { Select } from "@/app/components/Select/Select";
-import styles from "./reports.module.scss";
+import styles from "./Reports.module.scss";
 
 const statusOptions = [
   { label: "ทุกสถานะ", value: "" },

@@ -1,6 +1,20 @@
 import { StatusTag } from "../../ui/statusTag/statusTag";
 import styles from "./transactionInfo.module.scss";
 import { TransactionInfoProps } from "./transactionInfo.types";
+
+const formatDateTime = (dateString: string): string => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("th-TH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  }).format(date);
+};
+
 export const TransactionInfo = ({
   user,
   startedAt,
@@ -32,22 +46,22 @@ export const TransactionInfo = ({
         </span>
         <span>
           <p>เวลาเริ่ม:</p>
-          <p>{startedAt}</p>
+          <p>{formatDateTime(startedAt)}</p>
         </span>
         <span>
           <p>เวลาสิ้นสุด:</p>
-          <p>{endTime}</p>
+          <p>{formatDateTime(endTime || "")}</p>
         </span>
       </section>
-      <hr className={styles.line} />
+      {/*<hr className={styles.line} />
       <section>
         <span>
-          <h3>เกี่ยวกับอุปกรณ์</h3>
+          <h3>เกี่ยวกับเครื่องมือ</h3>
         </span>
         <div className={styles.tool}>
-          <h3>ชื่อของอุปกรณ์</h3>
+          <h3>ชื่อของเครื่องมือ</h3>
         </div>
-      </section>
+      </section>*/}
       <section className={styles.action}>
         <form
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {

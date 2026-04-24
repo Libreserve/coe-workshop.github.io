@@ -11,7 +11,7 @@ export const TagInput = forwardRef<unknown, TagInputProps>(({ placeholder, initi
   const lastAddedIdRef = useRef<string | null>(null);
  
   useImperativeHandle(ref, () => ({
-    getValues: () => Tag.map((t) => Number(t.value)),
+    getValues: () => Tag.map((t) => t.value),
   }));
  
   const onTagInput = (element: React.KeyboardEvent<HTMLInputElement>) => {

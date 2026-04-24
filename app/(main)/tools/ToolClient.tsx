@@ -101,11 +101,11 @@ const ToolsClient = () => {
   return (
     <div className={styles.tools}>
       <section className={styles.header}>
-        <h1 className={styles.header_title}>อุปกรณ์ทั้งหมด</h1>
+        <h1 className={styles.header_title}>เครื่องมือทั้งหมด</h1>
         <div className={styles.filterRow}>
           <SearchBar
             borderFocus={true}
-            placeholder="ค้นหาอุปกรณ์ที่คุณต้องการ"
+            placeholder="ค้นหาเครื่องมือที่คุณต้องการ"
             value={search}
             setValue={(value) => {
               setSearch(value);
@@ -119,7 +119,7 @@ const ToolsClient = () => {
               const newCategory = displayValue === "ทั้งหมด"
                 ? undefined
                 : (displayValue.split(" ")[0] as ToolCategories);
-              
+
               setCategory(newCategory);
               updateFilters(search, newCategory);
             }}
@@ -131,7 +131,7 @@ const ToolsClient = () => {
 
       {isLoading && (
         <div className={statusStyles.loadingContainer}>
-	<Loader />
+          <Loader />
           <p className={statusStyles.loadingText}>กำลังโหลดข้อมูล...</p>
         </div>
       )}
@@ -157,11 +157,11 @@ const ToolsClient = () => {
       {!isLoading && !isError && tools && tools.length === 0 && (
         <div className={statusStyles.emptyContainer}>
           <span className={statusStyles.emptyIcon}>📭</span>
-          <h3 className={statusStyles.emptyTitle}>ไม่พบอุปกรณ์</h3>
+          <h3 className={statusStyles.emptyTitle}>ไม่พบเครื่องมือ</h3>
           <p className={statusStyles.emptyDescription}>
             {search
-              ? `ไม่พบอุปกรณ์ที่ตรงกับ "${search}" กรุณาลองค้นหาด้วยคำอื่น`
-              : "ยังไม่มีอุปกรณ์ในระบบ"}
+              ? `ไม่พบเครื่องมือที่ตรงกับ "${search}" กรุณาลองค้นหาด้วยคำอื่น`
+              : "ยังไม่มีเครื่องมือในระบบ"}
           </p>
         </div>
       )}
@@ -175,9 +175,10 @@ const ToolsClient = () => {
               name={tool.name}
               description={tool.description || ""}
               imageUrl={tool.imageUrl || ""}
-              avaliable={tool.quantity || 0}
-              quatity={tool.quantity || 0}
+              avaliable={tool.availableQuantity || 0}
+              quatity={tool.totalQuantity || 0}
               category={tool.category}
+              onClick={() => router.push(`./tools/${tool.id}`)}
             />
           ))}
         </div>

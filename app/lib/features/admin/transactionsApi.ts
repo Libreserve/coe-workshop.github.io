@@ -1,30 +1,8 @@
 import { apiSlice } from "../apiSlice";
-import { AdminStatus, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
-
-type TranactionQueryElement = {
-  toolId?: number | null;
-  userId?: string | null;
-  date?: string | null;
-  page?: number | null;
-};
-
-type ToolTransactionData = any;
-type ToolTransactionResponse = any;
+import { AdminStatus, CreateTransactionRequest, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
 
 export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getToolTransaction: builder.query<ToolTransactionData, TranactionQueryElement>({
-      query: (args) => {
-        const params = new URLSearchParams();
-        if (args.toolId) params.set("item", String(args.toolId));
-        if (args.userId) params.set("user", args.userId);
-        if (args.date) params.set("date", args.date);
-        if (args.page) params.set("page", String(args.page));
-        return `/transactions?${params.toString()}`;
-      },
-      keepUnusedDataFor: 300,
-      transformResponse: (res: any) => res?.data ?? {},
-    }),
     getAllTransactionsByStatus: builder.query<any, { status?: string; page?: number; date?: string; userName?: string }>({
       query: ({ status, page = 1, date, userName }) => {
         const params = new URLSearchParams();
@@ -33,6 +11,17 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
         if (date) params.set("date", date);
         if (userName) params.set("userName", userName);
         return `/transactions/by-status?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse: (res: any) => res?.data ?? {},
+      providesTags: ["Transaction"],
+    }),
+    getReservedByItem: builder.query<any, { itemId: number; date: string }>({
+      query: ({ itemId, date }) => {
+        const params = new URLSearchParams();
+        params.set("item", String(itemId));
+        params.set("date", date);
+        return `/transactions/reserved-by-item?${params.toString()}`;
       },
       keepUnusedDataFor: 300,
       transformResponse: (res: any) => res?.data ?? {},
@@ -63,13 +52,22 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       },
       providesTags: ["Transaction"],
     }),
+    createTransaction: builder.mutation<any, CreateTransactionRequest>({
+      query: (body) => ({
+        url: `/transactions`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Transaction"],
+    }),
   }),
   overrideExisting: true,
 });
 
 export const {
-  useGetToolTransactionQuery,
   useGetAllTransactionsByStatusQuery,
   useUpdateTransactionStatusMutation,
   useGetUserTransactionHistoryQuery,
+  useCreateTransactionMutation,
+  useGetReservedByItemQuery,
 } = apiSliceWithTransactionsAdmin;

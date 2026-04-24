@@ -4,7 +4,7 @@ import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { useState } from "react";
 import { StatusTag } from "../statusTag/statusTag";
 import styles from "./tableTransaction.module.scss";
-import { useGetAllTransactionsByStatusQuery } from "@/app/lib/features/admin/transactionsApi";
+import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ErrorResponse } from "@/app/types/api/transaction";
@@ -17,10 +17,12 @@ enum TransactionsStatus {
   Blank = "Blank",
 }
 
-export const ItemTransaction = ({ toolId = 0 }) => {
+export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: string }) => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
   const [closeTransaction, setCloseTransaction] = useState<number[]>([]);
-  
+  const todayDateString = new Date().toISOString().split('T')[0];
+  const effectiveDate = date || todayDateString;
+
   const toggleTransaction = (idx: number) => {
     if (openTransaction.includes(idx)) {
       setCloseTransaction((prev) => [...prev, idx]);
@@ -34,20 +36,27 @@ export const ItemTransaction = ({ toolId = 0 }) => {
   };
 
   const {
-    data: toolTransaction,
+    data,
     isError,
     error,
     isLoading,
-  } = useGetAllTransactionsByStatusQuery({status: "RESERVE"});
+  } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
   
-  let toolTransactionErrorMessage = "There's some error occuring while try to fetching the transaction data";
+  let toolTransactionErrorMessage = "There's some error occuring while try to fetch the transaction data";
   if (error && "data" in error) {
     const err = error as FetchBaseQueryError;
     if (err.data && typeof err.data === "object" && "error" in err.data) {
       toolTransactionErrorMessage = (err.data as ErrorResponse).error || "";
     }
   }
-  
+
+  const itemData = Array.isArray(data) ? data[0] : data;
+  const assetsToItems = itemData?.assetsToItems ?? [];
+  const assets = assetsToItems.map((item: any) => ({
+    assetID: item.asset?.assetID ?? item.assetID,
+    transactions: item.asset?.transactions ?? []
+  }));
+
   return (
     <div className={styles.item_transaction}>
       <table className={styles.table}>
@@ -72,17 +81,17 @@ export const ItemTransaction = ({ toolId = 0 }) => {
               </td>
             </tr>
           )}
-          {toolTransaction?.users?.map((userGroup: any, userIndex: number) =>
-            userGroup.adminTransactions?.map((transaction: any, txIndex: number) =>
+          {!isLoading && assets.map((asset: any, assetIndex: number) =>
+            asset.transactions?.map((transaction: any, txIndex: number) =>
               txIndex === 0 ? (
-                <tr className={styles.firstItem} key={`${userIndex}-${txIndex}`}>
+                <tr className={styles.firstItem} key={`${assetIndex}-${txIndex}`}>
                   <td
                     className={styles.toggle}
-                    onClick={() => toggleTransaction(userIndex)}
+                    onClick={() => toggleTransaction(assetIndex)}
                   >
                     <div
                       style={{
-                        transform: openTransaction.includes(userIndex)
+                        transform: openTransaction.includes(assetIndex)
                           ? ""
                           : "rotate(-90deg)",
                       }}
@@ -96,8 +105,8 @@ export const ItemTransaction = ({ toolId = 0 }) => {
                       ></SvgIconMono>
                     </div>
                   </td>
-                  <td className={styles.assetID}>{transaction.assetID}</td>
-                  <td className={styles.username}>{userGroup.user?.userName}</td>
+                  <td className={styles.assetID}>{asset.assetID}</td>
+                  <td className={styles.username}>{transaction.userName}</td>
                   <td className={styles.status}>
                     <StatusTag status={transaction.status}></StatusTag>
                   </td>
@@ -116,18 +125,18 @@ export const ItemTransaction = ({ toolId = 0 }) => {
                   </td>
                 </tr>
               ) : (
-                openTransaction.includes(userIndex) && (
+                openTransaction.includes(assetIndex) && (
                   <tr
                     className={`${styles.oldTransaction} ${
-                      closeTransaction.includes(userIndex)
+                      closeTransaction.includes(assetIndex)
                         ? styles.slideOut
                         : styles.slideIn
                     }`}
-                    key={`${userIndex}-${txIndex}`}
+                    key={`${assetIndex}-${txIndex}`}
                   >
                     <td></td>
-                    <td className={styles.assetID}>{transaction.assetID}</td>
-                    <td className={styles.username}>{userGroup.user?.userName}</td>
+                    <td className={styles.assetID}>{asset.assetID}</td>
+                    <td className={styles.username}>{transaction.userName}</td>
                     <td className={styles.status}>
                       <StatusTag status={transaction.status}></StatusTag>
                     </td>

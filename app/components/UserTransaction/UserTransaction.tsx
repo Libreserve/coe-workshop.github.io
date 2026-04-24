@@ -35,7 +35,7 @@ export const UserTransaction = () => {
 
         <thead>
           <tr>
-            <th>ชื่ออุปกรณ์</th>
+            <th>ชื่อเครื่องมือ</th>
             <th>เลขครุภัณฑ์</th>
             <th>สถานะ</th>
             <th>เวลาสิ้นสุด</th>

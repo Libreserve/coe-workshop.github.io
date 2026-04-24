@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { ReportIssue } from "./reportIssueClient";
+import { ReportIssue } from "./ReportIssueClient";
 
 const PageReportIssue = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>กำลังโหลด...</div>}>
       <ReportIssue />
     </Suspense>
   );

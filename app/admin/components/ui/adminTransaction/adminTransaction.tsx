@@ -131,7 +131,7 @@ export const AdminTransaction = ({
 
         <thead>
           <tr className={styles.header}>
-            <th>ชื่ออุปกรณ์</th>
+            <th>ชื่อเครื่องมือ</th>
             <th>เลขครุภัณฑ์</th>
             <th>สถานะ</th>
             <th>เวลาสิ้นสุด</th>
@@ -280,7 +280,7 @@ export const AdminTransaction = ({
                   : "ยืนยันการอนุมัติ"}
               </h2>
               <p className={styles.response_description}>
-                สามารถทิ้งข้อความถึงผู้จองให้ทราบ เกี่ยวกับการจองอุปกรณ์ได้
+                สามารถทิ้งข้อความถึงผู้จองให้ทราบ เกี่ยวกับการจองเครื่องมือได้
               </p>
               <div className={styles.response_input}>
                 <AreaInput

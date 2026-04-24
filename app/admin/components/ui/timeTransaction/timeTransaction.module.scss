@@ -1,4 +1,5 @@
 @use "../../../../styles/variables" as *;
+@use "../../../../styles/functions" as *;
 
 .calendarWrapper {
   overflow-x: auto;
@@ -21,7 +22,7 @@
 .header {
   min-width: 1400px;
   display: grid;
-  grid-template-columns: 100px repeat(14, 1fr);
+  grid-template-columns: 80px repeat(14, 1fr);
 
   .header_blank {
     position: sticky;
@@ -45,7 +46,7 @@
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: 100px repeat(14, 1fr);
+  grid-template-columns: 80px repeat(14, 1fr);
   z-index: 1;
 
   .grid_line:first-child {
@@ -97,6 +98,26 @@
 
       .first {
         grid-column: var(--grid-colspan);
+      }
+
+      .available {
+        grid-column: var(--grid-colspan);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--theme-50);
+        border: 2px dashed var(--theme-200);
+        border-radius: rem(8);
+        margin: 0.2rem 0.1rem;
+        height: 6rem;
+        position: relative;
+        z-index: 2;
+
+        .availableText {
+          font-size: 0.9rem;
+          color: var(--theme-600);
+          font-weight: 500;
+        }
       }
     }
   }

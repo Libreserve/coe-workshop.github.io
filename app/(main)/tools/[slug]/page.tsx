@@ -1,4 +1,4 @@
-import ToolDetailClient from "@/app/(main)/tools/[slug]/ToolDetailClient";
+import ToolDetailClient from "./ToolDetailClient";
 import { Suspense } from "react";
 
 const Page = () => {

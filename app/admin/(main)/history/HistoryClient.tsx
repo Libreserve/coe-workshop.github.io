@@ -1,13 +1,15 @@
 "use client";
 
+import SearchBar from "@/app/components/SearchBar/SearchBar";
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { StatusTag } from "@/app/admin/components/ui/statusTag/statusTag";
 import { AdminStatus } from "@/app/types/api/transaction";
-import styles from "./history.module.scss";
+import styles from "./History.module.scss";
 import { useState } from "react";
 import { useGetUserTransactionHistoryQuery } from "@/app/lib/features/admin/transactionsApi";
-import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
+import { useSearchParams } from "next/navigation";
+import { useSetQueries } from "@/app/hook/SearchQuery";
 
 const formatHourMinute = (iso: string): string => {
   return new Date(iso).toLocaleTimeString("th-TH", {
@@ -27,14 +29,25 @@ const formatDateThai = (iso: string): string => {
 
 export const History = () => {
   const [openGroups, setOpenGroups] = useState<number[]>([]);
-  const { data: user } = useGetMeQuery();
-  const userId = user?.id || "";
-  const pageQuery = 1;
+  const [searchInput, setSearchInput] = useState<string>("");
+  const setQueries = useSetQueries();
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("user") || "";
+  const userName = searchParams.get("userName") || "";
+  const pageQuery = parseInt(searchParams.get("page") || "1", 10);
 
-  const { data, isLoading, isError } = useGetUserTransactionHistoryQuery(
-    { userId, page: pageQuery },
-    { skip: !userId }
+  const { data, isLoading, isError, error } = useGetUserTransactionHistoryQuery(
+    { userId, userName, page: pageQuery },
+    { skip: !userId && !userName }
   );
+
+  const isNotFound = isError && (error as any)?.status === 404;
+
+  const handleSearch = () => {
+    if (searchInput.trim()) {
+      setQueries({ userName: searchInput.trim(), page: "1" });
+    }
+  };
 
   const toggleGroup = (idx: number) => {
     setOpenGroups((prev) =>
@@ -45,20 +58,66 @@ export const History = () => {
   return (
     <div>
       <div className={styles.header}>
-        <h2>ประวัติการจองของฉัน</h2>
+        <h2>ประวัติการจองของผู้ใช้</h2>
+        <div className={styles.searchBar}>
+	{(userId || userName) && !isNotFound &&
+          <SearchBar
+            value={searchInput || userId}
+            setValue={setSearchInput}
+            onEnter={handleSearch}
+            placeholder="ค้นหาผู้ใช้"
+          />}
+        </div>
       </div>
 
-      {!userId ? (
+      {!userId && !userName ? (
         <div className={styles.emptyState}>
           <div className={styles.emptyStateContent}>
-            <h3 className={styles.emptyStateTitle}>กรุณาเข้าสู่ระบบ</h3>
-            <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่อดูประวัติการจอง</p>
+            <h3 className={styles.emptyStateTitle}>ค้นหาประวัติการจอง</h3>
+            <p className={styles.emptyStateDescription}>กรอกชื่อ หรือนามสกุลผู้ใช้เพื่อดูประวัติการจองเครื่องมือ</p>
+            <div className={styles.emptyStateSearch}>
+              <div className={styles.searchWrapper}>
+                <SvgIconMono src="/search.svg" width={24} height={24} className={styles.searchIcon} />
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  placeholder="ค้นหาผู้ใช้"
+                  className={styles.searchInput}
+                  autoFocus
+                />
+              </div>
+            </div>
           </div>
         </div>
       ) : isLoading ? (
         <div className={styles.loadingContainer}>
           <Loader />
           <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
+        </div>
+      ) : isNotFound ? (
+        <div className={styles.notFoundState}>
+          <div className={styles.notFoundContent}>
+            <h3 className={styles.notFoundTitle}>ไม่พบผู้ใช้</h3>
+            <p className={styles.notFoundDescription}>
+              ไม่พบผู้ใช้ชื่อ "{userName || userId}" ในระบบ
+            </p>
+            <div className={styles.emptyStateSearch}>
+              <div className={styles.searchWrapper}>
+                <SvgIconMono src="/search.svg" width={24} height={24} className={styles.searchIcon} />
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  placeholder="ค้นหาผู้ใช้ใหม่"
+                  className={styles.searchInput}
+                  autoFocus
+                />
+              </div>
+            </div>
+          </div>
         </div>
       ) : isError ? (
         <div className={styles.error}>เกิดข้อผิดพลาดในการดึงข้อมูล</div>
@@ -95,7 +154,7 @@ export const History = () => {
 
               <thead>
                 <tr>
-                  <th>ชื่ออุปกรณ์</th>
+                  <th>ชื่อเครื่องมือ</th>
                   <th>เลขครุภัณฑ์</th>
                   <th>สถานะ</th>
                   <th>เวลา</th>

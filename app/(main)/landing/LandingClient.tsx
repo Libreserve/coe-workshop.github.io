@@ -1,12 +1,12 @@
 "use client";
 
 import SearchBar from "@/app/components/SearchBar/SearchBar";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TagNav } from "@/app/components/Navigation/TagNav/TagNav";
 import styles from "./landing.module.scss";
 import { TypeEffect } from "@/app/components/UI/TypeEffect/TypeEffect";
 import { useRouter, useSearchParams } from "next/navigation";
-import { projectCompilationEventsSubscribe } from "next/dist/build/swc/generated-native";
+import { getCategoryDisplay, getAllCategories } from "@/app/lib/features/tools/category.utils";
 
 function LandingClient() {
   const [typeOptions] = useState([
@@ -14,24 +14,7 @@ function LandingClient() {
     "ออกแบบชิ้นส่วน",
     "Microcontroller",
   ]);
-  const categories = [
-    "ELECTRONIC ⚡",
-    "MECHANICAL 🔧",
-    "ELECTRICAL 🔌",
-    "PNEUMATIC 💨",
-    "HYDRAULIC 🛢️",
-    "MEASUREMENT 📏",
-    "SOLDERING 🔥",
-    "HAND TOOLS 🛠️",
-    "POWER TOOLS ⚙️",
-    "SAFETY 🦺",
-    "ROBOTICS 🤖",
-    "AUTOMATION 🏭",
-    "PROTOTYPING 🧪",
-    "3D PRINTING 🖨️",
-    "CNC 🧱",
-    "MAINTENANCE 🔩",
-  ];
+  const categories = getAllCategories();
   const [itemname,setItemname] = useState<string>("")
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +49,7 @@ function LandingClient() {
     <div className={styles.landing}>
       <div className={styles.landing_body}>
         <div className={styles.header}>
-          <h2 className={styles.header_text}>ค้นหาอุปกรณ์สำหรับ</h2>
+          <h2 className={styles.header_text}>ค้นหาเครื่องมือสำหรับ</h2>
           <TypeEffect options={typeOptions}></TypeEffect>
         </div>
         <div className={styles.searchBar}>
@@ -74,7 +57,7 @@ function LandingClient() {
           value={itemname}
           setValue={setItemname}
           onEnter={handleSearch}
-            placeholder="ค้นหาอุปกรณ์ที่ต้องการจอง"
+            placeholder="ค้นหาเครื่องมือที่ต้องการจอง"
             borderFocus
           ></SearchBar>
         </div>
@@ -88,7 +71,7 @@ function LandingClient() {
                   setCategory(c)
                   }}
                 >
-                  <TagNav title={c}></TagNav>
+                  <TagNav title={getCategoryDisplay(c)}></TagNav>
                 </div>
               ))}
             </div>

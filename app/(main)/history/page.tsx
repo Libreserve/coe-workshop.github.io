@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { History } from "./historyClient";
+import { History } from "./HistoryClient";
 
 const PageHistory = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>กำลังโหลด...</div>}>
       <History />
     </Suspense>
   );

@@ -9,7 +9,7 @@ const Footer = () => {
       Header: "หน้าเพจ",
       Content: [
         { title: "หน้าหลัก", link: "/landing" },
-        { title: "อุปกรณ์", link: "/tools" },
+        { title: "เครื่องมือ", link: "/tools" },
         { title: "ประวัติ", link: "/history" },
       ],
     },
@@ -51,12 +51,12 @@ const Footer = () => {
             </div>
           </div>
           <div className={styles.left_links}>
-            <div className={styles.left_text}>DEVELOP</div>
+            <div className={styles.left_text}>DEVELOPER</div>
             <div className={styles.left_logoes}>
               <div>
                 <Link
                   href={
-                    "https://github.com/libreserve/coe-workshop.github.io/tree/main/public"
+                    "https://github.com/libreserve/coe-workshop.github.io"
                   }
                   key={"github"}
                 >

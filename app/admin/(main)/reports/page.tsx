@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { ReportsAdmin } from "./reportsAdminClient";
+import { ReportsAdmin } from "./ReportsAdminClient";
 
 const PageReportsAdmin = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>กำลังโหลด...</div>}>
       <ReportsAdmin />
     </Suspense>
   );

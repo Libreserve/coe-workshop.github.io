@@ -15,16 +15,17 @@
   border: 1px solid $sub-200;
   display: flex;
   flex-direction: column;
-  background-color: $sub-0;
+  background-color: var(--theme-0);
+  cursor: pointer;
   .select_text {
     white-space: nowrap;
     width: 120px;
     padding: 0.2rem 1rem;
-    color: $sub-1000;
+    color: var(--text-normal);
     transition: all 0.5s ease;
     
     &:hover {
-      background-color: $sub-200;
+      background-color: var(--theme-100);
     }
   }
   .select_last {

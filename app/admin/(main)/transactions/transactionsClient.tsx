@@ -42,7 +42,7 @@ export const Transaction = () => {
   return (
     <div>
       <div className={styles.filter}>
-        <h2>ประวัติการจองอุปกรณ์</h2>
+        <h2>ประวัติการจองเครื่องมือ</h2>
         <div className={styles.filter_action}>
           <div className="">
             <SearchBar

@@ -1,5 +1,7 @@
 @use "@/app/styles/variables" as *;
 @use "@/app/styles/_breakpoints" as *;
+@use "@/app/styles/functions" as *;
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -13,10 +15,10 @@
   width: clamp(250px, 80vw, 703px);
   padding: 2rem;
   overflow-y: auto;
-  background-color: $sub-0;
+  background-color: var(--box-background);
   position: relative;
   z-index: 2;
-  border-radius: 10px;
+  border-radius: rem(22);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -166,7 +168,7 @@
         gap: 8px;
         button {
           padding: 7px 20px;
-          border-radius: 10px;
+          border-radius: rem(22);
           border: 1px solid $sub-300;
           font-size: 1rem;
           cursor: pointer;

@@ -15,9 +15,9 @@ function Navbar() {
   const { opened, handle } = useDisclosure();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuMapProps: MenuMapProps[] = [
-    { title: "Tools", path: "/tools" },
+    { title: "เครื่องมือ", path: "/tools" },
     // { title: "About", path: "/about" },
-    { title: "Report", path: "/report-issue" },
+    { title: "รายงาน", path: "/report-issue" },
   ];
 
   const { user, logout } = useAuth();
@@ -68,7 +68,7 @@ function Navbar() {
           width={120}
           height={120}
           alt="hamberger_icon"
-          src={"hamberger.svg"}
+          src={"/hamberger.svg"}
         ></Image>
         {user ? (
           <div className={styles.userProfile}>
@@ -109,12 +109,11 @@ function Navbar() {
           </button>
         )}
       </div>
-      <ModalContainer opened={opened} onClose={handle.close}>
-        <NavSlide
-          menuMapPropsList={menuMapProps}
-          onClose={handle.close}
-        ></NavSlide>
-      </ModalContainer>
+      <NavSlide
+        menuMapPropsList={menuMapProps}
+        onClose={handle.close}
+        opened={opened}
+      ></NavSlide>
     </div>
   );
 }

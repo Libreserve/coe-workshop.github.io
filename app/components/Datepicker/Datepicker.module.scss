@@ -18,7 +18,7 @@
   border-radius: 0.4rem;
   border-width: rem(1px);
   border: rem(1px) solid var(--box-hover);
-  width: rem(236);
+  width: 100%;
   height: rem(32);
   display: flex;
   flex-direction: column;
@@ -78,6 +78,48 @@
   padding-top: rem(10px);
   box-shadow: 0px rem(1px) rem(4px) var(--box-shadow);
 }
+
+.calendar {
+  background-color: var(--box-background);
+  color: var(--text-normal);
+  padding: rem(5px);
+  padding-top: rem(10px);
+  width: fit-content;
+  max-width: 100%;
+  border-radius: rem(22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar .header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: rem(4px);
+  color: var(--text-normal);
+  padding: 0 rem(4px);
+
+  .prev_button,
+  .next_button {
+    position: static;
+    flex-shrink: 0;
+  }
+}
+
+.calendar .change_table {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+
+  div {
+    justify-content: center;
+  }
+}
+
+
 
 .datepicker_closed {
   opacity: 1;

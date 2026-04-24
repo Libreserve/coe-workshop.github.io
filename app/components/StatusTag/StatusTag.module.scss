@@ -1,9 +1,10 @@
 @use "../../styles/variables" as *;
+@use "@/app/styles/functions" as *;
 
 .statusTag {
   width: fit-content;
   padding: 0.2rem 0.8rem;
-  border-radius: 0.2rem;
+  border-radius: rem(22);
   text-wrap: nowrap;
   color: $sub-1000;
 }

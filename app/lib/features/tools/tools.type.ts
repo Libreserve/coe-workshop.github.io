@@ -25,8 +25,8 @@ export interface Tool {
   category: ToolCategories;
   categoryID?: number | null;
   assets_id: number[] | null;
-  quantity?: number;
-  available?: boolean;
+  totalQuantity?: number;
+  availableQuantity?: number;
 }
 
 export type Tools = Tool[];

@@ -1,17 +1,40 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import ModalContainer from "@/app/components/ModalContainer/modalContainer";
 import { TransactionInfo } from "@/app/admin/components/modal/transactionInfo/transactionInfo";
 import styles from "./timeTransaction.module.scss";
-import { useGetAllTransactionsByStatusQuery } from "@/app/lib/features/admin/transactionsApi";
+import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface ErrorResponse {
   error?: string;
 }
 
-export const TimeTransaction = ({ toolId = 0 }) => {
+const OFFICE_START_MINUTES = 540; // 09:00
+const SLOT_MINUTES = 30;
+
+const toThaiMinutes = (isoString: string): number => {
+  const d = new Date(isoString);
+  return (d.getUTCHours() + 7) * 60 + d.getUTCMinutes();
+};
+
+const getSlotCount = (startIso: string, endIso: string): number => {
+  const startMin = toThaiMinutes(startIso);
+  const endMin = toThaiMinutes(endIso);
+  return Math.round((endMin - startMin) / SLOT_MINUTES);
+};
+
+const minutesToSlotIndex = (isoString: string): number => {
+  const thaiMin = toThaiMinutes(isoString);
+  return Math.floor((thaiMin - OFFICE_START_MINUTES) / SLOT_MINUTES);
+};
+
+export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: string }) => {
+  const todayDateString = new Date().toISOString().split("T")[0];
+  const effectiveDate = date || todayDateString;
+  const OFFICE_END_ISO = `${effectiveDate}T16:00:00+07:00`;
+
   const [timeAxis] = useState<string[]>([
     "09.00",
     "10.00",
@@ -21,38 +44,29 @@ export const TimeTransaction = ({ toolId = 0 }) => {
     "14.00",
     "15.00",
   ]);
-  const firstColumnTime = "2025-01-10T09:00:00";
-  const lastColumnTime = "2025-01-10T16:00:00";
-  const [opened, setOpened] = useState<number[]>([]);
+  const [opened, setOpened] = useState<string[]>([]);
 
-  const getColspanLenght = (startedAt: string, endedAt: string): number => {
-    const t1 = new Date(startedAt);
-    const t2 = new Date(endedAt);
-    const timeDiff = t2.getTime() - t1.getTime();
-    return Math.ceil(timeDiff / (1000 * 60) / 30);
-  };
-
-  const toggleOpened = (idx: number) => {
+  const toggleOpened = (id: string) => {
     setOpened((prev) =>
-      prev.includes(idx) ? prev.filter((item) => item != idx) : [...prev, idx],
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
   const getTimeFormat = (date: string): string => {
-    const time = new Date(date)
-      .toLocaleTimeString("th-TH", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-      .replace(":", ".");
+    const time = new Intl.DateTimeFormat("th-TH", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    }).format(new Date(date)).replace(":", ".");
     return time;
   };
 
   const {
-    data: toolTransaction,
+    data,
     isError,
     error,
-  } = useGetAllTransactionsByStatusQuery({status: "RESERVE"});
+    isLoading,
+  } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
 
   let toolTransactionErrorMessage =
     "There's some error occuring while try to fetching the transaction data";
@@ -63,143 +77,140 @@ export const TimeTransaction = ({ toolId = 0 }) => {
     }
   }
 
-  const assetGroups = useMemo(() => {
-    if (!toolTransaction) return [];
-    
-    const assetMap = new Map<string, any[]>();
-    
-    toolTransaction.users.forEach((userGroup: any) => {
-      const user = userGroup.user;
-      userGroup.adminTransactions?.forEach((tx: any, index: number) => {
-        if (!assetMap.has(tx.assetID)) {
-          assetMap.set(tx.assetID, []);
-        }
-        assetMap.get(tx.assetID)!.push({
-          ...tx,
-          user,
-          uniqueId: `${tx.assetID}-${tx.id}-${index}`,
-        });
-      });
-    });
+  if (isLoading) {
+    return <div className={styles.calendarWrapper}>Loading...</div>;
+  }
 
-    return Array.from(assetMap.entries()).map(([assetID, transactions]) => ({
-      assetID,
-      transactions: transactions.sort((a: any, b: any) => 
-        new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime()
-      ),
-    }));
-  }, [toolTransaction]);
+  if (isError) {
+    return (
+      <div className={styles.error}>
+        <span>error:</span> {toolTransactionErrorMessage};
+      </div>
+    );
+  }
 
-  return isError ? (
-    <div className={styles.error}>
-      <span>error:</span> {toolTransactionErrorMessage};
-    </div>
-  ) : (
-    <div className={styles.calendarWrapper}>
-      <section className={styles.header}>
-        <h3 className={styles.header_blank}></h3>
-        {timeAxis.map((time, index) => (
-          <React.Fragment key={index}>
-            <h2 className={styles.header_time}>{time}</h2>
-            <h3 className={styles.header_time}></h3>
-          </React.Fragment>
-        ))}
-      </section>
-      <section className={styles.table}>
-        <div className={styles.grid_overlay}>
-          {Array.from({ length: timeAxis.length * 2 + 1 }).map((_, index) => (
-            <div key={index} className={styles.grid_line} />
+  const itemData = Array.isArray(data) ? data[0] : data;
+
+  const assetsToItems = itemData?.assetsToItems ?? [];
+  const assets = assetsToItems.map((item: any) => ({
+    assetID: item.asset?.assetID ?? item.assetID,
+    transactions: item.asset?.transactions ?? []
+  }));
+
+  return (
+    <div>
+      <div className={styles.calendarWrapper}>
+        <section className={styles.header}>
+          <h3 className={styles.header_blank}></h3>
+          {timeAxis.map((time, index) => (
+            <React.Fragment key={index}>
+              <h2 className={styles.header_time}>{time}</h2>
+              <h3 className={styles.header_time}></h3>
+            </React.Fragment>
           ))}
-        </div>
-        <div className={styles.tableContent}>
-          {assetGroups.map((item, index) => {
-            return (
-              <div key={index} className={styles.row_container}>
-                <div className={styles.row}>
-                  <h3 className={styles.assetID}>{item.assetID}</h3>
-                  {(() => {
-                    if (firstColumnTime < item.transactions[0]?.startedAt) {
-                      const firstGapColspan = getColspanLenght(
-                        firstColumnTime,
-                        item.transactions[0].startedAt,
-                      );
-                      return (
-                        <div
-                          className={styles.first}
-                          style={
-                            {
-                              "--grid-colspan": `span ${firstGapColspan}`,
-                            } as React.CSSProperties
+        </section>
+        <section className={styles.table}>
+          <div className={styles.grid_overlay}>
+            {Array.from({ length: timeAxis.length * 2 + 1 }).map((_, index) => (
+              <div key={index} className={styles.grid_line} />
+            ))}
+          </div>
+          <div className={styles.tableContent}>
+            {assets.map((asset: any) => {
+              const transactions = asset.transactions ?? [];
+              const hasTransactions = transactions.length > 0;
+              
+              return (
+                <div key={asset.assetID} className={styles.row_container}>
+                  <div className={styles.row}>
+                    <h3 className={styles.assetID}>{asset.assetID}</h3>
+                    {!hasTransactions ? (
+                      <div
+                        className={styles.available}
+                        style={{ "--grid-colspan": "span 14" } as React.CSSProperties}
+                      >
+                        <span className={styles.availableText}>ว่างทั้งวัน</span>
+                      </div>
+                    ) : (
+                      <>
+                        {(() => {
+                          const firstStartSlot = minutesToSlotIndex(transactions[0]?.startedAt);
+                          if (firstStartSlot > 0 && transactions[0]?.startedAt) {
+                            return (
+                              <div
+                                className={styles.first}
+                                style={
+                                  {
+                                    "--grid-colspan": `span ${firstStartSlot}`,
+                                  } as React.CSSProperties
+                                }
+                              ></div>
+                            );
                           }
-                        ></div>
-                      );
-                    }
-                  })()}
-                  {item.transactions.map((event: any, id: number) => {
-                    const cuerrentColSpan = getColspanLenght(
-                      event?.startedAt,
-                      event.endedAt,
-                    );
-                    const gapColSpan = getColspanLenght(
-                      event.endedAt,
-                      item.transactions[id + 1]?.startedAt ?? lastColumnTime,
-                    );
-                    return (
-                      <React.Fragment key={event.uniqueId}>
-                        <ModalContainer
-                          opened={opened.includes(id)}
-                          onClose={() => toggleOpened(id)}
-                        >
-                          <TransactionInfo
-                            onClose={() => toggleOpened(id)}
-                            user={event.user}
-                            startedAt={event.startedAt}
-                            endTime={event.endedAt}
-                            message={event.message}
-                            status={event.status}
-                          ></TransactionInfo>
-                        </ModalContainer>
-                        <div
-                          onClick={() => toggleOpened(id)}
-                          className={styles.event}
-                          style={
-                            {
-                              "--grid-colspan": `span ${cuerrentColSpan}`,
-                            } as React.CSSProperties
-                          }
-                        >
-                          <div className={styles.event_content}>
-                            <div className={styles.event_line}></div>
-                            <div>
-                              <div>
-                                <h3>{event.user.userName}</h3>
+                        })()}
+                        {transactions.map((event: any, idx: number) => {
+                          const currentColSpan = getSlotCount(event.startedAt, event.endedAt);
+                          const nextStartIso = transactions[idx + 1]?.startedAt ?? OFFICE_END_ISO;
+                          const gapColSpan = getSlotCount(event.endedAt, nextStartIso);
+                          return (
+                            <React.Fragment key={event.id}>
+                              <ModalContainer
+                                opened={opened.includes(String(event.id))}
+                                onClose={() => toggleOpened(String(event.id))}
+                              >
+                                <TransactionInfo
+                                  onClose={() => toggleOpened(String(event.id))}
+                                  user={event.reserver}
+                                  startedAt={event.startedAt}
+                                  endTime={event.endedAt}
+                                  message={event.messages[0].detail}
+                                  status={event.status}
+                                ></TransactionInfo>
+                              </ModalContainer>
+                              <div
+                                onClick={() => toggleOpened(String(event.id))}
+                                className={styles.event}
+                                style={
+                                  {
+                                    "--grid-colspan": `span ${currentColSpan}`,
+                                  } as React.CSSProperties
+                                }
+                              >
+                                <div className={styles.event_content}>
+                                  <div className={styles.event_line}></div>
+                                  <div>
+                                    <div>
+                                      <h3>{event.user?.userName}</h3>
+                                    </div>
+                                    <p>
+                                      {getTimeFormat(event.startedAt)} -
+                                      {getTimeFormat(event.endedAt)}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
-                              <p>
-                                {getTimeFormat(event.startedAt)} -
-                                {getTimeFormat(event.endedAt)}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        {gapColSpan != 0 && (
-                          <div
-                            className={styles.gap}
-                            style={
-                              {
-                                "--grid-colspan": `span ${gapColSpan}`,
-                              } as React.CSSProperties
-                            }
-                          ></div>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
+                              {gapColSpan > 0 && (
+                                <div
+                                  className={styles.gap}
+                                  style={
+                                    {
+                                      "--grid-colspan": `span ${gapColSpan}`,
+                                    } as React.CSSProperties
+                                  }
+                                ></div>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

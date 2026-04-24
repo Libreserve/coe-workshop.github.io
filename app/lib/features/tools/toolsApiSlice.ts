@@ -76,19 +76,33 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
       ],
     }),
 
-    updateToolAssets: builder.mutation<
-      Tool,
-      { toolId: string | number; assets_id: number[] | null }
+    createAsset: builder.mutation<
+      object,
+      { itemID: number; assetID: string[] }
     >({
-      query: ({ toolId, assets_id }) => ({
-        url: `/items/${toolId}/assets`,
-        method: "PATCH",
-        body: { assets_id },
+      query: ({ itemID, assetID }) => ({
+        url: `/assets`,
+        method: "POST",
+        body: { itemID, assetID },
       }),
-      transformResponse: (res: ToolResponse) => res?.data ?? {},
       invalidatesTags: (result, error, arg) => [
         { type: "Tools" as const, id: "LIST" },
-        { type: "Tools" as const, id: arg.toolId },
+        { type: "Tools" as const, id: arg.itemID },
+      ],
+    }),
+
+    deleteAsset: builder.mutation<
+      object,
+      { itemID: number; assetID: string }
+    >({
+      query: ({ itemID, assetID }) => ({
+        url: `/assets`,
+        method: "DELETE",
+        body: { itemID, assetID },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Tools" as const, id: "LIST" },
+        { type: "Tools" as const, id: arg.itemID },
       ],
     }),
   }),
@@ -101,5 +115,6 @@ export const {
   useCreateToolMutation,
   useUpdateToolMutation,
   useDeleteToolMutation,
-  useUpdateToolAssetsMutation,
+  useCreateAssetMutation,
+  useDeleteAssetMutation,
 } = toolsApiSlice;

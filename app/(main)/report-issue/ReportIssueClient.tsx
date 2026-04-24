@@ -5,7 +5,7 @@ import { useCreateReportMutation } from "@/app/lib/features/admin/reportsApi";
 import { ReportType, reportTypeLabels } from "@/app/types/api/report";
 import { useAuth } from "@/app/Context/AuthContext/AuthContext";
 import { Select } from "@/app/components/Select/Select";
-import styles from "./report-issue.module.scss";
+import styles from "./ReportIssue.module.scss";
 
 const reportTypeOptions = Object.values(ReportType).map((t) => ({
   label: reportTypeLabels[t],

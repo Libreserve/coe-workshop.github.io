@@ -5,5 +5,6 @@ export interface MenuMapProps {
 
 export interface navSlideProps {
   menuMapPropsList: MenuMapProps[];
+  opened: boolean;
   onClose: () => void;
 }

@@ -32,7 +32,7 @@ export const Select = <T extends string = string,>({
   );
 
   const selectedOption = normalizedOptions.find((opt) => opt.value === displayValue);
-  const displayLabel = selectedOption?.label ?? displayValue ?? placeholder;
+  const displayLabel = selectedOption?.label ?? (displayValue || placeholder);
 
   return (
     <div className={styles.select}>

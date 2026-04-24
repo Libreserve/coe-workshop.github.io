@@ -95,3 +95,13 @@ export interface UserTransactionHistoryResponse {
   success: boolean;
   data: UserTransactionHistory;
 }
+
+export type CreateTransactionRequest = {
+  assetID: number;
+  itemID: number;
+  date: string;
+  startedAt: string;
+  endedAt: string;
+  message: string;
+};
+
