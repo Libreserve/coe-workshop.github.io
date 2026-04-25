@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import HttpStatus from "http-status";
 import { getLoginUrl } from "../api";
+import { isAdminRoute } from "@/app/utils/isAdminRoute";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "/api/v1",
@@ -37,7 +38,6 @@ const baseQueryWithReauth: BaseQueryFn<
         });
       } catch {}
 
-      const isAdminRoute = window.location.pathname.startsWith("/admin");
       window.location.href = isAdminRoute ? "/admin/login" : getLoginUrl();
     }
   }
@@ -47,6 +47,8 @@ const baseQueryWithReauth: BaseQueryFn<
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Tools", "Transaction", "Report"],
+  tagTypes: ["Tools", "Transaction", "Report", "Assets"],
   endpoints: () => ({}),
 });
+
+export const { util: { updateQueryData } } = apiSlice;

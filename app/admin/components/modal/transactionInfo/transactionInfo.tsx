@@ -1,3 +1,4 @@
+import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { StatusTag } from "../../ui/statusTag/statusTag";
 import styles from "./transactionInfo.module.scss";
 import { TransactionInfoProps } from "./transactionInfo.types";
@@ -36,10 +37,12 @@ export const TransactionInfo = ({
           <p>ผู้ยื่นคำร้อง:</p>
           <p>{(user as any).userName || user.username}</p>
         </span>
-        <span>
-          <p>เบอร์โทรติดต่อ:</p>
-          <p>{(user as any).phone || user.tel}</p>
-        </span>
+	{ isAdminRoute && (
+	  <span>
+            <p>เบอร์โทรติดต่อ:</p>
+            <p>{(user as any).phone || user.tel}</p>
+          </span>
+	)}
         <span>
           <p>คำร้อง:</p>
           <p>{message}</p>

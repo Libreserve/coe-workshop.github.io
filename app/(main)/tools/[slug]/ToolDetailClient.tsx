@@ -9,7 +9,7 @@ import useDisclosure from "@/app/hook/useDisclosure";
 import { ItemTransaction } from "@/app/admin/components/ui/itemTransaction/itemTransaction";
 import { Tabs } from "@/app/admin/components/ui/Tabs/Tabs";
 import { TabsOption } from "@/app/admin/components/ui/Tabs/Tabs.type";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Options } from "@/app/admin/components/ui/optionAction/types";
 import styles from "./ToolDetail.module.scss";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
@@ -18,13 +18,13 @@ import {
   useGetToolQuery,
   useCreateAssetMutation,
 } from "@/app/lib/features/tools/toolsApiSlice";
-import { useCreateTransactionMutation } from "@/app/lib/features/admin/transactionsApi";
+import { useCreateTransactionMutation, useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import CreateItem from "@/app/admin/components/modal/create_item/create";
 import { getCategoryDisplay, toToolCategory } from "@/app/lib/features/tools/category.utils";
-import DatePicker from "@/app/components/Datepicker/Datepicker";
 import { Calendar } from "@/app/components/Calendar/Calendar";
 import { Select } from "@/app/components/Select/Select";
+import { isAdminRoute } from "@/app/utils/isAdminRoute";
 
 interface ErrorResponse {
   error?: string;
@@ -58,7 +58,6 @@ const formatDateThai = (dateStr: string): string => {
 const ToolDetailClient = () => {
   const params = useParams<{ slug: string }>();
   const toolId = params.slug;
-  const isAdminRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
   const {
     data: fetchTool,
     isError,
@@ -83,6 +82,15 @@ const ToolDetailClient = () => {
   const [reservationEndTime, setReservationEndTime] = useState("");
   const [reservationMessage, setReservationMessage] = useState("");
   const [reservationError, setReservationError] = useState<string | null>(null);
+  const [selectedAssetId, setSelectedAssetId] = useState<string>("");
+  const effectiveDate = new Date().toISOString().split("T")[0];
+  const {
+    data,
+    isError: isAssetsError,
+    error: assetsError,
+    isLoading: isLoadingAssets,
+  } = useGetReservedByItemQuery({ itemId: Number(toolId), date: effectiveDate }, { skip: !toolId });
+
   const tagInputRef = useRef<{ getValues: () => string[] }>(null);
   const [createAsset, { isLoading: isCreatingAsset }] = useCreateAssetMutation();
   const [createTransaction, { isLoading: isCreatingTransaction }] = useCreateTransactionMutation();
@@ -125,7 +133,7 @@ const ToolDetailClient = () => {
     try {
       setReservationError(null);
       await createTransaction({
-        assetID: 0,
+        assetID: Number(selectedAssetId),
         itemID: Number(toolId),
         date: selectedDateString,
         startedAt: convertLocalTimeToUTC(reservationStartTime),
@@ -136,6 +144,7 @@ const ToolDetailClient = () => {
       setReservationStartTime("");
       setReservationEndTime("");
       setReservationMessage("");
+      setSelectedAssetId("");
     } catch (err) {
       const error = err as FetchBaseQueryError;
       if (error.data && typeof error.data === "object" && "error" in error.data) {
@@ -179,6 +188,15 @@ const ToolDetailClient = () => {
   const selectedDateString = selectedDate
     ? selectedDate.toLocaleDateString('en-CA')
     : new Date().toLocaleDateString('en-CA');
+
+  const itemData = Array.isArray(data) ? data[0] : data;
+
+  const assetsToItems = itemData?.assetsToItems ?? [];
+  const assets = assetsToItems.map((item: any) => ({
+    id: item.assetID,
+    assetNumber: item.asset?.assetID,
+  }));
+
 
   return (
     <div>
@@ -296,6 +314,21 @@ const ToolDetailClient = () => {
                 <p className={styles.reservationToolName}>{tool?.name}</p>
               </div>
               <div className={styles.reservationFields}>
+                <div className={styles.fieldGroup}>
+                  <label>เลขครุภัณฑ์</label>
+                  {isLoadingAssets ? (
+                    <Select options={[]} value={selectedAssetId} onChange={(val) => setSelectedAssetId(val)} placeholder="กำลังโหลด..." />
+                  ) : isAssetsError ? (
+                    <Select options={[]} value={selectedAssetId} onChange={(val) => setSelectedAssetId(val)} placeholder="เกิดข้อผิดพลาด" />
+                  ) : (
+                    <Select
+                      options={assets.map((asset: any) => ({ label: asset.assetNumber, value: asset.id }))}
+                      value={selectedAssetId}
+                      onChange={(val) => setSelectedAssetId(val)}
+                      placeholder="เลือกเลขคุรุภัณฑ์"
+                    />
+                  )}
+                </div>
                 <div className={styles.fieldGroup}>
                   <label>วันที่</label>
                   <span className={styles.fieldValue}>{formatDateThai(selectedDateString)}</span>

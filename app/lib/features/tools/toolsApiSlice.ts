@@ -1,10 +1,5 @@
 import { apiSlice } from "../apiSlice";
-import type {
-  Tool,
-  Tools,
-  ToolsResponse,
-  ToolResponse,
-} from "@/app/lib/features/tools/tools.type";
+import type { Asset, Tool, Tools, ToolsResponse, ToolResponse, ToolErrorResponse } from "@/app/lib/features/tools/tools.type";
 import { toToolCategory } from "./category.utils";
 
 function transformToolResponse(backendTool: any): Tool {
@@ -65,7 +60,7 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
       ],
     }),
 
-    deleteTool: builder.mutation<object, { toolId: string | number }>({
+  deleteTool: builder.mutation<object, { toolId: string | number }>({
       query: ({ toolId }) => ({
         url: `/items/${toolId}`,
         method: "DELETE",
@@ -105,6 +100,20 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
         { type: "Tools" as const, id: arg.itemID },
       ],
     }),
+
+    getAllAssets: builder.query<Asset[], void>({
+      query: () => ({
+        url: "/assets",
+        method: "GET",
+      }),
+      providesTags: (result = []) =>
+        result
+          ? [
+              { type: "Assets" as const, id: "LIST" },
+              ...result.map((asset) => ({ type: "Assets" as const, id: asset.id })),
+            ]
+          : [{ type: "Assets" as const, id: "LIST" }],
+    }),
   }),
   overrideExisting: false,
 });
@@ -117,4 +126,5 @@ export const {
   useDeleteToolMutation,
   useCreateAssetMutation,
   useDeleteAssetMutation,
+  useGetAllAssetsQuery,
 } = toolsApiSlice;

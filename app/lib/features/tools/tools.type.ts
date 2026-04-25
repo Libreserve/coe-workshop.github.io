@@ -61,3 +61,12 @@ export interface ToolResponse {
   success: boolean;
   error: string | null;
 }
+
+export interface Asset {
+  id: number;
+  assetID: string;
+  item: {
+    id: number;
+    name: string;
+  } | null;
+}

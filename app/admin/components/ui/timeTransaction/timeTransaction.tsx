@@ -182,7 +182,7 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                                     <div>
                                       <h3>{event.user?.userName}</h3>
                                     </div>
-                                    <p>
+                                    <p className={styles.time}>
                                       {getTimeFormat(event.startedAt)} -
                                       {getTimeFormat(event.endedAt)}
                                     </p>

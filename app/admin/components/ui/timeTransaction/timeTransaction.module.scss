@@ -131,7 +131,7 @@
   height: 100%;
   background-color: var(--timetable-event-content);
   .event_line {
-    background-color: var(--foreground);
+    background-color: $sub-0;
     width: 4px;
     border-radius: 1rem;
   }
@@ -143,4 +143,8 @@
   height: 100%;
   align-items: center;
   align-content: center;
+}
+
+.time {
+  color: $sub-0;
 }
