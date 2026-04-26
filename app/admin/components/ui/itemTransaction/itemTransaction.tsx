@@ -8,6 +8,7 @@ import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactions
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { ErrorResponse } from "@/app/types/api/transaction";
+import { formatDateTime } from "@/app/utils/dateTime";
 
 enum TransactionsStatus {
   REJECT = "REJECT",
@@ -110,8 +111,8 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                   <td className={styles.status}>
                     <StatusTag status={transaction.status}></StatusTag>
                   </td>
-                  <td className={styles.endedAt}>{transaction.endedAt}</td>
-                  <td className={styles.message}>{transaction.messages?.[0].detail ?? "no message attach"}</td>
+                  <td className={styles.endedAt}>{formatDateTime(transaction.endedAt)}</td>
+                  <td className={styles.message}>{transaction.messages?.[0].detail ?? "-"}</td>
                   <td className={styles.trashSpace}>
                     {transaction.status === TransactionsStatus.Blank && (
                       <SvgIconMono
@@ -140,7 +141,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     <td className={styles.status}>
                       <StatusTag status={transaction.status}></StatusTag>
                     </td>
-                    <td className={styles.endedAt}>{transaction.endedAt}</td>
+                    <td className={styles.endedAt}>{formatDateTime(transaction.endedAt)}</td>
                     <td className={styles.message}>{transaction.message ?? "no message attach"}</td>
                     <td></td>
                   </tr>

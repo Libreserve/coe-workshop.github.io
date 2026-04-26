@@ -1,7 +1,6 @@
 "use client";
 
 import { useToast } from "@/app/Context/Toast/ToastProvider";
-import Image from "next/image";
 import React from "react";
 import styles from "./Toast.module.scss";
 import { positionStyle, ToastItem, ToastProps, VariantStyle } from "./types";
@@ -25,21 +24,19 @@ function Toast({ Position }: ToastProps) {
 
 const ToastContent = ({ id, title, description, variant }: ToastItem) => {
   const { toastStack } = useToast();
+  const IconComponent = VariantStyle[variant].icon;
 
   return (
     <div
-      className={`${styles.toast}  ${
-        !(id == toastStack[toastStack.length - 1].id) && styles.toast_slide
-      }  `}
+      className={`${styles.toast}  ${!(id == toastStack[toastStack.length - 1].id) && styles.toast_slide
+        }  `}
     >
       <div className={styles.toast_inner}>
         <div className={styles.content}>
-          <Image
-            width={50}
-            height={50}
-            src={VariantStyle[variant].icon}
-            alt="status"
-          ></Image>
+          <IconComponent
+            size={50}
+	    color={VariantStyle[variant].color}
+          ></IconComponent>
           <div className={styles.text}>
             <h1 className={styles.title}>{title}</h1>
             <h2 className={styles.description}>{description}</h2>

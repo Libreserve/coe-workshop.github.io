@@ -25,6 +25,7 @@ import { getCategoryDisplay, toToolCategory } from "@/app/lib/features/tools/cat
 import { Calendar } from "@/app/components/Calendar/Calendar";
 import { Select } from "@/app/components/Select/Select";
 import { isAdminRoute } from "@/app/utils/isAdminRoute";
+import { useToast } from "@/app/Context/Toast/ToastProvider";
 
 interface ErrorResponse {
   error?: string;
@@ -87,7 +88,6 @@ const ToolDetailClient = () => {
   const {
     data,
     isError: isAssetsError,
-    error: assetsError,
     isLoading: isLoadingAssets,
   } = useGetReservedByItemQuery({ itemId: Number(toolId), date: effectiveDate }, { skip: !toolId });
 
@@ -145,6 +145,11 @@ const ToolDetailClient = () => {
       setReservationEndTime("");
       setReservationMessage("");
       setSelectedAssetId("");
+      addToastStack(
+	"ขอใช้งานเครื่องมือสำเร็จ",
+	"คำขอถูกส่งไปยังฐานข้อมูลเรียบร้อยแล้ว",
+	"success",
+      );
     } catch (err) {
       const error = err as FetchBaseQueryError;
       if (error.data && typeof error.data === "object" && "error" in error.data) {
@@ -152,6 +157,11 @@ const ToolDetailClient = () => {
       } else {
         setReservationError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
+      addToastStack(
+	"ขอใช้งานเครื่องมือไม่สำเร็จ",
+	reservationMessage || "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
+	"error",
+      );
     }
   };
 
@@ -196,6 +206,7 @@ const ToolDetailClient = () => {
     id: item.assetID,
     assetNumber: item.asset?.assetID,
   }));
+  const { addToastStack } = useToast();
 
 
   return (
@@ -302,6 +313,15 @@ const ToolDetailClient = () => {
             <CreateItem
               onClose={() => handlecreateItem.close()}
               onCreated={() => { }}
+	      value={{
+		id: Number(toolId),
+		name: itemData?.name,
+		description: itemData?.description,
+		imageUrl: itemData?.imageUrl,
+		category: itemData?.category.name,
+		categoryID: itemData?.category.id,
+		assets_id: null,
+	      }}
             ></CreateItem>
           </ModalContainer>
           <ModalContainer
