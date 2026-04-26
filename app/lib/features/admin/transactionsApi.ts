@@ -25,11 +25,22 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       },
       keepUnusedDataFor: 300,
       transformResponse: (res: any) => res?.data ?? {},
-      providesTags: ["Transaction"],
+      providesTags: ["Transaction", "Assets"],
     }),
     updateTransactionStatus: builder.mutation<any, any>({
       query: (body) => ({
         url: `/transactions/${body.transactionId}`,
+        method: "PATCH",
+        body: {
+          isApproved: body.isApproved,
+          message: body.message,
+        },
+      }),
+      invalidatesTags: ["Transaction"],
+    }),
+    updateAllTransactionsByUser: builder.mutation<any, { reserverId: string, isApproved: boolean, message: string }>({
+      query: (body) => ({
+        url: `/transactions/reserver/${body.reserverId}`,
         method: "PATCH",
         body: {
           isApproved: body.isApproved,
@@ -67,6 +78,7 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
 export const {
   useGetAllTransactionsByStatusQuery,
   useUpdateTransactionStatusMutation,
+  useUpdateAllTransactionsByUserMutation,
   useGetUserTransactionHistoryQuery,
   useCreateTransactionMutation,
   useGetReservedByItemQuery,

@@ -10,7 +10,7 @@ import { getLoginUrl } from "../api";
 import { isAdminRoute } from "@/app/utils/isAdminRoute";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "/api/v1",
+  baseUrl: `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/`,
   credentials: "include",
 });
 

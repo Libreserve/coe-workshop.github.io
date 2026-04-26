@@ -10,6 +10,7 @@ import { useGetUserTransactionHistoryQuery } from "@/app/lib/features/admin/tran
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { useSearchParams } from "next/navigation";
 import { useSetQueries } from "@/app/hook/SearchQuery";
+import Image from "next/image";
 
 const formatHourMinute = (iso: string): string => {
   return new Date(iso).toLocaleTimeString("th-TH", {
@@ -165,8 +166,16 @@ export const History = () => {
               <tbody>
                 {data.transactions.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className={styles.emptyCell}>
-                      ไม่มีประวัติการจอง
+                    <td colSpan={5}>
+		      <div className={styles.loadingContainer}>
+		        <Image
+          	          src={"/transaction/empty-rafiki.svg"}
+          	          alt={""}
+          	          width={300}
+          	          height={300}
+          	        />
+		        <p className={styles.loadingText}>ไม่มีประวัติการจอง</p>
+                      </div>
                     </td>
                   </tr>
                 ) : (

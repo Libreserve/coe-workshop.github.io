@@ -26,6 +26,7 @@ import { Calendar } from "@/app/components/Calendar/Calendar";
 import { Select } from "@/app/components/Select/Select";
 import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
+import Image from "next/image";
 
 interface ErrorResponse {
   error?: string;
@@ -65,7 +66,7 @@ const ToolDetailClient = () => {
     error: fetchToolError,
   } = useGetToolQuery(Number(toolId), { refetchOnMountOrArgChange: false });
   const tool = fetchTool;
-  let fetchToolErrorMessage = "everything was fine";
+  let fetchToolErrorMessage = "เกิดข้อผิดพลาดที่เซิฟเวอร์ กรุณาลองใหม่ในภายหลัง";
   if (fetchToolError && "data" in fetchToolError) {
     const err = fetchToolError as FetchBaseQueryError;
     if (err.data && typeof err.data === "object" && "error" in err.data) {
@@ -107,8 +108,17 @@ const ToolDetailClient = () => {
         assetID: assetIDs,
       }).unwrap();
       handleAssetId.close();
+      addToastStack(
+	"สร้างครุภัณฑ์สำเร็จ",
+	"ครุภัณฑ์ถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
+	"success"
+      )
     } catch (err) {
-      console.error("Failed to create assets:", err);
+      addToastStack(
+	"สร้างครุภัณฑ์สำเร็จ",
+	"เกิดข้อผิดพลาดในการสร้างครุภัณฑ์",
+	"error"
+      )
     }
   };
 
@@ -146,9 +156,9 @@ const ToolDetailClient = () => {
       setReservationMessage("");
       setSelectedAssetId("");
       addToastStack(
-	"ขอใช้งานเครื่องมือสำเร็จ",
-	"คำขอถูกส่งไปยังฐานข้อมูลเรียบร้อยแล้ว",
-	"success",
+        "ขอใช้งานเครื่องมือสำเร็จ",
+        "คำขอถูกส่งไปยังฐานข้อมูลเรียบร้อยแล้ว",
+        "success",
       );
     } catch (err) {
       const error = err as FetchBaseQueryError;
@@ -158,9 +168,9 @@ const ToolDetailClient = () => {
         setReservationError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
       addToastStack(
-	"ขอใช้งานเครื่องมือไม่สำเร็จ",
-	reservationMessage || "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
-	"error",
+        "ขอใช้งานเครื่องมือไม่สำเร็จ",
+        reservationMessage || "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
+        "error",
       );
     }
   };
@@ -214,7 +224,7 @@ const ToolDetailClient = () => {
       {isError ? (
         <div>
           <h1>ไม่พบหน้าที่ต้องการค้นหา</h1>
-          <div>error: {fetchToolErrorMessage}</div>
+          <div>{fetchToolErrorMessage}</div>
         </div>
       ) : (
         <div>
@@ -255,7 +265,7 @@ const ToolDetailClient = () => {
           </div>
           <section>
             <Tabs TabsOptions={tabsOptions}></Tabs>
-            {isList ? (
+	    {isList ? (
               <ItemTransaction toolId={Number(toolId)} date={selectedDateString}></ItemTransaction>
             ) : (
               <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
@@ -313,15 +323,15 @@ const ToolDetailClient = () => {
             <CreateItem
               onClose={() => handlecreateItem.close()}
               onCreated={() => { }}
-	      value={{
-		id: Number(toolId),
-		name: itemData?.name,
-		description: itemData?.description,
-		imageUrl: itemData?.imageUrl,
-		category: itemData?.category.name,
-		categoryID: itemData?.category.id,
-		assets_id: null,
-	      }}
+              value={{
+                id: Number(toolId),
+                name: itemData?.name,
+                description: itemData?.description,
+                imageUrl: itemData?.imageUrl,
+                category: itemData?.category.name,
+                categoryID: itemData?.category.id,
+                assets_id: null,
+              }}
             ></CreateItem>
           </ModalContainer>
           <ModalContainer
