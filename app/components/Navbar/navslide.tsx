@@ -2,7 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.scss";
 import { navSlideProps } from "./type";
+import { getLoginUrl } from "@/app/lib/api";
+import { useAuth } from "@/app/Context/AuthContext/AuthContext";
+
 const NavSlide = ({ menuMapPropsList, onClose, opened }: navSlideProps) => {
+  const { user, logout } = useAuth();
+
+  const handleLogoutClick = async () => {
+    await logout();
+    window.location.reload();
+  };
+
   if (opened) {
     return (
       <div className={styles.modalContainer}>
@@ -19,14 +29,16 @@ const NavSlide = ({ menuMapPropsList, onClose, opened }: navSlideProps) => {
             </div>
             <div className={styles.navSlide_menu}>
               {menuMapPropsList.map((item, index) => (
-                <Link key={index} href={item.path}>
+		  <Link key={index} href={item.path}>
                   <p className={styles.navSlide_title}>{item.title}</p>
                 </Link>
               ))}
             </div>
-            <div>
-              <p className={styles.navSlide_auth}>เริ่มใช้งาน</p>
-            </div>
+	      {user ? (
+	        <button className={styles.navSlide_auth} onClick={handleLogoutClick}>ออกจากระบบ</button>
+	      ) : (
+	        <Link className={styles.navSlide_auth} href={getLoginUrl()}>เริ่มใช้งาน</Link>
+	      )}
           </div>
 	</div>
 

@@ -1,4 +1,8 @@
-import React from "react";
+import React, { JSX } from "react";
+import SuccessIcon from "../Icon/SuccessIcon";
+import { IconProps } from "../Icon/Type";
+import WarningIcon from "../Icon/WarningIcon";
+import ErrorIcon from "../Icon/ErrorIcon";
 
 type Variant = "success" | "warning" | "error";
 type Position =
@@ -22,10 +26,10 @@ export interface ToastItem {
   variant: Variant;
 }
 
-export const VariantStyle: Record<string, { color: string; icon: string }> = {
-  success: { color: "var(--green-400)", icon: "/Toast/success.svg" },
-  warning: { color: "var(--green-400)", icon: "/Toast/warning.svg" },
-  error: { color: "var(--red-400)", icon: "/Toast/error.svg" },
+export const VariantStyle: Record<string, { color: string; icon: React.ComponentType<IconProps> }> = {
+  success: { color: "var(--success-green)", icon: SuccessIcon },
+  warning: { color: "var(--warning-yellow)", icon: WarningIcon },
+  error: { color: "var(--error-red)", icon: ErrorIcon },
 } as const;
 
 export const positionStyle: Record<string, CssVarStyle> = {
@@ -78,3 +82,24 @@ export const positionStyle: Record<string, CssVarStyle> = {
     transform: "translateX(-50%)",
   },
 };
+
+export interface ToastProps {
+  Position: Position;
+}
+
+export interface ToastItem {
+  id: number | string;
+  title: string;
+  description: string;
+  variant: Variant;
+}
+
+export interface ToastContextTypeProps {
+  addToastStack: (title: string, description: string, variant: Variant) => void;
+  toastStack: {
+    id: number;
+    title: string;
+    description: string;
+    variant: Variant;
+  }[];
+}

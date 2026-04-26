@@ -1,5 +1,6 @@
 @use "./../../styles/_breakpoints" as *;
 @use "../../styles/variables" as *;
+@use "../../styles/functions" as *;
 @use "../../styles/animations" as *;
 
 .modalContainer {
@@ -179,7 +180,7 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background-color: #ffffff;
+  background-color: var(--theme-50);
   border: 1px solid #f2f2f2;
   border-radius: 12px;
   padding: 8px;
@@ -240,5 +241,8 @@
 .navSlide_auth {
   padding: 10px;
   background-color: $sub-0;
-  color: var(--text-normal);
+  color: $sub-1000;
+  padding-left: rem(30);
+  text-align: left;
+  font-size: .8rem;
 }

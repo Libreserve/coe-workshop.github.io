@@ -92,10 +92,16 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   const itemData = Array.isArray(data) ? data[0] : data;
 
   const assetsToItems = itemData?.assetsToItems ?? [];
-  const assets = assetsToItems.map((item: any) => ({
-    assetID: item.asset?.assetID ?? item.assetID,
-    transactions: item.asset?.transactions ?? []
-  }));
+  const assets = assetsToItems.map((item: any) => {
+    const rawTransactions = item.asset?.transactions ?? [];
+    const sortedTransactions = [...rawTransactions].sort((a, b) => {
+        return new Date(a.endedAt).getTime() - new Date(b.endedAt).getTime();
+    });
+
+    return {
+      assetID: item.asset?.assetID ?? item.assetID,
+      transactions: sortedTransactions,
+    }});
 
   return (
     <div>
@@ -152,6 +158,8 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                           const currentColSpan = getSlotCount(event.startedAt, event.endedAt);
                           const nextStartIso = transactions[idx + 1]?.startedAt ?? OFFICE_END_ISO;
                           const gapColSpan = getSlotCount(event.endedAt, nextStartIso);
+			  console.log(event);
+
                           return (
                             <React.Fragment key={event.id}>
                               <ModalContainer
@@ -180,9 +188,9 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                                   <div className={styles.event_line}></div>
                                   <div>
                                     <div>
-                                      <h3>{event.user?.userName}</h3>
+                                      <h3 className={styles.info}>{event.reserver?.userName}</h3>
                                     </div>
-                                    <p className={styles.time}>
+                                    <p className={styles.info}>
                                       {getTimeFormat(event.startedAt)} -
                                       {getTimeFormat(event.endedAt)}
                                     </p>
