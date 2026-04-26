@@ -6,6 +6,9 @@ import { TransactionInfo } from "@/app/admin/components/modal/transactionInfo/tr
 import styles from "./timeTransaction.module.scss";
 import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import Loader from "../../layout/loader/loader";
+import Image from "next/image";
+import { isAdminRoute } from "@/app/utils/isAdminRoute";
 
 interface ErrorResponse {
   error?: string;
@@ -78,7 +81,12 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   }
 
   if (isLoading) {
-    return <div className={styles.calendarWrapper}>Loading...</div>;
+    return <>
+             <div className={styles.loadingContainer}>
+               <Loader></Loader>
+     	       <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
+             </div>
+	  </>
   }
 
   if (isError) {
@@ -102,6 +110,20 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
       assetID: item.asset?.assetID ?? item.assetID,
       transactions: sortedTransactions,
     }});
+
+  if (assets.length === 0) 
+    return <>
+	     <div className={styles.loadingContainer}>
+	       <Image
+                 src={"/transaction/empty-rafiki.svg"}
+                 alt={""}
+                 width={300}
+                 height={300}
+	         className={styles.empty}
+               />
+	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
+	     </div>
+	   </>
 
   return (
     <div>

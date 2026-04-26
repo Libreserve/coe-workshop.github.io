@@ -10,6 +10,8 @@ import { useSetQuery } from "@/app/hook/SearchQuery";
 import { toISODateStringOrNull } from "@/app/utils/dateTime";
 import { Select } from "@/app/components/Select/Select";
 import type { SelectOption } from "@/app/components/Select/Select.types";
+import { useSearchParams } from "next/navigation";
+import { useGetAllTransactionsByStatusQuery } from "@/app/lib/features/admin/transactionsApi";
 
 const statusOptions: SelectOption<string>[] = [
   { label: "รออนุมัติ", value: "RESERVE" },
@@ -38,6 +40,20 @@ export const Transaction = () => {
     setQuery("date", toISODateStringOrNull(newDate));
     newDate?.setDate(newDate.getDate() - 1);
   };
+
+  // ใช้ param => /tranactions?item=__
+  const searchParams = useSearchParams();
+  const dateQuery = searchParams.get("date") as string;
+  const pageQuery = parseInt(searchParams.get("page") || "1", 10);
+  const statusQuery = searchParams.get("status") || "RESERVE";
+  const userNameQuery = searchParams.get("userName") || "";
+
+  const { data: toolTransaction, isLoading, isError, isFetching } = useGetAllTransactionsByStatusQuery({
+    status: statusQuery,
+    page: pageQuery,
+    ...(dateQuery && { date: dateQuery }),
+    ...(userNameQuery && { userName: userNameQuery }),
+  });
 
   return (
     <div>
@@ -77,6 +93,10 @@ export const Transaction = () => {
         onSubmit={() => {}}
         responseStatus={responseStatus}
         setResponseStatus={setResponseStatus}
+	toolTransaction={toolTransaction}
+	isError={isError}
+	isLoading={isLoading}
+	isFetching={isFetching}
       />
     </div>
   );

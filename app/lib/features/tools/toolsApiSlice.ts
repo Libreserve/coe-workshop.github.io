@@ -80,10 +80,11 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { itemID, assetID },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Tools" as const, id: "LIST" },
-        { type: "Tools" as const, id: arg.itemID },
-      ],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: "Tools" as const, id: "LIST" },
+      //   { type: "Tools" as const, id: arg.itemID },
+      // ],
+      invalidatesTags: ["Assets"],
     }),
 
     deleteAsset: builder.mutation<
@@ -95,10 +96,11 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { itemID, assetID },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Tools" as const, id: "LIST" },
-        { type: "Tools" as const, id: arg.itemID },
-      ],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: "Tools" as const, id: "LIST" },
+      //   { type: "Tools" as const, id: arg.itemID },
+      // ],
+      invalidatesTags: ["Assets"],
     }),
 
     getAllAssets: builder.query<Asset[], void>({

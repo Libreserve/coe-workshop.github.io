@@ -17,11 +17,6 @@
   }
 }
 
-.tableCellLoading {
-  text-align: left;
-  padding: 2rem;
-}
-
 .tableCellError {
   text-align: left;
   padding: 2rem;
@@ -275,6 +270,21 @@ tr:hover .stickyAction {
       background-color: var(--warning-red);
     }
   }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  min-height: 300px;
+}
+
+.loadingText {
+  color: var(--text-fade-mid);
+  font-size: 1rem;
 }
 
 // กันเหนียวสำหรับ ทรศ
