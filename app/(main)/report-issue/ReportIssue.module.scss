@@ -11,7 +11,7 @@
   width: 100%;
   max-width: 600px;
   padding: 2rem;
-  background-color: #ffffff;
+  background-color: var(--theme-50);
   border: 1px solid #f2f2f2;
   border-radius: 22px;
 }
@@ -20,7 +20,7 @@
   font-size: 2rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  color: #000000;
+  color: var(--theme-1000);
 }
 
 .form {
@@ -47,7 +47,7 @@
   font-size: 1rem;
   border: 1px solid #d9d9dd;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--theme-0);
   color: var(--text-normal);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
@@ -84,8 +84,8 @@
   padding: 0.875rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #ffffff;
-  background-color: #17171c;
+  color: var(--text-inverse);
+  background-color: var(--dark-nav);
   border: none;
   border-radius: 9999px;
   cursor: pointer;

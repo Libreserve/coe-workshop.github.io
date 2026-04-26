@@ -5,7 +5,7 @@ import {
   useCreateToolMutation,
   useUpdateToolMutation,
 } from "@/app/lib/features/tools/toolsApiSlice";
-import { getAllCategories, getCategoryThaiName } from "@/app/lib/features/tools/category.utils";
+import { getAllCategories, getCategoryDisplay, getCategoryThaiName } from "@/app/lib/features/tools/category.utils";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
@@ -193,9 +193,9 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       } catch (error) {
         let updateErrorMessage = "";
         const err = error as FetchBaseQueryError;
-        if (err.data && typeof err.data === "object" && "message" in err.data) {
+        if (err.data && typeof err.data === "object" && "error" in err.data) {
           updateErrorMessage =
-            (err.data as ErrorResponse).message || "something went wrong";
+            (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการอัปเดตเครื่องมือ";
         }
         setErrors((prev) => ({
           ...prev,
@@ -224,16 +224,16 @@ function CreateItem({ onClose, value }: CreateItemProps) {
 
       addToastStack(
         "สร้างเครื่องมือสำเร็จ",
-        "เครื่องมือถูกเพิ่มไปยังฐานข้อมูล ชื่อ รูป และคำอธิบายจะแสดงให้ผู้ใช้งานทราบ",
-        "success",
+        "เครื่องมือถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
+	"success",
       );
       onClose();
     } catch (error) {
       let createErrorMessage = "";
       const err = error as FetchBaseQueryError;
-      if (err.data && typeof err.data === "object" && "message" in err.data) {
+      if (err.data && typeof err.data === "object" && "error" in err.data) {
         createErrorMessage =
-          (err.data as ErrorResponse).message || "something went wrong";
+          (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการสร้างเครื่องมือ";
       }
       setErrors((prev) => ({
         ...prev,
@@ -249,6 +249,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       setSubmitting(false);
     }
   };
+
+  const isCompressing = tempFiles.some(file => uploadStatus[file.name] === "compressing");
 
   return (
     <div className={styles.wrapper}>
@@ -289,7 +291,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                   value={category}
                   onChange={setCategory}
                   options={getAllCategories().map((c) => ({
-                    label: getCategoryThaiName(c),
+                    label: getCategoryDisplay(c),
                     value: c,
                   }))}
                 ></Select>
@@ -336,6 +338,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                     <div className={styles.fileList}>
                       {tempFiles.map((file, index) => {
                         const isError = uploadStatus[file.name] === "error";
+			console.log("enter")
                         return (
                           <div
                             key={index}
@@ -378,7 +381,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                             </div>
                             <div onClick={() => handleRemoveFile(file.name)}>
                               <SvgIconMono
-                                src={"/create-item/close.svg"}
+                                src={"/close.svg"}
                                 width={10}
                                 height={10}
                                 alt="close-button"
@@ -428,9 +431,9 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                 <button
                   type="submit"
                   className={styles.submitButton}
-                  disabled={submitting}
+                  disabled={submitting || isCompressing}
                 >
-                  {submitting ? "กำลังบันทึก..." : "บันทึก"}
+                  {isCompressing ? "กำลังบีบอัดไฟล์..." : (submitting ? "กำลังบันทึก..." : "บันทึก")}
                 </button>
               </div>
             </div>

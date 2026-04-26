@@ -37,7 +37,7 @@
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 12px;
   overflow: hidden;
-  background: white;
+  background: var(--theme-50);
   z-index: 1000;
   animation: fadeIn 0.8s ease, fadeOut 0.8s ease forwards 3.6s;
 }
@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: var(--direction);
   gap: 10px;
+  z-index: 1000;
 }
 .toast_inner {
   display: flex;
@@ -69,14 +70,14 @@
 }
 
 .title {
-  font-size: 0.8rem;
-  color: $sub-1000;
+  font-size: 1rem;
+  color: var(--text-normal);
 }
 .description {
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   padding: 5px 0;
   font-weight: 400;
-  color: $sub-300;
+  color: var(--theme-600);
 }
 .progress {
   height: 5px;

@@ -64,7 +64,7 @@ function Navbar() {
       router.push("/admin/login");
     } catch {
       addToastStack(
-        "ออกจากระบบ ผิดพลาด",
+        "ออกจากระบบผิดพลาด",
         "กรุณาลองใหม่อีกครั้ง และหากไม่สามารถ login ได้กรุณาติดต่อผู้ดูแลระบบ",
         "error",
       );

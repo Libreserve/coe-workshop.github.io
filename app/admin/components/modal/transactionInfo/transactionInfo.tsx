@@ -2,19 +2,7 @@ import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { StatusTag } from "../../ui/statusTag/statusTag";
 import styles from "./transactionInfo.module.scss";
 import { TransactionInfoProps } from "./transactionInfo.types";
-
-const formatDateTime = (dateString: string): string => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat("th-TH", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  }).format(date);
-};
+import { formatDateTime } from "@/app/utils/dateTime";
 
 export const TransactionInfo = ({
   user,

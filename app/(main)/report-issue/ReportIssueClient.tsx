@@ -84,6 +84,7 @@ export const ReportIssue = () => {
               onChange={(value) => setType(value as ReportType)}
               options={reportTypeOptions}
               size="lg"
+	      variant="outline"
             />
           </div>
 
