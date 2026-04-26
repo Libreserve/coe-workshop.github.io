@@ -20,7 +20,7 @@ function Navbar() {
   const { opened, handle } = useDisclosure();
   const { opened: createItem, handle: handlecreateItem } = useDisclosure();
   const menuMapProps: MenuMapProps[] = [
-    { title: "สร้างเครื่องมือ", path: "/admin/create" },
+    // { title: "สร้างเครื่องมือ", path: "/admin/create" },
     { title: "อนุมัติการจอง", path: "/admin/transactions" },
     { title: "ประวัติผู้ใช้", path: "/admin/history" },
     { title: "เครื่องมือทั้งหมด", path: "/admin/tools" },
@@ -64,7 +64,7 @@ function Navbar() {
       router.push("/admin/login");
     } catch {
       addToastStack(
-        "Logout ผิดพลาด",
+        "ออกจากระบบ ผิดพลาด",
         "กรุณาลองใหม่อีกครั้ง และหากไม่สามารถ login ได้กรุณาติดต่อผู้ดูแลระบบ",
         "error",
       );
@@ -138,7 +138,7 @@ function Navbar() {
               ></SvgIconMono>
             </div>
           </div>
-	  {/*<SvgIconMono
+          {/*<SvgIconMono
             className={styles.blog_icon}
             src={`${Admin.icon}`}
             width={20}

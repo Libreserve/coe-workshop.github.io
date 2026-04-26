@@ -1,6 +1,13 @@
+@use "@/app/styles/breakpoints" as *;
+
 .layout {
   display: flex;
   height: 100vh;
+
+  @include respond-to-max(md) {
+    display: inline;
+    height: auto;
+  }
 }
 .children {
   overflow: auto;
