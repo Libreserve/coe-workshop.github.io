@@ -1,7 +1,6 @@
 "use client";
 
 import useDisclosure from "@/app/hook/useDisclosure";
-// import { mockAdminTableTransactions } from "@/app/mockdata/mockdata";
 import React, { useState } from "react";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { StatusTag } from "@/app/admin/components/ui/statusTag/statusTag";
