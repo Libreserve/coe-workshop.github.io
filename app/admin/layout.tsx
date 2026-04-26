@@ -7,12 +7,10 @@ import { store } from "@/app/lib/store";
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ToastProvider>
-      <AuthProvider>
-        <Provider store={store}>
-          {children}
-        </Provider>
-      </AuthProvider>
-    </ToastProvider>
+    <AuthProvider>
+      <Provider store={store}>
+        {children}
+      </Provider>
+    </AuthProvider>
   );
 }

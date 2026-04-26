@@ -9,3 +9,9 @@ export type Props = {
   alt?: string;
   fixColor?: boolean;
 };
+
+export interface IconProps {
+  className?: string;
+  color?: string;
+  size?: number | string;
+}
