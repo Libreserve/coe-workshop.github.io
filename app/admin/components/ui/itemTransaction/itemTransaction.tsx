@@ -106,12 +106,12 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     </div>
                   </td>
                   <td className={styles.assetID}>{asset.assetID}</td>
-                  <td className={styles.username}>{transaction.userName}</td>
+                  <td className={styles.username}>{transaction.reserver.userName}</td>
                   <td className={styles.status}>
                     <StatusTag status={transaction.status}></StatusTag>
                   </td>
                   <td className={styles.endedAt}>{transaction.endedAt}</td>
-                  <td className={styles.message}>{transaction.message ?? "no message attach"}</td>
+                  <td className={styles.message}>{transaction.messages?.[0].detail ?? "no message attach"}</td>
                   <td className={styles.trashSpace}>
                     {transaction.status === TransactionsStatus.Blank && (
                       <SvgIconMono
