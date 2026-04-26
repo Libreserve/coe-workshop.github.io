@@ -133,6 +133,9 @@ $brown-700: #44403c;
 $brown-800: #292524;
 $brown-900: #1c1917;
 
+$deep-dark: #17171c;
+$inv-deep-dark: #e8e8e3;
+
 // for every element color
 // how to use :
 // Ex. var(--logo-mark)
@@ -184,6 +187,7 @@ $light: (
   Obj-hilight: $yellow-100,
   textbox: $sub-100,
   background-fade: $sub-50,
+  dark-nav: $deep-dark,
   );
 $dark: (
   theme-0: #000000,    
@@ -213,6 +217,8 @@ $dark: (
   text-fade-mid : $sub-400,
   text-fade-mid2 : $sub-300,
   text-fade-high : $sub-200,
+
+  table-firstItem: $sub-1000,
   
   warning-red: $red-450,
   error-red: $red-400,
@@ -224,6 +230,7 @@ $dark: (
   borderline-fade: $sub-500,
 
   Obj-fade: $sub-500,
+  dark-nav: $inv-deep-dark,
   // temp
   textbox: $sub-900,
 );

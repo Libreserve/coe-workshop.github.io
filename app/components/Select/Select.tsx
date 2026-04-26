@@ -20,6 +20,7 @@ export const Select = <T extends string = string,>({
   iconWidth,
   iconHeight,
   size = "md",
+  variant = "default"
 }: SelectProps<T>) => {
   const finalWidth = iconWidth ?? iconSize;
   const finalHeight = iconHeight ?? iconSize;
@@ -43,7 +44,7 @@ export const Select = <T extends string = string,>({
       )}
       <div
         onClick={() => setIsopen((prev) => !prev)}
-        className={`${styles.input} ${styles[size]} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
+        className={`${styles.input} ${styles[size]} ${styles[variant]} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
       >
         <h4 className={styles.input_value}>
           {icon && (
