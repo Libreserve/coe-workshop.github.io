@@ -1,10 +1,10 @@
-import React, { JSX } from "react";
+import React from "react";
 import SuccessIcon from "../Icon/SuccessIcon";
 import { IconProps } from "../Icon/Type";
 import WarningIcon from "../Icon/WarningIcon";
 import ErrorIcon from "../Icon/ErrorIcon";
 
-type Variant = "success" | "warning" | "error";
+export type Variant = "success" | "warning" | "error";
 type Position =
   | "top-right"
   | "top-left"
