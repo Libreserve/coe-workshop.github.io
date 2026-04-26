@@ -82,3 +82,24 @@ export const positionStyle: Record<string, CssVarStyle> = {
     transform: "translateX(-50%)",
   },
 };
+
+export interface ToastProps {
+  Position: Position;
+}
+
+export interface ToastItem {
+  id: number | string;
+  title: string;
+  description: string;
+  variant: Variant;
+}
+
+export interface ToastContextTypeProps {
+  addToastStack: (title: string, description: string, variant: Variant) => void;
+  toastStack: {
+    id: number;
+    title: string;
+    description: string;
+    variant: Variant;
+  }[];
+}
