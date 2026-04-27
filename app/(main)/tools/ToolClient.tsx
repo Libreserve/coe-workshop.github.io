@@ -62,7 +62,7 @@ const ToolsClient = () => {
       params.delete("category");
     }
 
-    router.push(`/tools?${params.toString()}`, { scroll: false });
+    router.push(`./tools?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
   const handleRetry = useCallback(() => {
