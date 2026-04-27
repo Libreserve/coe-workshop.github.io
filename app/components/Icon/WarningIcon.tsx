@@ -1,8 +1,6 @@
 import { IconProps } from "./Type";
 
 const WarningIcon = ({ className = "", color = "currentColor", size = 24 }: IconProps) => {
-  console.log(color)
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

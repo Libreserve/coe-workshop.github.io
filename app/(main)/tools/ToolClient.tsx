@@ -12,6 +12,7 @@ import { getAllCategories, getCategoryDisplay } from "@/app/lib/features/tools/c
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Select } from "@/app/components/Select/Select";
 import Loader from "@/app/admin/components/layout/loader/loader";
+import WarningIcon from "@/app/components/Icon/WarningIcon";
 
 interface ErrorResponse {
   message?: string;
@@ -113,17 +114,20 @@ const ToolsClient = () => {
             }}
           />
           <Select
-            value={category ? getCategoryDisplay(category) : undefined}
+            value={category}
             onChange={(value) => {
               const displayValue = value as string;
-              const newCategory = displayValue === "ทั้งหมด"
+              const newCategory = displayValue === "all"
                 ? undefined
                 : (displayValue.split(" ")[0] as ToolCategories);
 
               setCategory(newCategory);
               updateFilters(search, newCategory);
             }}
-            options={["ทั้งหมด", ...getAllCategories().map(getCategoryDisplay)]}
+            options={[ { label: "ทั้งหมด", value: "all" as any }, ...getAllCategories().map((c) => ({
+	      label: getCategoryDisplay(c),
+	      value: c,
+	    }))]}
             placeholder="เลือกหมวดหมู่"
           />
         </div>
@@ -138,7 +142,7 @@ const ToolsClient = () => {
 
       {isError && (
         <div className={statusStyles.errorContainer}>
-          <span className={statusStyles.errorIcon}>⚠️</span>
+          <WarningIcon color={"var(--warning-yellow)"} size={48}></WarningIcon>
           <h3 className={statusStyles.errorTitle}>ไม่สามารถโหลดข้อมูลได้</h3>
           <p className={statusStyles.errorMessage}>{getErrorMessage(error)}</p>
           {getErrorDetails(error) && (
