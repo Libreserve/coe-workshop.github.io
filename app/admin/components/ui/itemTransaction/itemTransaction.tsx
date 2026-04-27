@@ -1,13 +1,13 @@
 "use client";
 
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StatusTag } from "../statusTag/statusTag";
 import styles from "./tableTransaction.module.scss";
 import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { ErrorResponse } from "@/app/types/api/transaction";
+import { AdminStatus, ErrorResponse } from "@/app/types/api/transaction";
 import { formatDateTime } from "@/app/utils/dateTime";
 import Image from "next/image";
 import { useDeleteAssetMutation } from "@/app/lib/features/tools/toolsApiSlice";
@@ -134,7 +134,10 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     className={styles.toggle}
                     onClick={() => toggleTransaction(assetIndex)}
                   />
-                  <td colSpan={5} className={styles.assetNumber}>{asset.assetNumber}</td>
+                  <td colSpan={2} className={styles.assetNumber}>{asset.assetNumber}</td>
+		  <td colSpan={3} className={styles.status}>
+		    <StatusTag status={AdminStatus.Blank}></StatusTag>
+		  </td>
                   <td className={styles.trashSpace}>
                     <button onClick={() => handleDeleteAsset(asset.id)}>
                       <SvgIconMono

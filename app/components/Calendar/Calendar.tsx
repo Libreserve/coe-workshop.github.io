@@ -37,12 +37,16 @@ interface CalendarProps {
   value?: Date | null;
   onChange?: (date: Date | null) => void;
   isCasual?: boolean;
+  rowGap?: string | number;
+  columnGap?: string | number;
 }
 
 export const Calendar = ({
   value,
   onChange,
   isCasual = true,
+  rowGap,
+  columnGap,
 }: CalendarProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const [year, setYear] = useState(value?.getFullYear() || today.getFullYear());
@@ -127,6 +131,11 @@ export const Calendar = ({
   const firstDayOfNextMonth = nextMonth.getDay();
   const firstDateOfNextMonth = nextMonth.getDate();
 
+  const gridGapStyle = {
+    ...(rowGap !== undefined && { rowGap: typeof rowGap === 'number' ? `${rowGap}px` : rowGap }),
+    ...(columnGap !== undefined && { columnGap: typeof columnGap === 'number' ? `${columnGap}px` : columnGap }),
+  };
+
   const dateCells: ReactNode[] = [];
   for (let day = lastDateOfPrevMonth - lastDayOfprevMonth; day <= lastDateOfPrevMonth; day++) {
     dateCells.push(
@@ -191,15 +200,15 @@ export const Calendar = ({
         </button>
       </div>
       <div className={`${styles.datepicker_date}${view === ViewMode.DATE ? "" : "_closed"}`}>
-        <div className={styles.days}>
+        <div className={styles.days} style={gridGapStyle}>
           {days.map((d, index) => (
             <span key={`${index}${d.name}`}>{d.ToomAbbr}</span>
           ))}
         </div>
-        <div className={styles.dates_input}>{dateCells}</div>
+        <div className={styles.dates_input} style={gridGapStyle}>{dateCells}</div>
       </div>
       <div className={`${styles.datepicker_month}${view === ViewMode.MONTH ? "" : "_closed"}`}>
-        <div className={styles.month_input}>
+        <div className={styles.month_input} style={gridGapStyle}>
           {months.map((m, index) => {
             const isSelected = selectedDate?.getFullYear() === year && selectedDate?.getMonth() === index;
             return (
@@ -215,7 +224,7 @@ export const Calendar = ({
         </div>
       </div>
       <div className={`${styles.datepicker_year}${view === ViewMode.YEAR ? "" : "_closed"}`}>
-        <div className={styles.year_input}>
+        <div className={styles.year_input} style={gridGapStyle}>
           {(() => {
             const years = [];
             for (let y = century - 6; y <= century + 5; y++) {

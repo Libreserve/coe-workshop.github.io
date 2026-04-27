@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.googleusercontent.com",
       },
+      {
+	protocol: "https",
+	hostname: "dev-coe-workshop.s3.ap-southeast-2.amazonaws.com",
+      }
     ],
   },
   async redirects() {

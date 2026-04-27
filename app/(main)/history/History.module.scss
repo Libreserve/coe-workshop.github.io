@@ -1,6 +1,10 @@
 @use "../../styles/variables" as *;
 @use "../../styles/animations" as *;
 
+.container {
+  padding-bottom: 2rem;
+}
+
 .header {
   display: flex;
   gap: 1rem;

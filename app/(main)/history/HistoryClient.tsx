@@ -44,7 +44,7 @@ export const History = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.header}>
         <h2>ประวัติการจองของฉัน</h2>
       </div>
