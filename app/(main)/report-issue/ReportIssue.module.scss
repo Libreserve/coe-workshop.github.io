@@ -45,7 +45,7 @@
 .textarea {
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border: 1px solid #d9d9dd;
+  border: 1px solid var(--section-border);
   border-radius: 12px;
   background-color: var(--theme-0);
   color: var(--text-normal);
@@ -114,7 +114,7 @@
     font-size: 1.75rem;
     font-weight: 400;
     margin-bottom: 1rem;
-    color: #000000;
+    color: var(--text-normal);
   }
 
   p {

@@ -5,10 +5,12 @@ import { StatusTag } from "@/app/admin/components/ui/statusTag/statusTag";
 import { AdminStatus } from "@/app/types/api/transaction";
 import styles from "./History.module.scss";
 import { useState } from "react";
-import { useGetUserTransactionHistoryQuery } from "@/app/lib/features/admin/transactionsApi";
+import { useGetHistoryMeQuery } from "@/app/lib/features/admin/transactionsApi";
 import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import Image from "next/image";
+import Link from "next/link";
+import { getLoginUrl } from "@/app/lib/api";
 
 const formatHourMinute = (iso: string): string => {
   return new Date(iso).toLocaleTimeString("th-TH", {
@@ -29,12 +31,10 @@ const formatDateThai = (iso: string): string => {
 export const History = () => {
   const [openGroups, setOpenGroups] = useState<number[]>([]);
   const { data: user } = useGetMeQuery();
-  const userId = user?.id || "";
   const pageQuery = 1;
 
-  const { data, isLoading, isError } = useGetUserTransactionHistoryQuery(
-    { userId, page: pageQuery },
-    { skip: !userId }
+  const { data, isLoading, isError } = useGetHistoryMeQuery(
+    { page: pageQuery },
   );
 
   const toggleGroup = (idx: number) => {
@@ -49,10 +49,10 @@ export const History = () => {
         <h2>ประวัติการจองของฉัน</h2>
       </div>
 
-      {!userId ? (
+      {!user && !isLoading ? (
         <div className={styles.emptyState}>
           <div className={styles.emptyStateContent}>
-            <h3 className={styles.emptyStateTitle}>กรุณาเข้าสู่ระบบ</h3>
+	    <Link className={styles.emptyStateTitle} href={getLoginUrl()}>กรุณาเข้าสู่ระบบ</Link>
             <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่อดูประวัติการจอง</p>
           </div>
         </div>

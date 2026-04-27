@@ -60,7 +60,7 @@
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.32px;
-  color: #000000;
+  color: var(--text-normal);
   margin-bottom: 0.75rem;
 }
 
@@ -68,7 +68,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #93939f;
+  color: var(--tertiary-text);
   margin-bottom: 2rem;
 }
 
@@ -84,7 +84,7 @@
   width: 100%;
   padding: 1rem 1.25rem;
   background-color: #ffffff;
-  border: 1px solid #d9d9dd;
+  border: 1px solid var(--section-border);
   border-radius: 12px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
@@ -96,7 +96,7 @@
 
 .searchIcon {
   flex-shrink: 0;
-  color: #93939f;
+  color: var(--tertiary-text);
 }
 
 .searchInput {
@@ -106,13 +106,13 @@
   font-size: 1.125rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #000000;
+  color: var(--text-normal);
   background-color: transparent;
   border: none;
   outline: none;
 
   &::placeholder {
-    color: #93939f;
+    color: var(--tertiary-text);
   }
 }
 
@@ -270,7 +270,7 @@
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.32px;
-  color: #000000;
+  color: var(--text-normal);
   margin-bottom: 0.75rem;
 }
 
@@ -278,7 +278,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #93939f;
+  color: var(--tertiary-text);
   margin-bottom: 2rem;
 }
 

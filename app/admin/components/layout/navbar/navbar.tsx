@@ -130,13 +130,13 @@ function Navbar() {
               <p className={styles.name}>{Admin.name}</p>
               <p className={styles.email}>{Admin.email}</p>
             </div>
-            <div onClick={() => handlerLogout()}>
+            <button onClick={() => handlerLogout()}>
               <SvgIconMono
                 width={18}
                 height={18}
                 src="/admin/icon/sign-out.svg"
               ></SvgIconMono>
-            </div>
+            </button>
           </div>
           {/*<SvgIconMono
             className={styles.blog_icon}
