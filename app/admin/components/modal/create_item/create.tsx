@@ -47,71 +47,40 @@ function CreateItem({ onClose, value }: CreateItemProps) {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (files.length === 0) return;
 
-    const duplicates = files.filter(
-      (file) =>
-        images.some((f) => f.name === file.name) ||
-        tempFiles.some((f) => f.name === file.name),
-    );
+    const file = files[0];
 
-    const newFiles = files.filter(
-      (file) =>
-        !images.some((f) => f.name === file.name) &&
-        !tempFiles.some((f) => f.name === file.name),
-    );
-
-    if (duplicates.length > 0) {
-      setTempFiles((prev) => [...prev, ...duplicates]);
-
-      const errorStatus: typeof uploadStatus = {};
-      duplicates.forEach((file) => {
-        errorStatus[file.name] = "error";
-      });
-      setUploadStatus((prev) => ({ ...prev, ...errorStatus }));
-    }
-
-    if (newFiles.length === 0) {
-      e.target.value = "";
-      return;
-    }
-
-    const newStatus: typeof uploadStatus = {};
-    newFiles.forEach((file) => (newStatus[file.name] = "compressing"));
-    setUploadStatus((prev) => ({ ...prev, ...newStatus }));
+    setTempFiles([file]);
+    setImages([]);
+    setUploadStatus({});
 
     e.target.value = "";
 
-    setTempFiles((prev) => [...prev, ...newFiles]);
+    const newStatus: typeof uploadStatus = { [file.name]: "compressing" };
+    setUploadStatus(newStatus);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    const processedFiles: File[] = [];
-    for (const file of newFiles) {
-      try {
-        const options = {
-          maxSizeMB: 10,
-          maxWidthOrHeight: 1920,
-          useWebWorker: true,
-        };
+    try {
+      const options = {
+        maxSizeMB: 10,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
 
-        const compressedFile = await imageCompression(file, options);
+      const compressedFile = await imageCompression(file, options);
 
-        processedFiles.push(
-          new File([compressedFile], file.name, { type: file.type }),
-        );
+      setImages([
+        new File([compressedFile], file.name, { type: file.type }),
+      ]);
 
-        setUploadStatus((prev) => ({
-          ...prev,
-          [file.name]: "done",
-        }));
-      } catch {
-        setUploadStatus((prev) => ({
-          ...prev,
-          [file.name]: "error",
-        }));
-      }
+      setUploadStatus({
+        [file.name]: "done",
+      });
+    } catch {
+      setUploadStatus({
+        [file.name]: "error",
+      });
     }
-
-    setImages((prev) => [...prev, ...processedFiles]);
   };
 
   const handleRemoveFile = (fileName: string) => {
@@ -326,7 +295,6 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                       id="image"
                       type="file"
                       accept="image/*"
-                      multiple
                       onChange={handleFileChange}
                       disabled={submitting}
                       className={styles.imageFileMain}
@@ -393,16 +361,10 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                       })}
                     </div>
 
-                    <label htmlFor="image-upload" className={styles.button}>
-                      <span dangerouslySetInnerHTML={{ __html: addImageSvg_Dark }} className={styles.image} />
-                      <p className={styles.uploadText}>อัพโหลดรูปภาพ</p>
-                    </label>
-
                     <input
                       id="image-upload"
                       type="file"
                       accept="image/*"
-                      multiple
                       onChange={handleFileChange}
                       disabled={submitting}
                       className={styles.imageFile}
