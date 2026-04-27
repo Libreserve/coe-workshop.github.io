@@ -21,14 +21,14 @@ function Navbar() {
   const { opened: createItem, handle: handlecreateItem } = useDisclosure();
   const menuMapProps: MenuMapProps[] = [
     // { title: "สร้างเครื่องมือ", path: "/admin/create" },
-    { title: "อนุมัติการจอง", path: "/admin/transactions" },
+    { title: "อนุมัติการขอใช้งาน", path: "/admin/transactions" },
     { title: "ประวัติผู้ใช้", path: "/admin/history" },
     { title: "เครื่องมือทั้งหมด", path: "/admin/tools" },
   ];
   const BlogList: BlogProps[] = [
     {
       cover: "/admin/navbar/transaction.svg",
-      title: "อนุมัติการจอง",
+      title: "อนุมัติการขอใช้งาน",
       url: "/admin/transactions",
     },
     {

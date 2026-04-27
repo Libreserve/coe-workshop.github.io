@@ -60,7 +60,7 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
       ],
     }),
 
-  deleteTool: builder.mutation<object, { toolId: string | number }>({
+  deleteTool: builder.mutation<object, { toolId: number }>({
       query: ({ toolId }) => ({
         url: `/items/${toolId}`,
         method: "DELETE",
@@ -89,12 +89,11 @@ export const toolsApiSlice = apiSlice.injectEndpoints({
 
     deleteAsset: builder.mutation<
       object,
-      { itemID: number; assetID: string }
+      { id: number }
     >({
-      query: ({ itemID, assetID }) => ({
-        url: `/assets`,
+      query: ({ id }) => ({
+        url: `/assets/${id}`,
         method: "DELETE",
-        body: { itemID, assetID },
       }),
       // invalidatesTags: (result, error, arg) => [
       //   { type: "Tools" as const, id: "LIST" },

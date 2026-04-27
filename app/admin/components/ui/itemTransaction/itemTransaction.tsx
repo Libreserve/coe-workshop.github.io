@@ -36,7 +36,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     data,
     isError,
     error,
-    isLoading,
+    isFetching,
   } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
 
   let toolTransactionErrorMessage = "There's some error occuring while try to fetch the transaction data";
@@ -50,9 +50,11 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   const itemData = Array.isArray(data) ? data[0] : data;
   const assetsToItems = itemData?.assetsToItems ?? [];
   const assets = assetsToItems.map((item: any) => ({
-    assetID: item.asset?.assetID ?? item.assetID,
+    id: item.assetID,
+    assetNumber: item.asset?.assetID,
     transactions: item.asset?.transactions ?? []
   }));
+
   const [deleteAsset] = useDeleteAssetMutation();
   const { addToastStack } = useToast();
   // const [anyTransaction, setAnyTransaction] = useState<boolean>(false);
@@ -62,18 +64,24 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   //   setAnyTransaction(hasTransactions);
   // }, [assets]);
 
-  const handleDeleteAsset = async (assetID: string) => {
+  const handleDeleteAsset = async (id: number) => {
     try {
-      await deleteAsset({ itemID: toolId, assetID })
+      await deleteAsset({ id }).unwrap();
       addToastStack(
 	"ลบครุภัณฑ์สำเร็จ",
 	"ข้อมูลครุภัณฑ์ถูกลบจากฐานข้อมูลเรียบร้อยแล้ว",
 	"success",
       );
     } catch (error) {
+      let errorMessage = "";
+      const err = error as FetchBaseQueryError;
+      if (err.data && typeof err.data === "object" && "error" in err.data) {
+	errorMessage =
+	  (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการลบครุภัณฑ์";
+      }
       addToastStack(
 	"ลบครุภัณฑ์ไม่สำเร็จ",
-	"เกิดข้อผิดพลาดในการลบครุภัณฑ์",
+	errorMessage || "เกิดข้อผิดพลาดในการลบครุภัณฑ์",
 	"error",
       );
     }
@@ -108,7 +116,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
           </tr>
         </thead>
         <tbody>
-          {isLoading && (
+          {isFetching && (
             <tr>
               <td colSpan={7}>
                 <div className={styles.loadingContainer}>
@@ -118,7 +126,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
               </td>
             </tr>
           )}
-          {!isLoading && (
+          {!isFetching && (
             assets.map((asset: any, assetIndex: number) => {
 	      return asset.transactions.length === 0 ? (
                 <tr className={styles.firstItem} key={assetIndex}>
@@ -126,9 +134,9 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     className={styles.toggle}
                     onClick={() => toggleTransaction(assetIndex)}
                   />
-                  <td colSpan={5} className={styles.assetID}>{asset.assetID}</td>
+                  <td colSpan={5} className={styles.assetNumber}>{asset.assetNumber}</td>
                   <td className={styles.trashSpace}>
-                    <button onClick={() => handleDeleteAsset(asset.assetID)}>
+                    <button onClick={() => handleDeleteAsset(asset.id)}>
                       <SvgIconMono
                         className={styles.trashIcon}
                         src={`/icon/trash.svg`}
@@ -163,7 +171,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                         ></SvgIconMono>
                       </div>
                     </td>
-                    <td className={styles.assetID}>{asset.assetID}</td>
+                    <td className={styles.assetNumber}>{asset.assetNumber}</td>
                     <td className={styles.username}>{transaction.reserver.userName}</td>
                     <td className={styles.status}>
                       <StatusTag status={transaction.status}></StatusTag>
@@ -171,7 +179,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     <td className={styles.endedAt}>{formatDateTime(transaction.endedAt)}</td>
                     <td className={styles.message}>{transaction.messages?.[0].detail ?? "-"}</td>
                     <td className={styles.trashSpace}>
-                      <button onClick={() => handleDeleteAsset(asset.assetID)}>
+                      <button onClick={() => handleDeleteAsset(asset.id)}>
                         <SvgIconMono
                           className={styles.trashIcon}
                           src={`/icon/trash.svg`}
@@ -192,7 +200,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                       key={`${assetIndex}-${txIndex}`}
                     >
                       <td></td>
-                      <td className={styles.assetID}>{asset.assetID}</td>
+                      <td className={styles.assetNumber}>{asset.assetNumber}</td>
                       <td className={styles.username}>{transaction.userName}</td>
                       <td className={styles.status}>
                         <StatusTag status={transaction.status}></StatusTag>
