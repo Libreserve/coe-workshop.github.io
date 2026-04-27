@@ -12,6 +12,9 @@ import { Select } from "@/app/components/Select/Select";
 import type { SelectOption } from "@/app/components/Select/Select.types";
 import { useSearchParams } from "next/navigation";
 import { useGetAllTransactionsByStatusQuery } from "@/app/lib/features/admin/transactionsApi";
+import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
+import Link from "next/link";
+import { getLoginUrl } from "@/app/lib/api";
 
 const statusOptions: SelectOption<string>[] = [
   { label: "รออนุมัติ", value: "RESERVE" },
@@ -54,6 +57,7 @@ export const Transaction = () => {
     ...(dateQuery && { date: dateQuery }),
     ...(userNameQuery && { userName: userNameQuery }),
   });
+  const { data: user, isLoading: isLoadUser } = useGetMeQuery();
 
   return (
     <div>
@@ -87,17 +91,26 @@ export const Transaction = () => {
         </div>
       </div>
 
-      <AdminTransaction
-        message={message}
-        onChange={setMessage}
-        onSubmit={() => {}}
-        responseStatus={responseStatus}
-        setResponseStatus={setResponseStatus}
-	toolTransaction={toolTransaction}
-	isError={isError}
-	isLoading={isLoading}
-	isFetching={isFetching}
-      />
+      {!user && !isLoadUser ? (
+        <div className={styles.emptyState}>
+          <div className={styles.emptyStateContent}>
+            <Link className={styles.emptyStateTitle} href={getLoginUrl()}>กรุณาเข้าสู่ระบบ</Link>
+            <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่ออนุมัติการขอใช้งานเครื่องมือ</p>
+          </div>
+        </div>
+      ) : (
+	<AdminTransaction
+      	  message={message}
+      	  onChange={setMessage}
+      	  onSubmit={() => {}}
+      	  responseStatus={responseStatus}
+      	  setResponseStatus={setResponseStatus}
+      	  toolTransaction={toolTransaction}
+      	  isError={isError}
+      	  isLoading={isLoading}
+      	  isFetching={isFetching}
+      	/>
+      )}
     </div>
   );
 };

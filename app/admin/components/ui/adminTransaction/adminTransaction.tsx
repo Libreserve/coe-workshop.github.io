@@ -9,8 +9,7 @@ import styles from "./adminTrasaction.module.scss";
 import { AreaInput } from "@/app/components/Form/AreaInput/AreaInput";
 import { AdminTransactionProps, ResponseStatus } from "./adminTransaction.type";
 import ModalContainer from "@/app/components/ModalContainer/modalContainer";
-import { useGetAllTransactionsByStatusQuery, useUpdateAllTransactionsByUserMutation, useUpdateTransactionStatusMutation } from "@/app/lib/features/admin/transactionsApi";
-import { useSearchParams } from "next/navigation";
+import { useUpdateAllTransactionsByUserMutation, useUpdateTransactionStatusMutation } from "@/app/lib/features/admin/transactionsApi";
 import { ErrorResponse } from "@/app/types/api/transaction";
 import { useScrollToRightEnd } from "@/app/hook/useScrollToRightEnd";
 import Link from "next/link";
@@ -27,7 +26,6 @@ export const AdminTransaction = ({
   toolTransaction,
   isLoading,
   isError,
-  isFetching
 }: AdminTransactionProps) => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
   const [closeTransaction, setCloseTransaction] = useState<number[]>([]);
@@ -154,7 +152,7 @@ export const AdminTransaction = ({
         </thead>
 
         <tbody>
-          {(isLoading || isFetching) ? (
+          {isLoading ? (
             <tr>
               <td colSpan={6}>
 		<div className={styles.loadingContainer}>
@@ -305,8 +303,8 @@ export const AdminTransaction = ({
                   onChange={onChange}
                   placeholder={
                     responseStatus === ResponseStatus.Reject
-                      ? "ระบุสาเหตุที่ไม่อนุมัติการจอง..."
-                      : "ทิ้งข้อความสั้นๆ ถึงผู้จอง (ไม่บังคับ)..."
+                      ? "ระบุสาเหตุที่ไม่อนุมัติการขอใช้งาน..."
+                      : "ทิ้งข้อความสั้นๆ ถึงผู้ขอใช้งาน (ไม่บังคับ)..."
                   }
                 ></AreaInput>
               </div>

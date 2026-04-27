@@ -1,8 +1,8 @@
 import { AuthResponse } from "@/app/lib/types";
+import { isAdminRoute } from "../utils/isAdminRoute";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
-// api ดึงข้อมูล
 export async function getCurrentUser(): Promise<AuthResponse> {
   try {
     const res = await fetch(`${API_URL}/v1/user/me`, {
@@ -31,25 +31,6 @@ export async function logout(): Promise<void> {
   }
 }
 
-export async function createItem(): Promise<void> {
-  try {
-    await fetch(`${API_URL}/v1/items`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        name: "test7",
-        description: "string",
-        categoryName: "MACHINE",
-        image_url: "string",
-      }),
-    });
-  } catch {
-  }
-}
-
 export function getLoginUrl(): string {
-  return `${API_URL}/v1/auth`;
+  return isAdminRoute ? "/admin/login" : `${API_URL}/v1/auth`;
 }

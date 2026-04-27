@@ -9,7 +9,7 @@ import useDisclosure from "@/app/hook/useDisclosure";
 import { ItemTransaction } from "@/app/admin/components/ui/itemTransaction/itemTransaction";
 import { Tabs } from "@/app/admin/components/ui/Tabs/Tabs";
 import { TabsOption } from "@/app/admin/components/ui/Tabs/Tabs.type";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Options } from "@/app/admin/components/ui/optionAction/types";
 import styles from "./ToolDetail.module.scss";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
@@ -111,15 +111,15 @@ const ToolDetailClient = () => {
       }).unwrap();
       handleAssetId.close();
       addToastStack(
-	"สร้างครุภัณฑ์สำเร็จ",
-	"ครุภัณฑ์ถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
-	"success"
+        "สร้างครุภัณฑ์สำเร็จ",
+        "ครุภัณฑ์ถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
+        "success"
       )
     } catch (err) {
       addToastStack(
-	"สร้างครุภัณฑ์สำเร็จ",
-	"เกิดข้อผิดพลาดในการสร้างครุภัณฑ์",
-	"error"
+        "สร้างครุภัณฑ์สำเร็จ",
+        "เกิดข้อผิดพลาดในการสร้างครุภัณฑ์",
+        "error"
       )
     }
   };
@@ -144,16 +144,6 @@ const ToolDetailClient = () => {
 
     try {
       setReservationError(null);
-      if (user === null || user === undefined) {
-	console.log("ere")
-	addToastStack(
-	  "ขอใช้งานเครื่องมือไม่สำเร็จ",
-	  "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
-	  "error",
-	);
-	return;
-      }
-
       await createTransaction({
         assetID: Number(selectedAssetId),
         itemID: Number(toolId),
@@ -277,15 +267,15 @@ const ToolDetailClient = () => {
           </div>
           <section>
             <Tabs TabsOptions={tabsOptions}></Tabs>
-	    {!user && !isLoading ? (
+            {!user && !isLoading ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyStateContent}>
                   <Link className={styles.emptyStateTitle} href={getLoginUrl()}>กรุณาเข้าสู่ระบบ</Link>
                   <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่อขอใช้งานเครื่องมือ</p>
                 </div>
               </div>
-	    ) : (
-	      isList ? (
+            ) : (
+              isList ? (
                 <ItemTransaction toolId={Number(toolId)} date={selectedDateString}></ItemTransaction>
               ) : (
                 <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
