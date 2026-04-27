@@ -1,5 +1,5 @@
 import { apiSlice } from "../apiSlice";
-import { AdminStatus, CreateTransactionRequest, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
+import { CreateTransactionRequest, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
 
 export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -63,6 +63,18 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       },
       providesTags: ["Transaction"],
     }),
+    getHistoryMe: builder.query<UserTransactionHistory, { page?: number }>({
+      query: ({ page = 1 }) => {
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        return `/transactions/history/me?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse(res: UserTransactionHistoryResponse) {
+        return res.data;
+      },
+      providesTags: ["Transaction"],
+    }),
     createTransaction: builder.mutation<any, CreateTransactionRequest>({
       query: (body) => ({
         url: `/transactions`,
@@ -80,6 +92,7 @@ export const {
   useUpdateTransactionStatusMutation,
   useUpdateAllTransactionsByUserMutation,
   useGetUserTransactionHistoryQuery,
+  useGetHistoryMeQuery,
   useCreateTransactionMutation,
   useGetReservedByItemQuery,
 } = apiSliceWithTransactionsAdmin;

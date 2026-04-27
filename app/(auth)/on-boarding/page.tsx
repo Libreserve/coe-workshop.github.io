@@ -8,10 +8,13 @@ import { useRegisterMutation } from "@/app/lib/features/authApiSlice";
 import { ToastContext } from "@/app/Context/Toast/ToastContext";
 import { UserRoleEnum } from "@/app/lib/types";
 import styles from "./on-boarding.module.scss";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { ErrorResponse } from "@/app/lib/features/tools/tools.type";
+import { useToast } from "@/app/Context/Toast/ToastProvider";
 
 const OnBoarding = () => {
   const router = useRouter();
-  const toastContext = useContext(ToastContext);
+  const { addToastStack } = useToast();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [name, setName] = useState<string>("");
@@ -103,7 +106,7 @@ const OnBoarding = () => {
     const isUniStudent = major !== "บุคคลภายนอก";
 
     try {
-      const result = await register({
+      await register({
         firstName: name.trim(),
         lastName: lastname.trim(),
         prefix: prefix,
@@ -113,24 +116,22 @@ const OnBoarding = () => {
         phone: tel.trim(),
       }).unwrap();
 
-      if (result.success) {
-        toastContext?.addToastStack(
-          "ลงทะเบียนสำเร็จ",
-          "ยินดีต้อนรับเข้าสู่ระบบ",
-          "success",
-        );
-        router.push("/landing");
-      } else {
-        toastContext?.addToastStack(
-          "ลงทะเบียนไม่สำเร็จ",
-          result.message || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
-          "error",
-        );
+      addToastStack(
+	"ลงทะเบียนสำเร็จ",
+	"ยินดีต้อนรับเข้าสู่ระบบ",
+	"success",
+      );
+      router.push("/landing");
+    } catch (error) {
+      let errorMessage = "";
+      const err = error as FetchBaseQueryError;
+      if (err.data && typeof err.data === "object" && "error" in err.data) {
+        errorMessage =
+          (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการสมัครบัญชี";
       }
-    } catch {
-      toastContext?.addToastStack(
+      addToastStack(
         "ลงทะเบียนไม่สำเร็จ",
-        "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง",
+        errorMessage || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
         "error",
       );
     }

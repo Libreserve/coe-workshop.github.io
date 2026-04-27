@@ -26,7 +26,9 @@ import { Calendar } from "@/app/components/Calendar/Calendar";
 import { Select } from "@/app/components/Select/Select";
 import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
-import Image from "next/image";
+import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
+import { getLoginUrl } from "@/app/lib/api";
+import Link from "next/link";
 
 interface ErrorResponse {
   error?: string;
@@ -142,6 +144,16 @@ const ToolDetailClient = () => {
 
     try {
       setReservationError(null);
+      if (user === null || user === undefined) {
+	console.log("ere")
+	addToastStack(
+	  "ขอใช้งานเครื่องมือไม่สำเร็จ",
+	  "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
+	  "error",
+	);
+	return;
+      }
+
       await createTransaction({
         assetID: Number(selectedAssetId),
         itemID: Number(toolId),
@@ -169,7 +181,7 @@ const ToolDetailClient = () => {
       }
       addToastStack(
         "ขอใช้งานเครื่องมือไม่สำเร็จ",
-        reservationMessage || "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
+        reservationError || "เกิดข้อผิดพลาดในการขอใช้งานเครื่องมือ",
         "error",
       );
     }
@@ -217,7 +229,7 @@ const ToolDetailClient = () => {
     assetNumber: item.asset?.assetID,
   }));
   const { addToastStack } = useToast();
-
+  const { data: user, isLoading } = useGetMeQuery();
 
   return (
     <div>
@@ -265,11 +277,19 @@ const ToolDetailClient = () => {
           </div>
           <section>
             <Tabs TabsOptions={tabsOptions}></Tabs>
-	    {isList ? (
-              <ItemTransaction toolId={Number(toolId)} date={selectedDateString}></ItemTransaction>
-            ) : (
-              <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
-            )}
+	    {!user && !isLoading ? (
+              <div className={styles.emptyState}>
+                <div className={styles.emptyStateContent}>
+                  <Link className={styles.emptyStateTitle} href={getLoginUrl()}>กรุณาเข้าสู่ระบบ</Link>
+                  <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่อขอใช้งานเครื่องมือ</p>
+                </div>
+              </div>
+	    ) : (
+	      isList ? (
+                <ItemTransaction toolId={Number(toolId)} date={selectedDateString}></ItemTransaction>
+              ) : (
+                <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
+              ))}
           </section>
           <ModalContainer
             opened={openedAssetId}

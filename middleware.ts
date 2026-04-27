@@ -2,33 +2,30 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const url = request.nextUrl;
-  const { pathname } = url;
+
+  const { pathname } = request.nextUrl;
+
+  const userRole = request.cookies.get("user_role")?.value;
+  const hasSession = request.cookies.has("connect.sid");
 
   // Allow static assets
   if (pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|css|js)$/)) {
     return NextResponse.next();
   }
 
-  // Allow API calls unconditionally (proxying handled by backend)
-  if (pathname.startsWith("/api")) {
+  if (pathname.startsWith("/admin/login")) {
     return NextResponse.next();
   }
 
-  if (pathname === "/admin/login" || pathname.startsWith("/admin/login")) {
-    return NextResponse.next();
-  }
-
-  const hasSession = request.cookies.has("connect.sid");
-  const isAdminPath = pathname.startsWith("/admin");
-  if (isAdminPath && !pathname.startsWith("/admin/login") && !hasSession) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+  if (pathname.startsWith("/admin")) {
+    if (!hasSession || userRole !== "ADMIN") {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
-// Matcher for middleware config (not strictly required here but keeps compatibility)
 export const config = {
   matcher: ["/admin/:path*"],
 };

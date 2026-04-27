@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "./authApi";
 
-const initialState = {
+interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
   loading: false,

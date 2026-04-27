@@ -31,7 +31,7 @@
 
   &.lg {
     padding: 0.75rem 1rem;
-    border: 1px solid #d9d9dd;
+    border: 1px solid var(--section-border);
     border-radius: 12px;
 
     .input_value {
