@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 COPY . .
-ARG NEXT_PUBLIC_BACKEND_URL=https://dev-coe.ionize13.com/api
+ARG NEXT_PUBLIC_BACKEND_URL=https://en-workshop.com/api
 ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
 RUN bun run build
 

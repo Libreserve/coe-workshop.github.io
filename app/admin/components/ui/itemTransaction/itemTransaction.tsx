@@ -8,7 +8,7 @@ import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactions
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { AdminStatus, ErrorResponse } from "@/app/types/api/transaction";
-import { formatDateThai, formatDateTime, formatHourMinute } from "@/app/utils/dateTime";
+import { formatDateThai, formatHourMinute } from "@/app/utils/dateTime";
 import Image from "next/image";
 import { useDeleteAssetMutation } from "@/app/lib/features/tools/toolsApiSlice";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
@@ -34,7 +34,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     data,
     isError,
     error,
-    isFetching,
+    isLoading,
   } = useGetReservedByItemQuery({ itemId: toolId, date });
 
   let toolTransactionErrorMessage = "There's some error occuring while try to fetch the transaction data";
@@ -91,7 +91,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     }
   }
 
-  if (assets.length === 0) 
+  if (!isLoading && assets.length === 0)
     return <>
 	     <div className={styles.loadingContainer}>
 	       <Image
@@ -120,7 +120,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
           </tr>
         </thead>
         <tbody>
-          {isFetching && (
+          {isLoading && (
             <tr>
               <td colSpan={7}>
                 <div className={styles.loadingContainer}>
@@ -130,14 +130,11 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
               </td>
             </tr>
           )}
-          {!isFetching && (
+          {!isLoading && (
             assets.map((asset: any, assetIndex: number) => {
 	      return asset.transactions.length === 0 ? (
                 <tr className={styles.firstItem} key={assetIndex}>
-                  <td
-                    className={styles.toggle}
-                    onClick={() => toggleTransaction(assetIndex)}
-                  />
+                  <td className={styles.toggle} />
                   <td colSpan={2} className={styles.assetNumber}>{asset.assetNumber}</td>
 		  <td colSpan={3} className={styles.status}>
 		    <StatusTag status={AdminStatus.Blank}></StatusTag>

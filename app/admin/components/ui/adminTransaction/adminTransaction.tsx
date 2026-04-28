@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
 import Loader from "../../layout/loader/loader";
 import Image from "next/image";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const AdminTransaction = ({
   message,
@@ -77,13 +78,12 @@ export const AdminTransaction = ({
 	"success",
       );
     } catch (err: unknown) {
-      const rtkError = err as { data?: ErrorResponse };
-
-      if (rtkError?.data?.error) {
-        setErrorUpdateStatus(rtkError.data.error);
-      } else {
-        setErrorUpdateStatus("เกิดข้อผิดพลาดในการทำรายการ กรุณาลองใหม่อีกครั้ง");
+      let errorMessage = "";
+      const error = err as FetchBaseQueryError;
+      if (error.data && typeof error.data === "object" && "error" in error.data) {
+        errorMessage = (error.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการทำรายการ กรุณาลองใหม่อีกครั้ง";
       }
+      setErrorUpdateStatus(errorMessage);
     }
   };
 
@@ -103,13 +103,17 @@ export const AdminTransaction = ({
         message: "",
       }).unwrap();
       if (onSubmit) onSubmit();
-    } catch (err: unknown) {
-      const rtkError = err as { data?: ErrorResponse };
-      if (rtkError?.data?.error) {
-        setErrorUpdateStatus(rtkError.data.error);
-      } else {
-        setErrorUpdateStatus("เกิดข้อผิดพลาดในการอนุมัติ กรุณาลองใหม่อีกครั้ง");
+    } catch (err) {
+      let errorMessage = "";
+      const error = err as FetchBaseQueryError;
+      if (error.data && typeof error.data === "object" && "error" in error.data) {
+        errorMessage = (error.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการอนุมัติ กรุณาลองใหม่อีกครั้ง";
       }
+      addToastStack(
+        "อนุมัติไม่สำเร็จ",
+        errorMessage || "เกิดข้อผิดพลาดในการอนุมัติ กรุณาลองใหม่อีกครั้ง",
+        "error",
+      );
     }
   };
 

@@ -1,10 +1,26 @@
 .wrapper {
+  display: inline-block;
+  max-width: 100%;
 }
 
 .typing {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
   white-space: nowrap;
   color: var(--theme-600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .typing {
+    font-size: clamp(1.25rem, 6vw, 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .typing {
+    font-size: clamp(1rem, 7vw, 1.5rem);
+  }
 }
 
 .cursor {

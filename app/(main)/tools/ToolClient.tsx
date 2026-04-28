@@ -36,8 +36,8 @@ const ToolsClient = () => {
     error,
     refetch,
   } = useGetToolsQuery({
-    category: category,
-    search: search || undefined,
+    category: (searchParams.get("category") as ToolCategories | undefined) || undefined,
+    search: searchParams.get("search") || undefined,
   });
 
   useEffect(() => {
@@ -110,7 +110,9 @@ const ToolsClient = () => {
             value={search}
             setValue={(value) => {
               setSearch(value);
-              updateFilters(value, category);
+            }}
+            onEnter={() => {
+              updateFilters(search, category);
             }}
           />
           <Select

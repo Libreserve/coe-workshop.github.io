@@ -22,7 +22,6 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import CreateItem from "@/app/admin/components/modal/create_item/create";
 import { getCategoryDisplay, toToolCategory } from "@/app/lib/features/tools/category.utils";
 import { Calendar } from "@/app/components/Calendar/Calendar";
-import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
 import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import { getLoginUrl } from "@/app/lib/api";
@@ -51,7 +50,7 @@ const AdminToolDetail = () => {
   const { opened, handle } = useDisclosure();
   const { opened: openedAssetId, handle: handleAssetId } = useDisclosure();
   const { opened: createItem, handle: handlecreateItem } = useDisclosure();
-  const [isList, setIsList] = useState(isAdminRoute);
+  const [isList, setIsList] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const effectiveDate = new Date().toISOString().split("T")[0];
   const {

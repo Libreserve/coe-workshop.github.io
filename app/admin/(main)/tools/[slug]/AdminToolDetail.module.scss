@@ -18,6 +18,7 @@
 }
 
 .info {
+  width: rem(500);
   .header {
     display: flex;
     .title {
@@ -275,4 +276,12 @@
   display: flex;
   gap: rem(32);
   align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    thead th {
+      background: $sub-800;
+    }
+  }
 }
