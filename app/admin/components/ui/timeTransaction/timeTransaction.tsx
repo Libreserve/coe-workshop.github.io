@@ -68,7 +68,7 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     data,
     isError,
     error,
-    isFetching,
+    isLoading,
   } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
 
   let toolTransactionErrorMessage =
@@ -80,7 +80,7 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     }
   }
 
-  if (isFetching) {
+  if (isLoading) {
     return <>
              <div className={styles.loadingContainer}>
                <Loader></Loader>
