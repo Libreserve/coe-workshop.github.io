@@ -3,7 +3,7 @@
 import ModalContainer from "@/app/components/ModalContainer/modalContainer";
 import { TimeTransaction } from "@/app/admin/components/ui/timeTransaction/timeTransaction";
 import useDisclosure from "@/app/hook/useDisclosure";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styles from "./ToolDetail.module.scss";
 import { useParams } from "next/navigation";
 import { useGetToolQuery } from "@/app/lib/features/tools/toolsApiSlice";
@@ -16,6 +16,7 @@ import { useToast } from "@/app/Context/Toast/ToastProvider";
 import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import { getLoginUrl } from "@/app/lib/api";
 import Link from "next/link";
+import { formatWeekDateThai } from "@/app/utils/dateTime";
 
 interface ErrorResponse {
   error?: string;
@@ -34,16 +35,6 @@ const convertLocalTimeToUTC = (timeString: string): string => {
   const utcHours = localDate.getUTCHours().toString().padStart(2, "0");
   const utcMinutes = localDate.getUTCMinutes().toString().padStart(2, "0");
   return `${utcHours}:${utcMinutes}`;
-};
-
-const formatDateThai = (dateStr: string): string => {
-  const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString("th-TH", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 };
 
 const ToolDetailClient = () => {
@@ -177,16 +168,21 @@ const ToolDetailClient = () => {
                 </div>
               </div>
               <p className={styles.description}>{tool?.description}</p>
-              <button className={styles.requestButton} onClick={openReservation}>
+	      <button className={`${styles.requestButton} ${styles.mobile}`} onClick={openReservation}>
+		ขอใช้งานเครื่องมือ
+	      </button>
+            </section>
+            <section>
+	      <div className={styles.datePickerSection}>
+                <Calendar
+                  onChange={(date) => setSelectedDate(date)}
+                  value={selectedDate}
+                  isCasual={true}
+                />
+	      </div>
+	      <button className={`${styles.requestButton} ${styles.desktop}`} onClick={openReservation}>
                 ขอใช้งานเครื่องมือ
               </button>
-            </section>
-            <section className={styles.datePickerSection}>
-              <Calendar
-                onChange={(date) => setSelectedDate(date)}
-                value={selectedDate}
-                isCasual={true}
-              />
             </section>
           </div>
           <section className={styles.timeTrans}>
@@ -231,7 +227,7 @@ const ToolDetailClient = () => {
                 </div>
                 <div className={styles.fieldGroup}>
                   <label>วันที่</label>
-                  <span className={styles.fieldValue}>{formatDateThai(selectedDateString)}</span>
+                  <span className={styles.fieldValue}>{formatWeekDateThai(selectedDateString)}</span>
                 </div>
                 <div className={styles.fieldGroup}>
                   <label>เวลาเริ่มต้น</label>

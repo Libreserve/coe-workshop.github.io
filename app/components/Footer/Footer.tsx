@@ -61,7 +61,7 @@ const Footer = () => {
                   key={"github"}
                 >
                   <Image
-                    src={`github.svg`}
+                    src={`/github.svg`}
                     alt="github"
                     width={30}
                     height={30}
@@ -84,9 +84,9 @@ const Footer = () => {
                 />
               </Link>
 	      */}
-              <Link href={"https://facebook.com"} key={"mail"}>
+              <Link href={"mailto:insee.t@kkumail.com"} key={"mail"}>
                 <Image
-                  src={`mail.svg`}
+                  src={`/mail.svg`}
                   alt="mail"
                   width={30}
                   height={30}

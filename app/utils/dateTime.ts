@@ -43,3 +43,13 @@ export const formatDateThai = (iso: string): string => {
   });
 };
 
+export const formatWeekDateThai = (dateStr: string): string => {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("th-TH", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+

@@ -7,6 +7,11 @@
   grid-template-columns: repeat(12, 1fr);
   gap: rem(20);
   margin: 2rem 0;
+
+  @include respond-to-max(md) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .topSection {
@@ -17,11 +22,6 @@
   align-items: center;
   justify-content: space-between;
   height: fit-content;
-
-  @media (max-width: 768px) {
-    padding: 0 rem(12);
-    margin-bottom: rem(16);
-  }
 }
 
 .timeTrans {
@@ -47,29 +47,45 @@
       border-radius: 1rem;
     }
   }
-  .requestButton {
-    color: var(--theme-0);
-    background-color: var(--theme-1000);
-    padding: 0.5rem 1.2rem;
-    border-radius: rem(22);
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
+}
 
-    @include respond-to-max(md) {
-      margin-bottom: 1rem;
+.requestButton {
+  color: var(--theme-0);
+  background-color: var(--theme-1000);
+  padding: 0.5rem 1.2rem;
+  border-radius: rem(22);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  width: 100%;
+
+  &.mobile {
+    display: none;
+  }
+
+  @include respond-to(md) {
+    margin-bottom: 1rem;
+
+    &.mobile {
+      display: inline;
     }
 
-    &:hover {
-      opacity: 0.9;
+    &.desktop {
+      display: none;
     }
+  }
 
+  @include respond-to-max(md) {
+    margin-top: 2rem;
+  }
+
+  &:hover {
+    opacity: 0.9;
   }
 }
 
 .datePickerSection {
   flex-shrink: 0;
-  background-color: var(--theme-50);
   border-radius: rem(22);
   border: 1px solid var(--theme-200);
   width: fit-content;
@@ -243,7 +259,7 @@
 
 .imageContainer {
   width: 100%;
-  height: 160px;
+  height: rem(200);
   display: flex;
   align-items: center;
   justify-content: center;

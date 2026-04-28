@@ -58,7 +58,7 @@ function Navbar() {
             width={120}
             height={120}
             alt="basket_icon"
-            src={"./icon/history.svg"}
+            src={"/icon/history.svg"}
           ></SvgIconMono>
         </Link>
         <Image
