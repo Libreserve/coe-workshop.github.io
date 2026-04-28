@@ -107,7 +107,8 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     });
 
     return {
-      assetID: item.asset?.assetID ?? item.assetID,
+      id: item.assetID,
+      assetNumber: item.asset?.assetID,
       transactions: sortedTransactions,
     }});
 
@@ -121,7 +122,7 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                  height={300}
 	         className={styles.empty}
                />
-	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
+	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute() && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
 	     </div>
 	   </>
 
@@ -149,9 +150,9 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
               const hasTransactions = transactions.length > 0;
               
               return (
-                <div key={asset.assetID} className={styles.row_container}>
+                <div key={asset.assetNumber} className={styles.row_container}>
                   <div className={styles.row}>
-                    <h3 className={styles.assetID}>{asset.assetID}</h3>
+                    <h3 className={styles.assetNumber}>{asset.assetNumber}</h3>
                     {!hasTransactions ? (
                       <div
                         className={styles.available}

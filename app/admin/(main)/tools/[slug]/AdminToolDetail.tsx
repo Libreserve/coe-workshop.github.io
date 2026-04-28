@@ -31,7 +31,7 @@ import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { ErrorResponse } from "@/app/lib/features/tools/tools.type";
 import Image from "next/image";
 
-const AdminToolDetail= () => {
+const AdminToolDetail = () => {
   const params = useParams<{ slug: string }>();
   const toolId = params.slug;
   const {
@@ -80,10 +80,16 @@ const AdminToolDetail= () => {
         "ครุภัณฑ์ถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
         "success"
       )
-    } catch (err) {
+    } catch (error) {
+      let errorMessage = "";
+      const err = error as FetchBaseQueryError;
+      if (err.data && typeof err.data === "object" && "error" in err.data) {
+        errorMessage =
+          (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการสร้างครุภัณฑ์";
+      }
       addToastStack(
         "สร้างครุภัณฑ์สำเร็จ",
-        "เกิดข้อผิดพลาดในการสร้างครุภัณฑ์",
+        errorMessage || "เกิดข้อผิดพลาดในการสร้างครุภัณฑ์",
         "error"
       )
     }
@@ -132,44 +138,48 @@ const AdminToolDetail= () => {
         </div>
       ) : (
         <div>
-          <div className={styles.topSection}>
-	  {tool?.imageUrl &&
-	    <div className={styles.imageContainer}>
-	      <img
-	        src={tool.imageUrl}
-	        alt={tool.name}
-	        className={styles.image}
-	        />
-	    </div>
-	  }
-            <section className={styles.info}>
-              <div className={styles.header}>
-                <div className={styles.title}>
-                  <h1>{tool?.name}</h1>
-                  <p className={styles.category}>{tool?.category ? getCategoryDisplay(toToolCategory(tool.category)!) : ""}</p>
+          <section className={styles.topSection}>
+	    <div className={styles.infoContainer}>
+	      {tool?.imageUrl &&
+                <div className={styles.imageContainer}>
+                  <img
+                    src={tool.imageUrl}
+                    alt={tool.name}
+                    className={styles.image}
+                  />
                 </div>
-                <div className={styles.action}>
-                  <OptionsAction options={options} lastDelete={true}>
-                    <SvgIconMono
-                      src={"/admin/icon/dot.svg"}
-                      width={24}
-                      height={24}
-                      alt="editIcon"
-                    ></SvgIconMono>
-                  </OptionsAction>
+              }
+              <div className={styles.info}>
+                <div className={styles.header}>
+                  <div className={styles.title}>
+                    <h1>{tool?.name}</h1>
+                    <p className={styles.category}>{tool?.category ? getCategoryDisplay(toToolCategory(tool.category)!) : ""}</p>
+                  </div>
+                  <div className={styles.action}>
+                    <OptionsAction options={options} lastDelete={true}>
+                      <SvgIconMono
+                        src={"/admin/icon/dot.svg"}
+                        width={24}
+                        height={24}
+                        alt="editIcon"
+                      ></SvgIconMono>
+                    </OptionsAction>
+                  </div>
                 </div>
+                <p className={styles.description}>{tool?.description}</p>
               </div>
-              <p className={styles.description}>{tool?.description}</p>
-            </section>
-            <section className={styles.datePickerSection}>
-              <Calendar
-                onChange={(date) => setSelectedDate(date)}
-                value={selectedDate}
-                isCasual={true}
-		columnGap={8}
-              />
-            </section>
-          </div>
+	    </div>
+	    {!isList && (
+	      <section className={styles.datePickerSection}>
+                <Calendar
+                  onChange={(date) => setSelectedDate(date)}
+                  value={selectedDate}
+                  isCasual={false}
+
+                />
+              </section>
+	    )}
+          </section>
           <section>
             <Tabs TabsOptions={tabsOptions}></Tabs>
             {!user && !isLoading ? (
@@ -181,7 +191,7 @@ const AdminToolDetail= () => {
               </div>
             ) : (
               isList ? (
-                <ItemTransaction toolId={Number(toolId)} date={selectedDateString}></ItemTransaction>
+                <ItemTransaction toolId={Number(toolId)}></ItemTransaction>
               ) : (
                 <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
               ))}

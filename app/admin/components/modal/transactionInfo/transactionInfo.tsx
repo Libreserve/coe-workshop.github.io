@@ -25,7 +25,7 @@ export const TransactionInfo = ({
           <p>ผู้ยื่นคำร้อง:</p>
           <p>{(user as any).userName || user.username}</p>
         </span>
-	{ isAdminRoute && (
+	{isAdminRoute() && (
 	  <span>
             <p>เบอร์โทรติดต่อ:</p>
             <p>{(user as any).phone || user.tel}</p>

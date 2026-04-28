@@ -59,7 +59,7 @@ export const History = () => {
   return (
     <div>
       <div className={styles.header}>
-        <h2>ประวัติการจองของผู้ใช้</h2>
+        <h1>ประวัติการจองของผู้ใช้</h1>
         <div className={styles.searchBar}>
 	{(userId || userName) && !isNotFound &&
           <SearchBar

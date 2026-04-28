@@ -32,5 +32,5 @@ export async function logout(): Promise<void> {
 }
 
 export function getLoginUrl(): string {
-  return isAdminRoute ? "/admin/login" : `${API_URL}/v1/auth`;
+  return isAdminRoute() ? "/admin/login" : `${API_URL}/v1/auth`;
 }

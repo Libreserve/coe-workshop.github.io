@@ -11,7 +11,6 @@ export interface AdminTransactionProps {
   onChange: (message: string) => void;
   onSubmit: () => void;
   toolTransaction: any;
-  isLoading: boolean;
   isError: boolean;
   isFetching: boolean;
 }

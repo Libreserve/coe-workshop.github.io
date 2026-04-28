@@ -98,10 +98,6 @@
   color: $sub-1000;
 }
 
-.endTime {
-  width: 8rem;
-}
-
 .message {
   padding-right: 2rem !important; // old 1rem => +1rem for avoid shadow
   width: 19rem; // old 18rem => +1rem for avoid shadow
@@ -285,6 +281,20 @@ tr:hover .stickyAction {
 .loadingText {
   color: var(--text-fade-mid);
   font-size: 1rem;
+}
+
+.time {
+  width: 10rem;
+}
+
+.timeRange {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.timeDash {
+  color: var(--text-fade-mid);
 }
 
 // กันเหนียวสำหรับ ทรศ

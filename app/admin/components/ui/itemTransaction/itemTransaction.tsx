@@ -3,12 +3,12 @@
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { useState } from "react";
 import { StatusTag } from "../statusTag/statusTag";
-import styles from "./tableTransaction.module.scss";
+import styles from "./itemTransaction.module.scss";
 import { useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
 import Loader from "@/app/admin/components/layout/loader/loader";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { AdminStatus, ErrorResponse } from "@/app/types/api/transaction";
-import { formatDateTime } from "@/app/utils/dateTime";
+import { formatDateThai, formatDateTime, formatHourMinute } from "@/app/utils/dateTime";
 import Image from "next/image";
 import { useDeleteAssetMutation } from "@/app/lib/features/tools/toolsApiSlice";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
@@ -17,8 +17,6 @@ import { isAdminRoute } from "@/app/utils/isAdminRoute";
 export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: string }) => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
   const [closeTransaction, setCloseTransaction] = useState<number[]>([]);
-  const todayDateString = new Date().toISOString().split('T')[0];
-  const effectiveDate = date || todayDateString;
 
   const toggleTransaction = (idx: number) => {
     if (openTransaction.includes(idx)) {
@@ -37,7 +35,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
     isError,
     error,
     isFetching,
-  } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
+  } = useGetReservedByItemQuery({ itemId: toolId, date });
 
   let toolTransactionErrorMessage = "There's some error occuring while try to fetch the transaction data";
   if (error && "data" in error) {
@@ -49,11 +47,17 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
 
   const itemData = Array.isArray(data) ? data[0] : data;
   const assetsToItems = itemData?.assetsToItems ?? [];
-  const assets = assetsToItems.map((item: any) => ({
-    id: item.assetID,
-    assetNumber: item.asset?.assetID,
-    transactions: item.asset?.transactions ?? []
-  }));
+  const assets = assetsToItems.map((item: any) => {
+    const rawTransactions = item.asset?.transactions ?? [];
+    const sortedTransactions = [...rawTransactions].sort((a, b) => {
+        return new Date(a.endedAt).getTime() - new Date(b.endedAt).getTime();
+    });
+
+    return {
+      id: item.assetID,
+      assetNumber: item.asset?.assetID,
+      transactions: sortedTransactions,
+    }});
 
   const [deleteAsset] = useDeleteAssetMutation();
   const { addToastStack } = useToast();
@@ -97,7 +101,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                  height={300}
 	         className={styles.empty}
                />
-	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
+	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute() && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
 	     </div>
 	   </>
 
@@ -110,7 +114,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
             <th className="">เลขครุภัณฑ์</th>
             <th>ผู้ยืม</th>
             <th className={styles.header_status}>สถานะ</th>
-            <th>เวลาสิ้นสุด </th>
+            <th className={styles.header_time}>เวลา</th>
             <th className={styles.header_message}>คำร้อง</th>
             <th className={styles.header_action}></th>
           </tr>
@@ -151,7 +155,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                   </td>
                 </tr>
 	      ) : (
-              asset.transactions?.map((transaction: any, txIndex: number) =>
+              asset.transactions?.map((txn: any, txIndex: number) =>
                 txIndex === 0 ? (
                   <tr className={styles.firstItem} key={`${assetIndex}-${txIndex}`}>
                     <td
@@ -175,12 +179,19 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                       </div>
                     </td>
                     <td className={styles.assetNumber}>{asset.assetNumber}</td>
-                    <td className={styles.username}>{transaction.reserver.userName}</td>
+                    <td className={styles.username}>{txn.reserver.userName}</td>
                     <td className={styles.status}>
-                      <StatusTag status={transaction.status}></StatusTag>
+                      <StatusTag status={txn.status}></StatusTag>
                     </td>
-                    <td className={styles.endedAt}>{formatDateTime(transaction.endedAt)}</td>
-                    <td className={styles.message}>{transaction.messages?.[0].detail ?? "-"}</td>
+                    <td className={styles.time}>
+		      <div className={styles.timeRange}>
+			<span>{formatDateThai(txn.startedAt)}:</span>
+		        <span>{formatHourMinute(txn.startedAt)}</span>
+                        <span className={styles.timeDash}>-</span>
+                        <span>{formatHourMinute(txn.endedAt)}</span>
+		      </div>
+		    </td>
+                    <td className={styles.message}>{txn.messages?.[0].detail ?? "-"}</td>
                     <td className={styles.trashSpace}>
                       <button onClick={() => handleDeleteAsset(asset.id)}>
                         <SvgIconMono
@@ -204,12 +215,19 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     >
                       <td></td>
                       <td className={styles.assetNumber}>{asset.assetNumber}</td>
-                      <td className={styles.username}>{transaction.userName}</td>
+                      <td className={styles.username}>{txn.userName}</td>
                       <td className={styles.status}>
-                        <StatusTag status={transaction.status}></StatusTag>
+                        <StatusTag status={txn.status}></StatusTag>
                       </td>
-                      <td className={styles.endedAt}>{formatDateTime(transaction.endedAt)}</td>
-                      <td className={styles.message}>{transaction.message ?? "-"}</td>
+		      <td className={styles.time}>
+		        <div className={styles.timeRange}>
+		          <span>{formatDateThai(txn.startedAt)}:</span>
+		          <span>{formatHourMinute(txn.startedAt)}</span>
+                          <span className={styles.timeDash}>-</span>
+                          <span>{formatHourMinute(txn.endedAt)}</span>
+		        </div>
+		      </td>
+                      <td className={styles.message}>{txn.message ?? "-"}</td>
                       <td></td>
                     </tr>
                   )

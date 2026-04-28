@@ -253,7 +253,7 @@
 .dates_input {
   display: grid;
   grid-template-columns: repeat(7, rem(25px));
-  gap: rem(7) clamp(rem(7), 2vw, 2vw);
+  gap: rem(7) rem(7);
   margin-bottom: rem(9px);
   background-color: var(--box-background);
   color: var(--text-normal);

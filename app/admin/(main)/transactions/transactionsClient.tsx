@@ -51,7 +51,7 @@ export const Transaction = () => {
   const statusQuery = searchParams.get("status") || "RESERVE";
   const userNameQuery = searchParams.get("userName") || "";
 
-  const { data: toolTransaction, isLoading, isError, isFetching } = useGetAllTransactionsByStatusQuery({
+  const { data: toolTransaction, isError, isFetching } = useGetAllTransactionsByStatusQuery({
     status: statusQuery,
     page: pageQuery,
     ...(dateQuery && { date: dateQuery }),
@@ -62,7 +62,7 @@ export const Transaction = () => {
   return (
     <div>
       <div className={styles.filter}>
-        <h2>ประวัติการจองเครื่องมือ</h2>
+        <h1>อนุมัติการขอใช้งาน</h1>
         <div className={styles.filter_action}>
           <div className="">
             <SearchBar
@@ -78,6 +78,7 @@ export const Transaction = () => {
             required={true}
             onChange={handleDateChange}
             disableLabel={true}
+	    isCasual={false}
           />
           <Select
             placeholder="ตัวกรองสถานะ"
@@ -107,7 +108,6 @@ export const Transaction = () => {
       	  setResponseStatus={setResponseStatus}
       	  toolTransaction={toolTransaction}
       	  isError={isError}
-      	  isLoading={isLoading}
       	  isFetching={isFetching}
       	/>
       )}

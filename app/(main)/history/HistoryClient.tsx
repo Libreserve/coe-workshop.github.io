@@ -11,22 +11,7 @@ import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import Image from "next/image";
 import Link from "next/link";
 import { getLoginUrl } from "@/app/lib/api";
-
-const formatHourMinute = (iso: string): string => {
-  return new Date(iso).toLocaleTimeString("th-TH", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-};
-
-const formatDateThai = (iso: string): string => {
-  return new Date(iso).toLocaleDateString("th-TH", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+import { formatDateThai, formatHourMinute } from "@/app/utils/dateTime";
 
 export const History = () => {
   const [openGroups, setOpenGroups] = useState<number[]>([]);
@@ -46,7 +31,7 @@ export const History = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>ประวัติการจองของฉัน</h2>
+        <h1>ประวัติการจองของฉัน</h1>
       </div>
 
       {!user && !isLoading ? (

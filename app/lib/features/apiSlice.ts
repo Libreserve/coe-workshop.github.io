@@ -6,7 +6,6 @@ import {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import HttpStatus from "http-status";
-import { getLoginUrl } from "../api";
 import { isAdminRoute } from "@/app/utils/isAdminRoute";
 
 const baseQuery = fetchBaseQuery({
@@ -27,18 +26,20 @@ const baseQueryWithReauth: BaseQueryFn<
       result.error.status === HttpStatus.UNAUTHORIZED ||
       result.error.status === HttpStatus.FORBIDDEN
     ) {
-      console.warn(
-        "Session expired or unauthorized - clearing session",
-      );
+      if (isAdminRoute()) {
+        console.warn(
+          "Admin session expired or unauthorized - clearing session",
+        );
 
-      try {
-        await fetch(`/api/v1/auth/logout`, {
-          method: "POST",
-          credentials: "include",
-        });
-      } catch {}
+        try {
+          await fetch(`/api/v1/auth/logout`, {
+            method: "POST",
+            credentials: "include",
+          });
+        } catch {}
 
-      window.location.href = isAdminRoute ? "/admin/login" : getLoginUrl();
+        window.location.href = "/admin/login";
+      }
     }
   }
   return result;
@@ -46,7 +47,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: baseQuery,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Tools", "Transaction", "Report", "Assets"],
   endpoints: () => ({}),
 });

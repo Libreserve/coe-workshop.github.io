@@ -22,7 +22,7 @@ export const DeleteConfirm = ({
   const [errors, setErrors] = useState({ name: "", api: "" });
   const { addToastStack } = useToast();
   const handleOnDelete = async () => {
-    setErrors((prev) =>({...prev, name:"", api:""}))
+    setErrors((prev) => ({ ...prev, name: "", api: "" }))
     if (typeof toolId === "undefined") {
       return;
     }
@@ -58,7 +58,7 @@ export const DeleteConfirm = ({
         <h2>ยืนยันการลบเครื่องมือ</h2>
         <p>
           เครื่องมือจะถูกลบไปอย่างถาวร ประวัติหรือข้อมูลอื่นๆ
-          ที่เกี่ยวข้องจะไม่สามารถย้อนกลับได้อีก กรุณาพิม{" "}
+          ที่เกี่ยวข้องจะไม่สามารถย้อนกลับได้อีก กรุณาพิมพ์{" "}
           <span>{confirmMessage + " "}</span>
           เพื่อยืนยันการลบ
         </p>

@@ -26,3 +26,20 @@ export function formatDateTime(dateString: string): string {
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   }).format(date);
 };
+
+export const formatHourMinute = (iso: string): string => {
+  return new Date(iso).toLocaleTimeString("th-TH", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+};
+
+export const formatDateThai = (iso: string): string => {
+  return new Date(iso).toLocaleDateString("th-TH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+

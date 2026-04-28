@@ -14,7 +14,7 @@
   width: clamp(250px, 80vw, 703px);
   padding: 2rem;
   overflow-y: auto;
-  background-color: var(--box-background);
+  background-color: var(--theme-50);
   position: relative;
   border-radius: rem(22);
   &::-webkit-scrollbar {
@@ -112,7 +112,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border: 2px dashed $sub-300;
+        border: 2px dashed var(--theme-300);
         border-radius: 6px;
         text-align: center;
         cursor: pointer;
@@ -348,7 +348,6 @@
 
 @media (prefers-color-scheme: dark) {
   .container {
-    background-color: $sub-800;
     .formSection {
       .field {
         .name {
@@ -365,7 +364,6 @@
     // idk why it's can't config normaly, so i force it.
     .rightSection {
       .imageBox {
-        border-color: $sub-900 !important;
         &:hover {
           border-color: $sub-1000 !important;
           background: $sub-800 !important;

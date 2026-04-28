@@ -24,7 +24,7 @@ export const AdminTransaction = ({
   responseStatus,
   setResponseStatus,
   toolTransaction,
-  isLoading,
+  isFetching,
   isError,
 }: AdminTransactionProps) => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
@@ -135,7 +135,7 @@ export const AdminTransaction = ({
           <col className={styles.itemName} />
           <col className={styles.assetID} />
           <col className={styles.status} />
-          <col className={styles.endTime} />
+          <col className={styles.time} />
           <col className={styles.message} />
           <col className={styles.action} />
         </colgroup>
@@ -145,14 +145,14 @@ export const AdminTransaction = ({
             <th>ชื่อเครื่องมือ</th>
             <th>เลขครุภัณฑ์</th>
             <th>สถานะ</th>
-            <th>เวลาสิ้นสุด</th>
+            <th>เวลา</th>
             <th>คำร้อง</th>
             <th></th>
           </tr>
         </thead>
 
         <tbody>
-          {isLoading ? (
+          {isFetching ? (
             <tr>
               <td colSpan={6}>
 		<div className={styles.loadingContainer}>
@@ -173,7 +173,7 @@ export const AdminTransaction = ({
                 <React.Fragment key={userIndex}>
                   <tr className={styles.userRow}>
                     <td colSpan={1}>
-                      <div 
+                      <button 
                         className={styles.userInfo}
                         onClick={() => toggleTransaction(userIndex)}>
                         <div
@@ -200,7 +200,7 @@ export const AdminTransaction = ({
                             </div>
                           </Link>
                         </Tooltip>
-                      </div>
+                      </button>
                     </td>
                     <td colSpan={5}>
                       <button
@@ -218,7 +218,7 @@ export const AdminTransaction = ({
                     </td>
                   </tr>
 
-                  {userGroup.adminTransactions?.map((transaction: any, transactionIndex: number) => 
+                  {userGroup.adminTransactions?.map((txn: any, transactionIndex: number) => 
                   openTransaction.includes(userIndex) && (
                     <tr
                       key={transactionIndex}
@@ -228,21 +228,25 @@ export const AdminTransaction = ({
                           : styles.slideIn
                       }`}
                     >
-                      <td className={styles.itemNameText}>{transaction.itemName ?? "N/A"}</td>
-                      <td className={styles.assetsText}>{transaction.assetID ?? "N/A"}</td>
+                      <td className={styles.itemNameText}>{txn.itemName ?? "N/A"}</td>
+                      <td className={styles.assetsText}>{txn.assetID ?? "N/A"}</td>
                       <td className={styles.status}>
-                        <StatusTag status={transaction.status} />
+                        <StatusTag status={txn.status} />
                       </td>
-                      <td className={styles.endTime}>
-                        {formatHourMinute(transaction.endedAt)}
+                      <td className={styles.time}>
+			<div className={styles.timeRange}>
+		      	  <span>{formatHourMinute(txn.startedAt)}</span>
+                      	  <span className={styles.timeDash}>-</span>
+                      	  <span>{formatHourMinute(txn.endedAt)}</span>
+		      	</div>
                       </td>
-                      <td className={styles.message}>{transaction.message ?? "-"}</td>
+                      <td className={styles.message}>{txn.message ?? "-"}</td>
                       <td className={styles.stickyAction}>
                         <div className={styles.action_content}>
                             <button
                              className={styles.action_pointer}
                              onClick={() => {
-                               handleImmediateApprove(transaction.id);
+                               handleImmediateApprove(txn.id);
                              }}
                             disabled={isUpdating}
                             type="button"
@@ -256,7 +260,7 @@ export const AdminTransaction = ({
                           <div
                             className={styles.action_pointer}
                             onClick={() => {
-                              setSelectedTxId(transaction.id);
+                              setSelectedTxId(txn.id);
                               setResponseStatus(ResponseStatus.Reject);
                               handle.open();
                             }}

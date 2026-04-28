@@ -47,7 +47,7 @@ export const ReportsAdmin = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>จัดการรายงาน</h2>
+        <h1 className={styles.title}>จัดการรายงาน</h1>
         
         <div className={styles.filters}>
           <Select

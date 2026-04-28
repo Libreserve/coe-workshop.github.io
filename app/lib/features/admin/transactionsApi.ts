@@ -16,11 +16,11 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       transformResponse: (res: any) => res?.data ?? {},
       providesTags: ["Transaction"],
     }),
-    getReservedByItem: builder.query<any, { itemId: number; date: string }>({
+    getReservedByItem: builder.query<any, { itemId: number; date?: string }>({
       query: ({ itemId, date }) => {
         const params = new URLSearchParams();
+        if (date) params.set("date", date);
         params.set("item", String(itemId));
-        params.set("date", date);
         return `/transactions/reserved-by-item?${params.toString()}`;
       },
       keepUnusedDataFor: 300,

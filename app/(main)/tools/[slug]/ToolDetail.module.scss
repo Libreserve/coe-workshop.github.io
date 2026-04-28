@@ -1,11 +1,12 @@
 @use "@/app/styles/variables" as *;
 @use "@/app/styles/functions" as *;
+@use "@/app/styles/breakpoints" as *;
 
 .container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: rem(20);
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 .topSection {
@@ -31,6 +32,7 @@
 .info {
   display: flex;
   flex-direction: column;
+  gap: rem(16);
   .header {
     display: flex;
     .title {
@@ -45,9 +47,6 @@
       border-radius: 1rem;
     }
   }
-  .description {
-    margin-bottom: 1rem;
-  }
   .requestButton {
     color: var(--theme-0);
     background-color: var(--theme-1000);
@@ -57,9 +56,14 @@
     cursor: pointer;
     transition: opacity 0.2s ease;
 
+    @include respond-to-max(md) {
+      margin-bottom: 1rem;
+    }
+
     &:hover {
       opacity: 0.9;
     }
+
   }
 }
 

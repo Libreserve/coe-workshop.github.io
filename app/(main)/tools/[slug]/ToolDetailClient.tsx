@@ -77,7 +77,6 @@ const ToolDetailClient = () => {
     isLoading: isLoadingAssets,
   } = useGetReservedByItemQuery({ itemId: Number(toolId), date: effectiveDate }, { skip: !toolId });
 
-  const tagInputRef = useRef<{ getValues: () => string[] }>(null);
   const [createTransaction, { isLoading: isCreatingTransaction }] = useCreateTransactionMutation();
 
   const handleReservationSubmit = async () => {
@@ -161,16 +160,16 @@ const ToolDetailClient = () => {
       ) : (
         <div className={styles.container}>
           <div className={styles.topSection}>
-            {tool?.imageUrl &&
-              <div className={styles.imageContainer}>
-                <img
-                  src={tool.imageUrl}
-                  alt={tool.name}
-                  className={styles.image}
-                />
-              </div>
-            }
             <section className={styles.info}>
+              {tool?.imageUrl &&
+                <div className={styles.imageContainer}>
+                  <img
+                    src={tool.imageUrl}
+                    alt={tool.name}
+                    className={styles.image}
+                  />
+                </div>
+              }
               <div className={styles.header}>
                 <div className={styles.title}>
                   <h1>{tool?.name}</h1>
@@ -187,7 +186,6 @@ const ToolDetailClient = () => {
                 onChange={(date) => setSelectedDate(date)}
                 value={selectedDate}
                 isCasual={true}
-                columnGap={8}
               />
             </section>
           </div>
