@@ -49,7 +49,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            NEXT_PUBLIC_BACKEND_URL=https://coe.ionize13.com/api
+            NEXT_PUBLIC_BACKEND_URL=https://en-workshop.com/api
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
