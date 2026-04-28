@@ -3,11 +3,11 @@ export interface User {
   isRegistered: boolean;
   firstName?: string;
   lastName?: string;
+  photo?: string;
 }
 
 export interface AuthResponse {
   success: boolean;
-  authenticated: boolean;
   data: User | null;
 }
 

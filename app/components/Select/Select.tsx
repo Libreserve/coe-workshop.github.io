@@ -3,10 +3,11 @@
 import { useClickOutSide } from "@/app/hook/useClickOutSide";
 import SvgIconMono from "../Icon/SvgIconMono";
 import styles from "./Select.module.scss";
-import { SelectProps } from "./Select.types";
+import { SelectOption, SelectProps } from "./Select.types";
 
 export const Select = <T extends string = string,>({
   value,
+  defaultValue,
   label,
   require = false,
   options,
@@ -14,23 +15,36 @@ export const Select = <T extends string = string,>({
   errorMessage,
   onTop = false,
   onChange,
-  icon, /* optional icon on the left */
+  icon,
   iconSize = 18,
   iconWidth,
   iconHeight,
+  size = "md",
+  variant = "default"
 }: SelectProps<T>) => {
   const finalWidth = iconWidth ?? iconSize;
   const finalHeight = iconHeight ?? iconSize;
   const { ref, isOpen, setIsopen } = useClickOutSide();
 
+  const displayValue = value ?? defaultValue;
+
+  const normalizedOptions: SelectOption<T>[] = options.map((opt) =>
+    typeof opt === "string" ? { label: opt, value: opt as T } : opt
+  );
+
+  const selectedOption = normalizedOptions.find((opt) => opt.value === displayValue);
+  const displayLabel = selectedOption?.label ?? (displayValue || placeholder);
+
   return (
     <div className={styles.select}>
-      <h2>
-        {label} {require && <span className={styles.require}> *</span>}
-      </h2>
+      {label && (
+        <h2>
+          {label} {require && <span className={styles.require}> *</span>}
+        </h2>
+      )}
       <div
         onClick={() => setIsopen((prev) => !prev)}
-        className={`${styles.input} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
+        className={`${styles.input} ${styles[size]} ${styles[variant]} ${isOpen ? styles.input_focus : ""} ${errorMessage ? styles.input_error : ""}`}
       >
         <h4 className={styles.input_value}>
           {icon && (
@@ -42,7 +56,7 @@ export const Select = <T extends string = string,>({
               height={finalHeight}
             />
           )}
-          {!!value ? value : placeholder}
+          {displayLabel}
         </h4>
 
         <SvgIconMono
@@ -57,17 +71,18 @@ export const Select = <T extends string = string,>({
             ref={ref}
             className={`${styles.input_choiceContainer} ${onTop ? styles.input_onTop : ""} ${isOpen ? styles.input_open : ""}`}
           >
-            {options.map((prefix, index) => (
+            {normalizedOptions.map((option, index) => (
               <button
                 className={styles.input_choice}
                 type="button"
-                onClick={() => {
-                  onChange?.(prefix);
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onChange?.(option.value);
                   setIsopen(false);
                 }}
                 key={index}
               >
-                {prefix}
+                {option.label}
               </button>
             ))}
           </div>

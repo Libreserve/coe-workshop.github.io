@@ -1,7 +1,9 @@
+@use "@/app/styles/functions" as *;
+
 .statusTag {
   color: black;
   width: fit-content;
   padding: 0.2rem 0.8rem;
-  border-radius: 0.2rem;
+  border-radius: rem(22);
   text-wrap: nowrap;
 }

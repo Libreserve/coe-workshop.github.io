@@ -1,7 +1,6 @@
 "use client";
 
 import useDisclosure from "@/app/hook/useDisclosure";
-// import { mockAdminTableTransactions } from "@/app/mockdata/mockdata";
 import React, { useState } from "react";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
 import { StatusTag } from "@/app/admin/components/ui/statusTag/statusTag";
@@ -10,12 +9,13 @@ import styles from "./adminTrasaction.module.scss";
 import { AreaInput } from "@/app/components/Form/AreaInput/AreaInput";
 import { AdminTransactionProps, ResponseStatus } from "./adminTransaction.type";
 import ModalContainer from "@/app/components/ModalContainer/modalContainer";
-import { useGetAllTransactionsByStatusQuery, useUpdateTransactionStatusMutation } from "@/app/lib/features/admin/transactionsApi";
-import { useSearchParams } from "next/navigation";
+import { useUpdateAllTransactionsByUserMutation, useUpdateTransactionStatusMutation } from "@/app/lib/features/admin/transactionsApi";
 import { ErrorResponse } from "@/app/types/api/transaction";
 import { useScrollToRightEnd } from "@/app/hook/useScrollToRightEnd";
-
-type ISODateString = string;
+import Link from "next/link";
+import { useToast } from "@/app/Context/Toast/ToastProvider";
+import Loader from "../../layout/loader/loader";
+import Image from "next/image";
 
 export const AdminTransaction = ({
   message,
@@ -23,22 +23,13 @@ export const AdminTransaction = ({
   onSubmit,
   responseStatus,
   setResponseStatus,
+  toolTransaction,
+  isFetching,
+  isError,
 }: AdminTransactionProps) => {
   const [openTransaction, setOpenTransaction] = useState<number[]>([]);
   const [closeTransaction, setCloseTransaction] = useState<number[]>([]);
   const { opened, handle } = useDisclosure();
-
-  // ใช้ param => /tranactions?item=__
-  const searchParams = useSearchParams();
-  const itemQuery = parseInt(searchParams.get("item") || "0", 10);
-  const userQuery = searchParams.get("user") || "";
-  const dateQuery = searchParams.get("date") as ISODateString;
-  const pageQuery = parseInt(searchParams.get("page") || "1", 10);
-
-  const { data: toolTransaction, isLoading, isError, isFetching } = useGetAllTransactionsByStatusQuery({
-    status: "RESERVE",
-    page: pageQuery,
-  });
 
   const { scrollRef, isScrolledToRightEnd, handleScroll } = useScrollToRightEnd<HTMLDivElement>([toolTransaction]);
 
@@ -56,23 +47,35 @@ export const AdminTransaction = ({
 
   const [errorUpdateStatus, setErrorUpdateStatus] = useState<string | null>(null);
   const [selectedTxId, setSelectedTxId] = useState<number | null>(null);
+  const [selectedReserver, setSelectedReserver] = useState<string | null>(null);
   const [updateStatus, { isLoading: isUpdating }] = useUpdateTransactionStatusMutation();
+  const [approveAllTransactions, { isLoading: isApprovingAll }] = useUpdateAllTransactionsByUserMutation();
+  const { addToastStack } = useToast();
 
   const handleModalSubmit = async () => {
     try {
       const isApproved = responseStatus !== ResponseStatus.Reject;
+      if (responseStatus === ResponseStatus.ApproveAll) {
+	if (selectedReserver === null) return;
+	await approveAllTransactions({ reserverId: selectedReserver, isApproved, message }).unwrap();
+      } else {
 
-      await updateStatus({
-        transactionId: selectedTxId!,
-        isApproved: isApproved,
-        message: message,
-      }).unwrap();
+	await updateStatus({
+	  transactionId: selectedTxId!,
+	  isApproved,
+	  message,
+	}).unwrap();
+	setSelectedTxId(null);
+      }
 
       handle.close();
       onChange("");
-      setSelectedTxId(null);
       if (onSubmit) onSubmit();
-
+      addToastStack(
+	"ทำรายการสำเร็จ",
+	"ข้อมูลถูกส่งไปยังฐานข้อมูลเรียบร้อยแล้ว",
+	"success",
+      );
     } catch (err: unknown) {
       const rtkError = err as { data?: ErrorResponse };
 
@@ -110,6 +113,17 @@ export const AdminTransaction = ({
     }
   };
 
+  if (toolTransaction?.users.length === 0)
+    return <div className={styles.loadingContainer}>
+	     <Image
+               src={"/transaction/empty-rafiki.svg"}
+               alt={""}
+               width={300}
+               height={300}
+             />
+	     <p className={styles.loadingText}>ไม่มีคำขอใช้งานเครื่องมือในขณะนี้</p>
+	   </div>
+
   return (
     <div 
       className={`${styles.tableWrapper} ${isScrolledToRightEnd ? styles.isAtRightEnd : ""}`}
@@ -121,27 +135,30 @@ export const AdminTransaction = ({
           <col className={styles.itemName} />
           <col className={styles.assetID} />
           <col className={styles.status} />
-          <col className={styles.endTime} />
+          <col className={styles.time} />
           <col className={styles.message} />
           <col className={styles.action} />
         </colgroup>
 
         <thead>
           <tr className={styles.header}>
-            <th>ชื่ออุปกรณ์</th>
+            <th>ชื่อเครื่องมือ</th>
             <th>เลขครุภัณฑ์</th>
             <th>สถานะ</th>
-            <th>เวลาสิ้นสุด</th>
+            <th>เวลา</th>
             <th>คำร้อง</th>
             <th></th>
           </tr>
         </thead>
 
         <tbody>
-          {(isLoading || isFetching) ? (
+          {isFetching ? (
             <tr>
-              <td colSpan={6} className={styles.tableCellLoading}>
-                กำลังโหลดข้อมูล...
+              <td colSpan={6}>
+		<div className={styles.loadingContainer}>
+		  <Loader />
+		  <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
+		</div>
               </td>
             </tr>
           ) : (
@@ -152,105 +169,115 @@ export const AdminTransaction = ({
               </td>
             </tr> 
           ) : (
-            toolTransaction?.users?.map((userGroup: any, userIndex: number) => (
-              <React.Fragment key={userIndex}>
-                <tr className={styles.userRow}>
-                  <td colSpan={1}>
-                    <div 
-                      className={styles.userInfo}
-                      onClick={() => toggleTransaction(userIndex)}>
-                      <div
-                        className={`${styles.userArrow} ${
-                          openTransaction.includes(userIndex)
-                            ? styles.userArrowOpen
-                            : styles.userArrowClosed
-                        }`}
-                      >
-                        <SvgIconMono
-                          src={`/icon/arrow.svg`}
-                          width={15}
-                          height={15}
-                          alt="arrowDown"
-                        ></SvgIconMono>
-                      </div>
-                      <Tooltip title={userGroup.user?.phone}>
-                        <div className={styles.usernameBadge}>
-                          <span className={styles.username}>{userGroup.user?.userName}</span>
-                        </div>
-                      </Tooltip>
-                    </div>
-                  </td>
-                  <td colSpan={5}>
-                    <button
-                      onClick={() => {
-                        setSelectedTxId(null);
-                        setResponseStatus(ResponseStatus.ApproveAll);
-                        handle.open();
-                      }}
-                      className={styles.allApprove}
-                      type="button"
-                    >
-                      อนุมัติทั้งหมด
-                    </button>
-                  </td>
-                </tr>
-
-                {userGroup.adminTransactions?.map((transaction: any, transactionIndex: number) => 
-                openTransaction.includes(userIndex) && (
-                  <tr
-                    key={transactionIndex}
-                    className={`${styles.transactionRow}  ${
-                      closeTransaction.includes(userIndex)
-                        ? styles.slideOut
-                        : styles.slideIn
-                    }`}
-                  >
-                    <td className={styles.itemNameText}>{transaction.itemName ?? "N/A"}</td>
-                    <td className={styles.assetsText}>{transaction.assetID ?? "N/A"}</td>
-                    <td className={styles.status}>
-                      <StatusTag status={transaction.status} />
-                    </td>
-                    <td className={styles.endTime}>
-                      {formatHourMinute(transaction.endedAt)}
-                    </td>
-                    <td className={styles.message}>{transaction.message ?? "no message attach"}</td>
-                    <td className={styles.stickyAction}>
-                      <div className={styles.action_content}>
-                          <button
-                           className={styles.action_pointer}
-                           onClick={() => {
-                             handleImmediateApprove(transaction.id);
-                           }}
-                          disabled={isUpdating}
-                          type="button"
-                        >
-                          <SvgIconMono
-                            className={styles.action_content_check}
-                            src={`/icon/double-check.svg`}
-                            width={20} height={20} alt="check"
-                          />
-                        </button>
+	      toolTransaction?.users?.map((userGroup: any, userIndex: number) => (
+                <React.Fragment key={userIndex}>
+                  <tr className={styles.userRow}>
+                    <td colSpan={1}>
+                      <button 
+                        className={styles.userInfo}
+                        onClick={() => toggleTransaction(userIndex)}>
                         <div
-                          className={styles.action_pointer}
-                          onClick={() => {
-                            setSelectedTxId(transaction.id);
-                            setResponseStatus(ResponseStatus.Reject);
-                            handle.open();
-                          }}
+                          className={`${styles.userArrow} ${
+                            openTransaction.includes(userIndex)
+                              ? styles.userArrowOpen
+                              : styles.userArrowClosed
+                          }`}
                         >
                           <SvgIconMono
-                            className={styles.action_content_stop}
-                            src={`/icon/stop.svg`}
-                            width={20} height={20} alt="stop"
-                          />
+                            src={`/icon/arrow.svg`}
+                            width={15}
+                            height={15}
+                            alt="arrowDown"
+                          ></SvgIconMono>
                         </div>
-                      </div>
+                        <Tooltip title={userGroup.user?.phone}>
+                          <Link
+                            href={`/admin/history?userName=${encodeURIComponent(userGroup.user?.userName || "")}`}
+                            className={styles.usernameLink}
+                          >
+                            <div className={styles.usernameBadge}>
+                              <span className={styles.username}>{userGroup.user?.userName}</span>
+                            </div>
+                          </Link>
+                        </Tooltip>
+                      </button>
+                    </td>
+                    <td colSpan={5}>
+                      <button
+                        onClick={() => {
+                          setSelectedReserver(userGroup.user.id);
+	          	console.log(userGroup);
+                          setResponseStatus(ResponseStatus.ApproveAll);
+                          handle.open();
+                        }}
+                        className={styles.allApprove}
+                        type="button"
+                      >
+                        อนุมัติทั้งหมด
+                      </button>
                     </td>
                   </tr>
-                ),
-              )}
-            </React.Fragment>
-            ))
+
+                  {userGroup.adminTransactions?.map((txn: any, transactionIndex: number) => 
+                  openTransaction.includes(userIndex) && (
+                    <tr
+                      key={transactionIndex}
+                      className={`${styles.transactionRow}  ${
+                        closeTransaction.includes(userIndex)
+                          ? styles.slideOut
+                          : styles.slideIn
+                      }`}
+                    >
+                      <td className={styles.itemNameText}>{txn.itemName ?? "N/A"}</td>
+                      <td className={styles.assetsText}>{txn.assetID ?? "N/A"}</td>
+                      <td className={styles.status}>
+                        <StatusTag status={txn.status} />
+                      </td>
+                      <td className={styles.time}>
+			<div className={styles.timeRange}>
+		      	  <span>{formatHourMinute(txn.startedAt)}</span>
+                      	  <span className={styles.timeDash}>-</span>
+                      	  <span>{formatHourMinute(txn.endedAt)}</span>
+		      	</div>
+                      </td>
+                      <td className={styles.message}>{txn.message ?? "-"}</td>
+                      <td className={styles.stickyAction}>
+                        <div className={styles.action_content}>
+                            <button
+                             className={styles.action_pointer}
+                             onClick={() => {
+                               handleImmediateApprove(txn.id);
+                             }}
+                            disabled={isUpdating}
+                            type="button"
+                          >
+                            <SvgIconMono
+                              className={styles.action_content_check}
+                              src={`/icon/double-check.svg`}
+                              width={20} height={20} alt="check"
+                            />
+                          </button>
+                          <div
+                            className={styles.action_pointer}
+                            onClick={() => {
+                              setSelectedTxId(txn.id);
+                              setResponseStatus(ResponseStatus.Reject);
+                              handle.open();
+                            }}
+                          >
+                            <SvgIconMono
+                              className={styles.action_content_stop}
+                              src={`/icon/stop.svg`}
+                              width={20} height={20} alt="stop"
+                            />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ),
+                )}
+              </React.Fragment>
+              ))
           ))
         }
         </tbody>
@@ -272,7 +299,7 @@ export const AdminTransaction = ({
                   : "ยืนยันการอนุมัติ"}
               </h2>
               <p className={styles.response_description}>
-                สามารถทิ้งข้อความถึงผู้จองให้ทราบ เกี่ยวกับการจองอุปกรณ์ได้
+                สามารถทิ้งข้อความถึงผู้จองให้ทราบ เกี่ยวกับการจองเครื่องมือได้
               </p>
               <div className={styles.response_input}>
                 <AreaInput
@@ -280,8 +307,8 @@ export const AdminTransaction = ({
                   onChange={onChange}
                   placeholder={
                     responseStatus === ResponseStatus.Reject
-                      ? "ระบุสาเหตุที่ไม่อนุมัติการจอง..."
-                      : "ทิ้งข้อความสั้นๆ ถึงผู้จอง (ไม่บังคับ)..."
+                      ? "ระบุสาเหตุที่ไม่อนุมัติการขอใช้งาน..."
+                      : "ทิ้งข้อความสั้นๆ ถึงผู้ขอใช้งาน (ไม่บังคับ)..."
                   }
                 ></AreaInput>
               </div>
@@ -295,16 +322,16 @@ export const AdminTransaction = ({
                   type="button" 
                   className={styles.response_close} 
                   onClick={() => { handle.close(); onChange(""); setErrorUpdateStatus(null);}}
-                  disabled={isUpdating} // กันกดตอนโหลด
+                  disabled={isUpdating}
                 >
                   ปิด
                 </button>
                 <button 
                   className={`${styles.response_submit} ${errorUpdateStatus ? styles.error_response_submit : ""}`} 
                   type="submit"
-                  disabled={isUpdating}
+                  disabled={isUpdating || isApprovingAll}
                >
-                 {isUpdating ? "กำลังบันทึก..." : "ยืนยัน"}
+                 {(isUpdating || isApprovingAll) ? "กำลังบันทึก..." : "ยืนยัน"}
                </button>
               </div>
             </div>

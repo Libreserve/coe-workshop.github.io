@@ -1,39 +1,31 @@
 import { apiSlice } from "../apiSlice";
-// Lightweight admin transactions API wrapper
-type TranactionQueryElement = {
-  toolId?: number | null;
-  userId?: string | null;
-  date?: string | null;
-  page?: number | null;
-};
+import { CreateTransactionRequest, UserTransactionHistory, UserTransactionHistoryResponse } from "@/app/types/api/transaction";
 
-type ToolTransactionData = any;
-type ToolTransactionResponse = any;
 export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getToolTransaction: builder.query<ToolTransactionData, TranactionQueryElement>({
-      query: (args) => {
+    getAllTransactionsByStatus: builder.query<any, { status?: string; page?: number; date?: string; userName?: string }>({
+      query: ({ status, page = 1, date, userName }) => {
         const params = new URLSearchParams();
-        if (args.toolId) params.set("item", String(args.toolId));
-        if (args.userId) params.set("user", args.userId);
-        if (args.date) params.set("date", args.date);
-        if (args.page) params.set("page", String(args.page));
-        return `/transactions?${params.toString()}`;
-      },
-      keepUnusedDataFor: 300,
-      transformResponse: (res: any) => res?.data ?? {},
-      // providesTags could be added if needed
-    }),
-    getAllTransactionsByStatus: builder.query<any, { status: string; page?: number }>({
-      query: ({ status, page = 1 }) => {
-        const params = new URLSearchParams();
-        params.set("status", status);
+        if (status) params.set("status", status);
         params.set("page", String(page));
+        if (date) params.set("date", date);
+        if (userName) params.set("userName", userName);
         return `/transactions/by-status?${params.toString()}`;
       },
       keepUnusedDataFor: 300,
       transformResponse: (res: any) => res?.data ?? {},
       providesTags: ["Transaction"],
+    }),
+    getReservedByItem: builder.query<any, { itemId: number; date?: string }>({
+      query: ({ itemId, date }) => {
+        const params = new URLSearchParams();
+        if (date) params.set("date", date);
+        params.set("item", String(itemId));
+        return `/transactions/reserved-by-item?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse: (res: any) => res?.data ?? {},
+      providesTags: ["Transaction", "Assets"],
     }),
     updateTransactionStatus: builder.mutation<any, any>({
       query: (body) => ({
@@ -46,12 +38,61 @@ export const apiSliceWithTransactionsAdmin = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Transaction"],
     }),
+    updateAllTransactionsByUser: builder.mutation<any, { reserverId: string, isApproved: boolean, message: string }>({
+      query: (body) => ({
+        url: `/transactions/reserver/${body.reserverId}`,
+        method: "PATCH",
+        body: {
+          isApproved: body.isApproved,
+          message: body.message,
+        },
+      }),
+      invalidatesTags: ["Transaction"],
+    }),
+    getUserTransactionHistory: builder.query<UserTransactionHistory, { userId?: string; userName?: string; page?: number }>({
+      query: ({ userId, userName, page = 1 }) => {
+        const params = new URLSearchParams();
+        if (userId) params.set("user", userId);
+        if (userName) params.set("userName", userName);
+        params.set("page", String(page));
+        return `/transactions/by-user?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse(res: UserTransactionHistoryResponse) {
+        return res.data;
+      },
+      providesTags: ["Transaction"],
+    }),
+    getHistoryMe: builder.query<UserTransactionHistory, { page?: number }>({
+      query: ({ page = 1 }) => {
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        return `/transactions/history/me?${params.toString()}`;
+      },
+      keepUnusedDataFor: 300,
+      transformResponse(res: UserTransactionHistoryResponse) {
+        return res.data;
+      },
+      providesTags: ["Transaction"],
+    }),
+    createTransaction: builder.mutation<any, CreateTransactionRequest>({
+      query: (body) => ({
+        url: `/transactions`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Transaction"],
+    }),
   }),
   overrideExisting: true,
 });
 
 export const {
-  useGetToolTransactionQuery,
   useGetAllTransactionsByStatusQuery,
   useUpdateTransactionStatusMutation,
+  useUpdateAllTransactionsByUserMutation,
+  useGetUserTransactionHistoryQuery,
+  useGetHistoryMeQuery,
+  useCreateTransactionMutation,
+  useGetReservedByItemQuery,
 } = apiSliceWithTransactionsAdmin;

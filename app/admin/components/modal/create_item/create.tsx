@@ -4,7 +4,8 @@ import { ErrorResponse, ToolCategories } from "@/app/lib/features/admin/tool.typ
 import {
   useCreateToolMutation,
   useUpdateToolMutation,
-} from "@/app/lib/features/admin/toolsAdminApi";
+} from "@/app/lib/features/tools/toolsApiSlice";
+import { getAllCategories, getCategoryDisplay, getCategoryThaiName } from "@/app/lib/features/tools/category.utils";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
@@ -46,71 +47,40 @@ function CreateItem({ onClose, value }: CreateItemProps) {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (files.length === 0) return;
 
-    const duplicates = files.filter(
-      (file) =>
-        images.some((f) => f.name === file.name) ||
-        tempFiles.some((f) => f.name === file.name),
-    );
+    const file = files[0];
 
-    const newFiles = files.filter(
-      (file) =>
-        !images.some((f) => f.name === file.name) &&
-        !tempFiles.some((f) => f.name === file.name),
-    );
-
-    if (duplicates.length > 0) {
-      setTempFiles((prev) => [...prev, ...duplicates]);
-
-      const errorStatus: typeof uploadStatus = {};
-      duplicates.forEach((file) => {
-        errorStatus[file.name] = "error";
-      });
-      setUploadStatus((prev) => ({ ...prev, ...errorStatus }));
-    }
-
-    if (newFiles.length === 0) {
-      e.target.value = "";
-      return;
-    }
-
-    const newStatus: typeof uploadStatus = {};
-    newFiles.forEach((file) => (newStatus[file.name] = "compressing"));
-    setUploadStatus((prev) => ({ ...prev, ...newStatus }));
+    setTempFiles([file]);
+    setImages([]);
+    setUploadStatus({});
 
     e.target.value = "";
 
-    setTempFiles((prev) => [...prev, ...newFiles]);
+    const newStatus: typeof uploadStatus = { [file.name]: "compressing" };
+    setUploadStatus(newStatus);
 
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    const processedFiles: File[] = [];
-    for (const file of newFiles) {
-      try {
-        const options = {
-          maxSizeMB: 10,
-          maxWidthOrHeight: 1920,
-          useWebWorker: true,
-        };
+    try {
+      const options = {
+        maxSizeMB: 10,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
 
-        const compressedFile = await imageCompression(file, options);
+      const compressedFile = await imageCompression(file, options);
 
-        processedFiles.push(
-          new File([compressedFile], file.name, { type: file.type }),
-        );
+      setImages([
+        new File([compressedFile], file.name, { type: file.type }),
+      ]);
 
-        setUploadStatus((prev) => ({
-          ...prev,
-          [file.name]: "done",
-        }));
-      } catch {
-        setUploadStatus((prev) => ({
-          ...prev,
-          [file.name]: "error",
-        }));
-      }
+      setUploadStatus({
+        [file.name]: "done",
+      });
+    } catch {
+      setUploadStatus({
+        [file.name]: "error",
+      });
     }
-
-    setImages((prev) => [...prev, ...processedFiles]);
   };
 
   const handleRemoveFile = (fileName: string) => {
@@ -133,7 +103,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
     };
 
     if (!name.trim()) {
-      newErrors.name = "กรุณากรอกชื่ออุปกรณ์";
+      newErrors.name = "กรุณากรอกชื่อเครื่องมือ";
     }
 
     if (!category) {
@@ -160,7 +130,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
 
     addToastStack(
       "กำลังอัปโหลด",
-      "กำลังอัปโหลดข้อมูลอุปกรณ์ กรุณารอสักครู่...",
+      "กำลังอัปโหลดข้อมูลเครื่องมือ กรุณารอสักครู่...",
       "warning",
     );
 
@@ -184,17 +154,17 @@ function CreateItem({ onClose, value }: CreateItemProps) {
         setUploadStatus({});
 
         addToastStack(
-          "อัปเดตอุปกรณ์สำเร็จ",
-          "อุปกรณ์ถูกอัปเดตไปยังฐานข้อมูลเรียบร้อยแล้ว",
+          "อัปเดตเครื่องมือสำเร็จ",
+          "เครื่องมือถูกอัปเดตไปยังฐานข้อมูลเรียบร้อยแล้ว",
           "success",
         );
         onClose();
       } catch (error) {
         let updateErrorMessage = "";
         const err = error as FetchBaseQueryError;
-        if (err.data && typeof err.data === "object" && "message" in err.data) {
+        if (err.data && typeof err.data === "object" && "error" in err.data) {
           updateErrorMessage =
-            (err.data as ErrorResponse).message || "something went wrong";
+            (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการอัปเดตเครื่องมือ";
         }
         setErrors((prev) => ({
           ...prev,
@@ -202,8 +172,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
         }));
 
         addToastStack(
-          "อัปเดตอุปกรณ์ไม่สำเร็จ",
-          updateErrorMessage || "เกิดข้อผิดพลาดในการอัปเดตอุปกรณ์",
+          "อัปเดตเครื่องมือไม่สำเร็จ",
+          updateErrorMessage || "เกิดข้อผิดพลาดในการอัปเดตเครื่องมือ",
           "error",
         );
       } finally {
@@ -222,17 +192,17 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       setUploadStatus({});
 
       addToastStack(
-        "สร้างอุปกรณ์สำเร็จ",
-        "อุปกรณ์ถูกเพิ่มไปยังฐานข้อมูล ชื่อ รูป และคำอธิบายจะแสดงให้ผู้ใช้งานทราบ",
-        "success",
+        "สร้างเครื่องมือสำเร็จ",
+        "เครื่องมือถูกเพิ่มไปยังฐานข้อมูลเรียบร้อยแล้ว",
+	"success",
       );
       onClose();
     } catch (error) {
       let createErrorMessage = "";
       const err = error as FetchBaseQueryError;
-      if (err.data && typeof err.data === "object" && "message" in err.data) {
+      if (err.data && typeof err.data === "object" && "error" in err.data) {
         createErrorMessage =
-          (err.data as ErrorResponse).message || "something went wrong";
+          (err.data as ErrorResponse).error || "เกิดข้อผิดพลาดในการสร้างเครื่องมือ";
       }
       setErrors((prev) => ({
         ...prev,
@@ -240,8 +210,8 @@ function CreateItem({ onClose, value }: CreateItemProps) {
       }));
 
       addToastStack(
-        "สร้างอุปกรณ์ไม่สำเร็จ",
-        createErrorMessage || "เกิดข้อผิดพลาดในการสร้างอุปกรณ์",
+        "สร้างเครื่องมือไม่สำเร็จ",
+        createErrorMessage || "เกิดข้อผิดพลาดในการสร้างเครื่องมือ",
         "error",
       );
     } finally {
@@ -249,19 +219,21 @@ function CreateItem({ onClose, value }: CreateItemProps) {
     }
   };
 
+  const isCompressing = tempFiles.some(file => uploadStatus[file.name] === "compressing");
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <form onSubmit={handleSubmit}>
           <div className={styles.content}>
             <div className={styles.formSection}>
-              <h2>{value ? "อัปเดตอุปกรณ์" : "สร้างอุปกรณ์รายการใหม่"}</h2>
+              <h2>{value ? "อัปเดตเครื่องมือ" : "สร้างเครื่องมือรายการใหม่"}</h2>
               <p>หรือข้อมูล และตารางข้อมูลสำหรับจัดการหมวดหมู่ของโปรเจกต์</p>
 
               <div className={styles.field}>
                 <TextInput
-                  label="ชื่ออุปกรณ์"
-                  placeholder="ระบุชื่ออุปกรณ์"
+                  label="ชื่อเครื่องมือ"
+                  placeholder="ระบุชื่อเครื่องมือ"
                   require
                   value={name}
                   onChange={setName}
@@ -287,7 +259,10 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                   errorMessage={errors.category}
                   value={category}
                   onChange={setCategory}
-                  options={Object.values(ToolCategories)}
+                  options={getAllCategories().map((c) => ({
+                    label: getCategoryDisplay(c),
+                    value: c,
+                  }))}
                 ></Select>
               </div>
             </div>
@@ -320,7 +295,6 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                       id="image"
                       type="file"
                       accept="image/*"
-                      multiple
                       onChange={handleFileChange}
                       disabled={submitting}
                       className={styles.imageFileMain}
@@ -332,6 +306,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                     <div className={styles.fileList}>
                       {tempFiles.map((file, index) => {
                         const isError = uploadStatus[file.name] === "error";
+			console.log("enter")
                         return (
                           <div
                             key={index}
@@ -374,7 +349,7 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                             </div>
                             <div onClick={() => handleRemoveFile(file.name)}>
                               <SvgIconMono
-                                src={"/create-item/close.svg"}
+                                src={"/close.svg"}
                                 width={10}
                                 height={10}
                                 alt="close-button"
@@ -386,16 +361,10 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                       })}
                     </div>
 
-                    <label htmlFor="image-upload" className={styles.button}>
-                      <span dangerouslySetInnerHTML={{ __html: addImageSvg_Dark }} className={styles.image} />
-                      <p className={styles.uploadText}>อัพโหลดรูปภาพ</p>
-                    </label>
-
                     <input
                       id="image-upload"
                       type="file"
                       accept="image/*"
-                      multiple
                       onChange={handleFileChange}
                       disabled={submitting}
                       className={styles.imageFile}
@@ -424,9 +393,9 @@ function CreateItem({ onClose, value }: CreateItemProps) {
                 <button
                   type="submit"
                   className={styles.submitButton}
-                  disabled={submitting}
+                  disabled={submitting || isCompressing}
                 >
-                  {submitting ? "กำลังบันทึก..." : "บันทึก"}
+                  {isCompressing ? "กำลังบีบอัดไฟล์..." : (submitting ? "กำลังบันทึก..." : "บันทึก")}
                 </button>
               </div>
             </div>

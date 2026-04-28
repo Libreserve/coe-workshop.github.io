@@ -1,9 +1,11 @@
+@use "@/app/styles/functions" as *;
+
 .tag_collection {
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   border: 0.08rem solid var(--theme-400);
-  border-radius: 0.2rem;
+  border-radius: rem(12);
   padding: 0.4rem;
   gap: 0.4rem;
   max-height: 15rem;

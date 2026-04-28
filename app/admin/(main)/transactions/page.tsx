@@ -3,7 +3,7 @@ import { Transaction } from "./transactionsClient";
 
 const PageTransaction = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>กำลังโหลด...</div>}>
       <Transaction />
     </Suspense>
   );

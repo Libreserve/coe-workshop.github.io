@@ -23,7 +23,7 @@ const NavSlide = ({ menuMapPropsList, onClose }: NavSlideProps) => {
         ))}
       </div>
       <div>
-        <p className={styles.navSlide_auth}>Logout</p>
+        <p className={styles.navSlide_auth}>ออกจากระบบ</p>
       </div>
     </aside>
   );

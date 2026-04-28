@@ -3,7 +3,7 @@ import ToolsClient from "./ToolClient";
 
 const Page = () => {
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    <Suspense fallback={<div>กำลังโหลด...</div>}>
       <ToolsClient></ToolsClient>
     </Suspense>
   );

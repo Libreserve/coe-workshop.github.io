@@ -33,3 +33,26 @@ export function useSetQuery() {
 
   return setQuery;
 }
+
+export function useSetQueries() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const setQueries = useCallback(
+    (queries: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      Object.entries(queries).forEach(([name, value]) => {
+        if (value) {
+          params.set(name, value);
+        } else {
+          params.delete(name);
+        }
+      });
+      router.push(pathname + "?" + params.toString());
+    },
+    [router, pathname, searchParams]
+  );
+
+  return setQueries;
+}

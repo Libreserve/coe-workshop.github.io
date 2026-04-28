@@ -4,14 +4,12 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import { ToastContext } from "./ToastContext";
-import { Variant } from "./types";
-import { ToastContextTypeProps } from "./types";
+import { ToastContextTypeProps, Variant } from "@/app/components/Toast/types";
 
 const ToastProvider = ({ children }: { children: ReactNode }) => {
   const toastID = useRef(0);

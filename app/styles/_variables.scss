@@ -133,6 +133,12 @@ $brown-700: #44403c;
 $brown-800: #292524;
 $brown-900: #1c1917;
 
+$deep-dark: #17171c;
+$inv-deep-dark: #e8e8e3;
+$muted-slate: #93939f;
+$border-cool: #d9d9dd;
+$inv-border-cool: #262622;
+
 // for every element color
 // how to use :
 // Ex. var(--logo-mark)
@@ -160,7 +166,9 @@ $light: (
   text-fade-mid2 : $sub-550,
   text-fade-high : $sub-700,
 
+  success-green: $green-400,
   warning-red: $red-600,
+  warning-yellow: $yellow-400,
   error-red: $red-500,
 
   box-background : $sub-0,
@@ -178,12 +186,15 @@ $light: (
   table-hover: $sub-50,
   table-firstItem: $sub-0,
   table-oldTransaction: $sub-100,
-  timetable-event-content: $sub-0,
+  timetable-event-content: #4c6ee6,
   Obj-fade: $sub-100,
   Obj-fade2: $sub-200,
   Obj-hilight: $yellow-100,
   textbox: $sub-100,
   background-fade: $sub-50,
+  dark-nav: $deep-dark,
+  tertiary-text: $muted-slate,
+  section-border: $border-cool,
   );
 $dark: (
   theme-0: #000000,    
@@ -213,6 +224,8 @@ $dark: (
   text-fade-mid : $sub-400,
   text-fade-mid2 : $sub-300,
   text-fade-high : $sub-200,
+
+  table-firstItem: $sub-1000,
   
   warning-red: $red-450,
   error-red: $red-400,
@@ -224,6 +237,10 @@ $dark: (
   borderline-fade: $sub-500,
 
   Obj-fade: $sub-500,
+  dark-nav: $inv-deep-dark,
+  section-border: $inv-border-cool,
+  // temp
+  textbox: $sub-900,
 );
 
 @mixin theme-vars($map) {

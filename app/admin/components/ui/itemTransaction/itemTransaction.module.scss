@@ -17,6 +17,7 @@
   z-index: 0;
 }
 .toggle {
+  cursor: pointer;
   width: 3rem;
   .toggle_image {
     display: block;
@@ -33,6 +34,9 @@
   }
   .header_action {
     width: 3rem;
+  }
+  .header_time {
+    width: 17rem;
   }
 }
 
@@ -53,7 +57,17 @@
   .message {
     color: var(--text-fade-mid);
   }
-  .endTime {
+  .time {
+    width: 10rem;
+  }
+
+  .timeRange {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .timeDash {
     color: var(--text-fade-mid);
   }
 }
@@ -77,9 +91,19 @@
   animation: slideOut 0.3s ease forwards;
 }
 
-.loading {
+.loadingContainer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  min-height: 300px;
+}
+
+.loadingText {
+  color: var(--text-fade-mid);
+  font-size: 1rem;
 }
 
 .error {

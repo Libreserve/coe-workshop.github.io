@@ -1,3 +1,396 @@
-.container {
-  padding: 1rem;
+@use "@/app/styles/variables" as *;
+@use "@/app/styles/_breakpoints" as *;
+@use "@/app/styles/functions" as *;
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
 }
+
+.container {
+  width: clamp(250px, 80vw, 703px);
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: var(--theme-50);
+  position: relative;
+  border-radius: rem(22);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    .formSection {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+      p {
+        font-size: 0.9rem;
+        color: var(--text-fade-mid);
+        font-weight: 300;
+      }
+      .field {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        label {
+          font-size: 0.9rem;
+          font-weight: 400;
+          margin: 3px 0 10px 0;
+          span {
+            color: var(--warning-red);
+          }
+        }
+        .name {
+          padding: 8px 10px;
+          border-radius: 3px;
+          border: 1.5px solid $sub-300;
+          &::placeholder {
+            color: $sub-300;
+          }
+        }
+        .description {
+          padding: 10px;
+          border-radius: 3px;
+          border: 1.5px solid $sub-300;
+          min-height: 80px;
+          resize: none;
+
+          &::placeholder {
+            color: $sub-300;
+          }
+        }
+        .option {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+
+          background-image: url("/Tools/arrow.svg");
+          background-repeat: no-repeat;
+          background-position: right 10px center;
+          padding: 0 15px;
+          border: 1px solid $sub-300;
+          border-radius: 6px;
+          height: 40px;
+          width: 100%;
+
+          .option_inside {
+          }
+        }
+        .error {
+          padding: 8px 10px;
+          border-radius: 3px;
+          border: 1.5px solid var(--warning-red);
+          &::placeholder {
+            color: var(--warning-red);
+          }
+          &.error {
+            color: var(--warning-red);
+          }
+        }
+      }
+    }
+    .rightSection {
+      width: 22rem;
+      margin-top: 42px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 30%;
+      .imageBox {
+        width: 320px;
+        height: 235px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 2px dashed var(--theme-300);
+        border-radius: 6px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.2s;
+        position: relative;
+
+        &:hover {
+          border-color: $sub-500;
+          background: $sub-100;
+        }
+        .imageFileMain {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+        }
+        .image {
+          object-fit: cover;
+        }
+        .uploadText {
+          font-size: 0.7rem;
+          pointer-events: none;
+          font-weight: 500;
+          span {
+            text-decoration: underline;
+            font-weight: 550;
+          }
+        }
+        .text_size {
+          padding: 3px;
+          font-size: 0.65rem;
+          color: var(--text-fade-mid);
+        }
+      }
+      .errorMessage {
+        position: absolute;
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--warning-red);
+        top: 76%;
+        right: 4%;
+      }
+      .buttonGroup {
+        position: absolute;
+        bottom: 40px;
+        right: 25px;
+        display: flex;
+        gap: 8px;
+        button {
+          padding: 7px 20px;
+          border-radius: rem(22);
+          border: 1px solid $sub-300;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+        .cancelButton {
+          background-color: var(--theme-0);
+          color: var(--theme-1000);
+        }
+        .submitButton {
+          background-color: var(--theme-1000);
+          color: var(--theme-0);
+        }
+      }
+      .imageBoxPreview {
+        height: 250px;
+        justify-content: space-between;
+        position: relative;
+
+        .fileList {
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          height: 200px;
+          overflow-y: auto;
+
+          .blog {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 12px;
+            border: 2px solid $sub-1000;
+            border-radius: 6px;
+
+            .detail {
+              display: flex;
+              gap: 10px;
+            }
+
+            .text p {
+              white-space: nowrap;
+              overflow: hidden;
+              display: block;
+            }
+
+            .removeButton {
+              object-fit: contain;
+              cursor: pointer;
+            }
+
+            &.compressing {
+              border-color: $sub-300;
+            }
+
+            &.error {
+              border-color: var(--warning-red);
+              color: var(--warning-red);
+            }
+          }
+
+          .text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            p {
+              font-size: 0.75rem;
+            }
+
+            .text_picDetail {
+              color: var(--text-fade-mid);
+            }
+
+            .status {
+              font-size: 0.7rem;
+              color: var(--text-fade-mid);
+
+              &.error {
+                color: var(--warning-red);
+                font-size: 0.65rem;
+              }
+            }
+          }
+        }
+
+        .imageFile {
+          position: absolute;
+          top: 67%;
+          left: 51%;
+          width: 45%;
+          opacity: 0;
+          cursor: pointer;
+        }
+
+        .button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid $sub-300;
+          border-radius: 6px;
+          padding: 5px;
+          margin-top: 10px;
+          gap: 15px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $sub-100;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include respond-to-max(md) {
+  .wrapper {
+    align-items: center;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+
+  .container {
+    padding: 1.2rem;
+
+    max-height: 90vh;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .content {
+    flex-direction: column;
+    align-items: center;
+    min-height: auto;
+    gap: 0px;
+  }
+
+  .rightSection {
+    width: 100%;
+    height: auto;
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    justify-content: flex-start;
+
+    .imageBox,
+    .imageBoxPreview .fileList {
+      width: clamp(250px, 80vw, 320px);
+    }
+
+    .imageBoxPreview {
+      height: auto;
+      min-height: 250px;
+    }
+
+    .buttonGroup {
+      position: relative !important;
+      bottom: auto !important;
+      right: 0 !important;
+      margin-top: 20px;
+      display: flex;
+      justify-content: end;
+      width: 100%;
+    }
+
+    .errorMessage {
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      text-align: center;
+      margin: 10px 0;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    .formSection {
+      .field {
+        .name {
+          background: $sub-750 !important;
+        }
+        .option {
+          background-image: url("/Tools/arrow_dark.svg") !important;
+          .option_inside {
+            color: var(--text-inverse);
+          }
+        }
+      }
+    }
+    // idk why it's can't config normaly, so i force it.
+    .rightSection {
+      .imageBox {
+        &:hover {
+          border-color: $sub-1000 !important;
+          background: $sub-800 !important;
+        }
+      }
+      .imageBoxPreview {
+        .fileList {
+          .blog {
+            border: 2px solid $sub-200 !important;
+            &.compressing {
+              border-color: $sub-500 !important;
+            }
+            &.error {
+              border-color: var(--warning-red) !important;
+            }
+          }
+        }
+        .button {
+          .uploadText {
+            color: var(--text-fade-high) !important;
+          }
+          &:hover {
+            background-color: $sub-800 !important;
+          }
+        }
+      }
+    }
+  }
+}
+

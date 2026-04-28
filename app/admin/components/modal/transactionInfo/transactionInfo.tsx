@@ -1,6 +1,9 @@
+import { isAdminRoute } from "@/app/utils/isAdminRoute";
 import { StatusTag } from "../../ui/statusTag/statusTag";
 import styles from "./transactionInfo.module.scss";
 import { TransactionInfoProps } from "./transactionInfo.types";
+import { formatDateTime } from "@/app/utils/dateTime";
+
 export const TransactionInfo = ({
   user,
   startedAt,
@@ -22,32 +25,34 @@ export const TransactionInfo = ({
           <p>ผู้ยื่นคำร้อง:</p>
           <p>{(user as any).userName || user.username}</p>
         </span>
-        <span>
-          <p>เบอร์โทรติดต่อ:</p>
-          <p>{(user as any).phone || user.tel}</p>
-        </span>
+	{isAdminRoute() && (
+	  <span>
+            <p>เบอร์โทรติดต่อ:</p>
+            <p>{(user as any).phone || user.tel}</p>
+          </span>
+	)}
         <span>
           <p>คำร้อง:</p>
           <p>{message}</p>
         </span>
         <span>
           <p>เวลาเริ่ม:</p>
-          <p>{startedAt}</p>
+          <p>{formatDateTime(startedAt)}</p>
         </span>
         <span>
           <p>เวลาสิ้นสุด:</p>
-          <p>{endTime}</p>
+          <p>{formatDateTime(endTime || "")}</p>
         </span>
       </section>
-      <hr className={styles.line} />
+      {/*<hr className={styles.line} />
       <section>
         <span>
-          <h3>เกี่ยวกับอุปกรณ์</h3>
+          <h3>เกี่ยวกับเครื่องมือ</h3>
         </span>
         <div className={styles.tool}>
-          <h3>ชื่อของอุปกรณ์</h3>
+          <h3>ชื่อของเครื่องมือ</h3>
         </div>
-      </section>
+      </section>*/}
       <section className={styles.action}>
         <form
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {

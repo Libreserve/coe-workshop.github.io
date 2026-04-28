@@ -1,0 +1,125 @@
+@use "../../styles/variables" as *;
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  min-height: 60vh;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: var(--theme-50);
+  border: 1px solid #f2f2f2;
+  border-radius: 22px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: var(--theme-1000);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-normal);
+  }
+}
+
+.input,
+.textarea {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--section-border);
+  border-radius: 12px;
+  background-color: var(--theme-0);
+  color: var(--text-normal);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $sub-600;
+    box-shadow: 0 0 0 2px $sub-200;
+  }
+
+  &::placeholder {
+    color: #93939f;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.select {
+  cursor: pointer;
+}
+
+.error {
+  padding: 0.75rem 1rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.submitButton {
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-inverse);
+  background-color: var(--dark-nav);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.successCard {
+  width: 100%;
+  max-width: 600px;
+  padding: 3rem 2rem;
+  background-color: #ffffff;
+  border: 1px solid #f2f2f2;
+  border-radius: 22px;
+  text-align: center;
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: var(--text-normal);
+  }
+
+  p {
+    font-size: 1rem;
+    color: #93939f;
+    margin-bottom: 2rem;
+  }
+}

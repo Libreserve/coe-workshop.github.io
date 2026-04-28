@@ -1,13 +1,14 @@
-@use "../../../../styles/variables" as *;
+@use "@/app/styles/variables" as *;
+@use "@/app/styles/functions" as *;
 
 .info {
-  width: clamp(14rem, 90%, 24rem);
+  width: clamp(17rem, 90%, 32rem);
   margin-inline: auto;
-  margin-top: 10rem;
-  background-color: var(--background);
+  // margin-top: 10rem;
+  background-color: var(--box-background);
   position: relative;
   z-index: 10;
-  border-radius: 0.4rem;
+  border-radius: rem(22);
   padding: 1rem 1.5rem;
   span {
     display: flex;
@@ -39,6 +40,6 @@
     color: $sub-0;
     background-color: $sub-1000;
     padding: 0.2rem 1rem;
-    border-radius: 0.4rem;
+    border-radius: rem(22);
   }
 }
