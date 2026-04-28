@@ -69,5 +69,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -oP 'main-[a-f0-9]+')
-          kubectl set image deployment/frontend frontend=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG} -n libreserve
-          kubectl rollout status deployment/frontend -n libreserve --timeout=120s
+          kubectl set image deployment/frontend frontend=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG} -n libreserve-prod
+          kubectl rollout status deployment/frontend -n libreserve-prod --timeout=120s
