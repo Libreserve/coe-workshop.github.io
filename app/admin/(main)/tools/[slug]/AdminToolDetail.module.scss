@@ -277,3 +277,11 @@
   gap: rem(32);
   align-items: center;
 }
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    thead th {
+      background: $sub-800;
+    }
+  }
+}

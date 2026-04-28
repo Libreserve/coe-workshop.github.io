@@ -52,7 +52,7 @@
   .grid_line:first-child {
     position: sticky;
     left: 0;
-    background-color: var(--backgroundy);
+    background-color: var(--background);
     z-index: 2;
     border-right: none;
   }
@@ -81,6 +81,7 @@
         left: 0;
         background-color: var(--background);
         z-index: 2;
+        opacity: 0.8;
       }
 
       .event {

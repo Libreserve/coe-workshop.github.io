@@ -72,11 +72,12 @@
   }
 }
 
-.oldTransaction td {
+.oldTransaction {
   padding: 0.5rem 0.8rem;
   background-color: var(--table-oldTransaction);
-  position: relative;
-  z-index: -1;
+  &:hover {
+    background-color: $sub-50;
+  }
 }
 
 .trashSpace {
@@ -108,4 +109,12 @@
 
 .error {
     text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    tbody tr:hover {
+      background-color: $sub-750;
+    }
+  }
 }

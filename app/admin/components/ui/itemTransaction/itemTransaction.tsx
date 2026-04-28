@@ -134,10 +134,7 @@ export const ItemTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
             assets.map((asset: any, assetIndex: number) => {
 	      return asset.transactions.length === 0 ? (
                 <tr className={styles.firstItem} key={assetIndex}>
-                  <td
-                    className={styles.toggle}
-                    onClick={() => toggleTransaction(assetIndex)}
-                  />
+                  <td className={styles.toggle} />
                   <td colSpan={2} className={styles.assetNumber}>{asset.assetNumber}</td>
 		  <td colSpan={3} className={styles.status}>
 		    <StatusTag status={AdminStatus.Blank}></StatusTag>
