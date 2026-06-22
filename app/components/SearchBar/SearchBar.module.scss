@@ -1,36 +1,38 @@
 @use "../../styles/variables" as *;
 
+.searchBar {
+  display: flex;
+  gap: 0.4rem;
+  box-sizing: border-box;
+  background-color: var(--theme-100);
+  border-radius: 0.2rem;
+  transition: all 0.3s ease;
+  border: 0.125rem solid transparent;
 
-.searchBar{
-    display: flex;
-    gap: 0.4rem;
-    background-color: var(--theme-100);
-    border-radius:0.2rem;
-    transition: all 0.3s ease;
+  &.md {
+    padding: 0.6rem 0.4rem;
+  }
 
-    &.md {
-        padding: 0.6rem 0.4rem;
+  &.sm {
+    padding: 0.3rem 0.4rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--theme-300);
+  }
+
+  &.canFocus {
+    &:focus-within {
+      box-sizing: border-box;
+      border: 0.125rem solid $sub-1000;
     }
-
-    &.sm {
-        padding: 0.3rem 0.4rem;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        background-color: var(--theme-300);
-    }
-
-    &.canFocus{
-        &:focus-within{
-            border: 0.1rem solid $sub-1000;
-        }
-    }
+  }
 }
 
-.input{
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: var(--foreground);
+.input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--foreground);
 }
