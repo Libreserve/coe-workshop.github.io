@@ -33,7 +33,13 @@ const minutesToSlotIndex = (isoString: string): number => {
   return Math.floor((thaiMin - OFFICE_START_MINUTES) / SLOT_MINUTES);
 };
 
-export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: string }) => {
+export const TimeTransaction = ({
+  toolId = 0,
+  date,
+}: {
+  toolId?: number;
+  date?: string;
+}) => {
   const todayDateString = new Date().toISOString().split("T")[0];
   const effectiveDate = date || todayDateString;
   const OFFICE_END_ISO = `${effectiveDate}T16:00:00+07:00`;
@@ -60,16 +66,16 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
       hour: "2-digit",
       minute: "2-digit",
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    }).format(new Date(date)).replace(":", ".");
+    })
+      .format(new Date(date))
+      .replace(":", ".");
     return time;
   };
 
-  const {
-    data,
-    isError,
-    error,
-    isLoading,
-  } = useGetReservedByItemQuery({ itemId: toolId, date: effectiveDate });
+  const { data, isError, error, isLoading } = useGetReservedByItemQuery({
+    itemId: toolId,
+    date: effectiveDate,
+  });
 
   let toolTransactionErrorMessage =
     "There's some error occuring while try to fetching the transaction data";
@@ -81,12 +87,14 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   }
 
   if (isLoading) {
-    return <>
-             <div className={styles.loadingContainer}>
-               <Loader></Loader>
-     	       <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
-             </div>
-	  </>
+    return (
+      <>
+        <div className={styles.loadingContainer}>
+          <Loader></Loader>
+          <p className={styles.loadingText}>กำลังโหลดข้อมูล...</p>
+        </div>
+      </>
+    );
   }
 
   if (isError) {
@@ -103,28 +111,35 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
   const assets = assetsToItems.map((item: any) => {
     const rawTransactions = item.asset?.transactions ?? [];
     const sortedTransactions = [...rawTransactions].sort((a, b) => {
-        return new Date(a.endedAt).getTime() - new Date(b.endedAt).getTime();
+      return new Date(a.endedAt).getTime() - new Date(b.endedAt).getTime();
     });
 
     return {
       id: item.assetID,
       assetNumber: item.asset?.assetID,
       transactions: sortedTransactions,
-    }});
+    };
+  });
 
-  if (assets.length === 0) 
-    return <>
-	     <div className={styles.loadingContainer}>
-	       <Image
-                 src={"/transaction/empty-rafiki.svg"}
-                 alt={""}
-                 width={300}
-                 height={300}
-	         className={styles.empty}
-               />
-	       <p className={styles.loadingText}>ไม่มีครุภัณฑ์{isAdminRoute() && "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}</p>
-	     </div>
-	   </>
+  if (assets.length === 0)
+    return (
+      <>
+        <div className={styles.loadingContainer}>
+          <Image
+            src={"/transaction/empty-rafiki.svg"}
+            alt={""}
+            width={300}
+            height={300}
+            className={styles.empty}
+          />
+          <p className={styles.loadingText}>
+            ไม่มีครุภัณฑ์
+            {isAdminRoute() &&
+              "คลิกที่ปุ่ม 3 จุดข้างชื่อเครื่องมือเพื่อสร้างครุภัณฑ์"}
+          </p>
+        </div>
+      </>
+    );
 
   return (
     <div>
@@ -148,7 +163,7 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
             {assets.map((asset: any) => {
               const transactions = asset.transactions ?? [];
               const hasTransactions = transactions.length > 0;
-              
+
               return (
                 <div key={asset.assetNumber} className={styles.row_container}>
                   <div className={styles.row}>
@@ -156,15 +171,24 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                     {!hasTransactions ? (
                       <div
                         className={styles.available}
-                        style={{ "--grid-colspan": "span 14" } as React.CSSProperties}
+                        style={
+                          { "--grid-colspan": "span 14" } as React.CSSProperties
+                        }
                       >
-                        <span className={styles.availableText}>ว่างทั้งวัน</span>
+                        <span className={styles.availableText}>
+                          ว่างทั้งวัน
+                        </span>
                       </div>
                     ) : (
                       <>
                         {(() => {
-                          const firstStartSlot = minutesToSlotIndex(transactions[0]?.startedAt);
-                          if (firstStartSlot > 0 && transactions[0]?.startedAt) {
+                          const firstStartSlot = minutesToSlotIndex(
+                            transactions[0]?.startedAt,
+                          );
+                          if (
+                            firstStartSlot > 0 &&
+                            transactions[0]?.startedAt
+                          ) {
                             return (
                               <div
                                 className={styles.first}
@@ -178,10 +202,16 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                           }
                         })()}
                         {transactions.map((event: any, idx: number) => {
-                          const currentColSpan = getSlotCount(event.startedAt, event.endedAt);
-                          const nextStartIso = transactions[idx + 1]?.startedAt ?? OFFICE_END_ISO;
-                          const gapColSpan = getSlotCount(event.endedAt, nextStartIso);
-			  console.log(event);
+                          const currentColSpan = getSlotCount(
+                            event.startedAt,
+                            event.endedAt,
+                          );
+                          const nextStartIso =
+                            transactions[idx + 1]?.startedAt ?? OFFICE_END_ISO;
+                          const gapColSpan = getSlotCount(
+                            event.endedAt,
+                            nextStartIso,
+                          );
 
                           return (
                             <React.Fragment key={event.id}>
@@ -211,7 +241,9 @@ export const TimeTransaction = ({ toolId = 0, date }: { toolId?: number; date?: 
                                   <div className={styles.event_line}></div>
                                   <div>
                                     <div>
-                                      <h3 className={styles.info}>{event.reserver?.userName}</h3>
+                                      <h3 className={styles.info}>
+                                        {event.reserver?.userName}
+                                      </h3>
                                     </div>
                                     <p className={styles.info}>
                                       {getTimeFormat(event.startedAt)} -
