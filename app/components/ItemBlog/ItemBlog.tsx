@@ -1,4 +1,7 @@
-import { getCategoryDisplay, toToolCategory } from "@/app/lib/features/tools/category.utils";
+import {
+  getCategoryDisplay,
+  toToolCategory,
+} from "@/app/lib/features/tools/category.utils";
 import styles from "./ItemBlog.module.scss";
 import { ItemBlogProps } from "./ItemBlog.types";
 
@@ -23,7 +26,9 @@ export const ItemBlog = ({
       </div>
       <section className={styles.info}>
         {category && (
-          <span className={styles.info_category}>{category ? getCategoryDisplay(toToolCategory(category)!) : ""}</span>
+          <span className={styles.info_category}>
+            {category ? getCategoryDisplay(toToolCategory(category)!) : ""}
+          </span>
         )}
         <h2 className={styles.info_name}>{name}</h2>
         <p className={styles.info_description}>
