@@ -1,0 +1,53 @@
+name: Stale Issue Manager
+
+on:
+  schedule:
+    - cron: "27 3 * * *"   # 03:27 UTC = ~10:27 ICT
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-issue-stale: 30
+          days-before-issue-close: 7
+          days-before-pr-stale: 45
+          days-before-pr-close: 7
+
+          # Labels
+          stale-issue-label: "status:stale"
+          close-issue-label: null
+          stale-pr-label: "status:stale"
+          close-pr-label: null
+
+          # Exempt — never stale these
+          exempt-issue-labels: "priority:critical,priority:high,status:in-progress,status:blocked,status:in-review"
+          exempt-pr-labels: "priority:critical,status:in-review"
+
+          # Messages
+          stale-issue-message: |
+            ⚠️ issue นี้ไม่มี activity มา 30 วัน — ติดป้าย `status:stale`
+            จะถูกปิดอัตโนมัติใน 7 วันถ้าไม่มีอัปเดตเพิ่มเติม
+
+          close-issue-message: |
+            🔒 ปิดอัตโนมัติเนื่องจากไม่มี activity มา 37 วัน
+            หากยังต้องการ issue นี้ สามารถเปิดใหม่ได้
+
+          stale-pr-message: |
+            ⚠️ PR นี้ไม่มี activity มา 45 วัน — ติดป้าย `status:stale`
+            จะถูกปิดอัตโนมัติใน 7 วันถ้าไม่มีอัปเดต
+
+          close-pr-message: |
+            🔒 ปิด PR อัตโนมัติเนื่องจากไม่มี activity
+
+          # Options
+          ascending: true
+          delete-branch: false
+          operations-per-run: 50

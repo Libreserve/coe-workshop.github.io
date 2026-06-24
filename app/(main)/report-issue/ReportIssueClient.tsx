@@ -1,11 +1,12 @@
 "use client";
-
+import Link from "next/link";
 import { useState } from "react";
 import { useCreateReportMutation } from "@/app/lib/features/admin/reportsApi";
 import { ReportType, reportTypeLabels } from "@/app/types/api/report";
 import { useAuth } from "@/app/Context/AuthContext/AuthContext";
 import { Select } from "@/app/components/Select/Select";
 import styles from "./ReportIssue.module.scss";
+import ModalContainer from "@/app/components/ModalContainer/modalContainer";
 
 const reportTypeOptions = Object.values(ReportType).map((t) => ({
   label: reportTypeLabels[t],
@@ -15,14 +16,15 @@ const reportTypeOptions = Object.values(ReportType).map((t) => ({
 export const ReportIssue = () => {
   const { user } = useAuth();
   const [createReport, { isLoading, isSuccess }] = useCreateReportMutation();
-  
+
   const [type, setType] = useState<ReportType>(ReportType.BUG);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleOpenConfirmation = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -36,6 +38,12 @@ export const ReportIssue = () => {
       return;
     }
 
+    setIsOpenConfirm(true);
+  };
+
+  const handleConfirmSubmit = async () => {
+    setIsOpenConfirm(false);
+
     try {
       await createReport({
         type,
@@ -44,7 +52,7 @@ export const ReportIssue = () => {
         email: user ? user.email : email,
       }).unwrap();
 
-      // Reset form
+      // Reset frm
       setType(ReportType.BUG);
       setTitle("");
       setDescription("");
@@ -60,7 +68,7 @@ export const ReportIssue = () => {
         <div className={styles.successCard}>
           <h2>ส่งรายงานสำเร็จ</h2>
           <p>ขอบคุณสำหรับการแจ้งปัญหา เราจะดำเนินการโดยเร็วที่สุด</p>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className={styles.submitButton}
           >
@@ -75,8 +83,34 @@ export const ReportIssue = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.title}>แจ้งปัญหา / ข้อเสนอแนะ</h1>
-        
-        <form onSubmit={handleSubmit} className={styles.form}>
+
+        <ModalContainer
+          opened={isOpenConfirm}
+          onClose={() => setIsOpenConfirm(false)}
+        >
+          <div className={styles.modalContent}>
+            <h3 className={styles.modalContent_title}>ยืนยันการส่งรายงาน?</h3>
+            <p className={styles.modalContent_des}>
+              คุณเป็นนักศึกษาคณะวิศวกรรมคอมพิวเตอร์,โปรแกรมเมอร์
+              หรือมีความสามารถในการพัฒนาโปรแกรม (ตอบแค่ ใช่ หรือ ไม่)
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                className={styles.cancel}
+                onClick={() => handleConfirmSubmit()}
+              >
+                ไม่
+              </button>
+              <button className={styles.confirm} disabled={isLoading}>
+                <Link href="https://github.com/Libreserve/coe-workshop.github.io/issues/">
+                  {isLoading ? "กำลังส่ง..." : "ใช่ ฉันเป็น"}
+                </Link>
+              </button>
+            </div>
+          </div>
+        </ModalContainer>
+
+        <form onSubmit={handleOpenConfirmation} className={styles.form}>
           <div className={styles.formGroup}>
             <label>ประเภท</label>
             <Select
@@ -84,7 +118,7 @@ export const ReportIssue = () => {
               onChange={(value) => setType(value as ReportType)}
               options={reportTypeOptions}
               size="lg"
-	      variant="outline"
+              variant="outline"
             />
           </div>
 
@@ -135,7 +169,7 @@ export const ReportIssue = () => {
             disabled={isLoading}
             className={styles.submitButton}
           >
-            {isLoading ? "กำลังส่ง..." : "ส่งรายงาน"}
+            ส่งรายงาน
           </button>
         </form>
       </div>

@@ -1,0 +1,213 @@
+name: Issue Triage Bot
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.issue.pull_request }}
+
+    steps:
+      - name: Classify issue with Gemini + apply labels
+        uses: actions/github-script@v7
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        with:
+          script: |
+            const issueTitle = context.payload.issue.title;
+            const issueBody  = context.payload.issue.body || "";
+            const issueNumber = context.payload.issue.number;
+            const { owner, repo } = context.repo;
+
+            const labelsToAdd = [];
+            function addLabel(name) {
+              if (!labelsToAdd.includes(name)) labelsToAdd.push(name);
+            }
+
+            // ═══════════════════════════════════════════
+            // STEP 1: Gemini API classification (primary)
+            // ═══════════════════════════════════════════
+            let triageResult = null;
+
+            if (process.env.GEMINI_API_KEY) {
+              try {
+                const systemInstruction = `You are an issue triage bot for "Libreserve" — a Next.js room reservation web app (React 19 + App Router + Mantine UI + Redux Toolkit + SCSS modules, REST API backend, Docker + Kubernetes infra).
+
+Analyze the issue (may be Thai, English, or mixed). Return JSON:
+- "type": "bug" | "feature" | "tech-debt" | "docs" | "question"
+- "areas": array of relevant labels from ["frontend","api","auth","state","styles","infra","docs"] — pick ALL that apply
+- "priority": "critical" | "high" | "medium" | "low"
+- "needs_info": true if the issue is too vague / missing key details
+- "needs_info_reason": short Thai reason if needs_info, otherwise null
+- "summary": 1-sentence Thai summary
+- "keywords": up to 5 key terms
+
+Priority rules:
+- critical: system completely broken, data loss, users cannot work at all
+- high: core functionality broken, no workaround
+- medium: partial breakage, workaround exists
+- low: cosmetic, minor, nice-to-have
+- Infer from tone/impact if no explicit severity given.
+
+needs_info = true when: body is very short (< ~30 meaningful words), no reproduction steps for a bug, just a screenshot with no text, unclear what the user wants.
+
+Areas: "frontend" for UI/pages/components, "api" for backend/data/network/endpoints, "auth" for login/permissions/registration, "state" for Redux/store/context/hooks, "styles" for CSS/design/theme/layout, "infra" for CI/CD/deploy/docker/k8s, "docs" for documentation.`;
+
+                const requestBody = {
+                  system_instruction: { parts: [{ text: systemInstruction }] },
+                  contents: [{ parts: [{ text: `TITLE: ${issueTitle}\n\nBODY:\n${issueBody}` }] }],
+                  generationConfig: {
+                    response_mime_type: "application/json",
+                    response_schema: {
+                      type: "OBJECT",
+                      properties: {
+                        type: { type: "STRING", enum: ["bug","feature","tech-debt","docs","question"] },
+                        areas: { type: "ARRAY", items: { type: "STRING" } },
+                        priority: { type: "STRING", enum: ["critical","high","medium","low"] },
+                        needs_info: { type: "BOOLEAN" },
+                        needs_info_reason: { type: "STRING", nullable: true },
+                        summary: { type: "STRING" },
+                        keywords: { type: "ARRAY", items: { type: "STRING" } },
+                      },
+                      required: ["type","areas","priority","needs_info","summary","keywords"]
+                    },
+                    temperature: 0.1,
+                    maxOutputTokens: 500,
+                  }
+                };
+
+                const response = await fetch(
+                  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody),
+                    signal: AbortSignal.timeout(15000),
+                  }
+                );
+
+                if (response.ok) {
+                  const data = await response.json();
+                  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                  if (text) {
+                    triageResult = JSON.parse(text);
+                    console.log("🤖 Gemini result:", JSON.stringify(triageResult, null, 2));
+                  }
+                } else {
+                  console.log(`⚠️ Gemini API error ${response.status}`);
+                }
+              } catch (err) {
+                console.log(`⚠️ Gemini failed, falling to keywords: ${err.message}`);
+              }
+            } else {
+              console.log("⚠️ GEMINI_API_KEY not set — using keyword fallback");
+            }
+
+            // ═══════════════════════════════════════════
+            // STEP 2: Keyword fallback
+            // ═══════════════════════════════════════════
+            if (!triageResult) {
+              console.log("🔤 Running keyword fallback...");
+              const text = (issueTitle + " " + issueBody).toLowerCase();
+              function has(...words) { return words.some(w => text.includes(w)); }
+
+              if (has("bug","error","crash","broken","พัง","ผิดพลาด","ไม่ทำงาน","bug"))
+                triageResult = { type: "bug", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+              else if (has("feature","enhancement","เพิ่ม","อยากให้","ขอ","เสนอ","ฟีเจอร์"))
+                triageResult = { type: "feature", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+              else if (has("refactor","cleanup","clean","improve","ปรับปรุง","technical debt"))
+                triageResult = { type: "tech-debt", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+              else if (has("docs","document","เอกสาร","readme","คู่มือ"))
+                triageResult = { type: "docs", areas: [], priority: "low", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+              else
+                triageResult = { type: "question", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+
+              // areas
+              if (has("ui","ux","หน้าตา","design","component","layout","css","style","แสดงผล","หน้าเว็บ","page","button","modal","card","table","form","input"))
+                triageResult.areas.push("frontend");
+              if (has("api","fetch","endpoint","backend","response","data","request","network","/api","status code"))
+                triageResult.areas.push("api");
+              if (has("login","auth","token","permission","role","password","รหัสผ่าน","เข้าสู่ระบบ","signin","signup","register"))
+                triageResult.areas.push("auth");
+              if (has("redux","store","context","state","dispatch","provider","hook","useState","useSelector"))
+                triageResult.areas.push("state");
+              if (has("deploy","docker","k8s","kubernetes","ci","cd","build","pipeline","workflow","infra","server"))
+                triageResult.areas.push("infra");
+              if (has("scss","css","style","theme","ธีม","สี","font","responsive","mobile"))
+                triageResult.areas.push("styles");
+
+              if ((issueBody || "").replace(/\s/g,"").length < 30) {
+                triageResult.needs_info = true;
+                triageResult.needs_info_reason = "เนื้อหา issue สั้นเกินไป ขอรายละเอียดเพิ่มเติม";
+              }
+
+              console.log("🔤 Keyword result:", JSON.stringify(triageResult, null, 2));
+            }
+
+            // ═══════════════════════════════════════════
+            // STEP 3: Map result to labels
+            // ═══════════════════════════════════════════
+            if (triageResult.type) addLabel(`type:${triageResult.type}`);
+
+            for (const area of (triageResult.areas || [])) {
+              const a = area.toLowerCase().trim();
+              if (["frontend","api","auth","state","styles","infra","docs"].includes(a)) {
+                addLabel(`area:${a}`);
+              }
+            }
+
+            if (triageResult.priority) addLabel(`priority:${triageResult.priority}`);
+            if (triageResult.needs_info) addLabel("status:needs-info");
+            addLabel("status:needs-triage");
+
+            // ═══════════════════════════════════════════
+            // STEP 4: Apply labels
+            // ═══════════════════════════════════════════
+            console.log(`🏷️  Applying: ${labelsToAdd.join(", ")}`);
+
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              labels: labelsToAdd,
+            });
+
+            // ═══════════════════════════════════════════
+            // STEP 5: Bot comment
+            // ═══════════════════════════════════════════
+            const areaEmoji = { frontend: "🖥️", api: "🔌", auth: "🔐", state: "🧩", styles: "🎨", infra: "⚙️", docs: "📚" };
+            const priorityEmoji = { critical: "🔴", high: "🟠", medium: "🟡", low: "🟢" };
+            const typeLabel = { bug: "🐛 Bug", feature: "💡 Feature", "tech-debt": "🔧 Tech Debt", docs: "📚 Docs", question: "❓ Question" };
+
+            const areaStr = (triageResult.areas || []).length > 0
+              ? (triageResult.areas || []).map(a => `${areaEmoji[a] || "📌"} ${a}`).join(", ")
+              : "— ยังไม่ระบุ";
+
+            let comment = `🤖 **AI Triage** — วิเคราะห์โดย Gemini 2.5 Flash\n`;
+            comment += `• **ประเภท:** ${typeLabel[triageResult.type] || triageResult.type}\n`;
+            comment += `• **บริเวณ:** ${areaStr}\n`;
+            comment += `• **ความสำคัญ:** ${priorityEmoji[triageResult.priority] || ""} ${triageResult.priority || "medium"}\n`;
+            comment += `• **สรุป:** ${triageResult.summary || issueTitle}\n`;
+
+            if (triageResult.needs_info) {
+              comment += `\n⚠️ **ต้องการข้อมูลเพิ่มเติม:** ${triageResult.needs_info_reason || "กรุณาให้รายละเอียดเพิ่มเติม"}`;
+              comment += `\n> 🙏 ช่วยตอบกลับด้วยข้อมูลเพิ่มเติม แล้วจะนำ label \`status:needs-info\` ออกให้`;
+            }
+
+            comment += `\n\n---`;
+            comment += `\n> หาก label ไม่ถูกต้อง สามารถแก้ไขได้เอง หรือ comment \`/triage\` เพื่อให้บอทวิเคราะห์ใหม่`;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: comment,
+            });
+
+            console.log("✅ Triage complete");

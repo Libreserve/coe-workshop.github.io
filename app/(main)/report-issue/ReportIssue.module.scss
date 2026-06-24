@@ -5,6 +5,7 @@
   justify-content: center;
   padding: 2rem 1rem;
   min-height: 60vh;
+  margin-bottom: 1rem;
 }
 
 .card {
@@ -18,7 +19,7 @@
 
 .title {
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   color: var(--theme-1000);
 }
@@ -49,7 +50,9 @@
   border-radius: 12px;
   background-color: var(--theme-0);
   color: var(--text-normal);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:focus {
     outline: none;
@@ -121,5 +124,39 @@
     font-size: 1rem;
     color: #93939f;
     margin-bottom: 2rem;
+  }
+}
+.modalContent {
+  background-color: var(--theme-0);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  .modalContent_title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .modalContent_des {
+    width: 26rem;
+    font-size: 1rem;
+  }
+  .modalActions {
+    margin-top: 1.5rem;
+    width: fit-content;
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .confirm {
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    padding: 0.25rem 1rem;
+    background-color: var(--theme-1000);
+    color: var(--theme-0);
+  }
+  .cancel {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.25rem 1rem;
   }
 }

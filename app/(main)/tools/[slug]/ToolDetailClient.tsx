@@ -7,9 +7,15 @@ import { useState } from "react";
 import styles from "./ToolDetail.module.scss";
 import { useParams } from "next/navigation";
 import { useGetToolQuery } from "@/app/lib/features/tools/toolsApiSlice";
-import { useCreateTransactionMutation, useGetReservedByItemQuery } from "@/app/lib/features/admin/transactionsApi";
+import {
+  useCreateTransactionMutation,
+  useGetReservedByItemQuery,
+} from "@/app/lib/features/admin/transactionsApi";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { getCategoryThaiName, toToolCategory } from "@/app/lib/features/tools/category.utils";
+import {
+  getCategoryThaiName,
+  toToolCategory,
+} from "@/app/lib/features/tools/category.utils";
 import { Calendar } from "@/app/components/Calendar/Calendar";
 import { Select } from "@/app/components/Select/Select";
 import { useToast } from "@/app/Context/Toast/ToastProvider";
@@ -25,13 +31,22 @@ interface ErrorResponse {
 const TIME_OPTIONS = Array.from({ length: 15 }, (_, i) => {
   const hour = 9 + Math.floor(i / 2);
   const minute = i % 2 === 0 ? "00" : "30";
-  return { label: `${hour.toString().padStart(2, "0")}:${minute}`, value: `${hour.toString().padStart(2, "0")}:${minute}` };
+  return {
+    label: `${hour.toString().padStart(2, "0")}:${minute}`,
+    value: `${hour.toString().padStart(2, "0")}:${minute}`,
+  };
 });
 
 const convertLocalTimeToUTC = (timeString: string): string => {
   const [hours, minutes] = timeString.split(":").map(Number);
   const now = new Date();
-  const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+  const localDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hours,
+    minutes,
+  );
   const utcHours = localDate.getUTCHours().toString().padStart(2, "0");
   const utcMinutes = localDate.getUTCMinutes().toString().padStart(2, "0");
   return `${utcHours}:${utcMinutes}`;
@@ -46,7 +61,8 @@ const ToolDetailClient = () => {
     error: fetchToolError,
   } = useGetToolQuery(Number(toolId), { refetchOnMountOrArgChange: false });
   const tool = fetchTool;
-  let fetchToolErrorMessage = "เกิดข้อผิดพลาดที่เซิฟเวอร์ กรุณาลองใหม่ในภายหลัง";
+  let fetchToolErrorMessage =
+    "เกิดข้อผิดพลาดที่เซิฟเวอร์ กรุณาลองใหม่ในภายหลัง";
   if (fetchToolError && "data" in fetchToolError) {
     const err = fetchToolError as FetchBaseQueryError;
     if (err.data && typeof err.data === "object" && "error" in err.data) {
@@ -54,7 +70,8 @@ const ToolDetailClient = () => {
     }
   }
 
-  const { opened: openedReservation, handle: handleReservation } = useDisclosure();
+  const { opened: openedReservation, handle: handleReservation } =
+    useDisclosure();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [reservationStartTime, setReservationStartTime] = useState("");
   const [reservationEndTime, setReservationEndTime] = useState("");
@@ -66,9 +83,13 @@ const ToolDetailClient = () => {
     data,
     isError: isAssetsError,
     isLoading: isLoadingAssets,
-  } = useGetReservedByItemQuery({ itemId: Number(toolId), date: effectiveDate }, { skip: !toolId });
+  } = useGetReservedByItemQuery(
+    { itemId: Number(toolId), date: effectiveDate },
+    { skip: !toolId },
+  );
 
-  const [createTransaction, { isLoading: isCreatingTransaction }] = useCreateTransactionMutation();
+  const [createTransaction, { isLoading: isCreatingTransaction }] =
+    useCreateTransactionMutation();
 
   const handleReservationSubmit = async () => {
     if (!reservationStartTime || !reservationEndTime) {
@@ -106,8 +127,15 @@ const ToolDetailClient = () => {
       );
     } catch (err) {
       const error = err as FetchBaseQueryError;
-      if (error.data && typeof error.data === "object" && "error" in error.data) {
-        setReservationError((error.data as { error?: string }).error || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+      if (
+        error.data &&
+        typeof error.data === "object" &&
+        "error" in error.data
+      ) {
+        setReservationError(
+          (error.data as { error?: string }).error ||
+            "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+        );
       } else {
         setReservationError("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
@@ -128,8 +156,8 @@ const ToolDetailClient = () => {
   };
 
   const selectedDateString = selectedDate
-    ? selectedDate.toLocaleDateString('en-CA')
-    : new Date().toLocaleDateString('en-CA');
+    ? selectedDate.toLocaleDateString("en-CA")
+    : new Date().toLocaleDateString("en-CA");
 
   const itemData = Array.isArray(data) ? data[0] : data;
 
@@ -152,7 +180,7 @@ const ToolDetailClient = () => {
         <div className={styles.container}>
           <div className={styles.topSection}>
             <section className={styles.info}>
-              {tool?.imageUrl &&
+              {tool?.imageUrl && (
                 <div className={styles.imageContainer}>
                   <img
                     src={tool.imageUrl}
@@ -160,27 +188,37 @@ const ToolDetailClient = () => {
                     className={styles.image}
                   />
                 </div>
-              }
+              )}
               <div className={styles.header}>
                 <div className={styles.title}>
                   <h1>{tool?.name}</h1>
-                  <p className={styles.category}>{tool?.category ? getCategoryThaiName(toToolCategory(tool.category)!) : ""}</p>
+                  <p className={styles.category}>
+                    {tool?.category
+                      ? getCategoryThaiName(toToolCategory(tool.category)!)
+                      : ""}
+                  </p>
                 </div>
               </div>
               <p className={styles.description}>{tool?.description}</p>
-	      <button className={`${styles.requestButton} ${styles.mobile}`} onClick={openReservation}>
-		ขอใช้งานเครื่องมือ
-	      </button>
+              <button
+                className={`${styles.requestButton} ${styles.mobile}`}
+                onClick={openReservation}
+              >
+                ขอใช้งานเครื่องมือ
+              </button>
             </section>
             <section>
-	      <div className={styles.datePickerSection}>
+              <div className={styles.datePickerSection}>
                 <Calendar
                   onChange={(date) => setSelectedDate(date)}
                   value={selectedDate}
                   isCasual={true}
                 />
-	      </div>
-	      <button className={`${styles.requestButton} ${styles.desktop}`} onClick={openReservation}>
+              </div>
+              <button
+                className={`${styles.requestButton} ${styles.desktop}`}
+                onClick={openReservation}
+              >
                 ขอใช้งานเครื่องมือ
               </button>
             </section>
@@ -189,14 +227,21 @@ const ToolDetailClient = () => {
             {!user && !isLoading ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyStateContent}>
-                  <Link className={styles.emptyStateTitle} href={getLoginUrl()}>กรุณาเข้าสู่ระบบ</Link>
-                  <p className={styles.emptyStateDescription}>คุณต้องเข้าสู่ระบบเพื่อขอใช้งานเครื่องมือ</p>
+                  <Link className={styles.emptyStateTitle} href={getLoginUrl()}>
+                    กรุณาเข้าสู่ระบบ
+                  </Link>
+                  <p className={styles.emptyStateDescription}>
+                    คุณต้องเข้าสู่ระบบเพื่อขอใช้งานเครื่องมือ
+                  </p>
                 </div>
               </div>
             ) : (
               <div>
                 <h1 className={styles.tableTitle}>ตารางเวลาขอใช้เครื่องมือ</h1>
-                <TimeTransaction toolId={Number(toolId)} date={selectedDateString}></TimeTransaction>
+                <TimeTransaction
+                  toolId={Number(toolId)}
+                  date={selectedDateString}
+                ></TimeTransaction>
               </div>
             )}
           </section>
@@ -213,12 +258,25 @@ const ToolDetailClient = () => {
                 <div className={styles.fieldGroup}>
                   <label>เลขครุภัณฑ์</label>
                   {isLoadingAssets ? (
-                    <Select options={[]} value={selectedAssetId} onChange={(val) => setSelectedAssetId(val)} placeholder="กำลังโหลด..." />
+                    <Select
+                      options={[]}
+                      value={selectedAssetId}
+                      onChange={(val) => setSelectedAssetId(val)}
+                      placeholder="กำลังโหลด..."
+                    />
                   ) : isAssetsError ? (
-                    <Select options={[]} value={selectedAssetId} onChange={(val) => setSelectedAssetId(val)} placeholder="เกิดข้อผิดพลาด" />
+                    <Select
+                      options={[]}
+                      value={selectedAssetId}
+                      onChange={(val) => setSelectedAssetId(val)}
+                      placeholder="เกิดข้อผิดพลาด"
+                    />
                   ) : (
                     <Select
-                      options={assets.map((asset: any) => ({ label: asset.assetNumber, value: asset.id }))}
+                      options={assets.map((asset: any) => ({
+                        label: asset.assetNumber,
+                        value: asset.id,
+                      }))}
                       value={selectedAssetId}
                       onChange={(val) => setSelectedAssetId(val)}
                       placeholder="เลือกเลขคุรุภัณฑ์"
@@ -227,7 +285,9 @@ const ToolDetailClient = () => {
                 </div>
                 <div className={styles.fieldGroup}>
                   <label>วันที่</label>
-                  <span className={styles.fieldValue}>{formatWeekDateThai(selectedDateString)}</span>
+                  <span className={styles.fieldValue}>
+                    {formatWeekDateThai(selectedDateString)}
+                  </span>
                 </div>
                 <div className={styles.fieldGroup}>
                   <label>เวลาเริ่มต้น</label>
