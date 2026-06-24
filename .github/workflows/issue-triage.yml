@@ -286,6 +286,17 @@ jobs:
               try { await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: sl }); } catch (e) {}
             }
 
+            // Strip legacy type/priority/effort labels — now carried by the
+            // Project V2 fields + AI comment, so they shouldn't be on the issue.
+            try {
+              const cur = await github.rest.issues.listLabelsOnIssue({ owner, repo, issue_number: issueNumber });
+              for (const lbl of cur.data) {
+                if (/^(type|priority|effort):/.test(lbl.name)) {
+                  try { await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: lbl.name }); } catch (e) {}
+                }
+              }
+            } catch (e) {}
+
             // ═══════════════════════════════════════════
             // STEP 3: Map result to labels
             // ═══════════════════════════════════════════
