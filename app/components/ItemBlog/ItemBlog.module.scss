@@ -3,7 +3,6 @@
 .itemBlog {
   border-radius: 8px;
   // padding: 1rem;
-  background: var(--theme-0);
   cursor: pointer;
   transition: box-shadow 0.2s;
   display: flex;
@@ -23,7 +22,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--theme-100);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -43,6 +41,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0.5rem 0 1.5rem 0;
 }
 
 .info_category {

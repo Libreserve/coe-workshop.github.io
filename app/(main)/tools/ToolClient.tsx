@@ -8,7 +8,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useGetToolsQuery } from "@/app/lib/features/tools/toolsApiSlice";
 import { ToolCategories } from "@/app/lib/features/tools/tools.type";
-import { getAllCategories, getCategoryDisplay } from "@/app/lib/features/tools/category.utils";
+import {
+  getAllCategories,
+  getCategoryDisplay,
+} from "@/app/lib/features/tools/category.utils";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { Select } from "@/app/components/Select/Select";
 import Loader from "@/app/admin/components/layout/loader/loader";
@@ -36,34 +39,40 @@ const ToolsClient = () => {
     error,
     refetch,
   } = useGetToolsQuery({
-    category: (searchParams.get("category") as ToolCategories | undefined) || undefined,
+    category:
+      (searchParams.get("category") as ToolCategories | undefined) || undefined,
     search: searchParams.get("search") || undefined,
   });
 
   useEffect(() => {
     const currentSearch = searchParams.get("search") || "";
-    const currentCategory = searchParams.get("category") as ToolCategories | undefined;
+    const currentCategory = searchParams.get("category") as
+      | ToolCategories
+      | undefined;
     setSearch(currentSearch);
     setCategory(currentCategory);
   }, [searchParams]);
 
-  const updateFilters = useCallback((newSearch: string, newCategory: ToolCategories | undefined) => {
-    const params = new URLSearchParams(searchParams.toString());
+  const updateFilters = useCallback(
+    (newSearch: string, newCategory: ToolCategories | undefined) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-    if (newSearch) {
-      params.set("search", newSearch);
-    } else {
-      params.delete("search");
-    }
+      if (newSearch) {
+        params.set("search", newSearch);
+      } else {
+        params.delete("search");
+      }
 
-    if (newCategory) {
-      params.set("category", newCategory);
-    } else {
-      params.delete("category");
-    }
+      if (newCategory) {
+        params.set("category", newCategory);
+      } else {
+        params.delete("category");
+      }
 
-    router.push(`./tools?${params.toString()}`, { scroll: false });
-  }, [router, searchParams]);
+      router.push(`./tools?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams],
+  );
 
   const handleRetry = useCallback(() => {
     refetch();
@@ -119,17 +128,21 @@ const ToolsClient = () => {
             value={category}
             onChange={(value) => {
               const displayValue = value as string;
-              const newCategory = displayValue === "all"
-                ? undefined
-                : (displayValue.split(" ")[0] as ToolCategories);
+              const newCategory =
+                displayValue === "all"
+                  ? undefined
+                  : (displayValue.split(" ")[0] as ToolCategories);
 
               setCategory(newCategory);
               updateFilters(search, newCategory);
             }}
-            options={[ { label: "ทั้งหมด", value: "all" as any }, ...getAllCategories().map((c) => ({
-	      label: getCategoryDisplay(c),
-	      value: c,
-	    }))]}
+            options={[
+              { label: "ทั้งหมด", value: "all" as any },
+              ...getAllCategories().map((c) => ({
+                label: getCategoryDisplay(c),
+                value: c,
+              })),
+            ]}
             placeholder="เลือกหมวดหมู่"
           />
         </div>
@@ -148,7 +161,9 @@ const ToolsClient = () => {
           <h3 className={statusStyles.errorTitle}>ไม่สามารถโหลดข้อมูลได้</h3>
           <p className={statusStyles.errorMessage}>{getErrorMessage(error)}</p>
           {getErrorDetails(error) && (
-            <p className={statusStyles.errorDetails}>{getErrorDetails(error)}</p>
+            <p className={statusStyles.errorDetails}>
+              {getErrorDetails(error)}
+            </p>
           )}
           <button
             onClick={handleRetry}
