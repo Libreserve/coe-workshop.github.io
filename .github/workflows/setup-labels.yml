@@ -1,0 +1,106 @@
+name: Setup Issue Labels
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run — show labels without creating them"
+        type: boolean
+        default: false
+        required: false
+
+permissions:
+  issues: write
+
+jobs:
+  setup-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bootstrap labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              // ── type ──
+              { name: "type:bug",        color: "d73a4a", description: "ข้อผิดพลาดของระบบ" },
+              { name: "type:feature",    color: "a2eeef", description: "ฟีเจอร์หรือความสามารถใหม่" },
+              { name: "type:tech-debt",  color: "fbca04", description: "หนี้ทางเทคนิค / refactor / cleanup" },
+              { name: "type:docs",       color: "0075ca", description: "เอกสารหรือคู่มือ" },
+              { name: "type:question",   color: "d876e3", description: "คำถามหรือขอความช่วยเหลือ" },
+
+              // ── priority ──
+              { name: "priority:critical", color: "b60205", description: "ระบบพัง — ต้องแก้ทันที" },
+              { name: "priority:high",     color: "d93f0b", description: "สำคัญ — แก้ใน sprint นี้" },
+              { name: "priority:medium",   color: "fbca04", description: "ปกติ — ทำตามคิวได้" },
+              { name: "priority:low",      color: "0e8a16", description: "รอได้ — nice to have" },
+
+              // ── area ──
+              { name: "area:frontend", color: "2b67c6", description: "UI, components, pages" },
+              { name: "area:api",      color: "5319e7", description: "API calls, data fetching" },
+              { name: "area:auth",     color: "e99695", description: "Authentication, login, permissions" },
+              { name: "area:state",    color: "bfdadc", description: "Redux store, context, hooks" },
+              { name: "area:styles",   color: "c5def5", description: "CSS/SCSS, theming, layout" },
+              { name: "area:infra",    color: "1d1d1d", description: "CI/CD, Docker, K8s, deployment" },
+              { name: "area:docs",     color: "0075ca", description: "Documentation, README, guides" },
+
+              // ── status ──
+              { name: "status:needs-triage",  color: "ededed", description: "รอคัดกรอง — ยังไม่มีคนดู" },
+              { name: "status:needs-info",    color: "d876e3", description: "ต้องการข้อมูลเพิ่มเติมจากผู้รายงาน" },
+              { name: "status:ready",         color: "0e8a16", description: "พร้อมทำ — triage แล้ว" },
+              { name: "status:in-progress",   color: "2b67c6", description: "กำลังดำเนินการ" },
+              { name: "status:in-review",     color: "5319e7", description: "อยู่ใน PR review" },
+              { name: "status:blocked",       color: "b60205", description: "ติดขัด — รอปัจจัยภายนอก" },
+              { name: "status:stale",         color: "cccccc", description: "ไม่มี activity นาน — จะปิดอัตโนมัติ" },
+
+              // ── effort ──
+              { name: "effort:small",  color: "0e8a16", description: "น้อยกว่า 2 ชั่วโมง" },
+              { name: "effort:medium", color: "fbca04", description: "2-8 ชั่วโมง" },
+              { name: "effort:large",  color: "d93f0b", description: "มากกว่า 1 วัน" },
+            ];
+
+            const { owner, repo } = context.repo;
+            const dryRun = inputs.dry_run;
+
+            let created = 0, skipped = 0;
+
+            for (const label of labels) {
+              if (dryRun) {
+                console.log(`[DRY RUN] ${label.name} (${label.color}) — ${label.description}`);
+                continue;
+              }
+
+              try {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description,
+                });
+                console.log(`✅ Created: ${label.name}`);
+                created++;
+              } catch (err) {
+                if (err.status === 422) {
+                  // Label already exists — update it instead
+                  try {
+                    await github.rest.issues.updateLabel({
+                      owner,
+                      repo,
+                      name: label.name,
+                      color: label.color,
+                      description: label.description,
+                    });
+                    console.log(`🔄 Updated: ${label.name}`);
+                    created++;
+                  } catch (updateErr) {
+                    console.log(`⚠️  Failed to update ${label.name}: ${updateErr.message}`);
+                    skipped++;
+                  }
+                } else {
+                  console.log(`❌ Error creating ${label.name}: ${err.message}`);
+                  skipped++;
+                }
+              }
+            }
+
+            console.log(`\nDone — ${created} created/updated, ${skipped} skipped`);

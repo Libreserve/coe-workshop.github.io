@@ -1,0 +1,48 @@
+# Auto-label PR based on changed files
+# ใช้กับ actions/labeler@v5
+
+area:frontend:
+  - changed-files:
+      - any-glob-to-any-file: "app/**/*"
+      - any-glob-to-any-file: "components/**/*"
+
+area:styles:
+  - changed-files:
+      - any-glob-to-any-file: "**/*.scss"
+      - any-glob-to-any-file: "**/*.module.scss"
+      - any-glob-to-any-file: "**/*.css"
+
+area:api:
+  - changed-files:
+      - any-glob-to-any-file: "app/lib/api.ts"
+      - any-glob-to-any-file: "app/lib/features/**"
+      - any-glob-to-any-file: "app/types/api/**"
+
+area:state:
+  - changed-files:
+      - any-glob-to-any-file: "app/lib/**"
+      - any-glob-to-any-file: "app/Context/**"
+      - any-glob-to-any-file: "app/hook/**"
+
+area:auth:
+  - changed-files:
+      - any-glob-to-any-file: "app/Context/AuthContext/**"
+      - any-glob-to-any-file: "app/(auth)/**"
+
+area:infra:
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
+      - any-glob-to-any-file: "Dockerfile*"
+      - any-glob-to-any-file: "docker-compose*"
+      - any-glob-to-any-file: "k8s/**"
+      - any-glob-to-any-file: "*.config.*"
+
+type:docs:
+  - changed-files:
+      - any-glob-to-any-file: "**/*.md"
+      - any-glob-to-any-file: "docs/**"
+
+type:tech-debt:
+  - changed-files:
+      - any-glob-to-any-file: "**/*.bak"
+      - any-glob-to-any-file: "**/TODO*"

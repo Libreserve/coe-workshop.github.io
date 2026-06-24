@@ -1,0 +1,73 @@
+name: Bug Report
+description: รายงานข้อผิดพลาดที่พบในระบบ
+title: "[BUG] "
+labels: ["type:bug", "status:needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Bug Report
+        ขอบคุณที่ช่วยรายงานข้อผิดพลาด — กรุณากรอกให้ครบถ้วนที่สุด
+
+  - type: textarea
+    id: description
+    attributes:
+      label: อธิบาย bug
+      description: บอกว่าเจออะไร สั้นๆ ตรงประเด็น
+      placeholder: "เช่น: ปุ่ม Login กดไม่ติดหลังจากกรอกรหัสผ่าน"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: ขั้นตอนการ reproduce
+      description: ทำยังไงถึงจะเจอ bug นี้
+      placeholder: |
+        1. ไปที่หน้า '/login'
+        2. กรอก Email และ Password
+        3. กดปุ่ม 'เข้าสู่ระบบ'
+        4. ไม่มีอะไรเกิดขึ้น
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: สิ่งที่ควรจะเกิด
+      description: ถ้าระบบทำงานถูกต้อง ควรจะเจออะไร
+      placeholder: "กด Login แล้วควร redirect ไปหน้า dashboard"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: สิ่งที่เกิดขึ้นจริง
+      description: เกิดอะไรขึ้นแทน
+      placeholder: "กดแล้วไม่มีอะไรเกิดขึ้น ไม่มี error message"
+
+  - type: input
+    id: url
+    attributes:
+      label: URL หน้าที่เจอ
+      placeholder: "https://coe-workshop.github.io/login"
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Logs
+      description: แนบภาพหน้าจอ หรือ error log ถ้ามี
+      placeholder: ลากรูปมาวาง หรือ paste log ตรงนี้

@@ -1,0 +1,41 @@
+name: Feature Request
+description: เสนอฟีเจอร์หรือความสามารถใหม่
+title: "[FEATURE] "
+labels: ["type:feature", "status:needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 Feature Request
+        ขอบคุณที่ช่วยเสนอไอเดีย — อธิบายปัญหาและวิธีแก้ให้ชัดเจน
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: ปัญหาที่ต้องการแก้
+      description: เล่าปัญหาหรือ pain point ที่เจอ
+      placeholder: "เช่น: ตอนนี้ผู้ใช้ต้องกรอกข้อมูลซ้ำทุกครั้งที่จองห้อง..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: วิธีการที่เสนอ
+      description: อธิบายว่าอยากให้ทำอะไร
+      placeholder: "เช่น: เพิ่มระบบ remember me / save booking data..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: ทางเลือกอื่น
+      description: มีวิธีอื่นที่แก้ปัญหาเดียวกันได้ไหม
+      placeholder: "หรืออาจจะใช้ browser localStorage แทน..."
+
+  - type: textarea
+    id: context
+    attributes:
+      label: ข้อมูลเพิ่มเติม
+      description: screenshot, mockup, reference จากที่อื่น หรืออะไรก็ได้ที่ช่วยให้เข้าใจ

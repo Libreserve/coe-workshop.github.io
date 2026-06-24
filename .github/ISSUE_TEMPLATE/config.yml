@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: ถามคำถาม / ขอความช่วยเหลือทั่วไป
+    url: https://github.com/Libreserve/coe-workshop.github.io/discussions
+    about: คำถามที่ไม่ใช่ bug หรือ feature request → ถามใน Discussions
+  - name: รายงานช่องโหว่ความปลอดภัย
+    url: mailto:security@libreserve.dev
+    about: ปัญหาด้านความปลอดภัย — ส่งตรงถึงทีมแบบ private
