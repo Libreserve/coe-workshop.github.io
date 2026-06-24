@@ -1,0 +1,143 @@
+name: Setup Project Fields
+
+# One-time (idempotent) setup for org Project V2 #2.
+# Creates / repairs the single-select fields the triage bot writes to:
+#   Priority (Critical/High/Medium/Low), Effort (Small/Medium/Large),
+#   Area (frontend/api/auth/state/styles/infra/docs).
+# Run manually from the Actions tab. Safe to re-run — fields with the
+# correct options are left untouched; empty/missing ones are (re)created.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create / repair Project V2 fields
+        uses: actions/github-script@v7
+        env:
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
+        with:
+          script: |
+            if (!process.env.PROJECT_PAT) {
+              core.setFailed("PROJECT_PAT secret not set — needs a PAT with 'project' scope.");
+              return;
+            }
+
+            const orgName = "Libreserve";
+            const projectNumber = 2;
+
+            async function pg(query, vars = {}) {
+              const resp = await fetch("https://api.github.com/graphql", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.PROJECT_PAT}` },
+                body: JSON.stringify({ query, variables: vars }),
+              });
+              const json = await resp.json();
+              if (json.errors) throw new Error(json.errors.map(e => e.message).join("\n"));
+              return json.data;
+            }
+
+            // Desired single-select fields. Colors from the GitHub palette:
+            // GRAY BLUE GREEN YELLOW ORANGE RED PINK PURPLE
+            const DESIRED = {
+              Priority: [
+                { name: "Critical", color: "RED" },
+                { name: "High",     color: "ORANGE" },
+                { name: "Medium",   color: "YELLOW" },
+                { name: "Low",      color: "GREEN" },
+              ],
+              Effort: [
+                { name: "Small",  color: "GREEN" },
+                { name: "Medium", color: "YELLOW" },
+                { name: "Large",  color: "ORANGE" },
+              ],
+              Area: [
+                { name: "frontend", color: "BLUE" },
+                { name: "api",      color: "PURPLE" },
+                { name: "auth",     color: "RED" },
+                { name: "state",    color: "ORANGE" },
+                { name: "styles",   color: "PINK" },
+                { name: "infra",    color: "GRAY" },
+                { name: "docs",     color: "GREEN" },
+              ],
+            };
+
+            // Fetch current fields
+            const data = await pg(`
+              query($org: String!, $num: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $num) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2FieldCommon { id name dataType }
+                        ... on ProjectV2SingleSelectField { id name options { id name } }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { org: orgName, num: projectNumber });
+
+            const project = data.organization.projectV2;
+            const projectId = project.id;
+            const byName = {};
+            for (const f of project.fields.nodes) byName[f.name] = f;
+
+            function sameOptions(existing, desired) {
+              const a = (existing || []).map(o => o.name.toLowerCase());
+              const b = desired.map(o => o.name.toLowerCase());
+              return a.length === b.length && b.every(n => a.includes(n));
+            }
+
+            async function deleteField(fieldId) {
+              await pg(`mutation($id: ID!) {
+                deleteProjectV2Field(input: {fieldId: $id}) {
+                  projectV2Field { ... on ProjectV2FieldCommon { id } }
+                }
+              }`, { id: fieldId });
+            }
+
+            async function createSingleSelect(name, options) {
+              await pg(`mutation($projectId: ID!, $name: String!, $opts: [ProjectV2SingleSelectFieldOptionInput!]!) {
+                createProjectV2Field(input: {
+                  projectId: $projectId,
+                  dataType: SINGLE_SELECT,
+                  name: $name,
+                  singleSelectOptions: $opts
+                }) { projectV2Field { ... on ProjectV2FieldCommon { id name } } }
+              }`, {
+                projectId,
+                name,
+                opts: options.map(o => ({ name: o.name, color: o.color, description: "" })),
+              });
+            }
+
+            for (const [name, options] of Object.entries(DESIRED)) {
+              const existing = byName[name];
+              if (existing && existing.options && sameOptions(existing.options, options)) {
+                console.log(`✅ ${name}: already correct (${existing.options.length} options) — skip`);
+                continue;
+              }
+              if (existing) {
+                // Single-select field with wrong/empty options can't be patched
+                // in place — delete the empty field and recreate it.
+                if (existing.options && existing.options.length > 0) {
+                  console.log(`⚠️  ${name}: has ${existing.options.length} options that differ — leaving as-is to avoid data loss. Fix manually if needed.`);
+                  continue;
+                }
+                console.log(`🔁 ${name}: empty field — deleting and recreating`);
+                await deleteField(existing.id);
+              } else {
+                console.log(`➕ ${name}: missing — creating`);
+              }
+              await createSingleSelect(name, options);
+              console.log(`✅ ${name}: created with ${options.length} options`);
+            }
+
+            console.log("🎉 Project field setup complete");
