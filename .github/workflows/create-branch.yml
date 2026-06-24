@@ -1,0 +1,118 @@
+name: Create Branch from Issue
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number"
+        type: number
+        required: true
+
+permissions:
+  issues: write
+  contents: write
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create branch and link issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ inputs.issue_number }};
+            const { owner, repo } = context.repo;
+
+            // Get issue info
+            const issue = await github.rest.issues.get({
+              owner, repo, issue_number: issueNumber,
+            });
+
+            const title = issue.data.title;
+            const assignee = context.actor;
+
+            // Slugify title for branch name (max 40 chars)
+            let slug = title
+              .toLowerCase()
+              .replace(/[^\w\sก-๙-]/g, '')
+              .replace(/\s+/g, '-')
+              .replace(/-+/g, '-')
+              .replace(/^-|-$/g, '')
+              .slice(0, 40);
+
+            if (!slug) slug = 'fix';
+
+            const branchName = `task/${issueNumber}-${slug}`;
+            const baseBranch = 'dev';
+
+            console.log(`Branch: ${branchName} (from ${baseBranch})`);
+
+            // Check if branch already exists
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `heads/${branchName}` });
+              console.log(`⚠️ Branch ${branchName} already exists`);
+            } catch (err) {
+              if (err.status === 404) {
+                // Get SHA of base branch
+                const baseRef = await github.rest.git.getRef({
+                  owner, repo, ref: `heads/${baseBranch}`,
+                });
+
+                // Create branch
+                await github.rest.git.createRef({
+                  owner, repo,
+                  ref: `refs/heads/${branchName}`,
+                  sha: baseRef.data.object.sha,
+                });
+
+                console.log(`✅ Created branch: ${branchName}`);
+              } else {
+                throw err;
+              }
+            }
+
+            // Assign issue to the person who clicked
+            try {
+              await github.rest.issues.addAssignees({
+                owner, repo, issue_number: issueNumber,
+                assignees: [assignee],
+              });
+              console.log(`👤 Assigned to @${assignee}`);
+            } catch (e) {
+              console.log(`⚠️ Could not assign: ${e.message}`);
+            }
+
+            // Update status label
+            try { await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: "status:needs-triage" }); } catch (e) {}
+            try { await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: "status:ready" }); } catch (e) {}
+
+            try {
+              await github.rest.issues.addLabels({
+                owner, repo, issue_number: issueNumber,
+                labels: ["status:in-progress"],
+              });
+            } catch (e) {
+              console.log(`⚠️ Could not add label: ${e.message}`);
+            }
+
+            // Comment with branch info + git commands
+            const branchUrl = `https://github.com/${owner}/${repo}/tree/${branchName}`;
+
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: issueNumber,
+              body: [
+                `🌿 **Branch สร้างแล้ว — [\`${branchName}\`](${branchUrl})**`,
+                '',
+                '```bash',
+                `git fetch origin`,
+                `git checkout ${branchName}`,
+                '```',
+                '',
+                `> 👤 Assignee: @${assignee}`,
+                `> 🏷️ Status: in-progress`,
+              ].join('\n'),
+            });
+
+            console.log("✅ Done");
