@@ -25,6 +25,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PROJECT_PAT: ${{ secrets.PROJECT_PAT }}
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -370,7 +371,10 @@ jobs:
             // ═══════════════════════════════════════════
             // STEP 6: Sync to Project V2
             // ═══════════════════════════════════════════
-            try {
+            if (!process.env.PROJECT_PAT) {
+              console.log("⏭️ PROJECT_PAT not set — skipping Project V2 sync");
+            } else {
+              try {
               // Get issue node ID
               let issueNodeId;
               if (context.payload.issue?.node_id) {
@@ -383,8 +387,20 @@ jobs:
               const orgName = "Libreserve";
               const projectNumber = 2;
 
+              // Helper for authenticated GraphQL calls (PAT for project scope)
+              async function projectGraphql(query, vars = {}) {
+                const resp = await fetch("https://api.github.com/graphql", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.PROJECT_PAT}` },
+                  body: JSON.stringify({ query, variables: vars }),
+                });
+                const json = await resp.json();
+                if (json.errors) throw new Error(json.errors.map(e => e.message).join("\n"));
+                return json.data;
+              }
+
               // Query project metadata
-              const projResp = await github.graphql(`
+              const projResp = await projectGraphql(`
                 query {
                   organization(login: "${orgName}") {
                     projectV2(number: ${projectNumber}) {
@@ -418,7 +434,7 @@ jobs:
               }
 
               // Add issue to project
-              const addResp = await github.graphql(`
+              const addResp = await projectGraphql(`
                 mutation($projectId: ID!, $contentId: ID!) {
                   addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
                     item { id }
@@ -482,7 +498,7 @@ jobs:
               if (fieldUpdates.length > 0) {
                 // Can't batch mutations easily, run sequentially
                 for (const mu of fieldUpdates) {
-                  await github.graphql(`mutation { ${mu} }`);
+                  await projectGraphql(`mutation { ${mu} }`);
                 }
                 console.log(`✅ Synced ${fieldUpdates.length} fields to project`);
               }
