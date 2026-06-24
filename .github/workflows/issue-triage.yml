@@ -13,6 +13,7 @@ on:
 permissions:
   issues: write
   contents: read
+  projects: write
 
 jobs:
   triage:
@@ -168,6 +169,9 @@ jobs:
                   '- "needs_info_reason": short Thai reason if needs_info, otherwise null',
                   '- "summary": 1-sentence Thai summary',
                   '- "keywords": up to 5 key terms',
+                  '- "effort": "small" | "medium" | "large" based on complexity',
+                  '',
+                  'Effort rules: small=<2hr (typo, CSS tweak, simple dep bump), medium=2-8hr (new component, API route, store logic), large=1d+ (new page, refactor, auth flow, integration). Default medium.',
                   '',
                   'Priority rules:',
                   '- critical: system broken, data loss, users cannot work',
@@ -196,8 +200,9 @@ jobs:
                         needs_info_reason: { type: "STRING", nullable: true },
                         summary: { type: "STRING" },
                         keywords: { type: "ARRAY", items: { type: "STRING" } },
+                        effort: { type: "STRING", enum: ["small","medium","large"] },
                       },
-                      required: ["type","areas","priority","needs_info","summary","keywords"]
+                      required: ["type","areas","priority","needs_info","summary","keywords","effort"]
                     },
                     temperature: 0.1,
                     maxOutputTokens: 500,
@@ -240,15 +245,15 @@ jobs:
               function has(...words) { return words.some(w => text.includes(w)); }
 
               if (has("bug","error","crash","broken","พัง","ผิดพลาด","ไม่ทำงาน","bug"))
-                triageResult = { type: "bug", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+                triageResult = { type: "bug", areas: [], priority: "medium", effort: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
               else if (has("feature","enhancement","เพิ่ม","อยากให้","ขอ","เสนอ","ฟีเจอร์"))
-                triageResult = { type: "feature", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+                triageResult = { type: "feature", areas: [], priority: "medium", effort: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
               else if (has("refactor","cleanup","clean","improve","ปรับปรุง","technical debt"))
-                triageResult = { type: "tech-debt", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+                triageResult = { type: "tech-debt", areas: [], priority: "medium", effort: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
               else if (has("docs","document","เอกสาร","readme","คู่มือ"))
-                triageResult = { type: "docs", areas: [], priority: "low", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+                triageResult = { type: "docs", areas: [], priority: "low", effort: "small", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
               else
-                triageResult = { type: "question", areas: [], priority: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
+                triageResult = { type: "question", areas: [], priority: "medium", effort: "medium", needs_info: false, needs_info_reason: null, summary: issueTitle, keywords: [] };
 
               // areas
               if (has("ui","ux","หน้าตา","design","component","layout","css","style","แสดงผล","หน้าเว็บ","page","button","modal","card","table","form","input"))
@@ -283,6 +288,10 @@ jobs:
             // ═══════════════════════════════════════════
             // STEP 3: Map result to labels
             // ═══════════════════════════════════════════
+            if (triageResult.type) addLabel(`type:${triageResult.type}`);
+            if (triageResult.priority) addLabel(`priority:${triageResult.priority}`);
+            if (triageResult.effort) addLabel(`effort:${triageResult.effort}`);
+
             for (const area of (triageResult.areas || [])) {
               const a = area.toLowerCase().trim();
               if (["frontend","api","auth","state","styles","infra","docs"].includes(a)) {
@@ -322,6 +331,8 @@ jobs:
             const priorityEmoji = { critical: "🔴", high: "🟠", medium: "🟡", low: "🟢" };
             const typeLabel = { bug: "🐛 Bug", feature: "💡 Feature", "tech-debt": "🔧 Tech Debt", docs: "📚 Docs", question: "❓ Question" };
 
+	            const effortLabel = { small: "⏱️ Small (< 2 ชม.)", medium: "⏱️ Medium (2-8 ชม.)", large: "⏱️ Large (1 วัน+)" };
+
             const areaStr = (triageResult.areas || []).length > 0
               ? (triageResult.areas || []).map(a => `${areaEmoji[a] || "📌"} ${a}`).join(", ")
               : "— ยังไม่ระบุ";
@@ -330,6 +341,7 @@ jobs:
             comment += `• **ประเภท:** ${typeLabel[triageResult.type] || triageResult.type}\n`;
             comment += `• **บริเวณ:** ${areaStr}\n`;
             comment += `• **ความสำคัญ:** ${priorityEmoji[triageResult.priority] || ""} ${triageResult.priority || "medium"}\n`;
+            comment += `• **ขนาดงาน:** ${effortLabel[triageResult.effort] || "⏱️ " + (triageResult.effort || "medium")}\n`;
             comment += `• **สรุป:** ${triageResult.summary || issueTitle}\n`;
 
             if (triageResult.needs_info) {
@@ -354,3 +366,151 @@ jobs:
             });
 
             console.log("✅ Triage complete");
+
+            // ═══════════════════════════════════════════
+            // STEP 6: Sync to Project V2
+            // ═══════════════════════════════════════════
+            try {
+              // Get issue node ID
+              let issueNodeId;
+              if (context.payload.issue?.node_id) {
+                issueNodeId = context.payload.issue.node_id;
+              } else {
+                const issData = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+                issueNodeId = issData.data.node_id;
+              }
+
+              const orgName = "Libreserve";
+              const projectNumber = 2;
+
+              // Query project metadata
+              const projResp = await github.graphql(`
+                query {
+                  organization(login: "${orgName}") {
+                    projectV2(number: ${projectNumber}) {
+                      id
+                      fields(first: 20) {
+                        nodes {
+                          ... on ProjectV2Field { id name }
+                          ... on ProjectV2SingleSelectField { id name options { id name } }
+                          ... on ProjectV2IterationField { id name }
+                        }
+                      }
+                    }
+                  }
+                }
+              `);
+
+              const project = projResp.organization.projectV2;
+              const projectId = project.id;
+
+              // Build field lookup by name (case-insensitive)
+              const fieldMap = {};
+              for (const f of project.fields.nodes) {
+                if (f.options) {
+                  fieldMap[f.name.toLowerCase()] = {
+                    id: f.id,
+                    options: Object.fromEntries(f.options.map(o => [o.name.toLowerCase(), o.id]))
+                  };
+                } else {
+                  fieldMap[f.name.toLowerCase()] = { id: f.id };
+                }
+              }
+
+              // Add issue to project
+              const addResp = await github.graphql(`
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                    item { id }
+                  }
+                }
+              `, { projectId, contentId: issueNodeId });
+              const itemId = addResp.addProjectV2ItemById.item.id;
+              console.log(`📋 Added to project V2: item ${itemId}`);
+
+              // Prepare field updates
+              const fieldUpdates = [];
+
+              // Priority
+              const priField = fieldMap["priority"];
+              if (priField && triageResult.priority) {
+                const optId = priField.options[triageResult.priority.toLowerCase()];
+                if (optId) {
+                  fieldUpdates.push(
+                    `updateProjectV2ItemFieldValue(input: {projectId: "${projectId}", itemId: "${itemId}", fieldId: "${priField.id}", value: {singleSelectOptionId: "${optId}"}}) { projectV2Item { id } }`
+                  );
+                }
+              }
+
+              // Effort
+              const effField = fieldMap["effort"];
+              if (effField && triageResult.effort) {
+                const optId = effField.options[triageResult.effort.toLowerCase()];
+                if (optId) {
+                  fieldUpdates.push(
+                    `updateProjectV2ItemFieldValue(input: {projectId: "${projectId}", itemId: "${itemId}", fieldId: "${effField.id}", value: {singleSelectOptionId: "${optId}"}}) { projectV2Item { id } }`
+                  );
+                }
+              }
+
+              // Area (take first area)
+              const areaField = fieldMap["area"];
+              if (areaField && triageResult.areas && triageResult.areas.length > 0) {
+                const optId = areaField.options[triageResult.areas[0].toLowerCase()];
+                if (optId) {
+                  fieldUpdates.push(
+                    `updateProjectV2ItemFieldValue(input: {projectId: "${projectId}", itemId: "${itemId}", fieldId: "${areaField.id}", value: {singleSelectOptionId: "${optId}"}}) { projectV2Item { id } }`
+                  );
+                }
+              }
+
+              // Status
+              const statusField = fieldMap["status"];
+              if (statusField) {
+                let statusName = "ready";
+                if (triageResult.needs_info) statusName = "needs info";
+                else if (!triageResult.type) statusName = "needs triage";
+                const optId = statusField.options[statusName.toLowerCase()];
+                if (optId) {
+                  fieldUpdates.push(
+                    `updateProjectV2ItemFieldValue(input: {projectId: "${projectId}", itemId: "${itemId}", fieldId: "${statusField.id}", value: {singleSelectOptionId: "${optId}"}}) { projectV2Item { id } }`
+                  );
+                }
+              }
+
+              // Execute field updates in parallel
+              if (fieldUpdates.length > 0) {
+                // Can't batch mutations easily, run sequentially
+                for (const mu of fieldUpdates) {
+                  await github.graphql(`mutation { ${mu} }`);
+                }
+                console.log(`✅ Synced ${fieldUpdates.length} fields to project`);
+              }
+
+              // Set Issue Type (separate from project fields)
+              const typeMap = { bug: "Bug", feature: "Feature", "tech-debt": "Task", docs: "Task", question: "Task" };
+              const issueTypeName = typeMap[triageResult.type];
+              if (issueTypeName) {
+                // Query all repo issue types to find our one
+                const typeResp = await github.graphql(`
+                  query {
+                    repository(owner: "${owner}", name: "${repo}") {
+                      issueTypes(first: 10) { nodes { id name } }
+                    }
+                  }
+                `);
+                const issueType = typeResp.repository.issueTypes.nodes.find(t => t.name === issueTypeName);
+                if (issueType) {
+                  await github.graphql(`
+                    mutation($issueId: ID!, $typeId: ID!) {
+                      updateIssue(input: {id: $issueId, issueTypeId: $typeId}) {
+                        issue { id number }
+                      }
+                    }
+                  `, { issueId: issueNodeId, typeId: issueType.id });
+                  console.log(`🏷️ Set Issue Type: ${issueTypeName}`);
+                }
+              }
+            } catch (err) {
+              console.log(`⚠️ Project V2 sync skipped: ${err.message}`);
+            }
