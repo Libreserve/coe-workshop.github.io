@@ -530,3 +530,4 @@ jobs:
             } catch (err) {
               console.log(`⚠️ Project V2 sync skipped: ${err.message}`);
             }
+            }
