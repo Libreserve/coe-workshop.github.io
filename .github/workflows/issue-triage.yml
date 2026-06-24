@@ -516,6 +516,25 @@ jobs:
                   await projectGraphql(`mutation { ${mu} }`);
                 }
                 console.log(`✅ Synced ${fieldUpdates.length} fields to project`);
+
+                // Read back to confirm the values actually persisted
+                const verify = await projectGraphql(`
+                  query($itemId: ID!) {
+                    node(id: $itemId) {
+                      ... on ProjectV2Item {
+                        fieldValues(first: 20) {
+                          nodes {
+                            ... on ProjectV2ItemFieldSingleSelectValue { name field { ... on ProjectV2FieldCommon { name } } }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `, { itemId });
+                const persisted = (verify.node?.fieldValues?.nodes || [])
+                  .filter(n => n && n.field)
+                  .map(n => `${n.field.name}=${n.name}`);
+                console.log(`🔎 Item fields after sync: ${persisted.join(", ") || "(none)"}`);
               }
 
               // Set Issue Type (separate from project fields)
