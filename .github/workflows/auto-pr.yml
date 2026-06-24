@@ -1,0 +1,50 @@
+name: Auto Draft PR
+
+# When the first commit lands on a task/<n>-* branch, open a draft PR to
+# dev that closes the originating issue. Idempotent: skips if a PR for the
+# branch already exists or the branch has no commits ahead of dev yet.
+
+on:
+  push:
+    branches:
+      - "task/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+
+jobs:
+  draft-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open draft PR for task branch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const branch = context.ref.replace("refs/heads/", "");
+            const m = branch.match(/^task\/(\d+)-/);
+            if (!m) { console.log(`'${branch}' is not a task/<n>- branch — skip`); return; }
+            const issueNumber = parseInt(m[1], 10);
+            const base = "dev";
+
+            // Already a PR open for this head?
+            const existing = await github.rest.pulls.list({ owner, repo, head: `${owner}:${branch}`, state: "open" });
+            if (existing.data.length) { console.log(`PR #${existing.data[0].number} already open — skip`); return; }
+
+            // Needs at least one commit ahead of base
+            const cmp = await github.rest.repos.compareCommitsWithBasehead({ owner, repo, basehead: `${base}...${branch}` });
+            if (cmp.data.ahead_by === 0) { console.log("No commits ahead of dev yet — skip"); return; }
+
+            const issue = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+            const pr = await github.rest.pulls.create({
+              owner, repo, head: branch, base, draft: true,
+              title: `${issue.data.title} (#${issueNumber})`,
+              body: [
+                `Closes #${issueNumber}`,
+                "",
+                `> 🤖 draft PR สร้างอัตโนมัติจาก commit แรกบน \`${branch}\` — พร้อมรีวิวเมื่อกด **Ready for review**`,
+              ].join("\n"),
+            });
+            console.log(`✅ Opened draft PR #${pr.data.number}`);

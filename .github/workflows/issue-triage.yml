@@ -359,14 +359,11 @@ jobs:
               comment += `\n> 🙏 ช่วยตอบกลับด้วยข้อมูลเพิ่มเติม แล้วจะนำ label \`status:needs-info\` ออกให้`;
             }
 
-            const baseUrl = `https://github.com/${owner}/${repo}`;
             comment += `\n\n---`;
             comment += `\n### ⚡ Actions`;
-            comment += `\n| | |`;
-            comment += `\n|---|---|`;
-            comment += `\n| 🌿 [**Create Branch**](${baseUrl}/actions/workflows/create-branch.yml) | สร้าง branch \`task/${issueNumber}-...\` + assign คุณ + in-progress |`;
-            comment += `\n| 🖊️ [**Edit Labels**](${baseUrl}/issues/${issueNumber}/labels) | แก้ไข label เองถ้า AI วิเคราะห์ผิด |`;
-            comment += `\n\n> 🔍 ตรวจสอบโดย Gemini 2.5 Flash | หาก label ไม่ถูกต้องสามารถแก้ไขได้`;
+            comment += `\n- [ ] 🌿 **สร้าง branch แล้วเริ่มงาน** — ติ๊กช่องนี้ ได้ \`task/${issueNumber}-...\` จาก dev + assign คุณ + Status in-progress <!--act:branch-->`;
+            comment += `\n\n> ✅ ติ๊ก checkbox = ปุ่ม (ไม่ต้องไปหน้าอื่น) · commit ขึ้น branch แล้วระบบเปิด **draft PR** ให้อัตโนมัติ`;
+            comment += `\n> 🖊️ แก้ label/field เอง: ใช้ sidebar **Labels** + **Projects** ของ issue ได้เลย · 🔍 วิเคราะห์โดย Gemini 2.5 Flash`;
 
             await github.rest.issues.createComment({
               owner,
