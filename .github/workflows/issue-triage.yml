@@ -331,7 +331,7 @@ jobs:
             const priorityEmoji = { critical: "🔴", high: "🟠", medium: "🟡", low: "🟢" };
             const typeLabel = { bug: "🐛 Bug", feature: "💡 Feature", "tech-debt": "🔧 Tech Debt", docs: "📚 Docs", question: "❓ Question" };
 
-	            const effortLabel = { small: "⏱️ Small (< 2 ชม.)", medium: "⏱️ Medium (2-8 ชม.)", large: "⏱️ Large (1 วัน+)" };
+            const effortLabel = { small: "⏱️ Small (< 2 ชม.)", medium: "⏱️ Medium (2-8 ชม.)", large: "⏱️ Large (1 วัน+)" };
 
             const areaStr = (triageResult.areas || []).length > 0
               ? (triageResult.areas || []).map(a => `${areaEmoji[a] || "📌"} ${a}`).join(", ")
