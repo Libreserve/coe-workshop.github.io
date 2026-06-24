@@ -31,6 +31,107 @@ jobs:
             }
 
             // ═══════════════════════════════════════════
+            // STEP 0: Duplicate detection
+            // ═══════════════════════════════════════════
+            let duplicateOf = null;
+
+            if (process.env.GEMINI_API_KEY) {
+              try {
+                // Fetch ~30 most recent open issues (excluding self)
+                const openIssues = await github.rest.issues.listForRepo({
+                  owner, repo,
+                  state: "open",
+                  per_page: 30,
+                  sort: "created",
+                  direction: "desc",
+                });
+
+                const candidates = openIssues.data
+                  .filter(iss => iss.number !== issueNumber && !iss.pull_request)
+                  .map(iss => ({ number: iss.number, title: iss.title, body: (iss.body || "").slice(0, 500), url: iss.html_url }));
+
+                if (candidates.length > 0) {
+                  const dupCheckInstruction = [
+                    'You are a duplicate detection bot. Compare the NEW issue against EXISTING issues.',
+                    'Return JSON: { "is_duplicate": true/false, "duplicate_of": null or issue number, "confidence": "high"/"medium"/"low", "reason": short Thai explanation }',
+                    'Only flag as duplicate if the SAME problem/request — not just same area. Be conservative.',
+                  ].join('\n');
+
+                  const candidateList = candidates.map(c => `#${c.number}: ${c.title}\n${c.body}`).join('\n\n---\n\n');
+
+                  const dupResponse = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        system_instruction: { parts: [{ text: dupCheckInstruction }] },
+                        contents: [{ parts: [{ text: `NEW ISSUE — #${issueNumber}: ${issueTitle}\n${issueBody.slice(0, 1000)}\n\nEXISTING OPEN ISSUES:\n${candidateList}` }] }],
+                        generationConfig: {
+                          response_mime_type: "application/json",
+                          response_schema: {
+                            type: "OBJECT",
+                            properties: {
+                              is_duplicate: { type: "BOOLEAN" },
+                              duplicate_of: { type: "INTEGER", nullable: true },
+                              confidence: { type: "STRING", enum: ["high","medium","low"] },
+                              reason: { type: "STRING" },
+                            },
+                            required: ["is_duplicate","confidence","reason"]
+                          },
+                          temperature: 0.1,
+                          maxOutputTokens: 300,
+                        }
+                      }),
+                      signal: AbortSignal.timeout(15000),
+                    }
+                  );
+
+                  if (dupResponse.ok) {
+                    const dupData = await dupResponse.json();
+                    const dupText = dupData?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (dupText) {
+                      const dupResult = JSON.parse(dupText);
+                      console.log("🔍 Duplicate check:", JSON.stringify(dupResult, null, 2));
+                      if (dupResult.is_duplicate && dupResult.duplicate_of) {
+                        duplicateOf = dupResult;
+                      }
+                    }
+                  }
+                }
+              } catch (err) {
+                console.log(`⚠️ Duplicate check skipped: ${err.message}`);
+              }
+            }
+
+            // If duplicate → label + comment + skip triage
+            if (duplicateOf) {
+              addLabel("duplicate");
+              addLabel("status:needs-triage");
+
+              await github.rest.issues.addLabels({
+                owner, repo, issue_number: issueNumber, labels: labelsToAdd,
+              });
+
+              const dupUrl = `https://github.com/${owner}/${repo}/issues/${duplicateOf.duplicate_of}`;
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: issueNumber,
+                body: [
+                  `🔁 **Duplicate Detected** — ${duplicateOf.confidence} confidence`,
+                  `• ซ้ำกับ [#${duplicateOf.duplicate_of}](${dupUrl})`,
+                  `• ${duplicateOf.reason}`,
+                  '',
+                  'หากเป็นคนละ issue กัน สามารถตอบกลับมาได้ แล้ว label `duplicate` จะถูกนำออก',
+                  '',
+                  `> 🤖 ตรวจสอบโดย Gemini 2.5 Flash`,
+                ].join('\n'),
+              });
+
+              console.log(`🔁 Marked as duplicate of #${duplicateOf.duplicate_of}`);
+              return;
+            }
+
+            // ═══════════════════════════════════════════
             // STEP 1: Gemini API classification (primary)
             // ═══════════════════════════════════════════
             let triageResult = null;
