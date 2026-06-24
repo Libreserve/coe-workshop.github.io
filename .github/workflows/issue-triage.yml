@@ -266,8 +266,19 @@ jobs:
             }
 
             if (triageResult.priority) addLabel(`priority:${triageResult.priority}`);
-            if (triageResult.needs_info) addLabel("status:needs-info");
-            addLabel("status:needs-triage");
+            if (triageResult.needs_info) {
+              addLabel("status:needs-info");
+            } else if (triageResult.type) {
+              // Gemini classified successfully → ready for dev
+              addLabel("status:ready");
+              // Remove needs-triage if it was carried over from template
+              if (labelsToAdd.includes("status:needs-triage")) {
+                labelsToAdd.splice(labelsToAdd.indexOf("status:needs-triage"), 1);
+              }
+            } else {
+              // Fallback only → human review needed
+              addLabel("status:needs-triage");
+            }
 
             // ═══════════════════════════════════════════
             // STEP 4: Apply labels
