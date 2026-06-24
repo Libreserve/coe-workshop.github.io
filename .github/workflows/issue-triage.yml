@@ -283,16 +283,12 @@ jobs:
             // ═══════════════════════════════════════════
             // STEP 3: Map result to labels
             // ═══════════════════════════════════════════
-            if (triageResult.type) addLabel(`type:${triageResult.type}`);
-
             for (const area of (triageResult.areas || [])) {
               const a = area.toLowerCase().trim();
               if (["frontend","api","auth","state","styles","infra","docs"].includes(a)) {
                 addLabel(`area:${a}`);
               }
             }
-
-            if (triageResult.priority) addLabel(`priority:${triageResult.priority}`);
             if (triageResult.needs_info) {
               addLabel("status:needs-info");
             } else if (triageResult.type) {
