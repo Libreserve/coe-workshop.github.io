@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Bootstrap labels
         uses: actions/github-script@v7
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
         with:
           script: |
             const labels = [
@@ -59,7 +61,7 @@ jobs:
             ];
 
             const { owner, repo } = context.repo;
-            const dryRun = inputs.dry_run;
+            const dryRun = process.env.DRY_RUN === 'true';
 
             let created = 0, skipped = 0;
 
