@@ -2,7 +2,13 @@ name: Issue Triage Bot
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number to re-triage"
+        type: number
+        required: true
 
 permissions:
   issues: write
@@ -20,10 +26,23 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           script: |
-            const issueTitle = context.payload.issue.title;
-            const issueBody  = context.payload.issue.body || "";
-            const issueNumber = context.payload.issue.number;
             const { owner, repo } = context.repo;
+
+            // Support both issue event and workflow_dispatch re-run
+            let issueNumber, issueTitle, issueBody;
+            if (context.payload.issue) {
+              issueNumber = context.payload.issue.number;
+              issueTitle = context.payload.issue.title;
+              issueBody = context.payload.issue.body || "";
+            } else if (context.payload.inputs?.issue_number) {
+              issueNumber = parseInt(context.payload.inputs.issue_number, 10);
+              const iss = await github.rest.issues.get({ owner, repo, issue_number: issueNumber });
+              issueTitle = iss.data.title;
+              issueBody = iss.data.body || "";
+            } else {
+              console.log("❌ No issue context and no issue_number input");
+              return;
+            }
 
             const labelsToAdd = [];
             function addLabel(name) {
@@ -251,6 +270,14 @@ jobs:
               }
 
               console.log("🔤 Keyword result:", JSON.stringify(triageResult, null, 2));
+            }
+
+            // ═══════════════════════════════════════════
+            // STEP 2.5: Strip old status labels (re-run safety)
+            // ═══════════════════════════════════════════
+            const statusLabels = ["status:needs-triage","status:needs-info","status:ready","status:in-progress"];
+            for (const sl of statusLabels) {
+              try { await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: sl }); } catch (e) {}
             }
 
             // ═══════════════════════════════════════════
