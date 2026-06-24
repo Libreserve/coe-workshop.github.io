@@ -419,6 +419,7 @@ jobs:
 
               const project = projResp.organization.projectV2;
               const projectId = project.id;
+              console.log(`📂 Project fields:`, JSON.stringify(project.fields.nodes.map(f => ({name: f.name, options: f.options?.map(o => o.name) || null}))));
 
               // Build field lookup by name (case-insensitive)
               const fieldMap = {};
