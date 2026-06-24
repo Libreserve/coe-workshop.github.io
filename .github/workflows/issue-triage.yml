@@ -289,10 +289,8 @@ jobs:
             // ═══════════════════════════════════════════
             // STEP 3: Map result to labels
             // ═══════════════════════════════════════════
-            if (triageResult.type) addLabel(`type:${triageResult.type}`);
-            if (triageResult.priority) addLabel(`priority:${triageResult.priority}`);
-            if (triageResult.effort) addLabel(`effort:${triageResult.effort}`);
-
+            // type / priority / effort live in the Project V2 fields and the
+            // AI comment — keep the issue label set lean: area:* + status:* only.
             for (const area of (triageResult.areas || [])) {
               const a = area.toLowerCase().trim();
               if (["frontend","api","auth","state","styles","infra","docs"].includes(a)) {
