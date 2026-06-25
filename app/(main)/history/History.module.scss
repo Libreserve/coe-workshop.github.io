@@ -227,6 +227,22 @@
   color: var(--text-fade-mid);
 }
 
+.messageBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.messageLabel {
+  width: fit-content;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background-color: $sub-100;
+  color: $sub-1000;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 .itemNameText {
   white-space: normal;
   word-wrap: break-word;

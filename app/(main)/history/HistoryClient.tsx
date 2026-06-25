@@ -4,7 +4,7 @@ import Loader from "@/app/admin/components/layout/loader/loader";
 import { StatusTag } from "@/app/admin/components/ui/statusTag/statusTag";
 import { AdminStatus } from "@/app/types/api/transaction";
 import styles from "./History.module.scss";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useGetHistoryMeQuery } from "@/app/lib/features/admin/transactionsApi";
 import { useGetMeQuery } from "@/app/lib/features/admin/authApi";
 import SvgIconMono from "@/app/components/Icon/SvgIconMono";
@@ -85,7 +85,7 @@ export const History = () => {
                   <th>เลขครุภัณฑ์</th>
                   <th>สถานะ</th>
                   <th>เวลา</th>
-                  <th>คำร้อง</th>
+                  <th>ข้อความ</th>
                 </tr>
               </thead>
 
@@ -106,7 +106,7 @@ export const History = () => {
                   </tr>
                 ) : (
                   data.transactions.map((dayGroup, dayIndex) => (
-                    <>
+                    <React.Fragment key={`day-group-${dayIndex}`}>
                       <tr
                         key={`day-${dayIndex}`}
                         className={styles.dayRow}
@@ -158,11 +158,16 @@ export const History = () => {
                               </div>
                             </td>
                             <td className={styles.message}>
-                              {txn.message ?? "-"}
+                              <div className={styles.messageBox}>
+                                <span className={styles.messageLabel}>
+                                  {txn.status === AdminStatus.RESERVE ? "ข้อความผู้จอง" : "ข้อความแอดมิน"}
+                                </span>
+                                <span>{txn.message ?? "-"}</span>
+                              </div>
                             </td>
                           </tr>
                         ))}
-                    </>
+                    </React.Fragment>
                   ))
                 )}
               </tbody>
