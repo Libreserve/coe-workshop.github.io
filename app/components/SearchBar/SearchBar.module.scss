@@ -6,7 +6,7 @@
   box-sizing: border-box;
   background-color: var(--theme-100);
   border-radius: 0.2rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
   border: 0.125rem solid transparent;
 
   &.md {
@@ -23,8 +23,7 @@
 
   &.canFocus {
     &:focus-within {
-      box-sizing: border-box;
-      border: 0.125rem solid $sub-1000;
+      border-color: $sub-1000;
     }
   }
 }
