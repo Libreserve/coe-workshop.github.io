@@ -14,23 +14,6 @@ const Footer = () => {
       ],
     },
     {
-      Header: "เกี่ยวกับ",
-      Content: [
-        // { title: "เว็บไซต์", link: "https://election2569.thestandard.co/" },
-        // { title: "ผู้ชี้แนะ", link: "https://www.hindustantimes.com/entertainment/anime/jujutsu-kaisen-101-jujutsu-kaisen-power-system-and-gojo-satoru-limitless-technique-explained-101690524713929.html" },
-        { title: "ผู้พัฒนา", link: "https://www.instagram.com/p/DSwm6d5kTKp/" },
-      ],
-    },
-    {
-      Header: "แหล่งข้อมูล",
-      Content: [
-        { title: "EN KKU", link: "https://www.instagram.com/p/C-JMHWLOMvx/" },
-        { title: "บล็อก", link: "https://www.instagram.com/p/DFHt5zrzdBe/" },
-        { title: "กิจกรรม", link: "https://www.instagram.com/p/DNFmyihTA4s/" },
-        { title: "ข่าว", link: "https://www.instagram.com/p/DAGYo6vz9LA/" },
-      ],
-    },
-    {
       Header: "ช่วยเหลือ",
       Content: [
         // { title: "คำถามที่พบบ่อย", link: "https://www.instagram.com/p/DG1DtrSxsaE/" },
