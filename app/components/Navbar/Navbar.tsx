@@ -39,7 +39,7 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.navbar_inner}>
-        <Link href={"/landing"} className={styles.logo}>
+        <Link href={"/"} className={styles.logo}>
           <h1 className={styles.logo_mark}>EN</h1>
           <h1 className={styles.logo_dot}>.W</h1>
         </Link>

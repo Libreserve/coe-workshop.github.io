@@ -8,7 +8,7 @@ const Footer = () => {
     {
       Header: "หน้าเพจ",
       Content: [
-        { title: "หน้าหลัก", link: "/landing" },
+        { title: "หน้าหลัก", link: "/" },
         { title: "เครื่องมือ", link: "/tools" },
         { title: "ประวัติ", link: "/history" },
       ],

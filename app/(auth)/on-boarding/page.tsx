@@ -121,7 +121,7 @@ const OnBoarding = () => {
 	"ยินดีต้อนรับเข้าสู่ระบบ",
 	"success",
       );
-      router.push("/landing");
+      router.push("/");
     } catch (error) {
       let errorMessage = "";
       const err = error as FetchBaseQueryError;
