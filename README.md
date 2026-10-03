@@ -1,3 +1,14 @@
+# EN Workshop Frontend
+
+Frontend of the KKU Engineering Workshop equipment borrowing and reservation system.
+
+## Repositories
+
+- Frontend: https://github.com/Libreserve/coe-workshop.github.io
+- Backend: https://github.com/Libreserve/libreserve-backend
+- Infrastructure: https://github.com/Libreserve/libreserve-infra
+- Live: https://en-workshop.com
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
